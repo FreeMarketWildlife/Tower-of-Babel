@@ -81,6 +81,7 @@ async function read(url){
     tail=tail.replace(marker,devResources+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v55-workers.txt?v=55'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v56-settlement.txt?v=56'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v57-performance.txt?v=58'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

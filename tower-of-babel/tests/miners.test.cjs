@@ -43,6 +43,16 @@ rhythm={ready:false,beatIndex:-1};assert.equal(s.minerRhythmV27(2500).bpm,72);
 assert.equal(sounds,12);assert.equal(harvests,0);
 console.log('PASS cumulative miner levels, target eligibility, material rhythms, duplicate-frame prevention, upgrades, and silent fallback tempo');
 
+// A large workforce must not run acquisition and region scans on every frame.
+{
+ const original=s.minerAcquireTargetV27;let thoughts=0;s.minerAcquireTargetV27=(...args)=>{thoughts++;return original(...args)};
+ s.bs.clear();s.miners.clear();for(let id=1;id<=120;id++){const worker=miner(1);worker.game.id=id;s.miners.add(worker)}
+ for(let frame=0;frame<60;frame++){rhythm={ready:true,bpm:72,beatMs:60000/72,beatIndex:frame,phase:.3};s.updateMiners(frame*16.67)}
+ assert.ok(thoughts<500,'too many worker thoughts: '+thoughts);
+ console.log('PASS 120 workers stagger expensive decisions: '+thoughts+' thoughts across 7,200 worker frames');
+ s.minerAcquireTargetV27=original;
+}
+
 // Nearby harder work cannot consume dirt beats, and stone cannot consume the
 // following deepslate offbeat. Repeated frames still produce a single hit.
 {

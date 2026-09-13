@@ -186,3 +186,13 @@ Run `node tower-of-babel/tests/workers-browser.test.cjs` with Playwright and the
 local server (`SKY_TEST_URL` overrides its default port 8767). This checks exact
 phase boundaries, probability threshold, home capacity, save/reload during sleep
 and childhood, growth, packing, crafting, rendering, and the Worker labels.
+
+## Large settlements — v57
+
+Worker target scans now run on staggered decision ticks that grow gradually with
+the workforce. Collision bodies shared by travel, children, and ladders are cached
+once per physics step, and only a bounded number of expensive routes can be built
+per frame. Workers keep moving and mining between decisions. The unit stress check
+covers 120 Workers and verifies that 7,200 Worker frames perform fewer than 500
+target decisions. Legacy `miner` save keys and test hooks remain compatible; all
+player-facing terminology uses Worker.

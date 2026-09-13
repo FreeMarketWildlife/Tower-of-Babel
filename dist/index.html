@@ -59,11 +59,11 @@
       <details open><summary>CONTROLS <span>Move, zoom, camera</span></summary><div class="tipBody">
         <p><b>MOVE</b> drags around safely. Pinch to zoom.</p><p><b>WASD / ARROWS</b> pan the map. Hold <b>SHIFT</b> for temporary Grab; release to restore your tool and stop dragging. <b>1–0</b> access toolbar slots from left to right.</p><p>Select the pickaxe to equip your last pick. Click it again to choose another.</p><p><b>TOP / DOWN</b> jump between your tower and mine.</p><p><b>GRID</b> switches between snapped and free placement.</p>
       </div></details>
-      <details><summary>MINING &amp; BUILDING <span>Blocks, miners, records</span></summary><div class="tipBody">
-        <p>Tap exposed blocks to mine. Buried blocks must touch open space.</p><p>Open the pickaxe toolbar tab to buy or equip a pick: Iron 2×2 costs 5 gold, Steel 3×3 costs 20, and Titanium 4×4 costs 50. Drag or hold with any pick to mine its square on sixteenth-note ticks. Owned picks can be equipped at any time. Use MOVE to pan.</p><p>Miners prioritize blocks within reach, jump and climb toward work, and back away when stuck. They keep earlier mining abilities when upgraded: level 1 mines dirt, level 2 adds stone, and level 3 adds deepslate. Dirt hits on beats 1 and 3; stone on 2 and 4; deepslate on the “and” after 2 and 4.</p><p>Height records must stay stable for 3 seconds before they count.</p>
+      <details><summary>MINING &amp; BUILDING <span>Blocks, workers, records</span></summary><div class="tipBody">
+        <p>Tap exposed blocks to mine. Buried blocks must touch open space.</p><p>Open the pickaxe toolbar tab to buy or equip a pick: Iron 2×2 costs 5 gold, Steel 3×3 costs 20, and Titanium 4×4 costs 50. Drag or hold with any pick to mine its square on sixteenth-note ticks. Owned picks can be equipped at any time. Use MOVE to pan.</p><p>Workers prioritize blocks within reach and use ladders to leave deep mines. They keep earlier mining abilities when upgraded: level 1 mines dirt, level 2 adds stone, and level 3 adds deepslate. Dirt hits on beats 1 and 3; stone on 2 and 4; deepslate on the “and” after 2 and 4.</p><p>Height records must stay stable for 3 seconds before they count.</p>
       </div></details>
-      <details><summary>MINER GHOSTS <span>Hazards and revival</span></summary><div class="tipBody">
-        <p>Miners drown after 5 seconds with their head underwater, or burn after a short stay in lava. Watch their air and heat bars.</p><p>Their ghosts sway upward with a spooky melody. Tap a ghost with any tool to revive the miner right there in a burst of pixels, keeping its level and pocket gold.</p><p>Revived miners have a brief protective shield. Ghosts wait above the world and save with your game. Gold claimed through the miner menu stays in your inventory.</p>
+      <details><summary>WORKER GHOSTS <span>Hazards and revival</span></summary><div class="tipBody">
+        <p>Workers drown after 5 seconds with their head underwater, or burn after a short stay in lava. Watch their air and heat bars.</p><p>Their ghosts sway upward with a spooky melody. Tap a ghost with any tool to revive the Worker right there in a burst of pixels, keeping its level and pocket gold.</p><p>Revived Workers have a brief protective shield. Ghosts wait above the world and save with your game. Gold claimed through the Worker menu stays in your inventory.</p>
       </div></details>
       <details><summary>INDUSTRY <span>Ore deposits and smelting</span></summary><div class="tipBody">
         <p>Exposed terrain can show coal, iron, or copper flecks. Break it to collect both the block and its ore. Miners can mine deposits whenever they can mine the base material.</p><p>Craft a Workshop in STRUCTURES for 5 wood, 5 dirt, and 10 stone. Drag it from the house icon in the toolbar onto a fully supported foundation. Click a placed building to open its shop. Workshops craft Forges and Blacksmiths; Forges smelt one ore + one coal into an ingot; Blacksmiths turn one iron ingot into 10 nails.</p><p>Finished structures go into STRUCTURES; other products go into your inventory. Turn NAILS ON to place fixed blocks at one nail per block, adjacent to world or nailed blocks. Buildings need fixed blocks across their entire base. Pack buildings away before removing their supports. Production pauses while you are away.</p>
@@ -112,7 +112,7 @@
     <button class="slot locked" data-tool="obsidian" id="obsidianSlot"><span class="blk obsidian"><b class="num" id="oc">0</b><i class="lock">?</i></span><span>OBSIDIAN</span></button>
     <button class="slot locked" data-tool="miner" id="minerSlot">
       <span class="minerToolIcon">👷<b class="minerCount" id="mc">0</b><i class="lock">20m</i></span>
-      <span>MINER</span>
+      <span>WORKER</span>
     </button>
   </div>
 
@@ -144,7 +144,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
 <script src="audio.js?v=53"></script>
-<script src="game-v28.js?v=56"></script>
+<script src="game-v28.js?v=58"></script>
 <script>
 for(const [id,label,fn] of [['musicToggle','MUSIC', 'setMusicEnabled'],['sfxToggle','SFX','setSfxEnabled']])document.getElementById(id).addEventListener('click',async()=>{await window.SkyAudio?.ensure();const on=window.SkyAudio?.[fn](!document.getElementById(id).matches('[aria-pressed=true]'));const b=document.getElementById(id);b.setAttribute('aria-pressed',on);b.textContent=(label==='MUSIC'?'♫ ':'♪ ')+label+' '+(on?'ON':'OFF')});
 </script>

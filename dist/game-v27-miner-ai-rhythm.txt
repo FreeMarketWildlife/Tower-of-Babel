@@ -193,11 +193,15 @@ function minerNavigateV27(q,target,now){
 updateMiners=function(now){
   const rhythm=minerRhythmV27(now);
   const bodies=[...bs].filter(z=>z.game&&!z.isSensor&&!z.game.liquid&&!z.game.reservoir);
+  const workerCount=Math.max(1,miners.size),thinkDelay=Math.min(480,90+workerCount*3);
   for(const q of miners){
     if(typeof workerControlledV56==='function'&&workerControlledV56(q))continue;
     if(typeof workerNightV55==='function'&&workerNightV55())continue;
     const g=q.game,range=minerSearchRangeV27(q);
-    g.nearbySolids=Query.region(bodies,{min:{x:q.position.x-range,y:q.position.y-range},max:{x:q.position.x+range,y:q.position.y+range}}).filter(z=>bs.has(z));Sleeping.set(q,false);selfRightMiner(q,now);
+    if(!Number.isFinite(g.aiThinkAtV57))g.aiThinkAtV57=now+((g.id||0)%20)*Math.max(5,thinkDelay/20);
+    const mustThink=now>=g.aiThinkAtV57||!!g.workTarget&&!minerTargetValidV27(q,g.workTarget);
+    if(mustThink){g.aiThinkAtV57=now+thinkDelay+((g.id||0)%7)*9;g.nearbySolids=Query.region(bodies,{min:{x:q.position.x-range,y:q.position.y-range},max:{x:q.position.x+range,y:q.position.y+range}}).filter(z=>bs.has(z))}
+    Sleeping.set(q,false);selfRightMiner(q,now);
     if(!Number.isFinite(g.lastMineBeat))g.lastMineBeat=-999999;
     if(!Number.isFinite(g.nextTurn))g.nextTurn=now+800+Math.random()*1200;
     if(!g.workWatchV43)g.workWatchV43={at:now,hits:g.lastWorkAtV43,x:q.position.x,y:q.position.y};
@@ -210,7 +214,7 @@ updateMiners=function(now){
       }
       g.workWatchV43={at:now,hits:g.lastWorkAtV43,x:q.position.x,y:q.position.y};
     }
-    const target=minerAcquireTargetV27(q,now,rhythm);
+    const target=mustThink?minerAcquireTargetV27(q,now,rhythm):g.workTarget;
     minerNavigateV27(q,target,now);
     if(target&&minerCanHitV27(q,target)&&minerMaterialBeatV27(target.game.material,rhythm)&&g.lastMineTick!==rhythm.beatIndex*2+Math.floor(rhythm.phase*2)){
       g.lastMineTick=rhythm.beatIndex*2+Math.floor(rhythm.phase*2);g.lastMineBeat=rhythm.beatIndex;g.pickUntil=now+Math.min(300,rhythm.beatMs*.42);

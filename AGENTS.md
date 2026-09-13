@@ -11,3 +11,15 @@
   than as centered modal windows. Keep the world visible and usable.
 - Keep UI text as short as possible. Prefer pixel-art icons and numbers over
   words where they communicate clearly; retain accessible labels and tooltips.
+
+# Game terminology
+
+- Use “Worker” and “Workers” in all player-facing UI, help, documentation, and
+  new code comments. “Miner” is a legacy internal identifier retained only for
+  save compatibility, stable DOM hooks, and existing integration tests.
+- Use “Home” for the residential building and “bed” for its two adult slots.
+  Each Home also has one baby slot and one kid slot.
+- Use “building inventory” for resources stored inside one building. Use
+  “primary” and “secondary” for its ordered automatic crafting recipes.
+- Use “ladder” for the placeable mine-exit item. One Workshop batch costs five
+  wood and makes ten ladders; a Worker buys a batch for one pocketed gold.

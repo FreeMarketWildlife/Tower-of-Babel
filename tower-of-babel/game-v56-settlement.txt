@@ -5,7 +5,7 @@ STRUCTURES_V46.home.note='2 workers · 1 baby · 1 kid';
 if(!$('structure-card-home')){const d=STRUCTURES_V46.home,button=document.createElement('button');button.id='structure-card-home';button.className='structureCard';button.innerHTML='<img src="'+uiPixelV48('home')+'" alt=""><span>Home<small>'+d.w+' × '+d.h+'</small></span><b>0</b>';$('structureCards').append(button);button.onclick=()=>{if(structureBagV46.home)openStructuresV48()}}
 const settlementItemsV56=new Set([...Object.keys(inv),...Object.keys(STRUCTURES_V46),'ladder']);
 const settlementPanelV56={close(){}};
-var laddersV56=new Map(),ladderBagV56=0,settlementLastV56=null,settlementUiLastV56=0;
+var laddersV56=new Map(),ladderBagV56=0,settlementLastV56=null,settlementUiLastV56=0,solidCacheV57=null,routeFrameV57=-1,routeBudgetV57=0;
 function refreshSettlementV56(){if(typeof refreshWorkersV55==='function')refreshWorkersV55()}
 const buildingControlsV56=document.createElement('div');buildingControlsV56.id='buildingControlsV56';buildingControlsV56.innerHTML='<div><span>W</span><select id="buildingWorkerV56"><option value="">—</option></select></div><div><span>I</span><button class="btn" id="depositWoodV56">+W</button><button class="btn" id="depositOreV56">+O</button></div><div><span>1</span><select id="buildingPrimaryV56"></select><select id="buildingSecondaryV56"><option value="">—</option></select></div>';$('buildingPanel').append(buildingControlsV56);
 function refreshBuildingControlsV56(b){if(!b||!buildingControlsV56)return;const worker=$('buildingWorkerV56');worker.innerHTML='<option value="">—</option>'+adultsV55().map(a=>'<option value="'+a.id+'">'+a.id+'</option>').join('');worker.value=b.workerId??'';const recipes=Object.keys(JOBS_V46[b.type]||{});$('buildingPrimaryV56').innerHTML=recipes.map(k=>'<option value="'+k+'">'+k+'</option>').join('');$('buildingPrimaryV56').value=b.selected||recipes[0]||'';$('buildingSecondaryV56').innerHTML='<option value="">—</option>'+recipes.map(k=>'<option value="'+k+'">'+k+'</option>').join('');$('buildingSecondaryV56').value=b.secondary||'';buildingControlsV56.querySelector('div:nth-child(2)').firstChild.textContent=Object.entries(stockV56(b)).map(([k,v])=>k+':'+v).join(' · ')||'I 0';}
@@ -94,7 +94,7 @@ stepWorkersV55=function(ms,random=Math.random){timeStepV56(ms,random);pregnancyV
 // Each ladder segment occupies one 32px world cell, with no solid collision body.
 function ladderKeyV56(x,y){return key(Math.floor(x/B),Math.floor(y/B))}
 function hasLadderV56(x,y){return laddersV56.has(ladderKeyV56(x,y))}
-function worldSolidsV56(){return [...bs].filter(z=>!z.isSensor&&!z.game?.liquid&&!z.game?.reservoir).concat([...structureBodiesV47.values()].flatMap(b=>b.parts.length>1?b.parts.slice(1):[b]))}
+function worldSolidsV56(){const stamp=eng.timing.timestamp;if(solidCacheV57?.stamp===stamp)return solidCacheV57.bodies;const bodies=[...bs].filter(z=>!z.isSensor&&!z.game?.liquid&&!z.game?.reservoir).concat([...structureBodiesV47.values()].flatMap(b=>b.parts.length>1?b.parts.slice(1):[b]));solidCacheV57={stamp,bodies};return bodies}
 function clearLadderV56(cx,cy){const x=ctr(cx),y=ctr(cy);return !Query.region(worldSolidsV56(),{min:{x:x-8,y:y-14},max:{x:x+8,y:y+14}}).length}
 function putLadderV56(cx,cy){const k=key(cx,cy);if(laddersV56.has(k)||!clearLadderV56(cx,cy))return false;laddersV56.set(k,{cx,cy});return true}
 function buyLaddersV56(q){
@@ -139,7 +139,8 @@ function routeCitizenV56(q,goal,kid=false){
 function moveWorkerV56(q,goal,now){
  const g=q.game;Sleeping.set(q,false);g.nearbySolids=Query.region(worldSolidsV56(),{min:{x:q.position.x-B*3,y:q.position.y-B*4},max:{x:q.position.x+B*3,y:q.position.y+B*3}});
  const routeId=Math.round(goal.x)+','+Math.round(goal.y);
- if(g.travelGoalV56!==routeId||now>(g.travelCheckV56||0)){g.travelGoalV56=routeId;g.travelCheckV56=now+900;g.travelRouteV56=routeCitizenV56(q,goal)}
+ if(routeFrameV57!==eng.timing.timestamp){routeFrameV57=eng.timing.timestamp;routeBudgetV57=miners.size>48?1:miners.size>16?2:4}
+ if((g.travelGoalV56!==routeId||now>(g.travelCheckV56||0))&&routeBudgetV57>0){routeBudgetV57--;g.travelGoalV56=routeId;g.travelCheckV56=now+900+(g.id%11)*37;g.travelRouteV56=routeCitizenV56(q,goal)}
  let waypoint=g.travelRouteV56?.[0];while(waypoint&&Math.hypot(q.position.x-waypoint.x,q.position.y-waypoint.y)<9){g.travelRouteV56.shift();waypoint=g.travelRouteV56[0]}
  if(!g.travelRouteV56&&goal.y<q.position.y-B){extendLadderV56(q,goal);if(climbLadderV56(q,goal)){g.travelCheckV56=0;return}}
  const dest=waypoint||goal;if(climbLadderV56(q,dest))return;
