@@ -1,4 +1,4 @@
 {
   "project_id": "appgprj_6aa62ab23ec4819186e5f6ea587d8d91",
-  "static": { "directory": "tower-of-babel" }
+  "static": { "directory": "dist" }
 }
