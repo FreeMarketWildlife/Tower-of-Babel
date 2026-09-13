@@ -1,17 +1,19 @@
 // Physical structures, per-building production, and anchored construction.
 const STRUCTURES_V46={
+ home:{name:'Home',w:4,h:4,cost:{wood:15,stone:5},note:'Two adult beds, plus room for babies and kids.'},
  workshop:{name:'Workshop',w:4,h:4,cost:{wood:5,dirt:5,stone:10},note:'Craft structures for your settlement.'},
  forge:{name:'Forge',w:3,h:3,cost:{stone:15,wood:5,dirt:5},note:'Smelt ore into refined metal.'},
  blacksmith:{name:'Blacksmith',w:5,h:4,cost:{wood:15,stone:10,ironIngot:3},note:'Turn iron into construction nails.'}
 };
 const JOBS_V46={
+ home:{},
  workshop:Object.fromEntries(Object.entries(STRUCTURES_V46).map(([k,d])=>[k,{name:d.name,inputs:d.cost,outputs:{[k]:1},duration:5000,structure:true}])),
  forge:RECIPES_V44,
  blacksmith:{nails:{name:'10 nails',inputs:{ironIngot:1},outputs:{nails:10},duration:4000}}
 };
 RESOURCE_DEFS_V44.nails={name:'Nails',color:'#c7d4d8',kind:'Construction'};
 inv.nails=Math.max(0,Math.floor(finite(initialSave?.inv?.nails)));
-var structuresV46=[],structureBagV46={workshop:0,forge:0,blacksmith:0},structureIdV46=0,selectedBuildingV46=null;
+var structuresV46=[],structureBagV46={home:0,workshop:0,forge:0,blacksmith:0},structureIdV46=0,selectedBuildingV46=null;
 var nailModeV46=false,structureDragV46=null,structureLastV46=null,structureUiLastV46=0;
 function saveStructuresV46(){return{bag:{...structureBagV46},nextId:structureIdV46,buildings:structuresV46.map(b=>({...b,job:b.job?{...b.job}:null}))}}
 // Derive collision geometry from opaque sprite pixels, merging equal horizontal

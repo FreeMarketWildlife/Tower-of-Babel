@@ -31,7 +31,7 @@ function minerPlanRouteV38(q,candidates,solids){
     }
   }
   const cost=nodes.map(()=>Infinity),parent=nodes.map(()=>-1),visited=new Set();cost[0]=0;
-  const riseLimit=B*(q.game.level===1?1.2:q.game.level===2?2.4:3.5);
+  const riseLimit=B*1.2;
   for(let count=0;count<nodes.length;count++){
     let u=-1;for(let i=0;i<nodes.length;i++)if(!visited.has(i)&&Number.isFinite(cost[i])&&(u<0||cost[i]<cost[u]))u=i;
     if(u<0)break;visited.add(u);const a=nodes[u];
@@ -179,7 +179,7 @@ function minerNavigateV27(q,target,now){
   g.aiState=now<g.recoverUntil?'backing up':target?'seeking':'exploring';
   if(grounded&&!ceiling&&now>=g.nextJump&&(wall||targetAbove&&Math.abs(destination.x-q.position.x)<B*2.2)){
     vy=-(5.5+level*.3);g.nextJump=now+650;g.aiState='jumping';
-  }else if(wall&&!ceiling&&!grounded&&now<g.climbUntil&&g.climbStartY-q.position.y<B*(level===1?1.2:level===2?2.4:3.5)){
+  }else if(g.isChildV56&&wall&&!ceiling&&!grounded&&now<g.climbUntil&&g.climbStartY-q.position.y<B*(level===1?1.2:level===2?2.4:3.5)){
     // A short wall grip carries the jump up ledges, with a level-based height cap.
     vy=Math.min(vy,-(1.5+level*.35));g.aiState='climbing';
     Body.setAngularVelocity(q,q.angularVelocity*.5)
@@ -194,6 +194,8 @@ updateMiners=function(now){
   const rhythm=minerRhythmV27(now);
   const bodies=[...bs].filter(z=>z.game&&!z.isSensor&&!z.game.liquid&&!z.game.reservoir);
   for(const q of miners){
+    if(typeof workerControlledV56==='function'&&workerControlledV56(q))continue;
+    if(typeof workerNightV55==='function'&&workerNightV55())continue;
     const g=q.game,range=minerSearchRangeV27(q);
     g.nearbySolids=Query.region(bodies,{min:{x:q.position.x-range,y:q.position.y-range},max:{x:q.position.x+range,y:q.position.y+range}}).filter(z=>bs.has(z));Sleeping.set(q,false);selfRightMiner(q,now);
     if(!Number.isFinite(g.lastMineBeat))g.lastMineBeat=-999999;

@@ -146,6 +146,7 @@ function saveGame(){
     if(typeof saveTreesV41==='function')s.treesV41=saveTreesV41();
     if(typeof saveMinerLifeV42==='function')s.minerLifeV42=saveMinerLifeV42();
     if(typeof saveIndustryV44==='function')s.industryV44=saveIndustryV44();
+    if(typeof saveWorkersV55==='function')s.workersV55=saveWorkersV55();
     if(typeof saveStructuresV46==='function')s.structuresV46=saveStructuresV46();
     localStorage.setItem(SAVE_KEY,JSON.stringify(s));lastSavedAt=performance.now()
   }catch(e){console.warn('Save failed',e)}

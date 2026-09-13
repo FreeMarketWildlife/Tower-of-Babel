@@ -9,3 +9,5 @@
   scaling for UI assets. Building portraits use their native sprite dimensions.
 - Inventory/category panels should open adjacent to their toolbar trigger rather
   than as centered modal windows. Keep the world visible and usable.
+- Keep UI text as short as possible. Prefer pixel-art icons and numbers over
+  words where they communicate clearly; retain accessible labels and tooltips.

@@ -81,6 +81,7 @@ function updateMinerLifeV42(now){
   for(const burst of spiritBurstsV42)burst.age+=dt;
   spiritBurstsV42=spiritBurstsV42.filter(b=>b.age<850);
   for(const q of miners){
+    if(q.game.sleepingV55)continue;
     const g=q.game,e=minerExposureV42(q);
     g.waterMsV42=finite(g.waterMsV42);g.fireMsV42=finite(g.fireMsV42);
     if(g.reviveGraceV42>0){g.reviveGraceV42=Math.max(0,g.reviveGraceV42-dt);continue}

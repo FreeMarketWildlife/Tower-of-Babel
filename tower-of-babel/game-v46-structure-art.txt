@@ -19,7 +19,7 @@ function structureSpriteV46(type){
   r(7,h-36,15,19,wood);r(8,h-35,12,3,gold);r(10,h-31,3,13,'#b07849');r(17,h-31,2,13,'#513b34');
   r(72,h-29,20,6,ink);r(73,h-28,18,3,light);r(78,h-23,7,9,wood);
  }else{
-  const workshop=type==='workshop',roof=workshop?'#638a79':'#8b5964',roofLight=workshop?'#97b39a':'#c1877d';
+  const workshop=type==='workshop',roof=(workshop||type==='home')?'#638a79':'#8b5964',roofLight=workshop?'#97b39a':'#c1877d';
   r(8,47,w-16,h-59,ink);r(11,49,w-22,h-62,workshop?'#c7aa7c':'#ac947e');
   for(let y=54;y<h-14;y+=9){r(12,y,w-24,1,workshop?'#ab8a65':'#897866');for(let x=17+(y%18?0:11);x<w-14;x+=24)r(x,y+1,1,7,'#b39a79')}
   // Stepped gable roof with shingle courses, ridge cap, and copper edges.
@@ -37,6 +37,8 @@ function structureSpriteV46(type){
    r(59,h-38,2,10,'#a2a7a9');r(57,h-40,10,3,'#c8cbd0');r(74,h-40,3,12,wood);r(70,h-41,11,4,'#989daa');
    r(91,h-20,26,5,wood);r(94,h-25,21,5,gold);r(98,h-30,16,5,wood);
    r(46,54,39,14,ink);r(48,56,35,10,wood);r(53,60,23,2,gold);r(62,57,3,8,'#e5c591');
+  }else if(type==='home'){
+   r(51,h-38,30,20,ink);r(53,h-36,26,16,'#edc17c');r(65,h-36,2,16,wood);r(53,h-29,26,2,wood);
   }else{
    // Open smithing bay with brick hearth, bellows and a broad steel anvil.
    r(51,56,65,h-69,ink);r(54,58,59,h-73,'#4b343a');
@@ -52,7 +54,7 @@ function structureSpriteV46(type){
 function paintStructureV46(g,b,now=0,active=false){
  const sprite=structureSpriteV46(b.type);g.drawImage(sprite,0,0);
  if(b.type==='workshop'&&active){const lift=Math.floor(now/180)%2?5:0;g.fillStyle='#a5afb9';g.fillRect(69,sprite.height-38-lift,10,3);g.fillStyle='#c28e59';g.fillRect(72,sprite.height-35-lift,3,8);g.fillStyle='#efc489';g.fillRect(62,sprite.height-30,5,2)}
- if(b.type!=='workshop'){
+ if(b.type==='forge'||b.type==='blacksmith'){
   const forge=b.type==='forge',x=forge?35:62,y=forge?sprite.height-20:85;
   if(active){for(let i=0;i<4;i++){const height=6+((Math.floor(now/130)+i*3)%5)*2;g.fillStyle=i%2?'#ffc466':'#ec7844';g.fillRect(x+i*5,y-height,4,height);g.fillStyle='#ffe6a2';g.fillRect(x+i*5,y-4,3,4)}
    for(let i=0;i<3;i++){const t=(now/60+i*11)%35;g.globalAlpha=(1-t/40)*.4;g.fillStyle='#d7c5bb';g.fillRect((forge?62:50)+Math.floor(Math.sin(t/9)*4),5-t,6+i*2,5+i*2)}g.globalAlpha=1;

@@ -79,6 +79,8 @@ async function read(url){
     tail=tail.replace(marker,camera+'\n'+grid+'\n'+zoom+'\n'+miner+'\n'+resources+'\n'+liquidFeel+'\n'+devPanel+'\n'+obsidianArt+'\n'+artDirection+'\n'+pickaxe+'\n'+trees+'\n'+spirits+'\n'+industry+'\n'+structureArt+'\n'+structures+'\n'+structuresUi+'\n'+pickaxes+'\n'+workshopUi+'\n'+keyboard+'\n'+marker);
 
     tail=tail.replace(marker,devResources+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v55-workers.txt?v=55'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v56-settlement.txt?v=56'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

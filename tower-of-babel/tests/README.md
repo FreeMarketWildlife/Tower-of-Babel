@@ -166,3 +166,23 @@ still apply; structures must still be crafted and placed normally. The toggle is
 session-only. Saves retain real balances and earned/crafted items, and disabling
 the toggle restores normal spending. `dev-resources-browser.test.cjs` checks
 construction, crafting, currency, inventory restoration, and reload behavior.
+
+## Workers, homes and settlement time — v55
+
+The Workshop crafts Homes for 15 wood and 5 stone in five seconds. Each Home
+assigns two adult beds automatically and also shelters their children. At night,
+assigned workers enter their shelter and return to their previous work position
+at dawn. Unhoused workers stop work at night but cannot sleep. Inventory workers
+also receive beds. Homes can be packed and residents automatically seek another.
+
+Active play uses a 180-second day and 60-second night; hidden tabs pause the clock.
+Each pair sharing a Home rolls once at dusk with a 25% pregnancy chance. Birth is
+at the following dawn. A baby becomes a kid after the next full daytime phase;
+a kid becomes an adult after one more full daytime phase. Children do not mine.
+The clock, family assignments, pregnancy, children and sleeping positions persist
+alongside legacy saves. The new adults need their own available adult beds.
+
+Run `node tower-of-babel/tests/workers-browser.test.cjs` with Playwright and the
+local server (`SKY_TEST_URL` overrides its default port 8767). This checks exact
+phase boundaries, probability threshold, home capacity, save/reload during sleep
+and childhood, growth, packing, crafting, rendering, and the Worker labels.
