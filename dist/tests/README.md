@@ -267,3 +267,21 @@ reloads, and packing refunds. Finished products stay in building inventory.
 Mining follows audio timeline epochs so restarting audio after a hidden tab cannot
 block strikes behind an old beat count. The pickaxe browser regression covers
 restarts between clicks, restarts during a hold, and visibility resets.
+
+## Phone UI — v66
+
+Phones use a compact header with mutually exclusive Goal, Village, Settings, and
+Guide tabs. Village, locked materials, future pick tiers, and advanced guide
+sections appear as their mechanics become available. Building inventory and
+Worker recipes collapse independently; Storehouses open their inventory by
+default. Attached panels fit between the header and toolbar, including landscape
+rotation and safe areas. Toasts and placement notices use the browser top layer
+so dialogs cannot cover them. The optional Buttonwood review controls stay separate.
+
+Run `SKY_TEST_URL=http://127.0.0.1:8765/tower-of-babel/ node tower-of-babel/tests/mobile-ui-browser.test.cjs`.
+`MOBILE_SCREENSHOT_DIR` optionally saves visual evidence. Checks cover 320 × 568,
+390 × 844, 430 × 932, and 844 × 390 touch viewports, locked/unlocked progression,
+exclusive panels, all five buildings, inventory transfers, scrolling and rotation,
+notifications over native dialogs and expiry, Escape, and desktop restoration.
+Also run the Structures, Storehouses, and Buttonwood browser suites for crafting,
+touch dragging, save compatibility, artwork, and live simulation.

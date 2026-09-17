@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="style-v44-industry.css?v=45">
   <link rel="stylesheet" href="style-v46-structures.css?v=61">
   <link rel="stylesheet" href="style-v64-compact-structures.css?v=64">
+  <link rel="stylesheet" href="style-v66-mobile-ui.css?v=66">
 </head>
 <body>
 <div id="app">
@@ -145,7 +146,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
 <script src="audio.js?v=63"></script>
-<script src="game-v28.js?v=65"></script>
+<script src="game-v28.js?v=66"></script>
 <script>
 for(const [id,label,fn] of [['musicToggle','MUSIC', 'setMusicEnabled'],['sfxToggle','SFX','setSfxEnabled']])document.getElementById(id).addEventListener('click',async()=>{await window.SkyAudio?.ensure();const on=window.SkyAudio?.[fn](!document.getElementById(id).matches('[aria-pressed=true]'));const b=document.getElementById(id);b.setAttribute('aria-pressed',on);b.textContent=(label==='MUSIC'?'♫ ':'♪ ')+label+' '+(on?'ON':'OFF')});
 </script>
