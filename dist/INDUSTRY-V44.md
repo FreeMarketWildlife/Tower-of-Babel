@@ -42,23 +42,24 @@ No lumber or oil is introduced.
 
 | Deposit | Base terrain | Inclusive depth in block rows | Yield |
 | --- | --- | --- | --- |
-| Coal | Dirt or stone | 4–25 | 1 |
+| Coal | Stone | 4–25 | 1 |
 | Iron ore | Stone | 8–27 | 1; a deterministic 25% chance of 2 at row 16+ |
 | Copper ore | Stone or deepslate | 14–35 | 1 |
 
 `ORE_DEFS_V44` controls these ranges, materials, salts, vein radii, and density.
 Deposits use the existing `hash01` over eight-cell regions, with small clusters
 and one industrial resource payload per terrain cell. They do not create new
-Matter.js materials. Exposed deposits show small colored pixel flecks over their
-normal terrain art; buried deposits are not revealed through solid rock.
+Matter.js materials. Deposits show cached, native 32 px mineral clusters over their normal terrain
+art, including buried rock. Coal has dark shards, iron has pale facets, and copper
+has warm seams. No industrial ore generates in dirt.
 
-Both manual and miner harvesting retain existing exposure and hardness rules.
+Both manual and Worker harvesting retain existing exposure and hardness rules.
 The original material payout still occurs; the embedded resource is added to
 `inv` before the existing harvest/save path runs. No ore is automatically refined.
 Repeated harvesting of an already removed body cannot duplicate the payout.
 Short floating labels combine nearby common finds rather than opening giant toasts.
 
-Miner eligibility follows the base terrain: level 1 dirt, level 2 adds stone,
+Worker eligibility follows the base terrain: level 1 dirt, level 2 adds stone,
 level 3 adds deepslate. Gold pocketing/sharing and diamond banking are retained.
 
 ## Furnace and UI

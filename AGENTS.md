@@ -1,12 +1,22 @@
 # Art direction
 
+- Buttonwood is the selected direction. Follow
+  [the Buttonwood art guide](tower-of-babel/buttonwood/ART-GUIDE.md) and the
+  approved reference it links. The approved native artwork is the default game
+  presentation. Keep the optional review sample's save, controls, and free
+  fixtures isolated from ordinary gameplay.
+
 - Use pixel-art assets for all icons; do not introduce emoji or font-symbol icons.
 - Author UI icons and miniature building illustrations on a 32 × 32 pixel canvas
   and display them at native size. Draw miniature versions rather than shrinking
-  world sprites. Use the existing game palette and crisp nearest-neighbor rendering.
+  world sprites. Buttonwood work uses the shared named palette in
+  `tower-of-babel/buttonwood/palette.js` and crisp nearest-neighbor rendering.
+  Unmigrated production art retains its existing palette until its migration.
 - World sprites use one art pixel per world unit; camera zoom applies uniformly.
   Preserve that shared scale. Do not independently stretch art or use fractional
   scaling for UI assets. Building portraits use their native sprite dimensions.
+- Preserve the existing structural collision envelopes when changing building
+  artwork. Decorative roof curves do not redefine placement, support, or saves.
 - Inventory/category panels should open adjacent to their toolbar trigger rather
   than as centered modal windows. Keep the world visible and usable.
 - Keep UI text as short as possible. Prefer pixel-art icons and numbers over

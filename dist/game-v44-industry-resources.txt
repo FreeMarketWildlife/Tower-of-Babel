@@ -7,7 +7,7 @@ const RESOURCE_DEFS_V44={
   copperIngot:{name:'Copper ingot',color:'#e6ad72',kind:'Refined'}
 };
 const ORE_DEFS_V44={
-  coal:{materials:['dirt','stone'],min:4,max:25,salt:4401,chance:.46,radius:2.6,amount:1},
+  coal:{materials:['stone'],min:4,max:25,salt:4401,chance:.46,radius:2.6,amount:1},
   ironOre:{materials:['stone'],min:8,max:27,salt:4411,chance:.42,radius:2.3,amount:1},
   copperOre:{materials:['stone','deepslate'],min:14,max:35,salt:4421,chance:.38,radius:2.4,amount:1}
 };
@@ -60,17 +60,38 @@ harvest=function(z,collector='player',miner=null){
   // Base harvesting still owns material, gold, diamond, liquid and save behavior.
   return industryHarvestV44(z,collector,miner);
 };
+// Native 32 px mineral clusters: dark coal shards, pale iron facets, copper seams.
+const oreTilesV44=new Map();
+function oreTileV44(type,variant){
+  const id=type+':'+variant;if(oreTilesV44.has(id))return oreTilesV44.get(id);
+  const tile=document.createElement('canvas');tile.width=tile.height=32;
+  const g=tile.getContext('2d'),r=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x,y,w,h)};
+  const colors={coal:['#151724','#242a40','#424c60','#82929c'],ironOre:['#302532','#95633f','#dda783','#dce6eb'],copperOre:['#302532','#885137','#b8754f','#f2c391']}[type];
+  // A stepped seam joins the chunky inclusions into one recognizable pocket.
+  const flip=variant%2,points=[[5,7],[11,11],[17,15],[23,20],[8,23],[22,5]];
+  for(let i=0;i<4;i++){
+    const x=5+i*6,y=8+i*4;
+    r(flip?32-x-7:x,y,7,3,colors[0]);r(flip?32-x-6:x+1,y,5,1,colors[1]);
+  }
+  points.forEach(([px,py],i)=>{
+    const w=5+(i+variant)%3,h=type==='coal'?6:5;
+    const x=flip?32-px-w:px,y=py+((variant+i)%3-1);
+    r(x+1,y-1,w-2,1,colors[0]);r(x-1,y+1,w+2,h-2,colors[0]);r(x,y,w,h,colors[0]);
+    r(x+1,y,w-2,h-1,colors[1]);r(x+1,y,w-3,2,colors[2]);
+    r(x+1,y,2,1,colors[3]);r(x+w-3,y+2,2,h-3,colors[2]);
+    if(type==='ironOre')r(x+2,y+2,2,2,colors[3]);
+    if(type==='copperOre'&&i%2===0)r(x-1,y+h,2,1,'#628b51');
+  });
+  oreTilesV44.set(id,tile);return tile;
+}
 const industryDrawV44=draw;
 draw=function(z){
   industryDrawV44(z);const type=z.game.resourceType;
-  if(!type||!z.game.terrain||!terrainExposed(z))return;
+  if(!type||!z.game.terrain||z.game.worldProduct)return;
   const s=w2s(z.position.x,z.position.y);if(s.x<-B*cam.z||s.x>W+B*cam.z||s.y<-B*cam.z||s.y>HH+B*cam.z)return;
-  ctx.save();ctx.translate(s.x,s.y);ctx.rotate(z.angle);ctx.scale(cam.z,cam.z);
-  const color=RESOURCE_DEFS_V44[type].color;
-  for(let i=0;i<5;i++){
-    const x=-10+Math.floor(hash01(z.game.cx,i,4451)*20),y=-10+Math.floor(hash01(z.game.cy,i,4452)*20);
-    ctx.fillStyle='#232736';ctx.fillRect(x-1,y-1,6,5);ctx.fillStyle=type==='coal'?'#35404b':color;ctx.fillRect(x,y,4,3);ctx.fillStyle=color;ctx.fillRect(x,y,2,1);
-  }
+  const variant=Math.floor(hash01(z.game.cx,z.game.cy,4451)*4);
+  ctx.save();ctx.translate(s.x,s.y);ctx.rotate(z.angle);ctx.scale(cam.z,cam.z);ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(oreTileV44(type,variant),-16,-16);
   ctx.restore();
 };
 const industryBurstsV44=drawGoldBursts;

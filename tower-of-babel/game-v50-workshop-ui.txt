@@ -20,16 +20,16 @@ function prepareWorkshopGridV50(b){
  $('buildingPause').hidden=false;$('buildingProgress').hidden=false;$('buildingStatus').hidden=false;
  const workshop=b.type==='workshop';$('buildingPanel').classList.toggle('workshopShop',workshop);workshopGridV50.hidden=!workshop;
  for(const el of [$('buildingHero'),$('buildingRecipe'),document.querySelector('label[for="buildingRecipe"]'),$('buildingIngredients'),$('buildingProduce')])el.hidden=workshop;
- if(workshop)$('buildingNote').textContent='Tap a structure to craft one. It goes straight to your Structures inventory.';
+ if(workshop)$('buildingNote').textContent='Uses your inventory. Collect finished items below.';
 }
 function refreshWorkshopGridV50(b){
  if(b.type!=='workshop')return;
  for(const [type,recipe] of Object.entries(JOBS_V46.workshop)){
-  const button=$('craft-structure-'+type),active=b.job?.recipe===type,affordable=canPayIndustryV44(recipe.inputs);
+  const button=$('craft-structure-'+type),active=b.job?.recipe===type,affordable=canPayIndustryV44(recipe.inputs);if(!button)continue;
   button.disabled=!!b.job||b.paused||!affordable;button.classList.toggle('crafting',active);
   button.querySelector('.recipeAction').textContent=active?'CRAFTING…':b.job?'BUSY':!affordable?'NEED MATERIALS':b.paused?'PAUSED':'CRAFT · 5s';
   for(const [material,count] of Object.entries(recipe.inputs)){
-   const cost=button.querySelector('[data-material="'+material+'"]');cost.classList.toggle('missing',(inv[material]||0)<count);cost.title=labelV46(material)+': '+count+' needed · '+(inv[material]||0)+' owned';
+   const cost=button.querySelector('[data-material="'+material+'"]');cost.classList.toggle('missing',(inv[material]||0)<count);cost.title=labelV46(material)+': '+count+' needed · '+(inv[material]||0)+' in your inventory';
   }
  }
  $('buildingPause').hidden=!b.job;$('buildingProgress').hidden=!b.job;$('buildingStatus').hidden=!b.job;

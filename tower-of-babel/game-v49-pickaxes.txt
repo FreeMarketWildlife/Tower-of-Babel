@@ -1,12 +1,12 @@
 // Ownership is independent of the equipped tool. Legacy saves own every earlier tier.
 var pickaxeOwnedTier=clamp(Math.floor(finite(initialSave?.pickaxeOwnedTier??initialSave?.pickaxeTier)),0,3);
 pickaxeTier=Math.min(pickaxeTier,pickaxeOwnedTier);
-var pickLastSlotV49=-Infinity,pickPendingV49=null,pickSilentOriginV49=performance.now(),pickClockModeV49=null;
+var pickLastSlotV49=-Infinity,pickPendingV49=null,pickSilentOriginV49=performance.now(),pickClockModeV49=null,pickClockEpochV63=null;
 function pickClockV49(now=performance.now()){
  const rhythm=window.SkyAudio?.rhythm?.();
- return rhythm?.ready?{mode:'audio',slot:Math.floor((rhythm.beatIndex+rhythm.phase)*4+1e-7)}:{mode:'silent',slot:Math.floor((now-pickSilentOriginV49)/(60000/(window.SkyAudio?.bpm||72)/4))};
+ return rhythm?.ready?{mode:'audio',epoch:rhythm.epoch??0,slot:Math.floor((rhythm.beatIndex+rhythm.phase)*4+1e-7)}:{mode:'silent',epoch:0,slot:Math.floor((now-pickSilentOriginV49)/(60000/(window.SkyAudio?.bpm||72)/4))};
 }
-function beginPickV49(g){if(g.t!=='pick')return;pickPendingV49=null;const clock=pickClockV49();g.pickStartSlot=clock.slot;g.pickClockMode=clock.mode;g.pickSwung=false}
+function beginPickV49(g){if(g.t!=='pick')return;pickPendingV49=null;const clock=pickClockV49();g.pickStartSlot=clock.slot;g.pickClockMode=clock.mode;g.pickClockEpoch=clock.epoch;g.pickSwung=false}
 function finishPickV49(g){if(!g.moved&&!g.pickSwung)pickPendingV49=g}
 function strikePickV49(g){
  const brush=pickaxeBrushV39(g.b),targets=new Set();
@@ -25,15 +25,17 @@ function pulsePickV49(now=performance.now()){
  if(document.hidden)return;
  const g=gesture?.t==='pick'?gesture:pickPendingV49;if(!g)return;
  const clock=pickClockV49(now);
- if(clock.mode!==g.pickClockMode){g.pickClockMode=clock.mode;g.pickStartSlot=clock.slot;pickClockModeV49=clock.mode;pickLastSlotV49=clock.slot;return}
- if(clock.slot<=g.pickStartSlot||(clock.mode===pickClockModeV49&&clock.slot<=pickLastSlotV49))return;
- pickClockModeV49=clock.mode;pickLastSlotV49=clock.slot;
+ // Returning from a hidden tab restarts the audio timeline. Old beat numbers
+ // must never block strikes on the new timeline.
+ if(clock.mode!==g.pickClockMode||clock.epoch!==g.pickClockEpoch){g.pickClockMode=clock.mode;g.pickClockEpoch=clock.epoch;g.pickStartSlot=clock.slot;pickClockModeV49=clock.mode;pickClockEpochV63=clock.epoch;pickLastSlotV49=clock.slot;return}
+ if(clock.slot<=g.pickStartSlot||(clock.mode===pickClockModeV49&&clock.epoch===pickClockEpochV63&&clock.slot<=pickLastSlotV49))return;
+ pickClockModeV49=clock.mode;pickClockEpochV63=clock.epoch;pickLastSlotV49=clock.slot;
  strikePickV49(g);if(g===pickPendingV49)pickPendingV49=null;
 }
 // Pointer motion only chooses the next square. It cannot add swings between ticks.
 pickaxeDragV39=function(){};
 setInterval(pulsePickV49,8);
-document.addEventListener('visibilitychange',()=>{gesture=null;pickPendingV49=null});
+document.addEventListener('visibilitychange',()=>{gesture=null;pickPendingV49=null;pickLastSlotV49=-Infinity;pickClockModeV49=null;pickClockEpochV63=null});
 c.addEventListener('pointercancel',()=>{pickPendingV49=null},{capture:true});
 const pickIconsV49=pickaxeTiersV39.map((_,i)=>{const old=pickaxeTier;pickaxeTier=i;const icon=artIconV32('pick');pickaxeTier=old;return icon});
 const pickButtonV49=document.querySelector('[data-tool=pick]'),pickPanelV49=$('pickaxeShop');

@@ -1,11 +1,13 @@
 // Physical structures, per-building production, and anchored construction.
 const STRUCTURES_V46={
+ storehouse:{name:'Storehouse',w:5,h:4,cost:{wood:20,stone:10},capacity:1000,note:'Stores 1,000 resources.'},
  home:{name:'Home',w:4,h:4,cost:{wood:15,stone:5},note:'Two adult beds, plus room for babies and kids.'},
  workshop:{name:'Workshop',w:4,h:4,cost:{wood:5,dirt:5,stone:10},note:'Craft structures for your settlement.'},
  forge:{name:'Forge',w:3,h:3,cost:{stone:15,wood:5,dirt:5},note:'Smelt ore into refined metal.'},
  blacksmith:{name:'Blacksmith',w:5,h:4,cost:{wood:15,stone:10,ironIngot:3},note:'Turn iron into construction nails.'}
 };
 const JOBS_V46={
+ storehouse:{},
  home:{},
  workshop:Object.fromEntries(Object.entries(STRUCTURES_V46).map(([k,d])=>[k,{name:d.name,inputs:d.cost,outputs:{[k]:1},duration:5000,structure:true}])),
  forge:RECIPES_V44,
@@ -13,7 +15,7 @@ const JOBS_V46={
 };
 RESOURCE_DEFS_V44.nails={name:'Nails',color:'#c7d4d8',kind:'Construction'};
 inv.nails=Math.max(0,Math.floor(finite(initialSave?.inv?.nails)));
-var structuresV46=[],structureBagV46={home:0,workshop:0,forge:0,blacksmith:0},structureIdV46=0,selectedBuildingV46=null;
+var structuresV46=[],structureBagV46={storehouse:0,home:0,workshop:0,forge:0,blacksmith:0},structureIdV46=0,selectedBuildingV46=null;
 var nailModeV46=false,structureDragV46=null,structureLastV46=null,structureUiLastV46=0;
 function saveStructuresV46(){return{bag:{...structureBagV46},nextId:structureIdV46,buildings:structuresV46.map(b=>({...b,job:b.job?{...b.job}:null}))}}
 // Derive collision geometry from opaque sprite pixels, merging equal horizontal
@@ -113,7 +115,7 @@ attemptWorldPlacementV25=function(r,commit){if(structureOverlapV47({min:{x:r.min
 const structureRestoreBaseV46=restoreDynamicState;
 restoreDynamicState=function(s){structureRestoreBaseV46(s);const data=s?.structuresV46;
  if(data){for(const k of Object.keys(structureBagV46))structureBagV46[k]=Math.max(0,Math.floor(finite(data.bag?.[k])));
- for(const b of data.buildings||[]){if(!STRUCTURES_V46[b.type]||!Number.isFinite(b.x)||!Number.isFinite(b.y))continue;const jobs=JOBS_V46[b.type],selected=Object.hasOwn(jobs,b.selected)?b.selected:Object.keys(jobs)[0],r=jobs[b.job?.recipe];const restoredId=Number.isSafeInteger(b.id)&&b.id>0&&!structuresV46.some(other=>other.id===b.id)?b.id:structureIdV46+1;structureIdV46=Math.max(structureIdV46,restoredId);structuresV46.push({id:restoredId,type:b.type,x:b.x,y:b.y,selected,auto:false,paused:!!b.paused,job:r&&Number.isFinite(b.job.remaining)?{recipe:b.job.recipe,remaining:clamp(b.job.remaining,0,r.duration)}:null});ensureChunkAtX(b.x);addStructureBodyV47(structuresV46[structuresV46.length-1])}
+ for(const b of data.buildings||[]){if(!STRUCTURES_V46[b.type]||!Number.isFinite(b.x)||!Number.isFinite(b.y))continue;const jobs=JOBS_V46[b.type],selected=Object.hasOwn(jobs,b.selected)?b.selected:Object.keys(jobs)[0],r=jobs[b.job?.recipe];const restoredId=Number.isSafeInteger(b.id)&&b.id>0&&!structuresV46.some(other=>other.id===b.id)?b.id:structureIdV46+1;structureIdV46=Math.max(structureIdV46,restoredId);structuresV46.push({id:restoredId,type:b.type,x:b.x,y:b.y,selected,auto:!!b.auto,workerId:Number.isSafeInteger(b.workerId)?b.workerId:null,secondary:Object.hasOwn(jobs,b.secondary)?b.secondary:'',stock:Object.fromEntries(Object.entries(b.stock||{}).filter(([k])=>settlementItemsV56.has(k)).map(([k,n])=>[k,amountV56(n)])),paused:!!b.paused,job:r&&Number.isFinite(b.job.remaining)?{recipe:b.job.recipe,remaining:clamp(b.job.remaining,0,r.duration),automatic:!!b.job.automatic}:null});ensureChunkAtX(b.x);addStructureBodyV47(structuresV46[structuresV46.length-1])}
  structureIdV46=Math.max(structureIdV46,Math.max(0,Math.floor(finite(data.nextId))));
  }else if(industryV44.built){structureBagV46.forge++;if(industryV44.job){for(const [k,v] of Object.entries(RECIPES_V44[industryV44.job.recipe].inputs))inv[k]+=v}}
  industryV44.built=false;industryV44.job=null;industryV44.auto=false;
@@ -131,9 +133,9 @@ $('app').insertAdjacentHTML('beforeend',`<button class="btn" id="nailToggle" ari
 const labelV46=k=>STRUCTURES_V46[k]?.name||RESOURCE_DEFS_V44[k]?.name||k;
 let costTextV46=cost=>Object.entries(cost).map(([k,n])=>n+' '+labelV46(k)+' ('+(inv[k]||0)+')').join(' + ');
 function refreshStructuresV46(){
- $('structuresCount').textContent=Object.values(structureBagV46).reduce((a,b)=>a+b,0);$('nailToggle').textContent='NAILS '+(nailModeV46?'ON':'OFF')+' · '+inv.nails;$('nailToggle').setAttribute('aria-pressed',String(nailModeV46));$('craftWorkshop').disabled=!canPayIndustryV44(STRUCTURES_V46.workshop.cost);
+ $('structuresCount').textContent=Object.values(structureBagV46).reduce((a,b)=>a+b,0);$('nailToggle').textContent='NAILS '+(nailModeV46?'ON':'OFF')+' · '+inv.nails;$('nailToggle').setAttribute('aria-pressed',String(nailModeV46));if($('craftWorkshop'))$('craftWorkshop').disabled=!canPayIndustryV44(STRUCTURES_V46.workshop.cost);
  for(const [k,n] of Object.entries(structureBagV46)){const card=$('structure-card-'+k);if(card){card.querySelector('b').textContent=n+' IN INVENTORY';card.disabled=!n}}
- const b=structuresV46.find(x=>x.id===selectedBuildingV46);if(!b||!$('buildingPanel').open)return;refreshWorkshopGridV50(b);const r=JOBS_V46[b.type][b.selected];$('buildingIngredients').textContent=costTextV46(r.inputs)+' → '+r.name+' · '+r.duration/1000+'s';$('buildingRecipe').disabled=!!b.job;$('buildingRecipe').value=b.selected;
+ const b=structuresV46.find(x=>x.id===selectedBuildingV46);if(!b||!$('buildingPanel').open)return;refreshWorkshopGridV50(b);const r=JOBS_V46[b.type][b.selected];if(!r)return;$('buildingIngredients').textContent=Object.entries(r.inputs).map(([k,n])=>n+' '+labelV46(k)+' ('+(inv[k]||0)+')').join(' + ')+' → '+r.name+' · '+r.duration/1000+'s';$('buildingRecipe').disabled=!!b.job;$('buildingRecipe').value=b.selected;
  $('buildingProgress').value=b.job?1-b.job.remaining/JOBS_V46[b.type][b.job.recipe].duration:0;$('buildingProduce').disabled=!!b.job||b.paused||!canPayIndustryV44(r.inputs);$('buildingPause').disabled=!b.job&&!b.auto;$('buildingPause').textContent=b.paused?'RESUME':'PAUSE';
  $('buildingStatus').textContent=b.paused?'Paused · ingredients reserved':b.job?'Crafting '+JOBS_V46[b.type][b.job.recipe].name+' · '+(b.job.remaining/1000).toFixed(1)+'s':b.type==='workshop'?'Choose a structure to craft':canPayIndustryV44(r.inputs)?'Ready to craft':(b.auto?'Waiting for ':'Need ')+Object.entries(r.inputs).filter(([k,n])=>(inv[k]||0)<n).map(([k])=>labelV46(k)).join(', ');
 }

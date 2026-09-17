@@ -9,7 +9,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   step(ms,roll=1){stepWorkersV55(ms,()=>roll)},save:saveGame,
   get state(){return {clock:{...settlementV55},families:[...familiesV55.values()],children:childrenV55.map(c=>({...c})),adults:adultsV55().length,sleeping:[...miners].filter(q=>q.game.sleepingV55).length}},
   pack(){const h=homesV55()[0];packStructureV46(h);shelterWorkersV55()},open(){openBuildingV46(homesV55()[0])},
-  craft(){const b={id:++structureIdV46,type:'workshop',x:1000,y:-128,selected:'home',job:null,auto:false,paused:false};structuresV46.push(b);inv.wood=15;inv.stone=5;assertCraft=startStructureV46(b);stepStructuresV46(5000);return {ok:assertCraft,homes:structureBagV46.home,wood:inv.wood,stone:inv.stone}},
+  craft(){const b={id:++structureIdV46,type:'workshop',x:1000,y:-128,selected:'home',job:null,auto:false,paused:false};structuresV46.push(b);inv.wood=15;inv.stone=5;assertCraft=startStructureV46(b);stepStructuresV46(5000);return {ok:assertCraft,homes:structureBagV46.home,stockHomes:b.stock.home,wood:inv.wood,stone:inv.stone}},
   draw(){cam.x=640;cam.y=-100;ctx.setTransform(DPR,0,0,DPR,0,0);bg();for(const z of bs)draw(z);for(const q of miners)drawMiner(q,0);drawGoldBursts(0)}
  };`.replace('assertCraft=startStructureV46(b)','const assertCraft=startStructureV46(b)'))})});
  const load=async()=>{await page.goto(process.env.SKY_TEST_URL||'http://127.0.0.1:8767/tower-of-babel/');await page.waitForFunction(()=>window.workerTest,null,{polling:100,timeout:20000})};await load();
@@ -23,7 +23,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
  await page.evaluate(()=>{workerTest.save();workerTest.draw()});await load();assert.equal((await page.evaluate(()=>workerTest.state)).children[0].days,1);
  await page.evaluate(()=>workerTest.step(240000));s=await page.evaluate(()=>workerTest.state);assert.equal(s.children.length,0);assert.equal(s.adults,4);
  await page.evaluate(()=>workerTest.pack());assert.equal((await page.evaluate(()=>workerTest.state)).sleeping,0);
- const crafted=await page.evaluate(()=>workerTest.craft());assert.equal(crafted.ok,true);assert.equal(crafted.homes,2);assert.equal(crafted.wood,0);assert.equal(crafted.stone,0);
+ const crafted=await page.evaluate(()=>workerTest.craft());assert.equal(crafted.ok,true);assert.equal(crafted.homes,1);assert.equal(crafted.stockHomes,1);assert.equal(crafted.wood,0);assert.equal(crafted.stone,0);
  await page.evaluate(()=>workerTest.setup());await page.evaluate(()=>workerTest.step(180000,.25));assert.equal((await page.evaluate(()=>workerTest.state)).families.filter(f=>f.pregnant).length,0);
  await page.evaluate(()=>workerTest.step(240000,.249999));assert.equal((await page.evaluate(()=>workerTest.state)).families.filter(f=>f.pregnant).length,1);
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>{workerTest.open();workerTest.draw()});

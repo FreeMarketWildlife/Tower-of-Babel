@@ -1,0 +1,57 @@
+/* Art inspection uses the same native assets as the opt-in game renderer. */
+(()=>{
+ const A=window.ButtonwoodArt,P=A.palette,scene=document.getElementById('scene'),g=scene.getContext('2d');
+ const favicon=document.createElement('link');favicon.rel='icon';favicon.href=A.buildingIcon('home').toDataURL();document.head.append(favicon);
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let paused=reduced,last=0,time=0,skyOffset=90;
+ const skyTime=document.getElementById('sky-time');
+ skyTime.onchange=()=>{skyOffset=({sunrise:0,day:90,sunset:150,night:210}[skyTime.value])-time/1000;paused=false;pauseLabel()};
+ const pause=document.getElementById('pause');
+ function pauseLabel(){pause.textContent=paused?'Play animation':'Pause animation';pause.setAttribute('aria-pressed',String(paused))}pauseLabel();
+ pause.onclick=()=>{paused=!paused;pauseLabel()};
+ for(const type of ['home','workshop','storehouse','forge','blacksmith'])document.getElementById(type+'-icon').getContext('2d').drawImage(A.buildingIcon(type),0,0);
+ document.getElementById('worker-icon').getContext('2d').drawImage(A.workerIcon(),0,0);
+ for(const material of ['dirt','stone','wood','leaves','deepslate','obsidian','copperOre']){
+  const figure=document.createElement('figure'),c=document.createElement('canvas');c.width=c.height=32;c.setAttribute('role','img');c.setAttribute('aria-label',material==='copperOre'?'Copper ore':material);
+  const cg=c.getContext('2d');cg.drawImage(A.tile(material==='copperOre'?'stone':material),0,0);if(material==='copperOre')cg.drawImage(A.ore('copperOre'),0,0);
+  const caption=document.createElement('figcaption');caption.textContent=material==='copperOre'?'Copper ore':material[0].toUpperCase()+material.slice(1);figure.append(c,caption);document.getElementById('materials').append(figure);
+ }
+ // Show an actual connected tile field, including cut corners and material joins.
+ const field=['dddddddddddd','ddddddddddds','dddddddddsss','ddddd..dssss','ddd....sssss','ssssssssssss'];
+ const terrainStudy=document.getElementById('terrain-study'),tg=terrainStudy.getContext('2d');
+ const materialAt=(x,y)=>({d:'dirt',s:'stone'}[field[y]?.[x]]??null);
+ tg.fillStyle=P.cave;tg.fillRect(0,0,384,192);
+ for(let y=0;y<6;y++)for(let x=0;x<12;x++){
+  const material=materialAt(x,y);if(!material)continue;
+  const neighbors={meadow:y===0};
+  for(const [side,dx,dy]of [['n',0,-1],['e',1,0],['s',0,1],['w',-1,0],['ne',1,-1],['se',1,1],['sw',-1,1],['nw',-1,-1]])neighbors[side]=materialAt(x+dx,y+dy);
+  tg.drawImage(A.terrain(material,x,y,neighbors),x*32,y*32);
+ }
+ const artZoom=document.getElementById('art-zoom');
+ function setZoom(){const z=Number(artZoom.value);for(const c of document.querySelectorAll('[data-worker]')){c.style.width=40*z+'px';c.style.height=32*z+'px'}for(const c of document.querySelectorAll('[data-building]')){const scale=Math.min(z,2);c.style.width=c.width*scale+'px';c.style.height=c.height*scale+'px'}}
+ if(innerWidth<640)artZoom.value='2';artZoom.onchange=setZoom;setZoom();
+ const frame=(state)=>A.frameFor(state,time);
+ const workers=[...document.querySelectorAll('[data-worker]')],buildings=[...document.querySelectorAll('[data-building]')];
+ function render(now){
+  if(!paused&&last&&now-last<250)time+=now-last;last=now;
+  const container=scene.parentElement.clientWidth,zoom=container>=800?2:1;
+  if(scene.width!==Math.floor(container)||scene.height!==180*zoom){scene.width=Math.floor(container);scene.height=180*zoom}
+  g.setTransform(zoom,0,0,zoom,0,0);g.imageSmoothingEnabled=false;
+  const w=scene.width/zoom,offset=Math.floor((w-416)/2),ground=160;
+  const clock=skyOffset+time/1000,day=Math.floor(clock/240)+1;
+  const sky=A.paintSky(g,{width:Math.ceil(w),height:180,ground,camX:0,seconds:clock%240,day});skyTime.value=sky.phase;
+  for(let x=0;x<w;x+=32)g.drawImage(A.terrain('dirt',Math.floor(x/32),0,{n:null,e:'dirt',s:'dirt',w:'dirt',ne:null,nw:null,se:'dirt',sw:'dirt',meadow:true}),x,ground);
+  g.save();g.translate(offset+28,ground-128);A.paintBuilding(g,'home',time,false);g.restore();
+  g.save();g.translate(offset+248,ground-128);A.paintBuilding(g,'workshop',time,true);g.restore();
+  A.paintGarden(g,offset+5,ground);A.paintGarden(g,offset+391,ground);
+  g.drawImage(A.worker({state:'idle',frame:frame('idle'),variant:0}),offset+174-18,ground-31);
+  const wx=offset+211+Math.round(Math.sin(time/2500)*14);
+  g.drawImage(A.worker({state:'walk',frame:frame('walk'),variant:1,dir:Math.cos(time/2500)<0?-1:1}),wx-18,ground-31);
+  g.save();g.fillStyle=sky.tint.color;g.globalAlpha=sky.tint.alpha;g.fillRect(0,0,w,180);g.restore();
+  for(const [type,x]of [['home',28],['workshop',248]]){g.save();g.translate(offset+x,ground-128);A.paintBuildingLights(g,type,sky.darkness,time);g.restore()}
+  for(const [i,c] of workers.entries()){const cg=c.getContext('2d');cg.clearRect(0,0,40,32);cg.drawImage(A.worker({state:c.dataset.worker,frame:frame(c.dataset.worker),variant:i}),0,0)}
+  for(const c of buildings){const cg=c.getContext('2d');cg.clearRect(0,0,c.width,c.height);A.paintBuilding(cg,c.dataset.building,time,['workshop','forge','blacksmith'].includes(c.dataset.building))}
+  requestAnimationFrame(render);
+ }
+ requestAnimationFrame(render);
+})();

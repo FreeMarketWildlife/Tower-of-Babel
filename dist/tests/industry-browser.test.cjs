@@ -6,7 +6,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   await page.addInitScript(()=>{window.requestAnimationFrame=()=>0});
   await page.route('**/game-v8-part3.txt*',async route=>{
    const response=await route.fetch(),source=await response.text();
-   const hook=`window.industryTest={inv,bs,grid,miners,eng,Engine,Body,oreAtV44,defs:ORE_DEFS_V44,materials:terrainMaterial,mk,harvest,mine,minerHit,createMinerAt,save:saveGame,step:stepIndustryV44,update:updateIndustryV44,build:buildFurnaceV44,start:startFurnaceV44,spatial:worldAudioSpatialV44,machines:worldMachinesV44,ui,
+   const hook=`window.industryTest={inv,bs,grid,miners,eng,Engine,Body,oreAtV44,defs:ORE_DEFS_V44,materials:terrainMaterial,mk,harvest,mine,minerHit,createMinerAt,save:saveGame,step:stepIndustryV44,update:updateIndustryV44,build:buildFurnaceV44,start:startFurnaceV44,spatial:worldAudioSpatialV44,machines:worldMachinesV44,ui,exposed:terrainExposed,
     get furnace(){return industryV44},get removed(){return removedTerrain},get resources(){return RESOURCE_DEFS_V44},render:()=>loop(performance.now()),
     view(x,y,z){cam.x=x;cam.y=y;cam.z=z},drawScene(){ctx.setTransform(DPR,0,0,DPR,0,0);bg();for(const z of bs)draw(z)},
     fixture(cx,cy){World.clear(eng.world,false);Engine.clear(eng);bs.clear();grid.clear();miners.clear();treeBlocksV41.clear();liquidSubV22.clear();removedTerrain.clear();terrainDamage.clear();stone=true;deepslate=true;const z=mk(ctr(cx),ctr(cy),terrainMaterial(cx,cy),{static:true,terrain:true,cx,cy});removedTerrain.add(key(cx,cy-1));return z},
@@ -20,12 +20,27 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
    const t=industryTest,found={};
    for(const k of Object.keys(t.resources))if(t.inv[k]!==0)throw Error('Old/new inventory default');
    for(let x=-70;x<70;x++)for(let y=0;y<64;y++){
+    if(t.oreAtV44(x,y,'dirt'))throw Error('Ore generated in dirt');
     const m=t.materials(x,y),a=t.oreAtV44(x,y,m),b=t.oreAtV44(x,y,m);
     if(JSON.stringify(a)!==JSON.stringify(b))throw Error('Nondeterministic ore');
     if(a){const d=t.defs[a.type];if(y<d.min||y>d.max||!d.materials.includes(m))throw Error('Invalid ore geology');found[a.type]??={x,y,type:a.type,amount:a.amount};}
    }
    return found;
   });assert.deepEqual(Object.keys(finds).sort(),['coal','copperOre','ironOre']);console.log('PASS deterministic deposits and geological depth rules');
+  for(const deposit of Object.values(finds)){
+   await page.evaluate(({x,y,type})=>{
+    const t=industryTest,z=t.fixture(x,y);t.removed.clear();
+    if(t.exposed(z))throw Error('Fixture must be buried');
+    t.view(z.position.x,z.position.y,3);t.drawScene();
+    const canvas=document.getElementById('game'),before=canvas.toDataURL();
+    delete z.game.resourceType;t.drawScene();
+    if(canvas.toDataURL()===before)throw Error('Buried ore invisible: '+type);
+    z.game.resourceType=type;t.drawScene();
+    const hits=z.game.hits,ore=t.inv[type];t.mine(z.position);
+    if(z.game.hits!==hits||t.inv[type]!==ore||!t.bs.has(z))throw Error('Buried ore became mineable');
+   },deposit);
+  }
+  console.log('PASS all ore pockets visible while buried, dirt ore-free, exposure still required');
   for(const deposit of Object.values(finds))for(const collector of ['player','miner']){
    await page.evaluate(({x,y,type,amount,collector})=>{
     const t=industryTest,z=t.fixture(x,y),material=z.game.material,base=t.inv[material],ore=t.inv[type];

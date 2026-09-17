@@ -26,8 +26,9 @@ function assignEmployeeV56(b,id){
  ui();saveGame();return true;
 }
 startStructureV46=function(b,recipe=b.selected,automatic=false){
- const r=JOBS_V46[b.type]?.[recipe];if(b.job||b.paused||!availableStockV56(b,r)||(automatic&&!employeeReadyV56(b)))return false;
- for(const [k,n] of Object.entries(r.inputs))stockV56(b)[k]-=n;
+ const r=JOBS_V46[b.type]?.[recipe];if(b.job||b.paused||!r)return false;
+ if(automatic){if(!employeeReadyV56(b)||!availableStockV56(b,r))return false;for(const [k,n] of Object.entries(r.inputs))stockV56(b)[k]-=n}
+ else if(!payIndustryV44(r.inputs))return false;
  b.job={recipe,remaining:r.duration,automatic};return true;
 };
 stepStructuresV46=function(elapsed){
@@ -47,7 +48,7 @@ stepStructuresV46=function(elapsed){
 };
 function playerAmountV56(k){return k==='ladder'?ladderBagV56:STRUCTURES_V46[k]?structureBagV46[k]||0:inv[k]||0}
 function addPlayerV56(k,n){if(k==='ladder')ladderBagV56+=n;else if(STRUCTURES_V46[k])structureBagV46[k]=(structureBagV46[k]||0)+n;else inv[k]=(inv[k]||0)+n}
-function transferStockV56(b,k,n,deposit){if(!settlementItemsV56.has(k))return false;const available=deposit?playerAmountV56(k):stockV56(b)[k]||0,amount=Math.min(available,amountV56(n));if(!amount)return false;stockV56(b)[k]=(stockV56(b)[k]||0)+(deposit?amount:-amount);addPlayerV56(k,deposit?-amount:amount);ui();saveGame();return true}
+function transferStockV56(b,k,n,deposit){if(!settlementItemsV56.has(k))return false;const available=deposit?playerAmountV56(k):stockV56(b)[k]||0,amount=Math.min(available,amountV56(n),deposit?Math.max(0,(STRUCTURES_V46[b.type].capacity??Infinity)-Object.values(stockV56(b)).reduce((a,v)=>a+amountV56(v),0)):Infinity);if(!amount)return false;stockV56(b)[k]=(stockV56(b)[k]||0)+(deposit?amount:-amount);addPlayerV56(k,deposit?-amount:amount);ui();saveGame();return true}
 packStructureV46=function(b){
  if(b.job){const r=JOBS_V46[b.type]?.[b.job.recipe];if(r)for(const [k,n] of Object.entries(r.inputs))stockV56(b)[k]=(stockV56(b)[k]||0)+n}
  for(const [k,n] of Object.entries(stockV56(b)))if(settlementItemsV56.has(k))addPlayerV56(k,n);

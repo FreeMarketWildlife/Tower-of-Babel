@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#8ed8ff">
+  <meta name="theme-color" content="#f7e8c4">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -18,7 +18,8 @@
   <link rel="stylesheet" href="style-v41-trees.css?v=41">
   <link rel="stylesheet" href="style-v45-audio-controls.css?v=45">
   <link rel="stylesheet" href="style-v44-industry.css?v=45">
-  <link rel="stylesheet" href="style-v46-structures.css?v=50">
+  <link rel="stylesheet" href="style-v46-structures.css?v=61">
+  <link rel="stylesheet" href="style-v64-compact-structures.css?v=64">
 </head>
 <body>
 <div id="app">
@@ -66,7 +67,7 @@
         <p>Workers drown after 5 seconds with their head underwater, or burn after a short stay in lava. Watch their air and heat bars.</p><p>Their ghosts sway upward with a spooky melody. Tap a ghost with any tool to revive the Worker right there in a burst of pixels, keeping its level and pocket gold.</p><p>Revived Workers have a brief protective shield. Ghosts wait above the world and save with your game. Gold claimed through the Worker menu stays in your inventory.</p>
       </div></details>
       <details><summary>INDUSTRY <span>Ore deposits and smelting</span></summary><div class="tipBody">
-        <p>Exposed terrain can show coal, iron, or copper flecks. Break it to collect both the block and its ore. Miners can mine deposits whenever they can mine the base material.</p><p>Craft a Workshop in STRUCTURES for 5 wood, 5 dirt, and 10 stone. Drag it from the house icon in the toolbar onto a fully supported foundation. Click a placed building to open its shop. Workshops craft Forges and Blacksmiths; Forges smelt one ore + one coal into an ingot; Blacksmiths turn one iron ingot into 10 nails.</p><p>Finished structures go into STRUCTURES; other products go into your inventory. Turn NAILS ON to place fixed blocks at one nail per block, adjacent to world or nailed blocks. Buildings need fixed blocks across their entire base. Pack buildings away before removing their supports. Production pauses while you are away.</p>
+        <p>Coal, iron, and copper pockets are visible inside rock, even before digging. Ore never forms in dirt. Expose a side, then break the rock to collect both resources. Workers can mine deposits when they can mine the base rock.</p><p>Craft a Workshop in STRUCTURES for 5 wood, 5 dirt, and 10 stone. Drag it from the house icon in the toolbar onto a fully supported foundation. Click a placed building to open its shop. Workshops craft Forges and Blacksmiths; Forges smelt one ore + one coal into an ingot; Blacksmiths turn one iron ingot into 10 nails.</p><p>Finished structures go into STRUCTURES; other products go into your inventory. Turn NAILS ON to place fixed blocks at one nail per block, adjacent to world or nailed blocks. Buildings need fixed blocks across their entire base. Pack buildings away before removing their supports. Production pauses while you are away.</p>
       </div></details>
       <details><summary>TREES <span>Wood, leaves, falling trunks</span></summary><div class="tipBody">
         <p>Wood takes two hits to chop. Every trunk block above the cut falls with gravity; you can mine the fallen logs too.</p><p>Unsupported leaves disappear in 1–2 seconds. Mine them first to collect leaf blocks.</p><p>Use WOOD and LEAVES in the toolbar to build. Placed leaf blocks stay put. On phones, swipe the toolbar to see every material.</p>
@@ -143,8 +144,8 @@
   <div id="toast" class="hide"></div><div id="load">Loading physics…</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
-<script src="audio.js?v=53"></script>
-<script src="game-v28.js?v=58"></script>
+<script src="audio.js?v=63"></script>
+<script src="game-v28.js?v=65"></script>
 <script>
 for(const [id,label,fn] of [['musicToggle','MUSIC', 'setMusicEnabled'],['sfxToggle','SFX','setSfxEnabled']])document.getElementById(id).addEventListener('click',async()=>{await window.SkyAudio?.ensure();const on=window.SkyAudio?.[fn](!document.getElementById(id).matches('[aria-pressed=true]'));const b=document.getElementById(id);b.setAttribute('aria-pressed',on);b.textContent=(label==='MUSIC'?'♫ ':'♪ ')+label+' '+(on?'ON':'OFF')});
 </script>

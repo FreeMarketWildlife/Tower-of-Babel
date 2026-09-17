@@ -18,6 +18,39 @@ liquid clock, conservative downward/lateral/pressure transfers, slower lava, and
 one offscreen pixel layer to avoid overlapping translucent cell seams. Simulation
 continues in the existing horizontal activity range around the camera.
 
+## Buttonwood artwork and sample
+
+Ordinary gameplay uses the approved Buttonwood artwork and existing
+`skyStack.save.v1` saves. Open `../?sample=buttonwood` for the isolated playable
+sample, or `../buttonwood/` for the animated native art gallery. The sample uses
+`tower.buttonwood.sample.v1`; free fixtures, comparison controls, camera presets,
+and time jumps are confined to that mode.
+
+With Playwright and Chromium available, run:
+
+```sh
+SKY_TEST_URL=http://127.0.0.1:8765/tower-of-babel/ node tower-of-babel/tests/buttonwood-browser.test.cjs
+```
+
+`SKY_TEST_BROWSER` selects Chromium; `BW_SCREENSHOT_DIR` optionally records review
+screenshots. The test covers all five building sprites, miniatures and portraits,
+sample controls, 30-second twilight and clock boundaries, save isolation, reset,
+additive Industry migration and persistence, persistent ore/floor decoration,
+mining and building roundtrips, preserved collision masks, liquid render purity,
+and a smoke check with the live animation loop. Production release checks also
+verify default activation, existing-save preservation, normal progression and
+camera behavior, and the absence of sample controls and fixtures in ordinary play.
+See [QA evidence](../buttonwood/qa/README.md) and the [art guide](../buttonwood/ART-GUIDE.md).
+
+`node tower-of-babel/tests/buttonwood-terrain.test.cjs` checks the connected terrain
+lookup: negative coordinates, excavation refresh, aligned multi-cell placements,
+motion/alignment rejection, ambiguous overlaps, meadow eligibility, and no world
+mutation. The gallery's connected meadow shows the same tiles and seam rules.
+
+`node tower-of-babel/tests/buttonwood-sky.test.cjs` checks continuous color and
+light at phase boundaries and day wrap, 30-second sunrise/sunset progression,
+saved-clock purity, integer scenery pixels, and underground clipping.
+
 ## Dev panel
 
 Open the lightbulb and choose Dev Tools, or press F2. Escape closes the panel.
@@ -196,3 +229,41 @@ per frame. Workers keep moving and mining between decisions. The unit stress che
 covers 120 Workers and verifies that 7,200 Worker frames perform fewer than 500
 target decisions. Legacy `miner` save keys and test hooks remain compatible; all
 player-facing terminology uses Worker.
+
+## Storehouses
+
+Craft a Storehouse for 20 wood and 10 stone: 1.5 seconds from its Structures
+card, or 5 seconds in a Workshop.
+Click a Workshop recipe to use your inventory, then take the
+finished Storehouse and drag it from Structures onto a supported 5 × 4 foundation.
+Each Storehouse holds 1,000 resources total across all types. STORE deposits up to
+the remaining capacity; TAKE returns resources to your inventory. The resource
+selector shows building inventory / your inventory. Packing returns all contents.
+Building inventory and unfinished crafting persist across reloads.
+
+Run `node tower-of-babel/tests/storehouses-browser.test.cjs` with Playwright and
+a server on port 8769, or set `SKY_TEST_URL`. It checks crafting, collection,
+placement, mixed-resource capacity, overflow, withdrawals, save/reload, packing,
+and desktop/mobile layouts.
+
+## Player building crafting
+
+Every building card in Structures has a CRAFT button, resource costs, and progress.
+Player crafting spends your inventory when it starts and adds one finished building
+after 1.5 seconds of active play. One player craft runs at a time; progress survives
+reloads and pauses while the tab is hidden. Drag the finished building to place it.
+Manual crafting in any building uses your inventory. Automatic Worker crafting
+uses building inventory. Existing building crafting durations are unchanged.
+
+`PLAYER_CRAFT_TIME_V61` is the default duration in milliseconds; an optional
+`playerCraftTime` on a building definition overrides it. Run
+`node tower-of-babel/tests/player-crafting-browser.test.cjs` with Playwright and
+the local server on port 8769, or set `SKY_TEST_URL`.
+
+`crafting-inventory-browser.test.cjs` verifies player and Worker resource sources
+for Workshops, Forges, and Blacksmiths, including affordability controls, output,
+reloads, and packing refunds. Finished products stay in building inventory.
+
+Mining follows audio timeline epochs so restarting audio after a hidden tab cannot
+block strikes behind an old beat count. The pickaxe browser regression covers
+restarts between clicks, restarts during a hold, and visibility resets.

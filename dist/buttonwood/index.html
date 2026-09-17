@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="theme-color" content="#f7e8c4"><title>Buttonwood · Art study</title>
+ <link rel="stylesheet" href="study.css">
+</head>
+<body>
+ <header><a class="wordmark" href="../">Tower of Babel</a><span>ART STUDY / 01</span></header>
+ <main>
+  <section class="intro">
+   <div><p class="eyebrow">BUTTONWOOD</p><h1>A softer little world.</h1><p>Broad hats. Coral roofs. A place to make yourself at home.</p></div>
+   <a class="play" href="../?sample=buttonwood">Play the sample</a>
+  </section>
+  <section aria-label="Animated native art scene">
+   <div class="scene-wrap"><canvas id="scene" width="896" height="360" role="img" aria-label="Buttonwood Home and Workshop, with animated chibi Workers, on warm grassy terrain."></canvas></div>
+   <div class="caption"><span>Sunrise and sunset · 30 seconds each</span><label>Time <select id="sky-time"><option value="day">Day</option><option value="sunrise">Sunrise</option><option value="sunset">Sunset</option><option value="night">Night</option></select></label><button id="pause" aria-pressed="false">Pause animation</button></div>
+  </section>
+  <section class="study" aria-labelledby="worker-heading">
+   <div class="section-heading"><h2 id="worker-heading">Meet the Workers</h2><label>Art inspection <select id="art-zoom"><option value="3">3× pixels</option><option value="1">1× native</option><option value="2">2× pixels</option></select></label></div>
+   <div class="workers">
+    <figure><canvas data-worker="idle" width="40" height="32" aria-label="Worker idle animation" role="img"></canvas><figcaption>Idle <small>Occasional blink</small></figcaption></figure>
+    <figure><canvas data-worker="walk" width="40" height="32" aria-label="Worker six-pose walking animation" role="img"></canvas><figcaption>Walk <small>Grounded little steps</small></figcaption></figure>
+    <figure><canvas data-worker="work" width="40" height="32" aria-label="Worker six-pose tool animation" role="img"></canvas><figcaption>Work <small>Lift, strike, recover</small></figcaption></figure>
+   </div>
+  </section>
+  <section class="study" aria-labelledby="building-heading">
+   <div class="section-heading"><h2 id="building-heading">A family of buildings</h2><span>Shared world pixel size</span></div>
+   <div class="buildings">
+    <figure><canvas data-building="home" width="128" height="128" aria-label="Native Buttonwood Home" role="img"></canvas><figcaption>Home <small>Coral roof · mint shutters · button vent</small></figcaption></figure>
+    <figure><canvas data-building="workshop" width="128" height="128" aria-label="Animated Buttonwood Workshop" role="img"></canvas><figcaption>Workshop <small>Striped awning · open work bay</small></figcaption></figure>
+   </div>
+   <div class="buildings industry-buildings">
+    <figure><canvas data-building="storehouse" width="160" height="128" aria-label="Native Buttonwood Storehouse" role="img"></canvas><figcaption>Storehouse <small>Double doors · crates · 160 × 128</small><a href="../?sample=buttonwood&amp;view=storehouse">Visit in game</a></figcaption></figure>
+    <figure><canvas data-building="forge" width="96" height="96" aria-label="Animated Buttonwood Forge furnace" role="img"></canvas><figcaption>Forge <small>Stone furnace · glowing hearth · 96 × 96</small><a href="../?sample=buttonwood&amp;view=forge">Visit in game</a></figcaption></figure>
+    <figure><canvas data-building="blacksmith" width="160" height="128" aria-label="Animated Buttonwood Blacksmith" role="img"></canvas><figcaption>Blacksmith <small>Open anvil bay · hammer sign · 160 × 128</small><a href="../?sample=buttonwood&amp;view=blacksmith">Visit in game</a></figcaption></figure>
+   </div>
+   <div class="miniatures"><span>UI miniatures · 32 × 32</span><canvas id="home-icon" width="32" height="32" aria-label="Home UI miniature" role="img"></canvas><canvas id="workshop-icon" width="32" height="32" aria-label="Workshop UI miniature" role="img"></canvas><canvas id="storehouse-icon" width="32" height="32" aria-label="Storehouse UI miniature" role="img"></canvas><canvas id="forge-icon" width="32" height="32" aria-label="Forge UI miniature" role="img"></canvas><canvas id="blacksmith-icon" width="32" height="32" aria-label="Blacksmith UI miniature" role="img"></canvas><canvas id="worker-icon" width="32" height="32" aria-label="Worker UI portrait" role="img"></canvas></div>
+  </section>
+  <section class="study" aria-labelledby="terrain-heading">
+   <div class="section-heading"><h2 id="terrain-heading">Under your feet</h2><span>32 × 32 material studies</span></div>
+   <div class="terrain-wrap"><canvas id="terrain-study" width="384" height="192" role="img" aria-label="Connected meadow tiles with rich soil, grass roots, excavated corners, and soft soil-to-stone transitions"></canvas></div>
+   <p class="small">Rich loam, rooted meadow edges, and connected soil-to-stone transitions.</p>
+   <div id="materials" class="materials"></div>
+   <p class="small">Water and lava use the existing flow simulation, with a shared pixel size and Buttonwood colors.</p>
+  </section>
+  <section class="review">
+   <div><p class="eyebrow">ART PLAYGROUND</p><h2>Try it in the world.</h2><p>Mine, place blocks, and open the buildings. Compare original art, visit the mine, and switch between day and night.</p><a class="play" href="../?sample=buttonwood">Play the sample</a><p class="small">Uses a separate sample save. Buttonwood is also the default artwork in the main game.</p></div>
+   <div class="reference"><a href="reference/buttonwood-approved.png"><img src="reference/buttonwood-approved.png" alt="Approved Buttonwood concept: cream-capped Workers, coral-roof Home and Workshop"></a><span>Approved concept reference</span></div>
+  </section>
+ </main>
+ <footer><a href="ART-GUIDE.md">Art guide</a><a href="INVENTORY.md">Migration inventory</a><a href="../">Return to game</a><span>Buttonwood · Art sample</span></footer>
+ <script src="palette.js"></script><script src="sky.js"></script><script src="workers.js"></script><script src="buildings.js"></script><script src="environment.js"></script><script src="study.js"></script>
+</body>
+</html>

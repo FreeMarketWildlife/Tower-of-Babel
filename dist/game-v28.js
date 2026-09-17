@@ -1,6 +1,8 @@
 (() => {
 'use strict';
 
+const buttonwoodSample = new URLSearchParams(location.search).get('sample') === 'buttonwood';
+
 const coreParts=[
   'game-v8-part0.txt?v=41',
   'game-v8-part1.txt?v=44',
@@ -32,7 +34,7 @@ const artDirectionUrl='game-v32-art-direction.txt?v=41';
 const pickaxeUrl='game-v39-pickaxe.txt?v=39';
 const treesUrl='game-v41-trees.txt?v=44';
 const spiritsUrl='game-v42-miner-ghosts.txt?v=43';
-const industryUrl='game-v44-industry-resources.txt?v=45';
+const industryUrl='game-v44-industry-resources.txt?v=59';
 const structureArtUrl='game-v46-structure-art.txt?v=46';
 const structuresUrl='game-v46-structures.txt?v=46';
 const tailUrl='game-v8-part3.txt?v=42';
@@ -47,6 +49,16 @@ async function read(url){
   try{
     let core='';
     for(const url of coreParts)core+=await read(url);
+    // Select the sample save before the core reads or registers autosaves.
+    if(buttonwoodSample){
+      const saveDeclaration="const SAVE_KEY='skyStack.save.v1';";
+      if(!core.includes(saveDeclaration))throw new Error('Sample save declaration missing');
+      core=core.replace(saveDeclaration,"const SAVE_KEY='tower.buttonwood.sample.v1';");
+    }
+    const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='buttonwood/sample.css?v=65';document.head.append(sheet);
+    for(const path of ['palette.js','sky.js','workers.js','buildings.js','environment.js']){
+      (0,eval)(await read('buttonwood/'+path));
+    }
 
     let liquid='';
     for(const url of liquidParts)liquid+=await read(url);
@@ -82,6 +94,11 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v55-workers.txt?v=55'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v56-settlement.txt?v=56'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v57-performance.txt?v=58'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v60-storehouses.txt?v=60'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v61-player-crafting.txt?v=61'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v62-sky.txt?v=62'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v64-compact-structures.txt?v=64'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('buttonwood/integration.txt'))+'\n'+marker+'\nbuttonwoodBoot();');
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){
