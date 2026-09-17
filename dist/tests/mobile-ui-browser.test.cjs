@@ -32,6 +32,22 @@ const url=process.env.SKY_TEST_URL||'http://127.0.0.1:8765/tower-of-babel/';
    await page.locator('#pickaxeClose').click();
   }
   console.log('PASS fresh phone UI, collapsible panels, locked content, 320/390/430px and landscape bounds');
+  const holdBehavior=await page.evaluate(()=>{
+   const events=el=>['contextmenu','selectstart'].map(type=>{const event=new Event(type,{bubbles:true,cancelable:true});el.dispatchEvent(event);return event.defaultPrevented});
+   const game=['#game','#height','#bar .slot span','#phoneGoal summary','#structureCards img'].map(selector=>{const el=document.querySelector(selector);return {selection:getComputedStyle(el).userSelect,cancelled:events(el)}});
+   const input=document.getElementById('stockAmountV60'),select=document.getElementById('stockResourceV60');
+   return {game,input:{selection:getComputedStyle(input).userSelect,cancelled:events(input)},select:events(select)};
+  });
+  for(const el of holdBehavior.game){assert.equal(el.selection,'none');assert.deepEqual(el.cancelled,[true,true])}
+  assert.equal(holdBehavior.input.selection,'text');assert.deepEqual(holdBehavior.input.cancelled,[false,false]);assert.deepEqual(holdBehavior.select,[false,false]);
+  // A sustained touch on UI text must not start a browser selection.
+  const cdp=await page.context().newCDPSession(page),height=await page.locator('#height').boundingBox();
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:height.x+height.width/2,y:height.y+height.height/2,id:1}]});
+  await page.waitForTimeout(900);
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  assert.equal(await page.evaluate(()=>getSelection().toString()),'');
+  console.log('PASS touch hold, selection/menu suppression on game UI, and editable control exceptions');
+
   await page.setViewportSize({width:390,height:844});await page.evaluate(()=>mobileTest.unlock());
   assert.equal(await page.locator('#phoneVillage').isVisible(),true);assert.equal(await page.locator('#stoneSlot').isVisible(),true);
   await page.locator('#phoneVillage summary').click();assert.ok((await page.locator('#workerClock').innerText()).includes('need a home'));await bounded('#phoneVillage .phoneContent');await shot('village');

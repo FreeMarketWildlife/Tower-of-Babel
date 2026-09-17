@@ -1,3 +1,8 @@
+/* Holds belong to game gestures; only editable controls retain text selection. */
+@media (any-pointer: coarse){
+ body,body *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+ body input,body textarea,body select,body [contenteditable=true],body [contenteditable=true] *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+}
 /* Notifications must clear both ordinary stacking contexts and native dialogs. */
 #toast,#structureDragHint{position:fixed;inset:auto;top:max(12px,env(safe-area-inset-top));left:50%;margin:0;transform:translateX(-50%);width:max-content;min-width:0;max-width:min(420px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overflow-wrap:anywhere;z-index:1000;pointer-events:none}
 #toast.hide{transform:translateX(-50%)}

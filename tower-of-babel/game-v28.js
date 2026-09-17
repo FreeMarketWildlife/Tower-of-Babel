@@ -99,7 +99,7 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v62-sky.txt?v=62'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v64-compact-structures.txt?v=64'))+'\n'+marker);
     tail=tail.replace(marker,(await read('buttonwood/integration.txt'))+'\n'+marker+'\nbuttonwoodBoot();');
-    tail=tail.replace(marker,(await read('game-v66-mobile-ui.txt?v=66'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v66-mobile-ui.txt?v=66.1'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){
