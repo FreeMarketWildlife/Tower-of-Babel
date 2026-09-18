@@ -55,8 +55,8 @@ async function read(url){
       if(!core.includes(saveDeclaration))throw new Error('Sample save declaration missing');
       core=core.replace(saveDeclaration,"const SAVE_KEY='tower.buttonwood.sample.v1';");
     }
-    const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='buttonwood/sample.css?v=65';document.head.append(sheet);
-    for(const path of ['palette.js','sky.js','workers.js','buildings.js','environment.js']){
+    const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='buttonwood/sample.css?v=67';document.head.append(sheet);
+    for(const path of ['palette.js','sky.js','workers.js','buildings.js','environment.js','ui.js']){
       (0,eval)(await read('buttonwood/'+path));
     }
 
@@ -97,9 +97,10 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v60-storehouses.txt?v=60'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v61-player-crafting.txt?v=61'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v62-sky.txt?v=62'))+'\n'+marker);
-    tail=tail.replace(marker,(await read('game-v64-compact-structures.txt?v=64'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v67-disclosures.txt?v=67'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v64-compact-structures.txt?v=67'))+'\n'+marker);
     tail=tail.replace(marker,(await read('buttonwood/integration.txt'))+'\n'+marker+'\nbuttonwoodBoot();');
-    tail=tail.replace(marker,(await read('game-v66-mobile-ui.txt?v=66.1'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v66-mobile-ui.txt?v=67'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

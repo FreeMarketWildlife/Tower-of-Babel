@@ -52,7 +52,7 @@
 .phone-ui #buildingHero,.phone-ui #bw-home-portrait,.phone-ui #buildingEyebrow,.phone-ui #buildingNote{display:none}
 .phone-ui .phoneFold{border-top:1px solid #c28d60;margin-top:12px}
 .phone-ui .phoneFold>summary{display:block;min-height:44px;padding:12px 4px;font-size:12px;font-weight:700;cursor:pointer;list-style:none}
-.phone-ui .phoneFold[open]>summary{color:#597d70;border-bottom:1px solid #d8c397}
+.phone-ui .phoneFold>summary[aria-expanded=true]{color:#597d70;border-bottom:1px solid #d8c397}
 .phone-ui #buildingInventoryV60{border:0;padding-top:0;margin-top:4px}
 .phone-ui #buildingControlsV56 select,.phone-ui #stockResourceV60,.phone-ui #stockAmountV60{font-size:16px;min-height:44px}
 .phone-ui #buildingControlsV56>div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -86,7 +86,7 @@
 .phone-ui #bar .unlocked .lock{display:none!important}
 .phone-ui .phoneFold>summary{display:flex;align-items:center;justify-content:space-between;padding:6px 4px;gap:8px}
 .phone-ui .phoneFold>summary:after{content:'';width:32px;height:32px;flex:none;background:var(--phone-chevron) center/32px 32px no-repeat;image-rendering:pixelated}
-.phone-ui .phoneFold[open]>summary:after{transform:rotate(180deg)}
+.phone-ui .phoneFold>summary[aria-expanded=true]:after{transform:rotate(180deg)}
 .phone-ui #workshopGrid{grid-template-columns:1fr;gap:6px;margin-bottom:10px}
 .phone-ui .workshopRecipe{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:4px 6px;padding:6px;text-align:left;font-size:12px}
 .phone-ui .workshopRecipe>small{display:none}

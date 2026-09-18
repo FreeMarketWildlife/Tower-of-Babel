@@ -44,6 +44,19 @@
 .buttonwood-sample #bw-note{bottom:113px}
 .buttonwood-art .structureCraftRow,.buttonwood-art .workshopRecipe,.buttonwood-art .structureCard{background:#fff3d6;color:#49313f;border-color:#c28d60}
 .buttonwood-art canvas,.buttonwood-art img{image-rendering:pixelated}
+/* These controls share the cream theme on desktop as well as on phones. */
+.buttonwood-art #structuresPanel.compactStructuresV64,.buttonwood-art #structuresPanel .playerBuildingV61{background:#f7e8c4;color:#49313f;border-color:#c28d60}
+.buttonwood-art #structuresPanel .playerBuildingV61{background:#fff3d6}
+.buttonwood-art #structuresPanel .playerCostsV61>span{color:#49313f}
+.buttonwood-art #structuresPanel .playerCostsV61>.missing{color:#ad5955}
+.buttonwood-art #structuresPanel .structureCard b{background:#49313f;color:#fff3d6}
+.buttonwood-art #structuresPanel .structureInfoV64{opacity:1}
+.buttonwood-art #structuresPanel .playerCraftV61{background:#597d70;border-color:#597d70}
+.buttonwood-art #structuresPanel .playerCraftV61:disabled{opacity:.65}
+.buttonwood-art #structuresPanel .playerCraftV61.crafting{background:#b58250;border-color:#704939;opacity:1;filter:none}
+.buttonwood-art .pickaxeOwnedRow{background:#fff3d6;color:#49313f;border-color:#c28d60}
+.buttonwood-art .pickaxeOwnedRow b{color:#597d70}
+.buttonwood-art .pickaxeOwnedRow.equipped{background:#b9d1ab;border-color:#597d70}
 .buttonwood-sample #hud,.buttonwood-sample #gridToggle{top:calc(var(--bw-header-height,64px) + 18px)!important}
 .buttonwood-sample #tipBtn{top:calc(var(--bw-header-height,64px) + 63px)!important}
 .buttonwood-sample #workerClock{top:calc(var(--bw-header-height,64px) + 92px)!important}

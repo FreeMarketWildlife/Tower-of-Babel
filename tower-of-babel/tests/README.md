@@ -285,3 +285,26 @@ exclusive panels, all five buildings, inventory transfers, scrolling and rotatio
 notifications over native dialogs and expiry, Escape, and desktop restoration.
 Also run the Structures, Storehouses, and Buttonwood browser suites for crafting,
 touch dragging, save compatibility, artwork, and live simulation.
+
+## Native UI art and inline disclosures — v67
+
+Run `SKY_TEST_URL=http://127.0.0.1:8765/tower-of-babel/ node tower-of-babel/tests/disclosures-browser.test.cjs`
+with Playwright and Chromium. `UI_SCREENSHOT_DIR` optionally saves review images.
+The suite checks Structures and native inline disclosures on desktop and phones:
+opening/closing, midpoint reversal, rapid toggles, one-row exclusivity, changing
+content height, keyboard activation, focus recovery, reduced motion, responsive
+resets, and 320/390/430px portrait plus 844px landscape panel bounds.
+
+It also checks separately authored 32px icons against the shared palette and
+opaque pixel grid, square block silhouettes, every Structures cost row, four
+pick tiers and equipped artwork, crafting states, and both art galleries. Mouse
+and touch pressed states are included in screenshot capture. Companion suites:
+`mobile-ui-browser`, `player-crafting-browser`, `pickaxe-browser`,
+`structures-browser`, `storehouses-browser`, and `buttonwood-browser`.
+
+`game-v67-disclosures.txt` provides a reversible 190ms height animation. Structures
+remains inline and allows one description at a time. The field guide uses the
+same motion; Building inventory, Workers & recipes, and About Homes remain
+independent. Top-level phone tabs, panels, and notifications keep their behavior.
+Collapsing content becomes inert immediately, and completed animations release
+the fixed height so text remains readable after content or viewport changes.

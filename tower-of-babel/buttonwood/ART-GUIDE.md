@@ -253,7 +253,7 @@ review; they are not part of an artwork update.
 
 1. Study the saved concept and approved native artwork.
 2. Edit the shared tokens in `palette.js` only when the direction requires it.
-3. Author cached canvases in `workers.js`, `buildings.js`, or `environment.js`.
+3. Author cached canvases in `workers.js`, `buildings.js`, `environment.js`, or `ui.js`.
    Paint native pixel clusters; never reduce the concept image into game sprites.
 4. Keep `integration.txt` responsible for engine state, anchors, and render hooks.
    Keep art generators independent of saves, physics, and resource balances.

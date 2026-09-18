@@ -31,7 +31,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | Water / lava | Shared three-color ramps and a renderer using one-world-unit pixels. | Review pools, falls, joins, depth, interaction boundaries, and sustained motion. Solver is unchanged. |
 | Garden accent | Small native greenery/flower cluster helper in `environment.js`. | Optional scene decoration; placement is not a general vegetation migration. |
 | Scenery / light | Smooth 30-second sunrise and sunset, native sky bands, clouds, hills, sun/moon/stars, ambient world tint, and warm building lights. Uses the existing 240-second saved clock. | Preserve twilight warmth and underground contrast; weather/depth expansion remains separate. |
-| UI | Warm styling, Worker art, native portraits and 32px miniatures for all five buildings, and terrain swatches. | Many control icons and all unlisted UI assets still use the existing art. Village/Industry/Mine views and the time preview control are sample-only. |
+| UI | Warm styling, Worker art, native portraits and 32px miniatures for all five buildings, terrain swatches, and separately drawn Move glove, four pickaxe tiers, Craft hammer, disclosure chevron, and square wood/stone/dirt/deepslate miniatures. | New control family reviewed at native size on desktop and phone (September 17, 2026); unlisted controls and currency retain existing art. Village/Industry/Mine views and time preview remain sample-only. |
 
 ## Explicitly deferred
 
@@ -40,7 +40,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | Character ages | Baby and kid silhouettes, poses, growth continuity, and UI representations. |
 | Character actions | Pre-strike engine anticipation, climbing, carrying, sleeping, arrival/departure, and other dedicated action poses. |
 | Ghosts and state effects | Death, ghost drift, revival, immunity, drowning/burning indicators, and related particles. |
-| Equipment | Full level identity, pick tiers, held resources, accessories, and their inventory art. |
+| Equipment | World equipment level identity, held resources, and accessories. The four player pickaxe UI tiers are now drawn in the shared palette. |
 | Vegetation | Complete tree silhouettes, growth/composition, detached wood/leaves, and foliage decay presentation. |
 | Terrain edge cases | Remaining material pairs beyond soil/stone/deepslate, full placement/rotation review, and terrain damage/effects. |
 | World effects | Harvest rewards, gold, construction feedback, impacts, particles, ladder art, and smoke/fire outside the migrated building details. |
@@ -81,6 +81,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | `buildings.js` | All five native buildings, separately authored 32px miniatures, working details, anchors, sizes, and warm light overlays. |
 | `sky.js` | Continuous saved-clock sky colors, native scenery, twilight timing, and ambient light state. |
 | `environment.js` | Terrain, ore overlays, grass, optional garden cluster, and liquid ramps. |
+| `ui.js` | Cached native 32px tool icons, tier variants, disclosure arrow, and separately drawn square resource miniatures. |
 | `integration.txt` | Default-game render adapters, liquid drawing, isolated sample setup, comparison, and review hooks. |
 | `sample.css` / `index.html` | Game theme, sample controls, and gallery. |
 | `reference/buttonwood-approved.png` | Approved concept reference, retained at original resolution. |

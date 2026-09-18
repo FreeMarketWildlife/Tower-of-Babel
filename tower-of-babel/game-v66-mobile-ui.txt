@@ -9,7 +9,7 @@ const phoneMediaV66=matchMedia('(max-width: 600px), (max-height: 500px) and (poi
 const phoneRootV66=document.createElement('div');phoneRootV66.id='phoneHud';phoneRootV66.hidden=true;
 phoneRootV66.innerHTML='<div class="phoneStats"></div><nav class="phoneTabs" aria-label="Game panels"></nav>';
 document.body.append(phoneRootV66);
-document.body.style.setProperty('--phone-chevron','url('+uiPixelV48('down')+')');
+document.body.style.setProperty('--phone-chevron','url('+compactArtV64.info+')');
 const phoneHomesV66=new Map(),phoneSectionsV66=[];
 function phoneMoveV66(el,parent){if(!phoneHomesV66.has(el)){const marker=document.createComment('phone UI return');el.before(marker);phoneHomesV66.set(el,marker)}parent.append(el)}
 function phoneSectionV66(id,label){const el=document.createElement('details');el.id=id;el.className='phoneSection';el.innerHTML='<summary>'+label+'</summary><div class="phoneContent box"></div>';phoneRootV66.querySelector('nav').append(el);phoneSectionsV66.push(el);el.querySelector('summary').addEventListener('click',()=>{if(!el.open&&phoneActiveV66()){closePhonePanelsV66(el);phoneBoundsV66()}});el.addEventListener('toggle',()=>{if(el.open&&phoneActiveV66()){closePhonePanelsV66(el);phoneBoundsV66()}});return el}
@@ -65,7 +65,7 @@ refreshWorkersV55=function(){phoneClockBaseV66();if(phoneActiveV66()){
 }};
 const phoneOpenBuildingV66=openBuildingV46;
 openBuildingV46=function(b){if(phoneActiveV66())closePhonePanelsV66();phoneOpenBuildingV66(b);if(phoneActiveV66()){
- phoneStockV66.open=b.type==='storehouse';phoneAutoV66.open=false;phoneHomeInfoV66.open=false;
+ setNativeDisclosureV67(phoneStockV66,b.type==='storehouse');setNativeDisclosureV67(phoneAutoV66,false);setNativeDisclosureV67(phoneHomeInfoV66,false);
  // Attached building panels leave the world, toolbar and header usable.
  const panel=b.type==='home'?homePanelV55:$('buildingPanel');if(panel.matches(':modal')){panel.close();panel.show()}
  phoneProgressV66();
@@ -79,12 +79,12 @@ function phoneLayoutV66(){
   phoneMoveV66(clockHudV55,phoneVillageV66.lastChild);
   for(const id of ['gridToggle','nailToggle'])phoneMoveV66($(id),phoneSettingsV66.lastChild);
   phoneSettingsV66.lastChild.prepend(phoneTimeV66);
-  phoneStockV66.open=false;phoneAutoV66.open=false;phoneHomeInfoV66.open=false;
-  for(const el of $('tips').querySelectorAll('details'))el.open=false;
+  for(const fold of [phoneStockV66,phoneAutoV66,phoneHomeInfoV66])setNativeDisclosureV67(fold,false);
+  for(const el of $('tips').querySelectorAll('details'))setNativeDisclosureV67(el,false);
   refreshWorkersV55();phoneProgressV66();phoneBoundsV66();
  }else{
   for(const [el,marker] of phoneHomesV66)marker.after(el);
-  for(const fold of [phoneStockV66,phoneAutoV66,phoneHomeInfoV66]){fold.open=true;fold.hidden=false}
+  for(const fold of [phoneStockV66,phoneAutoV66,phoneHomeInfoV66]){setNativeDisclosureV67(fold,true);fold.hidden=false}
   $('nailToggle').hidden=false;
   for(const el of $('tips').querySelectorAll('details'))el.hidden=false;
   for(const row of $('pickaxeTiers').children)row.hidden=false;
@@ -109,3 +109,6 @@ for(const el of noticesV66){el.setAttribute('popover','manual');el.setAttribute(
 function raiseNoticesV66(){for(const el of noticesV66){const visible=el.id==='toast'?!el.classList.contains('hide'):!el.hidden;if(el.hidePopover&&el.matches(':popover-open'))el.hidePopover();if(visible&&el.showPopover)el.showPopover()}}
 for(const el of noticesV66)new MutationObserver(raiseNoticesV66).observe(el,{attributes:true,attributeFilter:['class','hidden'],childList:true});
 phoneLayoutV66();
+
+// Only inline disclosures animate; top-level HUD tabs and dialogs retain their behavior.
+for(const fold of document.querySelectorAll('.phoneFold,.tipsGroups details'))enhanceNativeDisclosureV67(fold);

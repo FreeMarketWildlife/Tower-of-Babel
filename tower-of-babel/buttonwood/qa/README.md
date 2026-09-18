@@ -129,3 +129,43 @@ presentation and remaining scenery/depth layers are deferred.
 
 The sample screenshots above document the artwork shared with ordinary gameplay;
 its review controls and free fixtures remain exclusive to the opt-in sample.
+
+## UI complaint batch — September 17, 2026
+
+UI-001 through UI-005 received local implementation and technical/visual review.
+`ui.js` supplies a work-glove Move icon, four readable pickaxe tiers, a Craft
+hammer, the disclosure chevron, and deliberately drawn square wood, stone, dirt,
+and deepslate miniatures. Every icon has a native 32 × 32 canvas and uses named
+palette tokens. Ingots retain their separate identity. Structures descriptions
+remain inline, with 44 × 44 disclosure targets and synchronized expanded state.
+
+Structures, field-guide chapters, and the three building information sections
+share reversible height motion. Closing content is immediately inert; keyboard
+focus returns to its trigger if needed. Rapid toggles, changing heights, desktop
+restoration, and reduced-motion preferences are covered by regression checks.
+Top-level phone tabs and unrelated dialogs are excluded from this animation.
+
+Passed on local Chrome with isolated temporary browser profiles:
+
+- `disclosures-browser.test.cjs`: motion and interaction edge cases, art palette,
+  binary alpha, native size, square silhouettes, all resource rows, four equipped
+  tiers, crafting states, gallery loading, and mouse/touch state captures.
+- `mobile-ui-browser.test.cjs`: 320 × 568, 390 × 844, 430 × 932, and 844 × 390;
+  phone scrolling, long-press suppression, rotation, header/toolbar bounds,
+  inventory interactions, top-layer notices, and desktop restoration.
+- `player-crafting-browser.test.cjs`, `pickaxe-browser.test.cjs`,
+  `structures-browser.test.cjs`, and `storehouses-browser.test.cjs`: crafting,
+  touch mining/dragging, transfers, progression, physics, and save reloads.
+- `buttonwood-browser.test.cjs`: ordinary saves and sample isolation, native art,
+  preserved collision envelopes, read-only rendering, and live simulation.
+
+Review evidence (screenshots show rendered states; animation is tested in-browser):
+
+- [Native UI family](ui-native.png)
+- [Desktop Structures](ui-desktop.png) and [pickaxe tiers](ui-pickaxes.png)
+- [Phone inline description](ui-phone.png) and [active crafting](ui-crafting.png)
+- [Smallest phone](ui-small-phone.png) and [scrolled landscape](ui-landscape.png)
+
+The gallery includes a dedicated native-size tools and pocket-block section.
+This batch does not implement the six-slot hotbar, item reassignment, buckets,
+or claim a fix for the background report that still needs reproduction.

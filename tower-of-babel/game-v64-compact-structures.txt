@@ -1,17 +1,9 @@
 // Compact inventory controls keep building art at its native 32-pixel size.
 function compactIconV64(kind){
+ if(['craft','info','wood','stone','dirt','deepslate'].includes(kind))return window.ButtonwoodArt.uiIcon(kind).toDataURL();
  const canvas=document.createElement('canvas');canvas.width=canvas.height=32;const g=canvas.getContext('2d');
  const r=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x,y,w,h)},ink='#272535',pale='#d2ded6',gold='#e3ba77';
- if(kind==='craft'){
-  r(10,17,3,10,ink);r(12,15,3,10,'#986b49');r(14,13,3,9,'#c79963');
-  r(9,8,15,7,ink);r(10,9,12,4,pale);r(18,12,5,4,'#899ba8');r(10,9,9,1,'#f0e9d3');
- }else if(kind==='info'){
-  r(12,6,8,2,ink);r(10,8,12,10,ink);r(11,9,10,7,gold);r(13,7,6,11,gold);
-  r(13,9,3,5,'#fff0be');r(14,17,4,4,'#a88a5f');r(13,21,6,2,pale);r(14,24,4,2,'#899ba8');
- }else if(kind==='wood'){
-  r(8,12,17,11,ink);r(10,10,12,3,ink);r(9,13,15,8,'#94603f');r(11,11,10,3,'#d7a45a');
-  r(10,14,2,6,'#e3ba77');r(14,14,1,6,'#54382e');r(19,13,2,8,'#54382e');r(21,14,2,5,'#c79963');
- }else if(kind==='ironIngot'||kind==='copperIngot'){
+ if(kind==='ironIngot'||kind==='copperIngot'){
   r(8,14,17,8,ink);r(11,11,12,4,ink);r(10,15,13,5,kind==='ironIngot'?'#9facb9':'#d29668');
   r(12,12,9,3,kind==='ironIngot'?pale:'#f2c391');r(10,15,12,1,kind==='ironIngot'?pale:'#f2c391');
  }else{
@@ -41,20 +33,16 @@ for(const [type,d] of Object.entries(STRUCTURES_V46)){
  row.setAttribute('role','group');row.setAttribute('aria-label',d.name);
  for(const cost of row.querySelectorAll('[data-material]'))cost.querySelector('img').src=compactIconV64(cost.dataset.material);
  const info=document.createElement('button');info.type='button';info.className='structureInfoV64';info.setAttribute('aria-label','More info about '+d.name);info.title=d.name+' · More info';
- const bulb=document.createElement('img');bulb.src=compactArtV64.info;bulb.alt='';info.append(bulb);
+ const arrow=document.createElement('img');arrow.src=compactArtV64.info;arrow.alt='';info.append(arrow);
  const details=document.createElement('section');details.className='structureDetailsV64';details.id='structure-details-'+type;details.hidden=true;
  const heading=document.createElement('strong');heading.textContent=d.name;
  const text=document.createElement('p');text.textContent=structureDetailsV64[type]||d.note;
  const placement=document.createElement('p');placement.textContent='Drag the building icon onto a supported '+d.w+' × '+d.h+' foundation.';
- details.append(heading,text,placement);info.setAttribute('aria-controls',details.id);info.setAttribute('aria-expanded','false');
- info.onclick=()=>{
-  const open=details.hidden;
-  for(const button of panelV48.querySelectorAll('.structureInfoV64'))button.setAttribute('aria-expanded','false');
-  for(const section of panelV48.querySelectorAll('.structureDetailsV64'))section.hidden=true;
-  details.hidden=!open;info.setAttribute('aria-expanded',String(open));
-  if(open)details.scrollIntoView({block:'nearest'});
- };
+ const content=document.createElement('div');content.className='structureDetailsContentV67';content.append(heading,text,placement);details.append(content);info.setAttribute('aria-controls',details.id);info.setAttribute('aria-expanded','false');
  row.append(info,details);
+ const disclosure=disclosureV67(info,details,{group:panelV48,scroll:panelV48});
+ info.onclick=()=>disclosure.set(!disclosure.open);
+
  const hammer=document.createElement('img');hammer.src=compactArtV64.craft;hammer.alt='';craft._compactIconV64=hammer;
 }
 function refreshCompactStructuresV64(){
