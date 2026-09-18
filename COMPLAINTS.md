@@ -1,14 +1,16 @@
 # Player complaints and requested improvements
 
 Logged: 2026-09-17. Source: player feedback in the mobile UI task.
-Implementation authorized in the subsequent complaint-fixing tasks; UI-001–UI-005
-and BUG-001 completed and verified on 2026-09-17. Remaining gameplay choices stay open.
+Implementation authorized in the subsequent complaint-fixing tasks. All nine
+original complaints and the additional mobile hold report are complete as of
+2026-09-18. The user delegated remaining gameplay choices and specified the
+five-iron bucket cost.
 
 ## How agents should use this log
 
-This is a backlog, not a record of completed implementation. The logging request
-explicitly authorizes documentation only; no gameplay or UI fixes were made as
-part of logging it. Implement items when a subsequent task authorizes that work.
+Active sections track unfinished work; the archive records completed work.
+The original logging request authorized documentation only. Implementation was
+authorized in subsequent tasks, including the remaining gameplay decisions.
 
 - Keep stable IDs. Use `Open`, `Investigating`, `In progress`, or `Blocked`.
 - Before implementation, read [AGENTS.md](AGENTS.md) and the
@@ -32,9 +34,22 @@ replacing it with a modal, tooltip, or unrelated information layout.
 
 ## Active complaints
 
+None. All requested items have been implemented, validated and archived below.
+
+## Archive
+
 ### UI-006 — Six-slot toolbar in two groups of three
 
-**Status:** Open · **Type:** Toolbar redesign · **Related:** UI-007, GAME-001
+**Status:** Completed · **Type:** Toolbar redesign · **Related:** UI-007, GAME-001
+
+**Completed:** 2026-09-18 · **Implementation commit:** `5c05918`
+
+**Result and validation:** Exactly six numbered slots in two groups on desktop
+and phones, including 320px portrait and 844px landscape. Real harvesting reproduces
+dirt → 4, leaves → 5, wood → 6; overflow never replaces assignments. Number keys
+1–6, retired 7–0, native 32px art, zero-stock behavior, shared duplicate counts,
+legacy migration and reloads pass automated Chrome and WebKit tests.
+See [validation evidence](tower-of-babel/buttonwood/qa/README.md#six-slot-toolbar-buckets-and-mobile-holds--september-18-2026).
 
 **Player request:** Split the toolbar into two groups of three, in this exact order:
 
@@ -74,14 +89,27 @@ This requires coordinated input, inventory, and UI work, not just CSS reordering
 - Preserve inventory quantities and existing saves; define migration of old worlds
   and persistence of chosen slot assignments.
 
-**Decisions to resolve:** What happens to a slot when its count reaches zero?
-How are already-owned items assigned on first load after migration? Can one type
-occupy more than one slot? How do non-mined acquisitions auto-fill empty slots?
-The player specified initial mining order but did not settle these edge cases.
+**Implemented decisions under the user's delegated authority:** Keep zero-stock
+assignments; allow duplicates backed by one shared inventory. A new type from any
+acquisition source fills the first empty slot. Clearing a slot does not backfill
+previously seen types. Legacy worlds lack acquisition history, so migrate owned
+types in Wood, Leaves, Dirt, Stone, Deepslate, Obsidian, Worker order. Persist chosen
+slots and seen types without changing existing inventory quantities. A fresh world
+still starts with three empty slots.
 
 ### UI-007 — Reassignable hotbar inventory and contextual tip
 
-**Status:** Open · **Type:** Inventory interaction · **Depends on:** UI-006
+**Status:** Completed · **Type:** Inventory interaction · **Depends on:** UI-006
+
+**Completed:** 2026-09-18 · **Implementation commit:** `5c05918`
+
+**Result and validation:** Double tap/click opens a bounded, toolbar-attached
+picker for all placeable block types, available Workers and empty/filled buckets.
+The one-time, top-layer tip uses device-appropriate wording. Single selection,
+keyboard choice, focus return, clear/close/cancel, inventory counts, touch scrolling,
+portrait/landscape bounds and save persistence pass in Chrome and WebKit. No world
+action or resource spend occurs while selecting or assigning items.
+See [the picker and gesture regression](tower-of-babel/tests/hotbar-browser.test.cjs).
 
 **Player request:** When inventory contains more than three block types, show a
 popup tip teaching slot reassignment. Use **“Double tap”** on mobile and
@@ -118,14 +146,27 @@ Keep the recently fixed long-press selection/menu suppression intact.
 - Preserve accessible/keyboard operation and keep fixed slots 1–3 dedicated to
   their tools.
 
-**Decisions to resolve:** Tutorial repeat/dismissal persistence; treatment of zero
-stock or unavailable Workers; selection of duplicate assignments; and a suitable
-accessible alternative to the double gesture. Worker eligibility must respect
-existing availability and progression rules.
+**Implemented decisions:** Persist the tutorial after it is shown once. Only
+owned items and unlocked, available Workers appear in the chooser; already assigned
+zero-stock slots remain. Duplicate assignments share counts. Focus a slot and press
+Enter/Space to open the chooser; Escape/Close returns focus. Clicking outside
+cancels, and an empty slot opens the chooser with one tap. Clear slot changes no
+inventory quantities.
 
 ### GAME-001 — Empty and liquid-filled buckets
 
-**Status:** Open · **Type:** New gameplay feature · **Related:** UI-006, UI-007
+**Status:** Completed · **Type:** New gameplay feature · **Related:** UI-006, UI-007
+
+**Completed:** 2026-09-18 · **Implementation commit:** `5c05918`
+
+**Result and validation:** Reusable buckets cost the requested five iron ingots.
+They collect exactly one world block's volume and pour into an empty world-grid
+square even with Grid off. Thirty transaction assertions per browser/context check
+quantity, type, capacity, occupancy, partial/mixed/disconnected sources, unchanged
+failed actions, reactions and solver conservation. Real mouse/touch roundtrips at
+1.35× zoom, negative coordinates, saved liquid/inventory, hold, drag, cancel and
+pinch checks pass. Generic liquid IDs keep future contents compatible with the
+picker and saves. See [bucket rules and test commands](tower-of-babel/tests/README.md#six-slot-inventory-and-buckets--v68).
 
 **Player request:** Add buckets. With an empty bucket selected in the toolbar,
 tapping liquid collects **one block of liquid**. With a filled bucket selected,
@@ -159,21 +200,37 @@ pointer handlers.
 - Verify collect/place roundtrips, invalid targets, insufficient liquid, reloads,
   and mobile tap/hold versus camera gestures.
 
-**Decisions to resolve before implementation:** How buckets are obtained or crafted,
-cost and unlock point, stacking limits, whether filling consumes an empty bucket
-and pouring returns it, and the rule for partial or mixed-liquid source cells.
-The player has not specified these economy and edge-case rules.
+**Implemented decisions:** Craft in the item picker for **5 iron ingots**, with
+no additional unlock or timer. Buckets stack by contents without a gameplay cap
+(safe integer counts are enforced). Filling converts one empty bucket into a
+filled bucket; pouring returns the empty bucket. The active slot follows that
+bucket's contents. Collect from the tapped liquid and connected cells of the same
+type until exactly four full solver-subcell units are available; partial cells may
+contribute, but other liquids and disconnected pools cannot. Require an entirely
+empty, unoccupied destination grid square. Unknown future bucket contents survive
+reloads and stay unpourable until their simulation type is registered.
 
-## Suggested implementation grouping
+### BUG-002 — Mobile holds highlight hidden text
 
-These are dependencies, not a player-approved priority ranking:
+**Status:** Completed · **Type:** Mobile browser input bug
 
-- UI-001–UI-005 are completed in the Archive below.
-- Design UI-006 and UI-007 together; include save and shortcut migration.
-- Coordinate GAME-001 with the hotbar item model, after resolving bucket rules.
-- BUG-001 is completed in the Archive with a confirmed fractional-zoom reproduction.
+**Completed:** 2026-09-18 · **Implementation commit:** `5c05918`
 
-## Archive
+**Player report:** Holding down on a mobile browser can select hidden UI text.
+
+**Finding and fix:** Previous menu/selection guards only ran when a coarse-pointer
+media query matched and did not protect the document root. Apply root and game
+selection/callout rules regardless of pointer configuration, cancel selection/menu
+and image-drag starts outside editable controls, and clear non-editable selection
+ranges. Legacy inventory hooks are hidden and inert, outside the six-slot toolbar.
+Do not cancel touch events needed for mining, camera gestures or panel scrolling.
+
+**Validation:** Chrome touch input covers sustained UI and bucket holds, cancellation,
+drag, pinch and inventory swipes; hidden-text selection remains empty. Chrome and
+WebKit cover root rules, selection-change guards and editable controls on desktop
+and phone layouts. Existing mobile/mining/crafting suites also pass. These are
+browser automation and visual checks on macOS; physical phones were unavailable.
+See [mobile QA evidence](tower-of-babel/buttonwood/qa/README.md#six-slot-toolbar-buckets-and-mobile-holds--september-18-2026).
 
 ### BUG-001 — Intermittent background clipping
 
