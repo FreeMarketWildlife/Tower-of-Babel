@@ -1,3 +1,13 @@
+# Git workflow
+
+- Work directly on `main` in this shared checkout. Do not create or switch to
+  feature branches or separate worktrees unless the user explicitly requests an
+  exception to this preference.
+- Keep changes in focused commits and run the relevant checks before pushing to
+  `origin/main`. Working on one branch does not replace integration verification.
+- Preserve existing local work. If remote changes conflict with local changes,
+  reconcile them without discarding work or force-pushing.
+
 # Art direction
 
 - Buttonwood is the selected direction. Follow
