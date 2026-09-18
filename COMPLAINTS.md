@@ -1,8 +1,8 @@
 # Player complaints and requested improvements
 
 Logged: 2026-09-17. Source: player feedback in the mobile UI task.
-Implementation authorized in the subsequent complaint-fixing task; UI-001–UI-005
-completed and verified on 2026-09-17. Remaining gameplay choices stay open.
+Implementation authorized in the subsequent complaint-fixing tasks; UI-001–UI-005
+and BUG-001 completed and verified on 2026-09-17. Remaining gameplay choices stay open.
 
 ## How agents should use this log
 
@@ -164,9 +164,39 @@ cost and unlock point, stacking limits, whether filling consumes an empty bucket
 and pouring returns it, and the rule for partial or mixed-liquid source cells.
 The player has not specified these economy and edge-case rules.
 
+## Suggested implementation grouping
+
+These are dependencies, not a player-approved priority ranking:
+
+- UI-001–UI-005 are completed in the Archive below.
+- Design UI-006 and UI-007 together; include save and shortcut migration.
+- Coordinate GAME-001 with the hotbar item model, after resolving bucket rules.
+- BUG-001 is completed in the Archive with a confirmed fractional-zoom reproduction.
+
+## Archive
+
 ### BUG-001 — Intermittent background clipping
 
-**Status:** Investigating · **Type:** Rendering bug · **Reproduction:** Not yet established
+**Status:** Completed · **Type:** Rendering bug · **Reproduction:** Fractional-zoom sky and hill seams
+
+**Completed:** 2026-09-17 · **Implementation commit:** `4b0c63f`
+
+**Confirmed finding:** At 1.15× zoom, separately antialiased sky-band rectangles
+exposed dark background pixels along shared edges; adjacent hill columns showed
+vertical seams. The captured 390 × 844, DPR 1 daytime case includes exact camera,
+clock, browser, and pixel readings in [reproduction evidence](tower-of-babel/buttonwood/qa/background-repro.json).
+
+**Fix and validation:** Composite the unchanged sky art at native world-pixel
+resolution, then scale it once with nearest-neighbor rendering. The new browser
+regression fails on the old renderer and passes the captured seam, 300 frame
+checks across viewport/density/zoom/lighting/camera combinations, real pinch and
+pan, 64 Top/Down transition frames, rotation, and resizing. The sky, terrain, and
+Buttonwood integration suites also pass, including save/sample isolation, camera
+and clock purity, unchanged collisions, and live simulation. Source and `dist/`
+match. See [before](tower-of-babel/buttonwood/qa/background-seams-before.png),
+[after](tower-of-babel/buttonwood/qa/background-seams-after.png), and
+[validation details](tower-of-babel/buttonwood/qa/README.md).
+
 
 **Player report:** Background visuals sometimes clip or glitch. Find and fix the
 cause so it no longer happens.
@@ -198,17 +228,6 @@ causes. Also inspect canvas resizing and camera transitions before choosing a fi
 - Add an appropriate targeted regression or visual comparison. Review
   [buttonwood-sky.test.cjs](tower-of-babel/tests/buttonwood-sky.test.cjs) and
   [buttonwood-browser.test.cjs](tower-of-babel/tests/buttonwood-browser.test.cjs).
-
-## Suggested implementation grouping
-
-These are dependencies, not a player-approved priority ranking:
-
-- UI-001–UI-005 are completed in the Archive below.
-- Design UI-006 and UI-007 together; include save and shortcut migration.
-- Coordinate GAME-001 with the hotbar item model, after resolving bucket rules.
-- Reproduce BUG-001 independently before planning its rendering fix.
-
-## Archive
 
 ### UI-001 — Professional Move and Pickaxe toolbar icons
 
