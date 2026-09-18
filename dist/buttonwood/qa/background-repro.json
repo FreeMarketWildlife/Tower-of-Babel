@@ -1,0 +1,64 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "deviceScaleFactor": 1,
+  "browser": "Chrome 153.0.8010.48",
+  "camera": {
+    "x": 0,
+    "y": -180,
+    "z": 1.15
+  },
+  "clock": {
+    "day": 1,
+    "phase": "day",
+    "elapsed": 90000
+  },
+  "render": "ordinary Buttonwood background; fractional in-game zoom",
+  "boundaryCSSY": 226.55,
+  "pixelX": 150,
+  "beforeRows": {
+    "225": [
+      202,
+      222,
+      208,
+      255
+    ],
+    "226": [
+      180,
+      189,
+      176,
+      255
+    ],
+    "227": [
+      207,
+      224,
+      207,
+      255
+    ]
+  },
+  "finding": "The seam pixel is darker than either neighboring band. Independently antialiased fillRect edges leave partial coverage over the cave base. Hills exhibit the same vertical seam artifact.",
+  "date": "2026-09-17",
+  "beforeCommit": "3b8c8a0",
+  "afterRows": {
+    "225": [
+      202,
+      222,
+      208,
+      255
+    ],
+    "226": [
+      202,
+      222,
+      208,
+      255
+    ],
+    "227": [
+      207,
+      224,
+      207,
+      255
+    ]
+  }
+}

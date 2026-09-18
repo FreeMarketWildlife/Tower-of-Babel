@@ -308,3 +308,21 @@ same motion; Building inventory, Workers & recipes, and About Homes remain
 independent. Top-level phone tabs, panels, and notifications keep their behavior.
 Collapsing content becomes inert immediately, and completed animations release
 the fixed height so text remains readable after content or viewport changes.
+
+## Background seams at fractional zoom
+
+Run `SKY_TEST_URL=http://127.0.0.1:8765/tower-of-babel/ node tower-of-babel/tests/background-browser.test.cjs`
+with Playwright and Chromium. `BACKGROUND_SCREENSHOT_DIR` optionally saves the
+background and rotated gameplay views. The regression checks the reproduced dark
+sky-band seam and vertical hill seams at 1.15× camera zoom, then verifies 300
+full-frame renders against the native sky's colors. It covers zoom .72–1.55,
+DPR 1/1.25/2/3 (the game caps rendering DPR at 2), desktop and phone viewports,
+all four lighting phases, negative camera positions, high sky, and underground.
+It also exercises real pinch/pan input, intermediate Top/Down transition frames,
+rotation, resize coverage, unchanged camera/clock data, and restored context state.
+
+`SKY_TEST_INTEGRATION` optionally supplies an old integration source. With the
+pre-fix `3b8c8a0:tower-of-babel/buttonwood/integration.txt`, the suite fails at the
+captured seam pixel. This isolates the regression to the renderer while retaining
+the same sky art. See the [reproduction evidence](../buttonwood/qa/background-repro.json)
+and [before/after review](../buttonwood/qa/README.md).

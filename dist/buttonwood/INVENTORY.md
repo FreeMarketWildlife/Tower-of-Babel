@@ -82,7 +82,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | `sky.js` | Continuous saved-clock sky colors, native scenery, twilight timing, and ambient light state. |
 | `environment.js` | Terrain, ore overlays, grass, optional garden cluster, and liquid ramps. |
 | `ui.js` | Cached native 32px tool icons, tier variants, disclosure arrow, and separately drawn square resource miniatures. |
-| `integration.txt` | Default-game render adapters, liquid drawing, isolated sample setup, comparison, and review hooks. |
+| `integration.txt` | Default-game render adapters, native sky compositing before camera zoom, liquid drawing, isolated sample setup, comparison, and review hooks. |
 | `sample.css` / `index.html` | Game theme, sample controls, and gallery. |
 | `reference/buttonwood-approved.png` | Approved concept reference, retained at original resolution. |
 | `qa/` | Rendered review evidence and validation records. |

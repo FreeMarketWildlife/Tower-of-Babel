@@ -139,14 +139,20 @@ drawMappedLiquids=function(now){
  ctx.drawImage(bwLiquidCanvas,screen.x,screen.y,width*cam.z,height*cam.z);ctx.restore();
 };
 
+// Composite scenery in native world pixels before the camera scales it. Painting
+// adjacent rectangles directly at fractional zoom exposes dark antialiased seams.
+const bwSkyCanvas=document.createElement('canvas'),bwSkyContext=bwSkyCanvas.getContext('2d');
 bg=function(){
  if(!bwEnabled)return bwOriginal.background();
  bwIndexTerrain();
  syncSkyAudioV62();const sky=bwSkyState();
  if($('bw-time'))$('bw-time').value=sky.phase;
- ctx.save();ctx.scale(cam.z,cam.z);
- bwArt.paintSky(ctx,{width:Math.ceil(W/cam.z),height:Math.ceil(HH/cam.z),ground:Math.round(w2s(0,0).y/cam.z),camX:cam.x,seconds:sky.seconds,day:settlementV55.day});
- ctx.restore();
+ const width=Math.ceil(W/cam.z),height=Math.ceil(HH/cam.z);
+ if(bwSkyCanvas.width!==width)bwSkyCanvas.width=width;
+ if(bwSkyCanvas.height!==height)bwSkyCanvas.height=height;
+ bwArt.paintSky(bwSkyContext,{width,height,ground:Math.round(w2s(0,0).y/cam.z),camX:cam.x,seconds:sky.seconds,day:settlementV55.day});
+ ctx.save();ctx.globalAlpha=1;ctx.imageSmoothingEnabled=false;
+ ctx.drawImage(bwSkyCanvas,0,0,width*cam.z,height*cam.z);ctx.restore();
 };
 
 const bwSceneDetails=drawGoldBursts;

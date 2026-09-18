@@ -169,3 +169,48 @@ Review evidence (screenshots show rendered states; animation is tested in-browse
 The gallery includes a dedicated native-size tools and pocket-block section.
 This batch does not implement the six-slot hotbar, item reassignment, buckets,
 or claim a fix for the background report that still needs reproduction.
+
+## BUG-001 — fractional-zoom background seams, September 17, 2026
+
+**Reproduced and fixed locally.** At a 390 × 844 viewport, DPR 1, camera
+`{x: 0, y: -180, z: 1.15}`, and daytime elapsed 90,000ms, the old background
+shows thin horizontal dark lines between sky bands and vertical lines between
+hill columns. The deterministic fixture sets those values in ordinary gameplay;
+the regression also exercises real two-finger zoom, panning, and camera buttons.
+Exact browser, coordinates, and pixel readings are in [background-repro.json](background-repro.json).
+
+**Confirmed cause:** integer sky rectangles were drawn directly through a
+fractional camera transform. Each edge received partial antialias coverage.
+Adjacent sky bands therefore left dark cave color visible between them; adjacent
+hill columns mixed with the lighter sky behind them. At the captured band seam,
+RGB `[180,189,176]` is darker than either adjoining band, `[202,222,208]` and
+`[207,224,207]`. This is a rendering seam, not intentional underground occlusion
+or missing canvas coverage.
+
+**Fix:** paint the existing scenery into one reusable canvas at one world unit
+per art pixel, then apply camera zoom once with nearest-neighbor compositing.
+The captured middle pixel is now `[202,222,208]`, and hill columns meet cleanly.
+The painter, palette, scenery geometry, clocks, world scale, and camera behavior
+are unchanged. The temporary canvas resizes with the viewport and zoom.
+
+- [Before: sky and hill seams](background-seams-before.png)
+- [After: identical background, clean joins](background-seams-after.png)
+- [Ordinary gameplay after the fix](background-game-after.png)
+- [Landscape sunset after rotation](background-landscape-after.png)
+
+Validation passed:
+
+- `background-browser.test.cjs`: rejects the old renderer, passes the captured
+  seam and 300 full-frame native-color/coverage checks across five viewport and
+  density combinations, five zoom levels, four phases, and three camera positions.
+- Real pinch and touch pan, 64 intermediate Top/Down frames, rotation and resize;
+  camera/clock purity and canvas transform/alpha/smoothing restoration.
+- `buttonwood-sky.test.cjs` and `buttonwood-terrain.test.cjs`: lighting continuity,
+  underground clipping, native geometry, connected terrain, and state purity.
+- `buttonwood-browser.test.cjs`: saves, sample isolation, native assets, unchanged
+  collision envelopes, liquid render purity, and live simulation (73 frames in
+  1,203ms in the local smoke check).
+
+This fixes the reproduced zoom-dependent artifact. A visually different future
+background report should receive its own reproduction rather than being assumed
+to have the same cause.
