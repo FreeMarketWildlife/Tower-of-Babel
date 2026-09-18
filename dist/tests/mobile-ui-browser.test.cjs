@@ -49,7 +49,7 @@ const url=process.env.SKY_TEST_URL||'http://127.0.0.1:8765/tower-of-babel/';
   console.log('PASS touch hold, selection/menu suppression on game UI, and editable control exceptions');
 
   await page.setViewportSize({width:390,height:844});await page.evaluate(()=>mobileTest.unlock());
-  assert.equal(await page.locator('#phoneVillage').isVisible(),true);assert.equal(await page.locator('#stoneSlot').isVisible(),true);
+  assert.equal(await page.locator('#phoneVillage').isVisible(),true);assert.equal(await page.locator('#bar .slot').count(),6);
   await page.locator('#phoneVillage summary').click();assert.ok((await page.locator('#workerClock').innerText()).includes('need a home'));await bounded('#phoneVillage .phoneContent');await shot('village');
   for(const type of ['workshop','forge','blacksmith','storehouse','home']){
    await page.evaluate(type=>mobileTest.building(type),type);const panel=type==='home'?'#homePanel':'#buildingPanel';await bounded(panel);await shot(type);

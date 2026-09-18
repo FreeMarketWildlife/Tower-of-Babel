@@ -63,15 +63,15 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   console.log('PASS trees fall when soil is removed and harvested trees stay removed after reload');
   await page.evaluate(()=>{treeTest.reset();treeTest.inv.wood=3;treeTest.inv.leaves=3;treeTest.render()});
   for(const [material,x] of [['wood',-112],['leaves',-80]]){
-   await page.locator('[data-tool='+material+']').click();const p=await page.evaluate(([x,y])=>treeTest.screen(x,y),[x,-240]);await page.mouse.click(p.x,p.y);
+   await page.locator('#bar [data-item='+material+']').click();const p=await page.evaluate(([x,y])=>treeTest.screen(x,y),[x,-240]);await page.mouse.click(p.x,p.y);
    assert.equal(await page.evaluate(m=>treeTest.inv[m],material),2);
    assert.equal(await page.evaluate(m=>[...treeTest.bs].filter(z=>z.game.placed&&z.game.material===m).length,material),1);
   }
   await page.evaluate(()=>{for(let i=0;i<180;i++)treeTest.update(i*1000/60);treeTest.save()});await load();
   assert.equal(await page.evaluate(()=>[...treeTest.bs].filter(z=>z.game.placed&&z.game.material==='leaves').length),1);
   console.log('PASS toolbar placement and persistence for wood and leaves; placed leaves do not decay');
-  await page.setViewportSize({width:390,height:844});await page.locator('[data-tool=leaves]').scrollIntoViewIfNeeded();await page.evaluate(()=>treeTest.render());await page.screenshot({path:'/tmp/sky-trees-mobile.png'});
-  const box=await page.locator('[data-tool=leaves]').boundingBox();assert.ok(box.x>=0&&box.x+box.width<=390);
+  await page.setViewportSize({width:390,height:844});await page.locator('#bar [data-item=leaves]').scrollIntoViewIfNeeded();await page.evaluate(()=>treeTest.render());await page.screenshot({path:'/tmp/sky-trees-mobile.png'});
+  const box=await page.locator('#bar [data-item=leaves]').boundingBox();assert.ok(box.x>=0&&box.x+box.width<=390);
   assert.deepEqual(errors,[]);console.log('PASS mobile toolbar access and no game runtime errors');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

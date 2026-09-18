@@ -16,7 +16,7 @@
   const cg=c.getContext('2d');cg.drawImage(A.tile(material==='copperOre'?'stone':material),0,0);if(material==='copperOre')cg.drawImage(A.ore('copperOre'),0,0);
   const caption=document.createElement('figcaption');caption.textContent=material==='copperOre'?'Copper ore':material[0].toUpperCase()+material.slice(1);figure.append(c,caption);document.getElementById('materials').append(figure);
  }
- for(const [kind,tier,label] of [['move',0,'Move'],['pick',0,'Stone'],['pick',1,'Iron'],['pick',2,'Steel'],['pick',3,'Titanium'],['craft',0,'Craft'],['info',0,'Details'],['wood',0,'Wood'],['stone',0,'Stone block'],['dirt',0,'Dirt'],['deepslate',0,'Deepslate']]){
+ for(const [kind,tier,label] of [['move',0,'Move'],['pick',0,'Stone'],['pick',1,'Iron'],['pick',2,'Steel'],['pick',3,'Titanium'],['craft',0,'Craft'],['info',0,'Details'],['wood',0,'Wood'],['stone',0,'Stone block'],['dirt',0,'Dirt'],['deepslate',0,'Deepslate'],['leaves',0,'Leaves'],['obsidian',0,'Obsidian'],['bucket',0,'Empty bucket'],['bucket','water','Water bucket'],['bucket','lava','Lava bucket']]){
   const figure=document.createElement('figure'),icon=A.uiIcon(kind,tier),caption=document.createElement('figcaption');
   icon.setAttribute('role','img');icon.setAttribute('aria-label',label);caption.textContent=label;figure.append(icon,caption);document.getElementById('ui-icons').append(figure);
  }

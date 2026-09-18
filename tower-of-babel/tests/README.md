@@ -182,7 +182,7 @@ and actual Web Audio subdivision timing and hi-hat filter/grouping behavior.
 
 Selecting the pickaxe from another tool equips the last-used pick. Clicking the
 already-selected pickaxe toggles its inventory. WASD and arrow keys pan the camera
-at a consistent screen speed. Number keys 1–0 activate toolbar slots left to right,
+at a consistent screen speed. Number keys 1–6 activate the six toolbar slots left to right,
 using their normal availability rules. Shift temporarily selects Grab and restores
 the previous tool on release; release also cancels the active drag. Focus loss
 clears held keys, and shortcuts do not intercept form input or modal dialogs.
@@ -326,3 +326,50 @@ pre-fix `3b8c8a0:tower-of-babel/buttonwood/integration.txt`, the suite fails at 
 captured seam pixel. This isolates the regression to the renderer while retaining
 the same sky art. See the [reproduction evidence](../buttonwood/qa/background-repro.json)
 and [before/after review](../buttonwood/qa/README.md).
+
+
+## Six-slot inventory and buckets — v68
+
+The toolbar has Pickaxe, Move, Structures, then three assignable inventory slots.
+Newly acquired types fill the first empty slot, in acquisition order. Overflow
+stays in inventory; repeat acquisitions only change counts. Slots keep their
+assignment at zero stock. Double click/tap slots 4–6 to choose an item, or focus a
+slot and press Enter/Space. An empty slot opens the chooser on a single press.
+Escape/Close returns focus; clicking outside dismisses. Keys 7–0 have no action.
+
+Assignments share inventory: duplicates do not duplicate resources. Only owned
+items and available, unlocked Workers appear in the chooser. Clearing a slot
+leaves it available for the next previously unseen acquisition. Both mining and
+non-mining acquisitions follow this rule. Legacy saves have no acquisition
+history, so they use Wood, Leaves, Dirt, Stone, Deepslate, Obsidian, then Workers
+for their first three owned types. Assignments, seen types and the one-time
+four-block-type tutorial persist in the additive `hotbarV68` save field. Infinite
+resources do not become real acquisitions. Both ordinary and sample saves retain
+their original, separate keys.
+
+Craft a bucket directly in this chooser for **five iron ingots**, with no extra
+unlock or timer. Buckets stack by contents and are reusable. Filling transfers
+exactly one 32 × 32 world block (four full 16px solver cells) from the clicked
+liquid and its connected same-type pool. Partial cells may contribute; different
+liquids and disconnected pools cannot. Insufficient quantity changes nothing.
+Pouring requires a wholly empty, unoccupied world grid square and always snaps,
+even with Grid off. The active slot follows the used bucket's new contents.
+Other assignments stay put. A hold acts once on release; dragging, cancellation
+and pinch do nothing to the bucket. Unknown future bucket types survive saves;
+register their liquid ID and simulation support before enabling collection/pour.
+
+Run `node tower-of-babel/tests/hotbar-browser.test.cjs` with Playwright and a local
+server (`SKY_TEST_URL`, default port 8774). Set `SKY_TEST_ENGINE=webkit` for WebKit;
+Chromium uses `SKY_TEST_BROWSER` when provided. `HOTBAR_SCREENSHOT_DIR` optionally
+captures desktop and 320/390/430px portrait plus 844px landscape views. The suite
+covers real harvesting order, reassignment and counts, migration/reload, keyboard
+access, native art/palette, five-ingot crafting, failed transaction purity, exact
+liquid volume/type, negative grid targeting at 1.35× zoom, obsidian reactions,
+solver conservation, real mouse/touch roundtrips, and picker bounds. Chromium
+also sends sustained touch holds, drag, cancellation, pinch and picker swipes.
+
+Root CSS and selection/menu/drag guards suppress browser text selection on all
+pointer configurations, including mobile desktop-site mode and hidden legacy UI.
+Inputs, textareas, selects and contenteditable controls retain editing. Chrome
+and WebKit checks cover these exceptions; Chrome exercises real touch holds.
+These are automated browser tests, not a claim of physical iPhone/Android QA.

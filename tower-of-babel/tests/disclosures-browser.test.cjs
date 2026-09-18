@@ -125,7 +125,7 @@ const url=process.env.SKY_TEST_URL||'http://127.0.0.1:8765/tower-of-babel/';
   gallery.on('pageerror',e=>errors.push(e.message));
   await gallery.goto(new URL('buttonwood/',url).href);
   await gallery.waitForSelector('#ui-icons canvas');
-  assert.equal(await gallery.locator('#ui-icons canvas').count(),11);
+  assert.equal(await gallery.locator('#ui-icons canvas').count(),16);
   if(process.env.UI_SCREENSHOT_DIR)await gallery.locator('section[aria-labelledby="tools-heading"]').screenshot({path:process.env.UI_SCREENSHOT_DIR+'/native-ui-gallery.png'});
   await gallery.goto(new URL('tests/art.html',url).href);await gallery.waitForTimeout(500);
   assert.ok(!(await gallery.locator('main>p').first().innerText()).includes('undefined'));

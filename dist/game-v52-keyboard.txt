@@ -3,7 +3,7 @@ const panKeysV52=new Set(),shiftKeysV52=new Set();
 let temporaryGrabV52=false,returnToolV52=null,keyboardLastV52=null;
 function keyboardBlockedV52(){
  const el=document.activeElement;
- return !!(el&&(el.matches('input,textarea,select,[role="textbox"]')||el.isContentEditable))||!!document.querySelector('dialog:modal,.modal.show');
+ return !!(el&&(el.matches('input,textarea,select,[role="textbox"]')||el.isContentEditable))||!!document.querySelector('dialog:modal,.modal.show,#itemPickerV68[open]');
 }
 function markToolV52(){document.querySelectorAll('#bar .slot[data-tool]').forEach(b=>b.classList.toggle('sel',b.dataset.tool===tool))}
 function stopPointerV52(){
@@ -28,8 +28,8 @@ document.addEventListener('keydown',e=>{
  if(e.ctrlKey||e.metaKey||e.altKey||keyboardBlockedV52())return;
  if(e.code==='ShiftLeft'||e.code==='ShiftRight'){e.preventDefault();shiftKeysV52.add(e.code);startGrabV52();return}
  if(directionCodesV52.has(e.code)){e.preventDefault();panKeysV52.add(e.code);return}
- const digit=/^Digit([0-9])$/.exec(e.code);if(!digit||e.repeat)return;
- e.preventDefault();const index=digit[1]==='0'?9:Number(digit[1])-1,button=$('bar').querySelectorAll('.slot')[index];if(!button)return;
+ const digit=/^Digit([1-6])$/.exec(e.code);if(!digit||e.repeat)return;
+ e.preventDefault();const index=Number(digit[1])-1,button=$('bar').querySelectorAll('.slot')[index];if(!button)return;
  const held=temporaryGrabV52;endGrabV52();stopPointerV52();
  $('structuresPanel').close();if(button!==pickButtonV49)$('pickaxeShop').close();
  button.click();button.scrollIntoView({block:'nearest',inline:'nearest'});

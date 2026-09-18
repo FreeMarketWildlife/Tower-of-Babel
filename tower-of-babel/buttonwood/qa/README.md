@@ -214,3 +214,54 @@ Validation passed:
 This fixes the reproduced zoom-dependent artifact. A visually different future
 background report should receive its own reproduction rather than being assumed
 to have the same cause.
+
+## Six-slot toolbar, buckets and mobile holds — September 18, 2026
+
+The remaining UI-006, UI-007 and GAME-001 requests are implemented together.
+Slots 1–3 are Pickaxe, Move and Structures; 4–6 hold assigned inventory items.
+The attached picker supports blocks, available Workers and empty/filled buckets.
+Crafting a reusable bucket costs five iron ingots. The full acquisition, migration,
+zero-stock, duplicate, crafting and liquid rules are in the [test notes](../../tests/README.md#six-slot-inventory-and-buckets--v68).
+
+Visual review at native icon size:
+
+- [Desktop toolbar](v68-hotbar-desktop.png)
+- [390px phone toolbar](v68-hotbar-phone.png)
+- [320px inventory picker](v68-inventory-phone.png)
+- [Landscape inventory picker](v68-inventory-landscape.png)
+- [WebKit 320px phone](v68-webkit-phone.png)
+- [Native item art gallery](v68-native-items.png)
+
+Automated validation passed locally in Chrome 153 and Playwright WebKit 26.5:
+
+- `hotbar-browser.test.cjs` in both engines, desktop and touch contexts: six
+  numbered slots, real harvest acquisition order, overflow, duplicates, zero
+  stock, Worker eligibility, keyboard access/focus, persistence, old-save
+  migration, future bucket IDs, all new icons at 32px with named-palette opaque
+  pixels, and portrait/landscape panel bounds.
+- Thirty bucket transaction assertions per context: five-ingot crafting,
+  insufficient supplies, one-block volume, partial/mixed/disconnected sources,
+  blocked/unloaded/out-of-world/occupied destinations, negative coordinates,
+  grid-off placement, reusable buckets, obsidian reactions, and conservative
+  solver updates. Real mouse and touch roundtrips at 1.35× zoom survive reloads.
+- Chrome sends actual touch input for 950ms bucket holds, 900ms UI holds, dragging,
+  cancellation, two-finger zoom and picker scrolling. Only an unmoved release
+  uses the bucket. Pinch/drag/cancel leave resources unchanged.
+- Root selection rules apply without a coarse-pointer condition. Context menus,
+  selection starts and browser image dragging are suppressed outside editable
+  controls; selection changes clear non-editable ranges. Hidden legacy controls
+  are inert and removed from toolbar/shortcut enumeration. Input editing remains
+  available. WebKit does not emit `selectionchange` for wholly hidden DOM ranges,
+  so the suite checks both empty visible selection and the guard's explicit event.
+- Existing browser regressions passed: Keyboard, Mobile UI, Disclosures, Trees,
+  Pickaxe, Structures, Storehouses, Player crafting, Crafting inventory, Infinite
+  resources, Workers, Industry, Buttonwood integration and Background. The
+  Infinite resources test now advances its 1.5-second craft explicitly instead
+  of depending on incidental browser delays.
+- Liquid, Buttonwood terrain and Buttonwood sky unit regressions passed, including
+  production bundle compilation and liquid save/reaction checks.
+
+These are isolated automated browser runs and visual reviews on macOS, including
+mobile viewport/touch emulation. Physical iPhone and Android hardware was not
+available. Ordinary and optional sample saves remain isolated; source and `dist/`
+are synchronized.

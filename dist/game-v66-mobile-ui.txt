@@ -1,9 +1,12 @@
-// Suppress long-press browser menus without cancelling touch, scroll or mining events.
-const touchUiV66=matchMedia('(any-pointer: coarse)');
-for(const type of ['contextmenu','selectstart'])document.addEventListener(type,event=>{
- const target=event.target instanceof Element?event.target:event.target.parentElement;
- if(touchUiV66.matches&&target&&!target.closest('input,textarea,select')&&!target.isContentEditable)event.preventDefault();
+// Root-level guards also cover hybrid devices, desktop-site mode and hidden UI.
+// Do not cancel touch events: mining, camera gestures and native panel scroll need them.
+function editableUiV66(node){const el=node instanceof Element?node:node?.parentElement;return !!el&&(el.matches('input,textarea,select')||el.isContentEditable)}
+for(const type of ['contextmenu','selectstart','dragstart'])document.addEventListener(type,event=>{
+ if(!editableUiV66(event.target))event.preventDefault();
 },{capture:true});
+document.addEventListener('selectionchange',()=>{
+ const selection=getSelection();if(selection&&selection.rangeCount&&!editableUiV66(selection.anchorNode)&&(!editableUiV66(document.activeElement)||!selection.isCollapsed))selection.removeAllRanges();
+});
 // Phone UI shares one bounded panel area; gameplay and saved progression are unchanged.
 const phoneMediaV66=matchMedia('(max-width: 600px), (max-height: 500px) and (pointer: coarse)');
 const phoneRootV66=document.createElement('div');phoneRootV66.id='phoneHud';phoneRootV66.hidden=true;
@@ -96,7 +99,7 @@ new ResizeObserver(phoneBoundsV66).observe(phoneRootV66);
 new ResizeObserver(phoneBoundsV66).observe($('bar'));
 window.visualViewport?.addEventListener('resize',phoneBoundsV66);window.visualViewport?.addEventListener('scroll',phoneBoundsV66);
 addEventListener('resize',phoneBoundsV66);
-document.addEventListener('pointerdown',e=>{if(phoneActiveV66()&&(e.target===c||(e.target.closest('#bar')&&!e.target.closest('#structuresOpen,[data-tool=pick]'))))closePhonePanelsV66()},{capture:true});
+document.addEventListener('pointerdown',e=>{if(phoneActiveV66()&&(e.target===c||(e.target.closest('#bar')&&!e.target.closest('#structuresOpen,[data-tool=pick],[data-hotbar-slot]'))))closePhonePanelsV66()},{capture:true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&phoneActiveV66()){const open=phoneSectionsV66.find(s=>s.open);closePhonePanelsV66();open?.querySelector('summary').focus()}});
 for(const id of phoneDialogsV66){const panel=$(id);if(panel)new MutationObserver(()=>{
  if(panel.open&&phoneActiveV66())closePhonePanelsV66(panel);

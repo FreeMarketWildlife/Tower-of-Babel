@@ -101,6 +101,7 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v64-compact-structures.txt?v=67'))+'\n'+marker);
     tail=tail.replace(marker,(await read('buttonwood/integration.txt'))+'\n'+marker+'\nbuttonwoodBoot();');
     tail=tail.replace(marker,(await read('game-v66-mobile-ui.txt?v=67'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v68-hotbar.txt?v=68'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

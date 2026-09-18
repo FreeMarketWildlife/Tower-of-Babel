@@ -31,7 +31,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | Water / lava | Shared three-color ramps and a renderer using one-world-unit pixels. | Review pools, falls, joins, depth, interaction boundaries, and sustained motion. Solver is unchanged. |
 | Garden accent | Small native greenery/flower cluster helper in `environment.js`. | Optional scene decoration; placement is not a general vegetation migration. |
 | Scenery / light | Smooth 30-second sunrise and sunset, native sky bands, clouds, hills, sun/moon/stars, ambient world tint, and warm building lights. Uses the existing 240-second saved clock. | Preserve twilight warmth and underground contrast; weather/depth expansion remains separate. |
-| UI | Warm styling, Worker art, native portraits and 32px miniatures for all five buildings, terrain swatches, and separately drawn Move glove, four pickaxe tiers, Craft hammer, disclosure chevron, and square wood/stone/dirt/deepslate miniatures. | New control family reviewed at native size on desktop and phone (September 17, 2026); unlisted controls and currency retain existing art. Village/Industry/Mine views and time preview remain sample-only. |
+| UI | Warm styling, Worker art, native portraits and 32px miniatures for all five buildings, terrain swatches, and separately drawn Move glove, four pickaxe tiers, Craft hammer, disclosure chevron, and square wood/stone/dirt/deepslate/leaves/obsidian miniatures, and empty/water/lava buckets. | Controls and six-slot inventory reviewed at native size on desktop and phone (September 18, 2026); unlisted controls and currency retain existing art. Village/Industry/Mine views and time preview remain sample-only. |
 
 ## Explicitly deferred
 

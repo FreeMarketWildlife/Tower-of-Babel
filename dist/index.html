@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="style-v46-structures.css?v=61">
   <link rel="stylesheet" href="style-v64-compact-structures.css?v=67">
   <link rel="stylesheet" href="style-v66-mobile-ui.css?v=67">
+  <link rel="stylesheet" href="style-v68-hotbar.css?v=68">
 </head>
 <body>
 <div id="app">
@@ -59,7 +60,7 @@
     <div class="tipsGroups">
       <details open><summary>TO THE HEAVENS <span>Your purpose</span></summary><div class="tipBody"><p>Stack a tower to the heavens and declare war on God. Mine the earth, marshal your workers, and build higher with every hard-won block.</p></div></details>
       <details open><summary>CONTROLS <span>Move, zoom, camera</span></summary><div class="tipBody">
-        <p><b>MOVE</b> drags around safely. Pinch to zoom.</p><p><b>WASD / ARROWS</b> pan the map. Hold <b>SHIFT</b> for temporary Grab; release to restore your tool and stop dragging. <b>1–0</b> access toolbar slots from left to right.</p><p>Select the pickaxe to equip your last pick. Click it again to choose another.</p><p><b>TOP / DOWN</b> jump between your tower and mine.</p><p><b>GRID</b> switches between snapped and free placement.</p>
+        <p><b>MOVE</b> drags around safely. Pinch to zoom.</p><p><b>WASD / ARROWS</b> pan the map. Hold <b>SHIFT</b> for temporary Grab; release to restore your tool and stop dragging. <b>1–6</b> select toolbar slots. Double click or double tap slots 4–6 to change items; focus a slot and press Enter to choose with a keyboard.</p><p>Select the pickaxe to equip your last pick. Click it again to choose another.</p><p><b>TOP / DOWN</b> jump between your tower and mine.</p><p><b>GRID</b> switches between snapped and free placement.</p>
       </div></details>
       <details><summary>MINING &amp; BUILDING <span>Blocks, workers, records</span></summary><div class="tipBody">
         <p>Tap exposed blocks to mine. Buried blocks must touch open space.</p><p>Open the pickaxe toolbar tab to buy or equip a pick: Iron 2×2 costs 5 gold, Steel 3×3 costs 20, and Titanium 4×4 costs 50. Drag or hold with any pick to mine its square on sixteenth-note ticks. Owned picks can be equipped at any time. Use MOVE to pan.</p><p>Workers prioritize blocks within reach and use ladders to leave deep mines. They keep earlier mining abilities when upgraded: level 1 mines dirt, level 2 adds stone, and level 3 adds deepslate. Dirt hits on beats 1 and 3; stone on 2 and 4; deepslate on the “and” after 2 and 4.</p><p>Height records must stay stable for 3 seconds before they count.</p>
@@ -68,10 +69,10 @@
         <p>Workers drown after 5 seconds with their head underwater, or burn after a short stay in lava. Watch their air and heat bars.</p><p>Their ghosts sway upward with a spooky melody. Tap a ghost with any tool to revive the Worker right there in a burst of pixels, keeping its level and pocket gold.</p><p>Revived Workers have a brief protective shield. Ghosts wait above the world and save with your game. Gold claimed through the Worker menu stays in your inventory.</p>
       </div></details>
       <details><summary>INDUSTRY <span>Ore deposits and smelting</span></summary><div class="tipBody">
-        <p>Coal, iron, and copper pockets are visible inside rock, even before digging. Ore never forms in dirt. Expose a side, then break the rock to collect both resources. Workers can mine deposits when they can mine the base rock.</p><p>Craft a Workshop in STRUCTURES for 5 wood, 5 dirt, and 10 stone. Drag it from the house icon in the toolbar onto a fully supported foundation. Click a placed building to open its shop. Workshops craft Forges and Blacksmiths; Forges smelt one ore + one coal into an ingot; Blacksmiths turn one iron ingot into 10 nails.</p><p>Finished structures go into STRUCTURES; other products go into your inventory. Turn NAILS ON to place fixed blocks at one nail per block, adjacent to world or nailed blocks. Buildings need fixed blocks across their entire base. Pack buildings away before removing their supports. Production pauses while you are away.</p>
+        <p>Coal, iron, and copper pockets are visible inside rock, even before digging. Ore never forms in dirt. Expose a side, then break the rock to collect both resources. Workers can mine deposits when they can mine the base rock.</p><p>Craft a Workshop in STRUCTURES for 5 wood, 5 dirt, and 10 stone. Drag it from the house icon in the toolbar onto a fully supported foundation. Click a placed building to open its shop. Workshops craft Forges and Blacksmiths; Forges smelt one ore + one coal into an ingot; Blacksmiths turn one iron ingot into 10 nails.</p><p>Craft a reusable bucket in the item picker for 5 iron ingots. An empty bucket collects one block from a connected pool; a filled bucket pours into an empty grid square. Water and lava stay separate.</p><p>Finished structures go into STRUCTURES; other products go into your inventory. Turn NAILS ON to place fixed blocks at one nail per block, adjacent to world or nailed blocks. Buildings need fixed blocks across their entire base. Pack buildings away before removing their supports. Production pauses while you are away.</p>
       </div></details>
       <details><summary>TREES <span>Wood, leaves, falling trunks</span></summary><div class="tipBody">
-        <p>Wood takes two hits to chop. Every trunk block above the cut falls with gravity; you can mine the fallen logs too.</p><p>Unsupported leaves disappear in 1–2 seconds. Mine them first to collect leaf blocks.</p><p>Use WOOD and LEAVES in the toolbar to build. Placed leaf blocks stay put. On phones, swipe the toolbar to see every material.</p>
+        <p>Wood takes two hits to chop. Every trunk block above the cut falls with gravity; you can mine the fallen logs too.</p><p>Unsupported leaves disappear in 1–2 seconds. Mine them first to collect leaf blocks.</p><p>Select blocks in slots 4–6 to build. Placed leaf blocks stay put. Double tap or double click an item slot to choose from your inventory.</p>
       </div></details>
       <details><summary>LIQUIDS &amp; SECRETS <span>Water, lava, discoveries</span></summary><div class="tipBody">
         <p>Dirt floats in water. Stone and deepslate sink.</p><p>Water touching lava cools into solid obsidian.</p><p>No spoilers—valuable things can hide where you least expect them.</p>
@@ -146,7 +147,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
 <script src="audio.js?v=63"></script>
-<script src="game-v28.js?v=67"></script>
+<script src="game-v28.js?v=68"></script>
 <script>
 for(const [id,label,fn] of [['musicToggle','MUSIC', 'setMusicEnabled'],['sfxToggle','SFX','setSfxEnabled']])document.getElementById(id).addEventListener('click',async()=>{await window.SkyAudio?.ensure();const on=window.SkyAudio?.[fn](!document.getElementById(id).matches('[aria-pressed=true]'));const b=document.getElementById(id);b.setAttribute('aria-pressed',on);b.textContent=(label==='MUSIC'?'♫ ':'♪ ')+label+' '+(on?'ON':'OFF')});
 </script>

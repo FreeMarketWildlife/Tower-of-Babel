@@ -62,10 +62,25 @@
         r(8+i,12+i,2,2,P.woodLight); r(22-i,12+i,2,2,P.woodLight);
       }
       r(14,17,4,4,P.outline); r(14,17,4,2,P.woodLight);
-    } else if (['wood','dirt','stone','deepslate'].includes(kind)) {
+    } else if (kind === 'bucket') {
+      // Upright iron pail, arched handle, broad rim and distinct liquid surfaces.
+      r(9,5,14,2,P.outline); r(7,7,2,11,P.outline); r(23,7,2,11,P.outline);
+      r(10,6,12,1,P.stoneLight); r(8,8,1,8,P.stoneLight); r(23,8,1,8,P.stone);
+      r(5,13,22,4,P.outline); r(6,17,20,7,P.outline); r(8,24,16,4,P.outline);
+      r(7,17,18,6,P.stone); r(9,23,14,4,P.stoneShade);
+      r(8,17,3,7,P.stoneLight); r(11,25,9,1,P.stone); r(22,18,2,5,P.stoneShade);
+      r(6,14,20,2,P.creamLight); r(8,13,16,2,P.deepShade);
+      if(tier){
+        const water=tier==='water',lava=tier==='lava';
+        r(8,13,16,2,water?P.water:lava?P.lava:P.mint);
+        r(9,13,8,1,water?P.waterLight:lava?P.lavaLight:P.mintLight);
+        r(14,19,6,3,water?P.waterShade:lava?P.lavaShade:P.mintShade);
+        r(15,18,4,3,water?P.water:lava?P.lava:P.mint);
+      }
+    } else if (['wood','dirt','stone','deepslate','leaves','obsidian'].includes(kind)) {
       const [shade,base,light] = {wood:[P.woodShade,P.wood,P.woodLight],
         dirt:[P.dirtShade,P.dirt,P.dirtLight], stone:[P.stoneShade,P.stone,P.stoneLight],
-        deepslate:[P.deepShade,P.deep,P.deepLight]}[kind];
+        deepslate:[P.deepShade,P.deep,P.deepLight], leaves:[P.grassShade,P.grass,P.grassLight], obsidian:[P.ink,P.deepShade,P.deepLight]}[kind];
       r(4,4,24,24,shade); r(5,5,22,22,base);
       r(5,5,21,1,light); r(5,6,1,20,light);
       r(26,7,1,20,shade); r(7,26,19,1,shade);
@@ -78,6 +93,12 @@
         r(8,10,8,2,shade); r(10,12,9,2,shade); r(9,9,5,1,light);
         r(18,18,6,3,shade); r(16,19,7,1,shade); r(18,17,4,1,light);
         r(8,22,4,2,light); r(9,21,2,1,light);
+      } else if (kind === 'leaves') {
+        r(7,9,9,4,light);r(16,8,7,3,light);r(11,16,10,3,shade);
+        r(8,21,6,3,light);r(19,22,5,2,shade);r(20,13,4,3,light);
+      } else if (kind === 'obsidian') {
+        r(8,8,9,2,light);r(7,10,4,3,light);r(18,11,2,9,shade);
+        r(10,17,5,7,shade);r(19,22,5,2,light);
       } else if (kind === 'stone') {
         r(8,10,9,2,light); r(7,12,3,2,light);
         r(10,17,10,2,shade); r(19,14,2,4,shade);

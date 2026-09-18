@@ -18,7 +18,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   await page.locator('[data-tool=move]').click();await page.locator('[data-tool=pick]').click();
   assert.deepEqual(await page.evaluate(()=>[keysTest.state.tool,keysTest.state.tier,document.getElementById('pickaxeShop').open]),['pick',2,false]);
   await page.locator('[data-tool=pick]').click();assert.equal(await page.locator('#pickaxeShop').evaluate(e=>e.open),true);
-  await page.locator('#equip-pick-1').click();await page.locator('[data-tool=wood]').click();await page.locator('[data-tool=pick]').click();
+  await page.locator('#equip-pick-1').click();await page.locator('#bar [data-item=wood]').click();await page.locator('[data-tool=pick]').click();
   assert.deepEqual(await page.evaluate(()=>[keysTest.state.tier,document.getElementById('pickaxeShop').open]),[1,false]);
   console.log('PASS first pick click equips last pick, second opens inventory');
   let time=0;
@@ -29,15 +29,16 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   const before=await page.evaluate(()=>keysTest.state.x);await page.keyboard.down('d');await tick(1000);await page.keyboard.up('d');assert.ok(Math.abs(await page.evaluate(()=>keysTest.state.x)-before-360)<1);
   await tick(100);const stopped=await page.evaluate(()=>keysTest.state.x);await tick(300);assert.equal(await page.evaluate(()=>keysTest.state.x),stopped);
   console.log('PASS WASD/arrows, consistent panning speed and key release');
-  await page.keyboard.press('1');assert.equal(await page.locator('#structuresPanel').evaluate(e=>e.open),true);
-  for(const [key,tool] of [['2','move'],['3','pick'],['4','dirt'],['5','wood'],['6','leaves'],['7','stone'],['8','deepslate'],['9','obsidian'],['0','miner']]){await page.keyboard.press(key);assert.equal(await page.evaluate(()=>keysTest.state.tool),tool)}
-  await page.keyboard.press('3');assert.equal(await page.locator('#pickaxeShop').evaluate(e=>e.open),false);await page.keyboard.press('3');assert.equal(await page.locator('#pickaxeShop').evaluate(e=>e.open),true);await page.keyboard.press('Escape');
-  console.log('PASS all ten number-key toolbar mappings');
-  await page.keyboard.press('5');await page.keyboard.down('Shift');assert.deepEqual(await page.evaluate(()=>[keysTest.state.tool,keysTest.state.grab]),['move',true]);
+  await page.keyboard.press('3');assert.equal(await page.locator('#structuresPanel').evaluate(e=>e.open),true);
+  for(const [key,tool] of [['1','pick'],['2','move'],['4','wood'],['5','leaves'],['6','dirt']]){await page.keyboard.press(key);assert.equal(await page.evaluate(()=>keysTest.state.tool),tool)}
+  await page.keyboard.press('1');assert.equal(await page.locator('#pickaxeShop').evaluate(e=>e.open),false);await page.keyboard.press('1');assert.equal(await page.locator('#pickaxeShop').evaluate(e=>e.open),true);await page.keyboard.press('Escape');
+  for(const key of ['7','8','9','0']){await page.keyboard.press(key);assert.equal(await page.evaluate(()=>keysTest.state.tool),'pick')}
+  console.log('PASS six number-key toolbar mappings and retired shortcuts');
+  await page.keyboard.press('4');await page.keyboard.down('Shift');assert.deepEqual(await page.evaluate(()=>[keysTest.state.tool,keysTest.state.grab]),['move',true]);
   await page.mouse.move(600,350);await page.mouse.down();await page.mouse.move(660,350,{steps:4});const dragged=await page.evaluate(()=>keysTest.state);assert.ok(dragged.gesture);
   await page.keyboard.up('Shift');assert.deepEqual(await page.evaluate(()=>[keysTest.state.tool,keysTest.state.gesture]),['wood',false]);await page.mouse.move(720,350,{steps:4});assert.equal(await page.evaluate(()=>keysTest.state.x),dragged.x);await page.mouse.up();
-  await page.keyboard.press('3');await page.keyboard.down('Shift');await page.keyboard.down('ShiftRight');await page.keyboard.up('Shift');assert.equal(await page.evaluate(()=>keysTest.state.tool),'move');await page.keyboard.up('ShiftRight');assert.equal(await page.evaluate(()=>keysTest.state.tool),'pick');
-  await page.keyboard.down('Shift');await page.keyboard.press('4');assert.equal(await page.evaluate(()=>keysTest.state.tool),'move');await page.keyboard.up('Shift');assert.equal(await page.evaluate(()=>keysTest.state.tool),'dirt');
+  await page.keyboard.press('1');await page.keyboard.down('Shift');await page.keyboard.down('ShiftRight');await page.keyboard.up('Shift');assert.equal(await page.evaluate(()=>keysTest.state.tool),'move');await page.keyboard.up('ShiftRight');assert.equal(await page.evaluate(()=>keysTest.state.tool),'pick');
+  await page.keyboard.down('Shift');await page.keyboard.press('6');assert.equal(await page.evaluate(()=>keysTest.state.tool),'move');await page.keyboard.up('Shift');assert.equal(await page.evaluate(()=>keysTest.state.tool),'dirt');
   await page.keyboard.down('Shift');await page.evaluate(()=>window.dispatchEvent(new Event('blur')));assert.deepEqual(await page.evaluate(()=>[keysTest.state.tool,keysTest.state.grab,keysTest.state.gesture]),['dirt',false,false]);await page.keyboard.up('Shift');
   console.log('PASS temporary Grab, immediate drag cancellation, both Shift keys and focus-loss cleanup');
   await page.keyboard.press('F2');await page.locator('#devGold').fill('12');const toolBefore=await page.evaluate(()=>keysTest.state.tool);await page.keyboard.press('3');assert.equal(await page.locator('#devGold').inputValue(),'123');await page.keyboard.down('d');await tick(100);await page.keyboard.up('d');await page.keyboard.down('Shift');assert.equal(await page.evaluate(()=>keysTest.state.tool),toolBefore);await page.keyboard.up('Shift');await page.locator('#devClose').click();
