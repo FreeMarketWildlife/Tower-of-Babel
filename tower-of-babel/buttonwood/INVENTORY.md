@@ -25,12 +25,16 @@ continues to provide an isolated world for visual comparison and inspection.
 | Storehouse | Native 160 × 128 sprite, broad coral gable, double loading doors, crates, sack, and separately drawn 32px miniature. | Preserve native portrait, building inventory readability, and warm window/lantern light. |
 | Forge | Native 96 × 96 rounded kiln with tall flue, bellows, 720ms flame cycle, stepped smoke, and separately drawn 32px miniature. | Preserve compact scale, fire readability, native portrait, and activity state. |
 | Blacksmith | Native 160 × 128 open anvil bay, mint canopy, hammer sign, 810ms hammer cycle, sparks, hearth light, and separately drawn 32px miniature. | Preserve tool motion, Worker-scale anvil, native portrait, and activity state. |
+| Pumpjack | Native 128 × 96 timber A-frame, coral walking beam, mint flywheel; six 150ms poses plus a fixed rest state; separate 32px miniature. | Intake `(48,96)` and outlet `(128,80)` remain fixed. Motion follows actual transfer; check attached rod/linkage and unchanged foundation through the loop. |
+| Tank | Native 96 × 96 cream/mint vessel, warm hoops, two side ports and 20-step visible fill gauge; separate 32px miniature. | Review empty/low/full oil, water and lava; retain actual quantities in UI and native portraits. Art rounding never changes storage. |
+| Pipes / extraction UI | Native 32px segments with all 16 cardinal masks and liquid inspection windows; separate 32px pipe, oil drop, oil bucket and reclaim-wrench icons. | Inspect connected runs, elbows/tees/crosses, caps and apparatus joins. Preserve native UI size and clear status beyond color. |
 | Dirt / grass | Rich loam, fuller rooted sod, continuous world-coordinate texture, and neighbor-aware 32px cells. | User endorsed the richer meadow; retain it as the terrain direction. Continue checking large-area density as other terrain families migrate. |
 | Stone | Continuous world-coordinate planes, soil boundary clusters, and exposed/corner treatments. | Check ore contrast, seams, and placed multi-block constructions. |
 | Deep materials | Deepslate joins the connected texture system; bedrock and obsidian use Buttonwood textures. | Review full depth transitions and distinct material identification. |
 | Wood / leaves | Four native variants each using shared material ramps. | Tree silhouettes and natural-tree composition are not redesigned. |
 | Ore | Four native transparent overlays each for copper ore, iron ore, and coal. | Review buried/exposed visibility, resource recognition, and mixed deposits. |
 | Water / lava | Shared three-color ramps and a renderer using one-world-unit pixels. | Review pools, falls, joins, depth, interaction boundaries, and sustained motion. Solver is unchanged. |
+| Oil | Third liquid uses existing `ink` / `deep` / `deepLight` tokens and restrained slow surface marks; dark extraction windows and oil bucket/drop art. | Preserve finite pocket levels and drained cavities. Do not imply mineable ore, combustion, automatic replenishment or a different pixel scale. |
 | Garden accent | Small native greenery/flower cluster helper in `environment.js`. | Optional scene decoration; placement is not a general vegetation migration. |
 | Scenery / light | Smooth 30-second sunrise and sunset, native sky bands, clouds, hills, sun/moon/stars, ambient world tint, and warm building lights. Uses the existing 240-second saved clock. | Preserve twilight warmth and underground contrast; weather/depth expansion remains separate. |
 | UI | Warm styling, Worker art, native portraits and 32px miniatures for all five buildings, terrain swatches, and separately drawn Move glove, four pickaxe tiers, Craft hammer, disclosure chevron, and square wood/stone/dirt/deepslate/leaves/obsidian miniatures, and empty/water/lava buckets. | Controls and six-slot inventory reviewed at native size on desktop and phone (September 18, 2026); unlisted controls and currency retain existing art. Village/Industry/Mine views and time preview remain sample-only. |
@@ -63,6 +67,11 @@ continues to provide an isolated world for visual comparison and inspection.
   pixels do not redefine placement or support.
 - Liquid art reads the existing solver. A one-pixel render layer does not change
   its 16-unit simulation cells, flow rules, reaction rules, or save format.
+- Oil/extraction gameplay is added separately in `game-v69-oil.txt`,
+  `extraction-network.js` and `game-v70-extraction.txt`. Those modules own finite
+  source volume, safe pocket migration, network status, amounts and saved state.
+  `extraction.js` only draws the supplied state. Pumpjack/Tank placement envelopes
+  are defined by the structure implementation, never inferred from decorative art.
 - In the sample, the Industry review district is added once in a clear site, avoiding existing
   structures, blocks, Workers, children, and liquids. Its saved
   `structuresV46.buttonwoodIndustry` marker prevents packed review buildings from
@@ -81,6 +90,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | `palette.js` | Named palette and shared animation timings. |
 | `workers.js` | Worker world poses, anchors, appearance variants, and native UI portrait. |
 | `buildings.js` | All five native buildings, separately authored 32px miniatures, working details, anchors, sizes, and warm light overlays. |
+| `extraction.js` | Pumpjack and Tank world art, fixed port metadata, six-pose activity, gauges, connected pipe segments and separately authored extraction UI icons. |
 | `sky.js` | Continuous saved-clock sky colors, native scenery, twilight timing, and ambient light state. |
 | `environment.js` | Terrain, ore overlays, grass, optional garden cluster, and liquid ramps. |
 | `ui.js` | Cached native 32px tool icons, tier variants, disclosure arrow, and separately drawn square resource miniatures. |
@@ -92,6 +102,22 @@ continues to provide an isolated world for visual comparison and inspection.
 The main agent owns shared palette changes, integration, and final consistency
 review. Specialist agents should edit separate family files after reading the
 same guide and reference. Update this inventory when coverage actually changes.
+
+## Extraction art review · September 27, 2026
+
+The native family is implemented in the ordinary-game art path and the gallery.
+Its design applies bible sections 3–5 and 7–10. Technical art checks cover 266
+sprite/icon combinations for shared-palette colors and binary alpha, all 16 pipe
+masks and fixed port joins, 32px UI canvases, six active pump poses and static rest.
+The connected scene was visually reviewed beside the existing Forge and Worker
+in daylight and under the same night wash. Gallery review at desktop, 390px and
+320px retained native sprite/icon sizes and showed no extraction-section overflow.
+
+The reproducible check is `tests/buttonwood-extraction-art.test.cjs` (relative to
+`tower-of-babel/`). This is artwork evidence, not a claim that every extraction
+interaction or oil save scenario has passed. The extraction-network and oil
+tests cover their respective behavior; record full gameplay integration evidence
+with the release QA. The v1.0 illustrated PDF predates this added family.
 
 ## Future revision workflow
 

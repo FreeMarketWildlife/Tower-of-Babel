@@ -1,6 +1,6 @@
 # Buttonwood art bible
 
-**Tower of Babel · Visual direction v1.0 · September 26, 2026**
+**Tower of Babel · Visual direction v1.1 · September 27, 2026**
 
 ## Start here
 
@@ -50,7 +50,9 @@ sets the direction for new work. “Exploration” is a creative proposal, not a
 shipped feature, approved asset, or development commitment. Unless marked otherwise,
 the visual prescriptions below are standards. The
 [illustrated PDF](art-bible/illustrated.pdf) is a dated reading companion; this
-living file remains the full reference.
+living file remains the full reference. The September 26 PDF predates the
+extraction family added in v1.1; use the native gallery and section 7 below for
+Pumpjack, Tank, pipe, and oil artwork.
 
 ### The ten rules to keep beside the canvas
 
@@ -161,6 +163,9 @@ The brief is a coherent game with its own identity.
 | Home / Workshop | 128 × 128 | Four cells wide and high; foundation anchored. |
 | Storehouse / Blacksmith | 160 × 128 | Five cells wide, four high; same source pixel size. |
 | Forge | 96 × 96 | Three cells wide and high; stays visibly compact. |
+| Pumpjack | 128 × 96 | Four cells wide, three high; fixed bottom foundation. |
+| Tank | 96 × 96 | Three cells wide and high; fixed bottom foundation. |
+| Pipe segment | 32 × 32 | One cell; cardinal connections meet cell-edge centers. |
 | All UI icons / building miniatures | 32 × 32 | Native 32 CSS px square canvas; no fractional resize. |
 | Building portrait | Native world sprite size | Reflow its panel instead of shrinking the portrait. |
 | Liquids | One art pixel per world unit | Existing solver cells stay 16 world units. |
@@ -222,6 +227,7 @@ colors require a shared palette change and a representative scene review.
 | Living ground | `dirt #785242`, `grass #6d9d58` | Rich soil with connected clumps and fuller green sod. |
 | Hard ground | `stone #9b9b91`, `deep #675f72` | Broad stone planes; cooler, darker depth. |
 | Liquid identity | `water #5eaaa6`, `lava #dd7958` | Turquoise water and orange/coral lava, also separated by shape and motion. |
+| Oil identity | `ink #49313f`, `deep #675f72`, `deepLight #8b8290` | Dark fluid masses and restrained cool surface marks; apparatus windows may add a sparse `mintShade` sheen. |
 
 Color communicates material first. Coral is already a roof color, so a coral tint
 alone cannot mean danger. Mint alone cannot mean selection. Use a border, pixel
@@ -241,6 +247,7 @@ badge, posture, count, label, or distinct surface pattern as appropriate.
 | Foliage | Rounded clusters supported by block occupancy | Dark interior masses, grouped lit tips | Independent random leaves or fronds that hide walkable edges |
 | Water | Horizontal surface marks and quiet body | Restrained pale glints, turquoise depth | Busy caustics, soft photographic highlights, cell overlap seams |
 | Lava | Broad warm body and irregular crust | Pale hot accents against darker crust | Looking like safe water with a hue swap |
+| Oil | Dark quiet body with sparse surface marks | Existing ink/deep ramp, restrained cool sheen | Drawing it as an ore vein, coal block, flame, or endless resource spring |
 
 Copper uses peach with restrained mint inclusions; iron uses pale warm inclusions;
 coal uses dark charcoal masses. Preserve those identities and their existing
@@ -400,6 +407,56 @@ to the furnace mouth, tool, bellows, smoke, or another functional detail. Preser
 existing collision/support envelopes and the exact base anchor. A decorative
 roof extension does not add usable floor area.
 
+### Extraction family: Pumpjack, Tank, and pipes
+
+**Current native family.** The machinery belongs beside the Workshop and Forge:
+warm timber, coral paint, cream enamel, mint ironwork, restrained copper-colored
+couplings and a grounded stone footing. Retain front elevation and one source
+pixel per world unit. Industrial function does not require importing a different
+game's metal palette, projection, weathering density, or interface.
+
+| Asset | First read | Preserve at native size |
+|---|---|---|
+| Pumpjack | Coral walking beam on a broad timber A-frame | Connected rod/linkage, mint flywheel, grounded foundation, bottom intake and right outlet. |
+| Tank | Stout cream vessel with mint lower enamel | Broad quiet body, timber/copper-colored hoops, side connections and visible fill gauge. |
+| Pipe | Connected copper-colored tube with stone couplings | Exact cardinal joins, deliberate elbow/tee/cross, capped unconnected center and a small content window. |
+| Oil / oil bucket | Dark fluid or a familiar pail containing it | Original drop silhouette or existing bucket vocabulary; restrained cool/mint highlights. |
+| Reclaim pipe | Wrench undoing a pipe coupling | A recognizable action tool, not an emoji, font symbol, or unrelated trash-can motif. |
+
+The Pumpjack's downward intake meets `(48, 96)` on its native canvas; its right
+outlet meets `(128, 80)`. Tank ports meet `(0, 80)` and `(96, 80)`. Coordinates are
+on canvas edges, measured from the upper-left origin. Pipe cells center on
+`(16, 16)` and join at the middle of each edge. Never shift a visible connection
+to make a composition prettier. Show the source line descending from the intake
+and keep it separate from the line leading from the right outlet to a Tank.
+
+Six authored pump poses use 150ms each, a 900ms inspection loop. Only an actual
+transfer makes the in-game pump active; dry, paused, full, disconnected or invalid
+circuits stay at rest. The walking beam, rod, flywheel and linkage move together;
+the foundation and external pipes remain fixed. A content window identifies a
+liquid, not a flow direction or an extra transfer event.
+
+Tank contents remain one of oil, water or lava. The world gauge has 20 visible
+fill steps; the UI presents the actual amount and capacity. Do not read rounded
+art pixels as a storage calculation. Empty is a vacant gauge. Oil uses the dark
+ink/deep family; water uses turquoise and pale glints; lava uses hot coral and
+pale accents. Keep the names, amount, gauge and status available so hue is not
+the only explanation. Test all three liquids against daylight, cave and night
+backgrounds, including nearly empty and full tanks.
+
+The Pumpjack and Tank each have a separately authored 32 × 32 miniature, and
+their panel portraits retain full native dimensions. Pipe, oil, oil bucket and
+reclaim icons also use native 32 × 32 canvases. Never reduce the world machine
+into a toolbar icon. The [gallery](index.html#extraction-heading) shows native
+machines, active/rest poses, empty and filled tanks, pipe connections, and UI art.
+Exact APIs, connection masks and current game values live in the
+[native extraction guide](ART-GUIDE.md#extraction-machinery-and-oil).
+
+Turmoil's extraction route and Factorio's equipment/pipe/storage model are
+**gameplay inspiration**, recorded in the research notebook. They are not
+evidence for Buttonwood's chosen colors, pixels, perspective, animation schedule,
+costs or fluid rules. The art remains our own warm, handmade settlement language.
+
 ## 8. Landscape, depth, and light
 
 ### Layer hierarchy
@@ -448,6 +505,11 @@ Liquids read from their real simulation geometry. Preserve the 16-unit solver,
 one-world-pixel presentation layer, conservation, and reactions. Use restrained
 discrete glints/crust. Do not make a still pool look like a current, overlap
 translucent cells into dark seams, or conceal the contact level under decoration.
+Oil is a finite third liquid, not an inventory ore. Preserve the actual depleted
+pocket shape and liquid level; never paint a full deposit back into a drained
+cavity. The oil presentation uses the existing deep/ink colors and slower sparse
+surface marks. It does not add a flame or combustion effect. Extraction drawings
+must not erase terrain or invent a traversable tunnel around a drilled pipe.
 
 ## 9. UI is part of the world
 
@@ -561,6 +623,9 @@ world should have long quiet holds interrupted by small purposeful actions.
 Current building fire uses four 180ms frames; the Blacksmith hammer uses six 135ms
 frames; smoke uses four 280ms poses. Roofs and foundations do not breathe. These
 loops communicate activity while crafting timing and outputs remain in simulation.
+The Pumpjack adds six 150ms poses driven by actual extraction activity. Its
+900ms art loop is independent of the amount moved; do not count one beam stroke
+as one block of liquid. A Tank gauge changes only with the real stored amount.
 
 For future effects, use the following starting briefs. They require implementation
 and review; they are not existing timings or new game mechanics.
@@ -656,10 +721,12 @@ states. Do not promise production-ready pixels from a prompt alone.
 | `palette.js` | Shared material tokens and Worker cadence. |
 | `workers.js` | Worker poses, anchors, appearances, native UI portraits. |
 | `buildings.js` | Five native buildings, miniatures, activity, light overlays. |
+| `extraction.js` | Pumpjack, Tank, connected pipes, six poses, liquid gauges, native extraction icons and port metadata. |
 | `environment.js` | Terrain, ore, meadow, garden clusters, liquid ramps. |
 | `sky.js` | Saved-clock sky state, named twilight colors, native scenery. |
 | `ui.js` | Native tool, resource, bucket, and disclosure art. |
 | `integration.txt` | Engine-facing art hooks, scale, compositing, isolated sample. |
+| `../game-v69-oil.txt` / `../game-v70-extraction.txt` | Oil/extraction state and render inputs; amounts, network status, ports and saves belong to game logic. |
 | `sample.css` and current UI styles | Theme and UI presentation; inspect delivered runtime, including later layers. |
 | `study.js` / `index.html` | Native gallery and reference compositions. |
 | `INVENTORY.md` / `qa/README.md` | Coverage, actual verification, and review evidence. |
@@ -700,6 +767,8 @@ See [test setup](../tests/README.md) for details.
 | Terrain | `node tower-of-babel/tests/buttonwood-terrain.test.cjs` and affected mining/placement checks |
 | Sky / background | `node tower-of-babel/tests/buttonwood-sky.test.cjs`, `background-browser.test.cjs` |
 | Liquid presentation | `node tower-of-babel/tests/liquids.test.cjs` and Buttonwood liquid render-purity review |
+| Extraction art | `buttonwood-extraction-art.test.cjs`, native gallery motion/joins, and oil/water/lava day/night review |
+| Extraction behavior | `extraction-network.test.cjs`, `oil.test.cjs`, `oil-browser.test.cjs`, and `extraction-browser.test.cjs`; behavior evidence is separate from art approval |
 | Toolbar / icons / panels | `hotbar-browser.test.cjs`, `mobile-ui-browser.test.cjs`, `keyboard-browser.test.cjs` |
 | Disclosure motion | `disclosures-browser.test.cjs` and reduced-motion/focus review |
 | Building / character state | Relevant structures, industry, storehouse, crafting, or Worker suites listed in test setup |
@@ -720,6 +789,10 @@ and one set of palette values across all documentation.
 Buttonwood art, Terraria/Minecraft study, pixel-art craft references, and UI
 accessibility guidance. Adds future standards and exploration briefs without
 claiming a new asset rollout. Known migration work remains explicitly tracked.
+
+**v1.1 / 2026-09-27:** adds the native Pumpjack/Tank/pipe family, its 32px UI art,
+oil material identity, truthful port and fill-state rules, and gameplay reference
+notes. The dated v1.0 illustrated PDF is not regenerated by this revision.
 
 ## 13. Research notebook
 
@@ -780,6 +853,24 @@ libraries. All illustrated game assets in this bible come from this repository.
 12. **W3C, [Understanding SC 1.4.1: Use of Color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html).**
    Color must not be the only visual means of conveying information. Applied to
    selection, hazards, missing resources, ore identity, and unavailable actions.
+13. **Gamious, [Turmoil](https://gamious.com/portfolio/turmoil/) and its
+   [publisher game description](https://store.steampowered.com/app/361280/Turmoil/), studied September 27, 2026.**
+   Gameplay reference for finding liquid, using a rig and pipe route, and storing
+   the result. Our translation makes the path from pocket to Pumpjack to Tank
+   understandable in a block world. This is not an art-style reference or a
+   source of our costs, balance, machinery shapes, or selling mechanics.
+14. **Official Factorio Wiki, [Fluid system](https://wiki.factorio.com/Fluid_system), studied September 27, 2026.**
+   Gameplay reference for explicit fluid connections, content windows and storage.
+   Applied as readable ports and liquid identity, without adopting Factorio's
+   pressure, capacity, mixing, or throughput rules.
+15. **Official Factorio Wiki, [Pumpjack](https://wiki.factorio.com/Pumpjack), studied September 27, 2026.**
+   Gameplay reference for an identifiable extraction machine. Buttonwood uses its
+   own downward intake, separate right outlet, finite source volume and original
+   timber/coral/mint artwork; do not import another game's footprint or power needs.
+16. **Official Factorio Wiki, [Storage tank](https://wiki.factorio.com/Storage_tank), studied September 27, 2026.**
+   Gameplay reference for a dedicated vessel and visible stored contents. Our
+   32-block capacity, two side ports, bucket interaction and 20-pixel gauge are
+   local implementation decisions, not facts about Factorio.
 
 When adding a reference, record **what was studied, the useful principle, our
 original translation, and the limits of the comparison**. A mood-board image

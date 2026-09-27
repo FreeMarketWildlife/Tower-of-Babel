@@ -373,3 +373,20 @@ pointer configurations, including mobile desktop-site mode and hidden legacy UI.
 Inputs, textareas, selects and contenteditable controls retain editing. Chrome
 and WebKit checks cover these exceptions; Chrome exercises real touch holds.
 These are automated browser tests, not a claim of physical iPhone/Android QA.
+
+## Oil and extraction
+
+```sh
+node tower-of-babel/tests/extraction-network.test.cjs
+node tower-of-babel/tests/oil.test.cjs
+SKY_TEST_URL=http://127.0.0.1:8765/tower-of-babel/ node tower-of-babel/tests/oil-browser.test.cjs
+SKY_TEST_URL=http://127.0.0.1:8765/tower-of-babel/ node tower-of-babel/tests/extraction-browser.test.cjs
+```
+
+The pure network suite checks finite-volume conservation, branching and cycles,
+multiple pumps and tanks, full/disconnected/mixed networks, and deterministic
+ordering. Oil tests cover safe geology migration, depletion persistence, all save
+formats, slower flow, buckets, exposure, and the captured-autosave regression.
+Browser suites run the actual loader, simulation adapters, UI, and save/reload.
+See [liquid extraction](../LIQUID-EXTRACTION.md) for the player and implementation
+contracts. Existing crafting checks honor each building's configured duration.

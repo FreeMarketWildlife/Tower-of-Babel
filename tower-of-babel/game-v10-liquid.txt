@@ -143,6 +143,7 @@ function saveGame(){
     const fluidData=[];for(const q of fluids)fluidData.push({kind:q.game.liquid,x:q.position.x,y:q.position.y,vx:q.velocity.x,vy:q.velocity.y});
     const s={v:1,savedAt:Date.now(),pickaxeTier,pickaxeOwnedTier:typeof pickaxeOwnedTier==='number'?pickaxeOwnedTier:pickaxeTier,best,deepslateUnlocked:deepslate,inv:{...inv},deadMiners,restingMiners,removed:[...removedTerrain],damage:[...terrainDamage.entries()],placed,miners:workerData,cam:{x:cam.x,y:cam.y},fluidSeeded:[...fluidSeeded],revealedPockets:[...revealedPockets],fluids:fluidData,products};
     if(typeof hotbarReadyV68!=='undefined'&&hotbarReadyV68)s.hotbarV68=saveHotbarV68();
+    if(typeof oilReadyV69!=='undefined'&&oilReadyV69)s.oilV69=saveOilV69();
     if(typeof saveInventoryV54==='function')s.inv=saveInventoryV54();
     if(typeof saveTreesV41==='function')s.treesV41=saveTreesV41();
     if(typeof saveMinerLifeV42==='function')s.minerLifeV42=saveMinerLifeV42();
@@ -158,7 +159,7 @@ function restoreDynamicState(s){
   if(Array.isArray(s.placed))for(const p of s.placed){if(!M[p.material]||p.material==='bedrock')continue;ensureChunkAtX(finite(p.x));mk(finite(p.x),finite(p.y),p.material,{placed:true,static:p.nailed===true,nailed:p.nailed===true,w:Math.max(4,finite(p.w)||B-1),h:Math.max(4,finite(p.h)||B-1),cost:Math.max(1,Math.floor(finite(p.cost)||1)),hits:Math.max(0,Math.floor(finite(p.hits))),angle:finite(p.angle),velocity:{x:finite(p.vx),y:finite(p.vy)},angularVelocity:finite(p.av)})}
   if(Array.isArray(s.products))for(const p of s.products){if(p.material!=='obsidian')continue;ensureChunkAtX(finite(p.x));const z=createObsidian(finite(p.x),finite(p.y),{angle:finite(p.angle)});z.game.hits=Math.max(0,Math.floor(finite(p.hits)));Body.setVelocity(z,{x:finite(p.vx),y:finite(p.vy)});Body.setAngularVelocity(z,finite(p.av))}
   if(Array.isArray(s.miners))for(const m of s.miners){ensureChunkAtX(finite(m.x));createMinerAt(finite(m.x),finite(m.y),{id:m.id,level:m.level,gold:m.gold,dir:m.dir,angle:finite(m.angle),velocity:{x:finite(m.vx),y:finite(m.vy)},angularVelocity:finite(m.av)})}
-  if(Array.isArray(s.fluids))for(const f of s.fluids)if(f.kind==='water'||f.kind==='lava'){ensureChunkAtX(finite(f.x));createFluid(f.kind,finite(f.x),finite(f.y),{velocity:{x:finite(f.vx),y:finite(f.vy)}})}
+  if(Array.isArray(s.fluids))for(const f of s.fluids)if(f.kind==='water'||f.kind==='lava'||f.kind==='oil'){ensureChunkAtX(finite(f.x));createFluid(f.kind,finite(f.x),finite(f.y),{velocity:{x:finite(f.vx),y:finite(f.vy)}})}
   const earned=minerCountAt(best),accounted=miners.size+restingMiners.length+deadMiners;for(let i=accounted;i<earned;i++)restingMiners.push({id:++minerId,level:1,gold:0});
   restingMiners.forEach(r=>minerId=Math.max(minerId,r.id||0));restoring=false
 }

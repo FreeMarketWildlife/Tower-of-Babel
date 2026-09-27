@@ -128,10 +128,10 @@ drawMappedLiquids=function(now){
   const colors=bwArt.liquidColors[r.kind];
   if(s.surface){
    for(let x=s.left;x<s.left+s.width;x++)rect(x,surfaceY(r,s,x+.5),1,1,colors[1]);
-   const phase=((r.x*7+Math.floor(now/(r.kind==='lava'?450:250)))%19+19)%19;
+   const phase=((r.x*7+Math.floor(now/(r.kind==='oil'?600:r.kind==='lava'?450:250)))%19+19)%19;
    if(phase<5&&s.bottom-s.top>5)rect(s.left+phase,s.top+3,Math.min(4,s.width-phase),1,r.kind==='lava'?colors[2]:colors[1]);
   }else if(s.falling){
-   const phase=(Math.floor(now/(r.kind==='lava'?130:60))+r.y*3)%sb;
+   const phase=(Math.floor(now/(r.kind==='oil'?170:r.kind==='lava'?130:60))+r.y*3)%sb;
    rect(s.left+Math.floor(s.width/3),r.y*sb+phase,1,Math.min(3,sb-phase),colors[1]);
   }
  }
@@ -279,8 +279,8 @@ function buttonwoodBoot(){
  if(!initialSave)bwSeedSample();else{bwDecorateSampleTerrain();bwCamera('village',innerWidth<700?1:2)}
  bwSeedIndustryStudy();$('bw-industry').disabled=!bwIndustryStudy;$('bw-time').value=bwSkyState().phase;
  const requestedView=new URLSearchParams(location.search).get('view');if(['industry','storehouse','forge','blacksmith'].includes(requestedView))bwCamera(requestedView,innerWidth<1050?1:2);
- const resizeHeader=()=>document.documentElement.style.setProperty('--bw-header-height',Math.ceil(nav.getBoundingClientRect().height)+'px');
- new ResizeObserver(resizeHeader).observe(nav);resizeHeader();
+ const resizeHeader=()=>{const header=nav.getBoundingClientRect(),bar=$('bar').getBoundingClientRect();document.documentElement.style.setProperty('--bw-header-height',Math.ceil(header.height)+'px');document.documentElement.style.setProperty('--bw-panel-height',Math.max(0,Math.floor(bar.top-header.bottom-16))+'px')};
+ const sampleBounds=new ResizeObserver(resizeHeader);sampleBounds.observe(nav);sampleBounds.observe($('bar'));addEventListener('resize',resizeHeader);resizeHeader();
  $('bw-zoom').value=String(cam.z);bwRefreshIcons();
  $('questTitle').textContent='Make yourself at home';$('questSub').textContent='Mine, build, or open a Workshop.';
  const note=document.createElement('div');note.id='bw-note';note.textContent='Sample save · Mine and build freely';document.body.append(note);

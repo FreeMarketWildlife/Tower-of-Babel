@@ -1,5 +1,6 @@
 // Toolbar-attached Structures inventory. UI art is authored at 32px and shown 1:1.
 function uiPixelV48(kind,colors={}){
+ if(kind==='pumpjack'||kind==='tank'||kind==='pipe')return window.ButtonwoodArt.extractionIcon(kind).toDataURL();
  const canvas=document.createElement('canvas');canvas.width=canvas.height=32;const g=canvas.getContext('2d');
  const r=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x,y,w,h)},ink=colors.ink||'#272535',gold=colors.gold||'#e3ba77',pale=colors.pale||'#d2ded6';
  if(kind==='storehouse'){

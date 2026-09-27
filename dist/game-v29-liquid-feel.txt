@@ -21,14 +21,14 @@ liquidStepSubV22=function(kind,now){
   liquidV22Init();
   const center=cam.x/liquidSBV22(),range=24*liquidSubScaleV22*3.15;
   const active=()=>[...liquidSubV22.values()].filter(r=>r.kind===kind&&Math.abs(r.x-center)<=range&&liquidSubOpenV22(r.x,r.y));
-  const lava=kind==='lava',compress=lava?.012:.025;
+  const lava=kind==='lava',oil=kind==='oil',compress=lava?.012:oil?.016:.025;
   // Bottom first: incoming liquid cannot cascade through many cells in one tick.
   for(const r of active().sort((a,b)=>b.y-a.y||a.x-b.x)){
     const b=liquidSubRecV22(r.x,r.y+1);
     if(b&&b.kind!==kind)continue;
     const mass=b?b.a:0,total=r.a+mass;
     const target=total<=1?1:total<2+compress?(1+total*compress)/(1+compress):(total+compress)/2;
-    liquidTransferV29(r,r.x,r.y+1,Math.min(lava?.24:.95,Math.max(0,target-mass)),now)
+    liquidTransferV29(r,r.x,r.y+1,Math.min(lava?.24:oil?.36:.95,Math.max(0,target-mass)),now)
   }
   // Disjoint pairs equalize once per pass, with alternating parity to avoid bias.
   // Unsupported water falls in a column; it spreads once it reaches a pool/floor.
@@ -43,7 +43,7 @@ liquidStepSubV22=function(kind,now){
       const diff=(a?a.a:0)-(b?b.a:0),src=diff>0?a:b;if(!src)continue;
       const below=liquidSubRecV22(src.x,src.y+1);
       if(liquidSubOpenV22(src.x,src.y+1)&&(!below||(below.kind===kind&&below.a<.98)))continue;
-      liquidTransferV29(src,diff>0?x+1:x,r.y,Math.abs(diff)*(lava?.13:.48),now)
+      liquidTransferV29(src,diff>0?x+1:x,r.y,Math.abs(diff)*(lava?.13:oil?.19:.48),now)
     }
   }
   // Small compression lets connected vessels level through submerged passages.
@@ -51,7 +51,7 @@ liquidStepSubV22=function(kind,now){
     const up=liquidSubRecV22(r.x,r.y-1);if(up&&up.kind!==kind)continue;
     const um=up?up.a:0,total=r.a+um;
     const target=total<=1?1:total<2+compress?(1+total*compress)/(1+compress):(total+compress)/2;
-    liquidTransferV29(r,r.x,r.y-1,Math.min(lava?.06:.3,Math.max(0,r.a-target)*.5),now)
+    liquidTransferV29(r,r.x,r.y-1,Math.min(lava?.06:oil?.09:.3,Math.max(0,r.a-target)*.5),now)
   }
 };
 
@@ -68,6 +68,7 @@ updateLiquids=function(now){
     liquidAccumulatorV29-=step;liquidStepsV29++;liquidSubTickV22++;
     const t=now-liquidAccumulatorV29;
     liquidStepSubV22('water',t);
+    if(liquidStepsV29%2===0)liquidStepSubV22('oil',t);
     if(liquidStepsV29%3===0)liquidStepSubV22('lava',t);
     liquidReactV22(t);
     if(liquidStepsV29%2===0)updateBuoyancyV22();
@@ -131,12 +132,16 @@ drawMappedLiquids=function(now){
     let depth=0;
     for(let dy=1;dy<=8;dy++){const above=liquidSubRecV22(r.x,r.y-dy);if(!above||above.kind!==r.kind||above.a<.05)break;depth+=clamp(above.a,0,1)}
     const shade=Math.min(1,depth/8),lava=r.kind==='lava';
-    const color=lava?`rgb(${Math.round(242-shade*43)},${Math.round(103-shade*49)},${Math.round(38-shade*9)})`:`rgb(${Math.round(48-shade*22)},${Math.round(151-shade*51)},${Math.round(184-shade*36)})`;
+    const color=r.kind==='oil'?ButtonwoodArt.palette[depth>1?'ink':'deep']:lava?`rgb(${Math.round(242-shade*43)},${Math.round(103-shade*49)},${Math.round(38-shade*9)})`:`rgb(${Math.round(48-shade*22)},${Math.round(151-shade*51)},${Math.round(184-shade*36)})`;
     if(s.surface){for(let x=s.left;x<s.left+s.width;x+=pixel){const y=surfaceY(r,s,x+pixel/2);rect(x,y,pixel,s.bottom-y,color)}}
     else rect(s.left,s.top,s.width,s.bottom-s.top,color);
   }
   for(const {r,shape:s} of visible){
-    const lava=r.kind==='lava',x=s.left,y=s.top;
+    const lava=r.kind==='lava',oil=r.kind==='oil',x=s.left,y=s.top;
+    if(oil){
+      if(s.surface)for(let px=x;px<x+s.width;px+=pixel)rect(px,surfaceY(r,s,px+pixel/2),pixel,2,ButtonwoodArt.palette.deepLight);
+      continue;
+    }
     if(s.surface){
       for(let px=x;px<x+s.width;px+=pixel){
         const sy=surfaceY(r,s,px+pixel/2);

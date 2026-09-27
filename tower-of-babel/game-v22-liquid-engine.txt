@@ -170,7 +170,7 @@ function updateBuoyancyV22(){
     if(!z.game?.placed||z.isStatic)continue;
     const sb=liquidSBV22(),x0=Math.floor(z.bounds.min.x/sb),x1=Math.floor(z.bounds.max.x/sb),y0=Math.floor(z.bounds.min.y/sb),y1=Math.floor(z.bounds.max.y/sb);
     const count=Math.max(1,(x1-x0+1)*(y1-y0+1)),stride=count>90?2:1;let wet=0,n=0;
-    for(let y=y0;y<=y1;y+=stride)for(let x=x0;x<=x1;x+=stride){n++;const r=liquidSubRecV22(x,y);if(r?.kind==='water')wet+=clamp(r.a,0,1)}
+    for(let y=y0;y<=y1;y+=stride)for(let x=x0;x<=x1;x+=stride){n++;const r=liquidSubRecV22(x,y);if(r?.kind==='water'||r?.kind==='oil')wet+=clamp(r.a,0,1)}
     const coverage=clamp(wet/Math.max(1,n*.58),0,1);
     if(coverage<=.015){wetBodies.delete(z);continue}
     if(z.game.material==='dirt'){
@@ -296,7 +296,7 @@ var v22BaseSaveGame=saveGame;
 saveGame=function(){
   v22BaseSaveGame();liquidV22Init();
   try{const raw=localStorage.getItem(SAVE_KEY);if(!raw)return;const s=JSON.parse(raw);
-    s.liquidSubV22=[...liquidSubV22.values()].filter(r=>r.a>.00005).map(r=>[r.x,r.y,r.kind==='lava'?1:0,Math.max(1,Math.min(65535,Math.round(r.a*10000)))]);
+    s.liquidSubV22=[...liquidSubV22.values()].filter(r=>Number.isFinite(r.a)&&r.a>0&&['water','lava','oil'].includes(r.kind)).map(r=>[r.x,r.y,r.kind==='oil'?2:r.kind==='lava'?1:0,r.a*10000]);
     s.liquidSubSeededV22=[...liquidSubSeededV22];s.liquidCellsV18=[];s.liquidSeededV18=[];s.fluids=[];localStorage.setItem(SAVE_KEY,JSON.stringify(s))
   }catch(e){console.warn('v22 liquid save failed',e)}
 };
@@ -306,7 +306,7 @@ restoreDynamicState=function(s){
   const has=Array.isArray(s.liquidSubV22),copy=has?{...s,liquidCellsV18:[],liquidSeededV18:[],fluids:[]}:s;
   v22BaseRestoreDynamicState(copy);liquidSubV22.clear();liquidSubSeededV22.clear();liquidSubFlowV22.clear();liquidSubImpactV22.clear();liquidSubVisualV22.clear();
   if(has){
-    for(const row of s.liquidSubV22){if(!Array.isArray(row)||row.length<4)continue;const x=Math.floor(finite(row[0])),y=Math.floor(finite(row[1])),kind=row[2]===1?'lava':'water',a=finite(row[3])/10000;if(a>.00005)liquidSubV22.set(liquidSubKeyV22(x,y),{x,y,kind,a})}
+    for(const row of s.liquidSubV22){if(!Array.isArray(row)||row.length<4||![0,1,2].includes(row[2])||!Number.isFinite(row[0])||!Number.isFinite(row[1]))continue;const x=Math.floor(row[0]),y=Math.floor(row[1]),kind=row[2]===2?'oil':row[2]===1?'lava':'water',a=finite(row[3])/10000;if(a>0)liquidSubV22.set(liquidSubKeyV22(x,y),{x,y,kind,a})}
     if(Array.isArray(s.liquidSubSeededV22))for(const id of s.liquidSubSeededV22)if(typeof id==='string')liquidSubSeededV22.add(id)
   }else if(!liquidMigrateV18ToV22()){
     if(fluidSeeded)for(const id of fluidSeeded)liquidSubSeededV22.add(id);

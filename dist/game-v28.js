@@ -56,9 +56,10 @@ async function read(url){
       core=core.replace(saveDeclaration,"const SAVE_KEY='tower.buttonwood.sample.v1';");
     }
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='buttonwood/sample.css?v=67';document.head.append(sheet);
-    for(const path of ['palette.js','sky.js','workers.js','buildings.js','environment.js','ui.js']){
+    for(const path of ['palette.js','sky.js','workers.js','buildings.js','environment.js','ui.js','extraction.js']){
       (0,eval)(await read('buttonwood/'+path));
     }
+    (0,eval)(await read('extraction-network.js'));
 
     let liquid='';
     for(const url of liquidParts)liquid+=await read(url);
@@ -102,6 +103,8 @@ async function read(url){
     tail=tail.replace(marker,(await read('buttonwood/integration.txt'))+'\n'+marker+'\nbuttonwoodBoot();');
     tail=tail.replace(marker,(await read('game-v66-mobile-ui.txt?v=67'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v68-hotbar.txt?v=68'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v69-oil.txt?v=69'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v70-extraction.txt?v=70'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

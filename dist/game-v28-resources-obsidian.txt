@@ -141,6 +141,9 @@ liquidReactV22=function(now){
     for(const d of [[0,1],[1,0],[-1,0],[0,-1]]){
       const l=liquidSubRecV22(w.x+d[0],w.y+d[1]);if(!l||l.kind!=='lava'||l.a<.015)continue;
       const ocx=Math.floor(l.x/sc),ocy=Math.floor(l.y/sc),ok=key(ocx,ocy);if(cooled.has(ok))continue;
+      // A full-cell rock product cannot silently erase a third liquid sharing it.
+      let other=false;for(let y=ocy*sc;y<(ocy+1)*sc;y++)for(let x=ocx*sc;x<(ocx+1)*sc;x++){const r=liquidSubRecV22(x,y);if(r&&r.kind!=='water'&&r.kind!=='lava'&&r.a>0)other=true}
+      if(other)continue;
       const contactKey=liquidSubKeyV22(w.x,w.y);
       liquidSubV22.delete(contactKey);
       liquidClearWorldCellV28(ocx,ocy);

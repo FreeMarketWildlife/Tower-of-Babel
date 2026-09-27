@@ -169,12 +169,12 @@ const hook=`window.hotbarTest={
  await migration.goto(url);await migration.waitForFunction(()=>window.hotbarTest,null,{polling:100});
  assert.deepEqual(await migration.evaluate(()=>hotbarTest.state.slots),['wood','leaves','dirt']);
  assert.deepEqual(await migration.evaluate(()=>[hotbarTest.inv.wood,hotbarTest.inv.leaves,hotbarTest.inv.dirt,hotbarTest.inv.stone,hotbarTest.inv.gold]),[7,8,9,10,42]);
- await migration.evaluate(()=>{hotbarTest.buckets['bucket:oil']=2;hotbarTest.choose(1,'bucket:oil');hotbarTest.save()});
+ await migration.evaluate(()=>{hotbarTest.buckets['bucket:brine']=2;hotbarTest.choose(1,'bucket:brine');hotbarTest.save()});
  await migration.reload();await migration.waitForFunction(()=>window.hotbarTest,null,{polling:100});
- assert.equal(await migration.evaluate(()=>hotbarTest.state.slots[1]),'bucket:oil');
- assert.equal(await migration.evaluate(()=>hotbarTest.buckets['bucket:oil']),2);
- assert.equal(await migration.evaluate(()=>hotbarTest.action('bucket:oil',{x:0,y:-250})),false);
- assert.equal(await migration.evaluate(()=>hotbarTest.buckets['bucket:oil']),2);
+ assert.equal(await migration.evaluate(()=>hotbarTest.state.slots[1]),'bucket:brine');
+ assert.equal(await migration.evaluate(()=>hotbarTest.buckets['bucket:brine']),2);
+ assert.equal(await migration.evaluate(()=>hotbarTest.action('bucket:brine',{x:0,y:-250})),false);
+ assert.equal(await migration.evaluate(()=>hotbarTest.buckets['bucket:brine']),2);
  await migrationContext.close();console.log('PASS legacy inventory migration and safe persistence of future liquid bucket types');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

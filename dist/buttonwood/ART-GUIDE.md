@@ -45,6 +45,9 @@ before its ornament does. Calm surfaces keep expressions and useful objects clea
 | Home / Workshop | 128 × 128; bottom edge at foundation | Fixed four-block footprint in each direction. |
 | Storehouse / Blacksmith | 160 × 128; bottom edge at foundation | Five-block width, four-block height; same art pixel size. |
 | Forge furnace | 96 × 96; bottom edge at foundation | Three-block width and height; never stretch to match larger buildings. |
+| Pumpjack | 128 × 96; bottom edge at foundation | Four-block width, three-block height; native moving beam and fixed ports. |
+| Tank | 96 × 96; bottom edge at foundation | Three blocks wide and high; two side ports and visible gauge. |
+| Pipe segment | 32 × 32; center `(16,16)` | One world cell; connections meet cardinal edge centers. |
 | Building miniature | 32 × 32 | Draw a miniature; do not shrink the world sprite. |
 | Terrain tile | 32 × 32 | Cover one 32-unit world cell at native resolution. |
 | Ore overlay | 32 × 32, transparent | Register exactly with its terrain tile. |
@@ -169,6 +172,109 @@ Animation belongs in small functional details, such as a working tool. Keep roof
 wall, and foundation anchors fixed. Miniatures preserve the identifying roof,
 opening, and accent colors with fewer details on a separately drawn 32px canvas.
 
+## Extraction machinery and oil
+
+[extraction.js](extraction.js) owns the native Pumpjack, Tank, connected pipe
+segments and their separately composed UI art. The Pumpjack has a broad warm
+timber A-frame, coral walking beam, attached rod/linkage and mint flywheel. The
+Tank is a stout cream-and-mint vessel with restrained wood/copper-colored hoops.
+Pipes use warm copper-colored surfaces and stone couplings. These colors are
+existing named tokens, not new material ramps. Preserve Buttonwood's front
+elevation, upper-left highlights, quiet surfaces and one-pixel world scale.
+
+### Native API and ports
+
+`A.extractionSprite(type, options)` returns a cached native canvas; an unknown
+type returns `null`. All positions below are measured from the canvas's top-left.
+
+| Type | Canvas | Options | Fixed connectors |
+|---|---|---|---|
+| `pumpjack` | 128 × 96 | `frame: 0..5`, `active: boolean`, `kind: null / oil / water / lava` | Downward intake `(48,96)`; right outlet `(128,80)`. |
+| `tank` | 96 × 96 | `kind`, `fill: 0..1` | Left `(0,80)` and right `(96,80)`. |
+| `pipe` | 32 × 32 | `mask`, `kind`, `active` | Center `(16,16)`; enabled arms reach their canvas edge. |
+
+`A.extractionSizes` and `A.extractionPorts` expose frozen metadata. A pipe mask
+combines `N=1`, `E=2`, `S=4`, `W=8`: for example, `5` is a vertical segment,
+`10` a horizontal segment, `3` a bend, `11` a tee and `15` a cross. Mask `0`
+is a capped center. Missing arms must remain absent. Do not draw an external
+connection unless the network or placement preview supplies it.
+
+The engine places the Pumpjack's adjoining intake pipe cell at building-cell
+offset `(1,3)`, its outlet pipe cell at `(4,2)`, and the Tank's adjoining pipe
+cells at `(-1,2)` and `(3,2)`. Those are **cell coordinates**, distinct from the
+sprite-edge pixel coordinates above. The intake line descends into the pocket;
+the right outlet uses a separate network leading to a Tank. Keep both routes
+visible and never paint a connection through the Pumpjack to imply a single circuit.
+
+`A.extractionIcon(type)` returns a separately authored 32 × 32 canvas for
+`pumpjack`, `tank`, `pipe`, `oil`, `bucket:oil`, or `remove`. Unknown types return
+`null`. `remove` shows a wrench undoing a copper coupling. The oil bucket retains
+the common pail silhouette but has its own dark surface and oil emblem. Display
+all six icons at 32 CSS pixels. Building portraits use the full native world
+canvas; they are not another miniature.
+
+### Motion and liquid readability
+
+`A.extractionFrameMs` is 150ms. Active Pumpjacks use six authored poses, a 900ms
+loop; inactive Pumpjacks use one fixed rest pose regardless of frame. Grounded
+feet, foundation, wellhead, and external pipes remain fixed while the beam,
+flywheel, rod and linkage move coherently. In-game active state is supplied only
+when the network actually transfers liquid. Animation neither schedules a transfer
+nor determines its volume.
+
+The Tank's gauge contains 20 visible liquid pixels. `fill` is clamped and rounded
+to twentieths for cached art only; the simulation and UI keep the actual quantity.
+`kind: null` produces a vacant gauge. Content windows may show a known kind while
+equipment rests; they do not claim directional flow. Review oil, water and lava
+at empty, low, mid and full levels, including a paused or blocked network.
+
+Oil's world-liquid colors in `A.liquidColors.oil` are base `deep`, glint
+`deepLight`, and shade `ink`. Extraction windows and the drop/bucket icon may add
+a sparse `mintShade` sheen. Water retains the turquoise ramp; lava retains warm
+coral/orange and pale hot accents. Color is reinforced by gauge level, a readable
+liquid name, real quantity and status. Do not draw oil as mineable coal or a
+flaming lava variant. It is a finite third liquid in the existing 16-unit solver;
+the renderer preserves empty space and the depleted pocket's actual liquid level.
+
+### Game values that visual explanations must preserve
+
+These are current implementation facts from
+[`game-v46-structures.txt`](../game-v46-structures.txt) and
+[`game-v70-extraction.txt`](../game-v70-extraction.txt), not art-controlled balance:
+
+| Item / action | Current value |
+|---|---|
+| Pumpjack construction | 15 wood, 8 stone, 5 iron ingots; 4 × 3 blocks. |
+| Tank construction | 8 wood, 4 stone, 6 iron ingots; 3 × 3 blocks. |
+| Pipe batch | 1 iron ingot makes 4 pipes; reclaim returns the placed pipes. |
+| Pump transfer | Up to 1 block per second; no fuel or assigned Worker. |
+| Tank capacity | 32 blocks of one liquid. |
+| Bucket transfer | 1 block per bucket; a mismatched occupied Tank cannot mix liquids. |
+| Tank drain | Up to 1 block through the right outlet, including a final fractional remainder; blocked outlets retain the contents. |
+
+Oil, water and lava follow the same extraction equipment path. Pipes drill
+through eligible terrain without making a walkable opening. Finite source volume,
+empty/blocked/full states and conserved storage belong to game logic. A Tank must
+be emptied before packing. Visuals must not advertise an unimplemented refinery,
+oil sale, unlimited oil supply, fuel cost or Worker staffing requirement.
+
+### Review the extraction family
+
+The [gallery section](index.html#extraction-heading) keeps all machinery at native
+size and includes active/rest Pumpjacks, oil/water/lava/empty Tanks, six pipe
+connection examples and all native icons. Its playback uses the gallery's shared
+Pause control and reduced-motion preference. The poses are an art study; capacity
+and transfer are not simulated there.
+
+Run `node tower-of-babel/tests/buttonwood-extraction-art.test.cjs` with Playwright
+and Chromium available (`SKY_TEST_BROWSER` can select a browser). It checks native
+dimensions, palette membership, binary alpha, all 16 pipe masks, connection-edge
+occupancy, stable pump foundations, six active poses, static rest and clamped
+gauge caching. Inspect the gallery on desktop and at 320px/390px phone widths,
+then compare a connected scene beside the Forge and a Worker in daylight and night.
+Behavior requires the separate extraction-network and oil suites; an art check
+does not establish conservation, save migration or UI interaction correctness.
+
 ## Terrain, liquids, and effects
 
 Terrain supports the settlement rather than competing with it. Dirt is rich warm
@@ -202,7 +308,8 @@ Ore stays distinct: peach copper with restrained mint inclusions, pale warm iron
 and dark charcoal coal. Check ore readability against both exposed and buried
 terrain. Wood grain and leaf clusters reuse the architectural and garden palette.
 
-Water uses quiet turquoise planes and restrained pale surface glints. Lava uses
+Water uses quiet turquoise planes and restrained pale surface glints. Oil uses
+quiet ink/deep planes with sparse cool marks. Lava uses
 warm orange/coral planes, pale yellow highlights, and dark crust; it must remain
 recognizable as hazardous. Render the unchanged solver geometry at one world
 pixel, composite a single liquid layer, and avoid darker overlapping cell seams.
@@ -260,7 +367,7 @@ review; they are not part of an artwork update.
 1. Read the [art bible](ART-BIBLE.md) and relevant family sections; study the saved
    concept and approved native artwork. Cite the applied sections in review notes.
 2. Edit the shared tokens in `palette.js` only when the direction requires it.
-3. Author cached canvases in `workers.js`, `buildings.js`, `environment.js`, or `ui.js`.
+3. Author cached canvases in `workers.js`, `buildings.js`, `extraction.js`, `environment.js`, or `ui.js`.
    Paint native pixel clusters; never reduce the concept image into game sprites.
 4. Keep `integration.txt` responsible for engine state, anchors, and render hooks.
    Keep art generators independent of saves, physics, and resource balances.

@@ -117,12 +117,13 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
       });
       const backgrounds = ['.minerToolIcon', '.minerPortrait', '.houseIcon'].map(selector =>
         getComputedStyle(document.querySelector(selector)).backgroundSize);
-      return { images, backgrounds, modal: panel.matches(':modal'), gap: bar.top - rect.bottom };
+      return { images, backgrounds, modal: panel.matches(':modal'), gap: bar.top - rect.bottom, headerGap: rect.top-document.getElementById('bw-controls').getBoundingClientRect().bottom };
     });
     assert.deepEqual(inventoryUI.images, Object.keys(buildingSizes).map(() => [32, 32, 32, 32, 'pixelated']));
     assert.deepEqual(inventoryUI.backgrounds, ['32px 32px', '32px 32px', '32px 32px']);
     assert.equal(inventoryUI.modal, false);
     assert.ok(Math.abs(inventoryUI.gap - 8) < 2, 'Building inventory stays adjacent to its toolbar trigger');
+    assert.ok(inventoryUI.headerGap >= 8, 'Growing building inventory leaves sample controls usable');
     await page.locator('#structuresClose').click();
 
     await page.locator('#bw-zoom').selectOption('1');

@@ -9,13 +9,13 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
  await load();await page.evaluate(()=>{for(const k of Object.keys(playerTest.inv))playerTest.inv[k]=1000;playerTest.ui()});await page.locator('#structuresOpen').click();
  assert.equal(await page.locator('.workshopStarter').count(),0);const types=await page.evaluate(()=>Object.keys(playerTest.defs));assert.equal(await page.locator('.playerCraftV61').count(),types.length);
  for(const type of types){
-  const before=await page.evaluate(type=>({inv:{...playerTest.inv},bag:playerTest.bag[type],cost:playerTest.defs[type].cost}),type);
+  const before=await page.evaluate(type=>({inv:{...playerTest.inv},bag:playerTest.bag[type],cost:playerTest.defs[type].cost,duration:playerTest.defs[type].playerCraftTime??1500}),type);
   await page.locator('#player-craft-'+type).click();
   assert.equal(await page.evaluate(()=>playerTest.dragging),false);assert.equal(await page.locator('#structuresPanel').evaluate(e=>e.open),true);
-  assert.equal(await page.evaluate(()=>playerTest.job.remaining),1500);
+  assert.equal(await page.evaluate(()=>playerTest.job.remaining),before.duration);
   assert.equal(await page.evaluate(type=>playerTest.start(type),type),false);
   for(const [k,n] of Object.entries(before.cost))assert.equal(await page.evaluate(k=>playerTest.inv[k],k),before.inv[k]-n);
-  await page.evaluate(()=>{playerTest.step(1499);playerTest.ui()});assert.equal(await page.evaluate(type=>playerTest.bag[type],type),before.bag);
+  await page.evaluate(duration=>{playerTest.step(duration-1);playerTest.ui()},before.duration);assert.equal(await page.evaluate(type=>playerTest.bag[type],type),before.bag);
   await page.evaluate(()=>{playerTest.step(1);playerTest.ui()});assert.equal(await page.evaluate(type=>playerTest.bag[type],type),before.bag+1);
  }
  assert.equal(await page.evaluate(()=>playerTest.buildings.length),0);assert.equal(await page.evaluate(()=>playerTest.workshopTime),5000);
@@ -31,6 +31,6 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
  const box=await page.locator('#structuresPanel').boundingBox();assert.ok(box.x>=0&&box.x+box.width<=390&&box.y>=0&&box.y+box.height<=844);
  assert.equal(await page.locator('#structuresPanel').evaluate(e=>e.scrollWidth<=e.clientWidth),true);
  for(const type of types){await page.locator('#player-craft-'+type).scrollIntoViewIfNeeded();assert.equal(await page.locator('#player-craft-'+type).isVisible(),true)}
- assert.deepEqual(errors,[]);console.log('PASS every building crafts in 1500ms, exact costs, duplicate/insufficient rejection, no accidental placement, mid-craft reload, single completion, configurable timing, Workshop recipes preserved, desktop/mobile cards');
+ assert.deepEqual(errors,[]);console.log('PASS every building crafts at its configured duration, exact costs, duplicate/insufficient rejection, no accidental placement, mid-craft reload, single completion, configurable timing, Workshop recipes preserved, desktop/mobile cards');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exit(1)});

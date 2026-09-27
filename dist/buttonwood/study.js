@@ -20,6 +20,14 @@
   const figure=document.createElement('figure'),icon=A.uiIcon(kind,tier),caption=document.createElement('figcaption');
   icon.setAttribute('role','img');icon.setAttribute('aria-label',label);caption.textContent=label;figure.append(icon,caption);document.getElementById('ui-icons').append(figure);
  }
+ // Extraction art uses native world canvases and separately drawn UI miniatures.
+ for(const [mask,kind,label]of [[5,'oil','Oil riser'],[10,'water','Water line'],[3,'lava','Lava bend'],[11,'oil','Tee'],[15,'water','Cross'],[0,null,'Capped']]){
+  const figure=document.createElement('figure'),c=A.extractionSprite('pipe',{mask,kind,active:true}),caption=document.createElement('figcaption');
+  c.setAttribute('role','img');c.setAttribute('aria-label',label);caption.textContent=label;figure.append(c,caption);document.getElementById('extraction-pipes').append(figure);
+ }
+ for(const [type,label]of [['pumpjack','Pumpjack'],['tank','Tank'],['pipe','Pipe'],['oil','Oil'],['bucket:oil','Oil bucket'],['remove','Reclaim pipe']]){
+  const c=A.extractionIcon(type);c.setAttribute('role','img');c.setAttribute('aria-label',label);c.title=label;document.getElementById('extraction-icons').append(c);
+ }
  // Show an actual connected tile field, including cut corners and material joins.
  const field=['dddddddddddd','ddddddddddds','dddddddddsss','ddddd..dssss','ddd....sssss','ssssssssssss'];
  const terrainStudy=document.getElementById('terrain-study'),tg=terrainStudy.getContext('2d');
@@ -35,7 +43,7 @@
  function setZoom(){const z=Number(artZoom.value);for(const c of document.querySelectorAll('[data-worker]')){c.style.width=40*z+'px';c.style.height=32*z+'px'}for(const c of document.querySelectorAll('[data-building]')){const scale=Math.min(z,2);c.style.width=c.width*scale+'px';c.style.height=c.height*scale+'px'}}
  if(innerWidth<640)artZoom.value='2';artZoom.onchange=setZoom;setZoom();
  const frame=(state)=>A.frameFor(state,time);
- const workers=[...document.querySelectorAll('[data-worker]')],buildings=[...document.querySelectorAll('[data-building]')];
+ const workers=[...document.querySelectorAll('[data-worker]')],buildings=[...document.querySelectorAll('[data-building]')],extraction=[...document.querySelectorAll('[data-extraction]')];
  function render(now){
   if(!paused&&last&&now-last<250)time+=now-last;last=now;
   const container=scene.parentElement.clientWidth,zoom=container>=800?2:1;
@@ -55,6 +63,7 @@
   for(const [type,x]of [['home',28],['workshop',248]]){g.save();g.translate(offset+x,ground-128);A.paintBuildingLights(g,type,sky.darkness,time);g.restore()}
   for(const [i,c] of workers.entries()){const cg=c.getContext('2d');cg.clearRect(0,0,40,32);cg.drawImage(A.worker({state:c.dataset.worker,frame:frame(c.dataset.worker),variant:i}),0,0)}
   for(const c of buildings){const cg=c.getContext('2d');cg.clearRect(0,0,c.width,c.height);A.paintBuilding(cg,c.dataset.building,time,['workshop','forge','blacksmith'].includes(c.dataset.building))}
+  for(const c of extraction){const cg=c.getContext('2d');cg.clearRect(0,0,c.width,c.height);cg.drawImage(A.extractionSprite(c.dataset.extraction,{frame:Math.floor(time/A.extractionFrameMs)%6,active:c.dataset.active==='true',kind:c.dataset.kind||null,fill:Number(c.dataset.fill||0)}),0,0)}
   requestAnimationFrame(render);
  }
  requestAnimationFrame(render);

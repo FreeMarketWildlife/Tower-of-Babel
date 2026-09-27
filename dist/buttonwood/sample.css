@@ -57,6 +57,8 @@
 .buttonwood-art .pickaxeOwnedRow{background:#fff3d6;color:#49313f;border-color:#c28d60}
 .buttonwood-art .pickaxeOwnedRow b{color:#597d70}
 .buttonwood-art .pickaxeOwnedRow.equipped{background:#b9d1ab;border-color:#597d70}
+/* Keep toolbar inventories below the optional review header as their catalog grows. */
+.buttonwood-sample #structuresPanel,.buttonwood-sample #pickaxeShop{max-height:var(--bw-panel-height,calc(100dvh - 180px))!important}
 .buttonwood-sample #hud,.buttonwood-sample #gridToggle{top:calc(var(--bw-header-height,64px) + 18px)!important}
 .buttonwood-sample #tipBtn{top:calc(var(--bw-header-height,64px) + 63px)!important}
 .buttonwood-sample #workerClock{top:calc(var(--bw-header-height,64px) + 92px)!important}

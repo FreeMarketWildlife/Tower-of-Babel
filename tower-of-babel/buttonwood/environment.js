@@ -292,7 +292,8 @@
   // Arrays are ordered base, highlight, shadow; the game owns liquid geometry.
   A.liquidColors = {
     water: [P.water, P.waterLight, P.waterShade],
-    lava: [P.lava, P.lavaLight, P.lavaShade]
+    lava: [P.lava, P.lavaLight, P.lavaShade],
+    oil: [P.deep, P.deepLight, P.ink]
   };
 
   A.paintGarden = (g, x, y) => {

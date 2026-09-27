@@ -62,7 +62,7 @@ function saveGame(){
   }catch(e){console.warn('Save failed',e)}
 }
 function saveSoon(){if(restoring)return;if(performance.now()-lastSavedAt>350)saveGame()}
-setInterval(saveGame,2500);addEventListener('pagehide',saveGame);document.addEventListener('visibilitychange',()=>{if(document.hidden)saveGame()});
+setInterval(()=>saveGame(),2500);addEventListener('pagehide',()=>saveGame());document.addEventListener('visibilitychange',()=>{if(document.hidden)saveGame()});
 
 function toast(t,long=false){clearTimeout(toastTimer);$('toast').textContent=t;$('toast').classList.remove('hide');toastTimer=setTimeout(()=>$('toast').classList.add('hide'),long?3000:1300)}
 function buildLimitAt(h){return h<5?1:Math.min(10,2+Math.floor(Math.max(0,h-5)/10))}

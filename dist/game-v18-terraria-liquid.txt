@@ -179,13 +179,13 @@ restoreDynamicState=function(s){
   liquidGridInitV18();
   if(s&&Array.isArray(s.liquidCellsV18)){
     liquidCellsV18.clear();liquidSeededV18.clear();
-    for(const row of s.liquidCellsV18){if(!Array.isArray(row)||row.length<4)continue;const x=Math.floor(finite(row[0])),y=Math.floor(finite(row[1])),kind=row[2],a=clamp(finite(row[3]),0,1);if((kind==='water'||kind==='lava')&&a>.002)liquidCellsV18.set(key(x,y),{x,y,kind,a})}
+    for(const row of s.liquidCellsV18){if(!Array.isArray(row)||row.length<4)continue;const x=Math.floor(finite(row[0])),y=Math.floor(finite(row[1])),kind=row[2],a=clamp(finite(row[3]),0,1);if((kind==='water'||kind==='lava'||kind==='oil')&&a>.002)liquidCellsV18.set(key(x,y),{x,y,kind,a})}
     if(Array.isArray(s.liquidSeededV18))for(const id of s.liquidSeededV18)if(typeof id==='string')liquidSeededV18.add(id)
   }else if(s){
     // v17 migration: four old particles roughly represented one full tile of volume.
     liquidCellsV18.clear();liquidSeededV18.clear();
     if(Array.isArray(s.fluidSeeded))for(const id of s.fluidSeeded)if(typeof id==='string')liquidSeededV18.add(id);
-    if(Array.isArray(s.fluids))for(const f of s.fluids)if(f&&(f.kind==='water'||f.kind==='lava')){const x=cell(finite(f.x)),y=cell(finite(f.y));liquidPutV18(x,y,f.kind,.22)};
+    if(Array.isArray(s.fluids))for(const f of s.fluids)if(f&&(f.kind==='water'||f.kind==='lava'||f.kind==='oil')){const x=cell(finite(f.x)),y=cell(finite(f.y));liquidPutV18(x,y,f.kind,.22)};
     if(!liquidCellsV18.size)for(const ch of generated)for(const d of pocketDefs(ch)){liquidSeededV18.delete(d.id);seedPocket(d)}
   }
   const copy=s?{...s,fluids:[]}:s;v18BaseRestoreDynamicState(copy)

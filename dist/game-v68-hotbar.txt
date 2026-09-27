@@ -161,7 +161,7 @@ function bucketActionV68(item,p){
  let result,plan=[];
  if(item==='bucket'){
   const sx=Math.floor(p.x/sb),sy=Math.floor(p.y/sb),source=liquidSubRecV22(sx,sy);
-  if(!source||!Object.hasOwn(bucketLiquidsV68,source.kind)||source.a<=0||!liquidSubOpenV22(sx,sy))return fail('Tap water or lava to fill');
+  if(!source||!Object.hasOwn(bucketLiquidsV68,source.kind)||source.a<=0||!liquidSubOpenV22(sx,sy))return fail('Tap liquid to fill');
   const surface=liquidGeometryV29(source,performance.now());
   if(p.x<surface.left||p.x>surface.left+surface.width||p.y<surface.top||p.y>surface.bottom||Query.point([...bs,...structureBodiesV47.values()],p).length)return fail('Tap the liquid surface');
   // Connected partial cells may contribute, but disconnected pools and other liquids cannot.

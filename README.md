@@ -49,6 +49,15 @@ See the [native art guide](tower-of-babel/buttonwood/ART-GUIDE.md) for exact
 implementation contracts and the [migration inventory](tower-of-babel/buttonwood/INVENTORY.md)
 for completed and deferred families.
 
+## Oil and liquid extraction
+
+Craft Pumpjacks, Tanks, and pipes from Structures. Drill an intake pipe into a
+finite underground oil pocket, then connect the separate right outlet to a Tank.
+The same system pumps water and lava. Tanks hold 32 liquid blocks, support bucket
+transfers, and stop incompatible or full networks without losing fluid.
+See the [extraction guide](tower-of-babel/LIQUID-EXTRACTION.md) for controls, costs,
+save behavior, and the Turmoil / Factorio research behind the mechanics.
+
 ## Migration
 
 Formerly Sky Stack in the Snake-Game-Test repository. This repository preserves the game's Git history and Tower of Babel's initial commit. The old Snake game remains in Git history; the root entry now opens Tower of Babel.

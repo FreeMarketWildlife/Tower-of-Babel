@@ -37,6 +37,20 @@
    </div>
    <div class="miniatures"><span>UI miniatures · 32 × 32</span><canvas id="home-icon" width="32" height="32" aria-label="Home UI miniature" role="img"></canvas><canvas id="workshop-icon" width="32" height="32" aria-label="Workshop UI miniature" role="img"></canvas><canvas id="storehouse-icon" width="32" height="32" aria-label="Storehouse UI miniature" role="img"></canvas><canvas id="forge-icon" width="32" height="32" aria-label="Forge UI miniature" role="img"></canvas><canvas id="blacksmith-icon" width="32" height="32" aria-label="Blacksmith UI miniature" role="img"></canvas><canvas id="worker-icon" width="32" height="32" aria-label="Worker UI portrait" role="img"></canvas></div>
   </section>
+  <section class="study" aria-labelledby="extraction-heading">
+   <div class="section-heading"><h2 id="extraction-heading">Pumps, pipes &amp; tanks</h2><span>Native extraction art · 1×</span></div>
+   <div class="buildings">
+    <figure><canvas data-extraction="pumpjack" data-kind="oil" data-active="true" width="128" height="96" style="width:128px;height:96px" role="img" aria-label="Working pumpjack with animated coral walking beam and mint flywheel"></canvas><figcaption>Pumpjack <small>128 × 96 · working</small></figcaption></figure>
+    <figure><canvas data-extraction="pumpjack" width="128" height="96" style="width:128px;height:96px" role="img" aria-label="Pumpjack at rest"></canvas><figcaption>Rest <small>Fixed foundation and ports</small></figcaption></figure>
+    <figure><canvas data-extraction="tank" data-kind="oil" data-fill="0.65" width="96" height="96" style="width:96px;height:96px" role="img" aria-label="Oil storage tank, gauge about two thirds full"></canvas><figcaption>Oil tank <small>96 × 96 · fill gauge</small></figcaption></figure>
+    <figure><canvas data-extraction="tank" data-kind="water" data-fill="0.35" width="96" height="96" style="width:96px;height:96px" role="img" aria-label="Water storage tank, gauge about one third full"></canvas><figcaption>Water tank <small>Same vessel, real contents</small></figcaption></figure>
+    <figure><canvas data-extraction="tank" data-kind="lava" data-fill="1" width="96" height="96" style="width:96px;height:96px" role="img" aria-label="Lava storage tank with full gauge"></canvas><figcaption>Lava tank <small>Warm surface and hot pixels</small></figcaption></figure>
+    <figure><canvas data-extraction="tank" width="96" height="96" style="width:96px;height:96px" role="img" aria-label="Empty storage tank with vacant gauge"></canvas><figcaption>Empty tank <small>No invented contents</small></figcaption></figure>
+   </div>
+   <p class="small">Six authored pump poses. Foundations, pipes and intake stay fixed. The gallery previews artwork; flow and capacity come from the game.</p>
+   <div id="extraction-pipes" class="ui-icons" aria-label="Native pipe connection studies"></div>
+   <div id="extraction-icons" class="miniatures" aria-label="Separately drawn extraction UI miniatures"><span>UI miniatures · 32 × 32</span></div>
+  </section>
   <section class="study" aria-labelledby="terrain-heading">
    <div class="section-heading"><h2 id="terrain-heading">Under your feet</h2><span>32 × 32 material studies</span></div>
    <div class="terrain-wrap"><canvas id="terrain-study" width="384" height="192" role="img" aria-label="Connected meadow tiles with rich soil, grass roots, excavated corners, and soft soil-to-stone transitions"></canvas></div>
@@ -54,6 +68,6 @@
   </section>
  </main>
  <footer><a href="ART-GUIDE.md">Art guide</a><a href="INVENTORY.md">Migration inventory</a><a href="../">Return to game</a><span>Buttonwood · Art sample</span></footer>
- <script src="palette.js"></script><script src="sky.js"></script><script src="workers.js"></script><script src="buildings.js"></script><script src="environment.js"></script><script src="ui.js"></script><script src="study.js"></script>
+ <script src="palette.js"></script><script src="sky.js"></script><script src="workers.js"></script><script src="buildings.js"></script><script src="environment.js"></script><script src="ui.js"></script><script src="extraction.js"></script><script src="study.js"></script>
 </body>
 </html>
