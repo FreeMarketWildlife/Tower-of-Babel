@@ -1,5 +1,11 @@
 # Buttonwood art guide
 
+**Implementation companion to the [Buttonwood art bible](ART-BIBLE.md).**
+Read the bible before any visual task, including UI and effects. It owns creative
+direction and new-work acceptance criteria; this guide records native dimensions,
+anchors, timing, rendering, and compatibility contracts. The
+[migration inventory](INVENTORY.md) distinguishes implemented art from future work.
+
 **Approved default artwork · foundation, industry buildings, and gradual lighting.**
 
 The approved [Buttonwood concept](reference/buttonwood-approved.png) establishes
@@ -251,7 +257,8 @@ review; they are not part of an artwork update.
 
 ## Authoring and review workflow
 
-1. Study the saved concept and approved native artwork.
+1. Read the [art bible](ART-BIBLE.md) and relevant family sections; study the saved
+   concept and approved native artwork. Cite the applied sections in review notes.
 2. Edit the shared tokens in `palette.js` only when the direction requires it.
 3. Author cached canvases in `workers.js`, `buildings.js`, `environment.js`, or `ui.js`.
    Paint native pixel clusters; never reduce the concept image into game sprites.

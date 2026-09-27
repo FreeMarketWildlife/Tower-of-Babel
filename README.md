@@ -39,8 +39,15 @@ Its free review fixtures and controls remain confined to the separate
 Character ages, dedicated action poses, effects, and other remaining families are
 tracked separately in the migration inventory.
 
-See the [art guide](tower-of-babel/buttonwood/ART-GUIDE.md) and
-[migration inventory](tower-of-babel/buttonwood/INVENTORY.md).
+Start every visual task with the [Buttonwood art bible](tower-of-babel/buttonwood/ART-BIBLE.md):
+Terraria's pixel-art richness, Minecraft's block logic, and Buttonwood's handmade
+warmth. It covers world art, UI, animation, effects, accessibility, research sources,
+and the review process. The [illustrated edition](output/pdf/buttonwood-art-bible.pdf)
+is a visual reading companion; the living bible is the full direction reference.
+
+See the [native art guide](tower-of-babel/buttonwood/ART-GUIDE.md) for exact
+implementation contracts and the [migration inventory](tower-of-babel/buttonwood/INVENTORY.md)
+for completed and deferred families.
 
 ## Migration
 

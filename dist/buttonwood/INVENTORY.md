@@ -3,7 +3,9 @@
 **Buttonwood is the approved default presentation. Remaining asset families are tracked below.**
 
 The [approved concept](reference/buttonwood-approved.png) sets the visual direction.
-The [art guide](ART-GUIDE.md), [gallery](index.html), and
+The [art bible](ART-BIBLE.md) governs all new visual work, including UI and effects.
+Its future standards and exploration briefs do not imply that deferred families
+have been implemented. The [native art guide](ART-GUIDE.md), [gallery](index.html), and
 [playable sample](../?sample=buttonwood) document the native interpretation.
 The user approved the foundation, rich meadow, Storehouse, Forge, Blacksmith,
 and 30-second sunrise/sunset for [ordinary gameplay](../). The optional sample
@@ -93,7 +95,8 @@ same guide and reference. Update this inventory when coverage actually changes.
 
 ## Future revision workflow
 
-1. Compare the new Storehouse, Forge, and Blacksmith with the endorsed Worker,
+1. Read the [art bible](ART-BIBLE.md) and relevant asset-family sections. Compare
+   the new Storehouse, Forge, and Blacksmith with the endorsed Worker,
    Home, Workshop, and meadow at native scale before judging enlarged details.
 2. Review complete idle/walk/work cycles and the corresponding in-game actions.
 3. Watch the complete 30-second sunrise and sunset, then inspect terrain, liquids,
@@ -101,7 +104,8 @@ same guide and reference. Update this inventory when coverage actually changes.
 4. Compare original and Buttonwood art in the same scene; inspect UI miniatures.
 5. Confirm save isolation, stable physics masks, relevant regressions, and no
    runtime errors. Record results with the actual delivered review evidence.
-6. Record feedback and update the guide when an asset family changes. Keep optional
+6. Record feedback and update the bible when direction changes, the native guide
+   when implementation contracts change, and this inventory when coverage changes. Keep optional
    sample fixtures and controls separate from the ordinary game's progression.
 
 ## QA validation

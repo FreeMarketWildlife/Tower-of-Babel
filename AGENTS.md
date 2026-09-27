@@ -10,9 +10,16 @@
 
 # Art direction
 
-- Buttonwood is the selected direction. Follow
-  [the Buttonwood art guide](tower-of-babel/buttonwood/ART-GUIDE.md) and the
-  approved reference it links. The approved native artwork is the default game
+- Buttonwood is the selected direction. Before creating or changing any visual,
+  including UI, icons, effects, tutorials, or placeholders, read
+  [the Buttonwood art bible](tower-of-babel/buttonwood/ART-BIBLE.md) and its relevant
+  asset-family sections. Use the [native art guide](tower-of-babel/buttonwood/ART-GUIDE.md)
+  for implementation contracts and compare against the approved reference and
+  native gallery. Cite the applicable bible sections in visual review notes;
+  update the bible when direction changes and the migration inventory when
+  coverage changes. Terraria informs pixel-art richness; Minecraft informs block
+  logic; Buttonwood retains its own palette, silhouettes, and warmth.
+  The approved native artwork is the default game
   presentation. Keep the optional review sample's save, controls, and free
   fixtures isolated from ordinary gameplay.
 
