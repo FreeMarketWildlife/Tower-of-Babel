@@ -1,4 +1,4 @@
-// Finite liquid extraction: sealed drilled pipes, separate pump circuits, conserved storage.
+// Renewable pumping from real liquid: direct facing ports, separate circuits, finite storage.
 // Art review: Buttonwood bible §§3–5, 7–10; native extraction sprite/port contracts.
 const PIPE_LIMIT_V70=12000,TANK_CAPACITY_V70=32;
 var pipesV70=new Map(),pipeBagV70=0,extractionSelectedV70=null,extractionResultV70=null;
@@ -7,7 +7,7 @@ let extractionSaveClockV70=0,extractionDirtyV70=false,pipeHoverV70=null;
 const extractionKindsV70=['oil','water','lava'];
 function extractionPortsV70(b){
  const x=Math.round(b.x/B),y=Math.round(b.y/B);
- return b.type==='pumpjack'?{intake:{x:x+1,y:y+3},outlet:{x:x+4,y:y+2}}:{ports:[{x:x-1,y:y+2},{x:x+3,y:y+2}]};
+ return b.type==='pumpjack'?{intake:{x:x+1,y:y+3},outlet:{x:x+4,y:y+2},outletFace:{x:b.x+4*B,y:b.y+2.5*B,dx:1,dy:0}}:{ports:[{x:x-1,y:y+2},{x:x+3,y:y+2}],faces:[{x:b.x,y:b.y+2.5*B,dx:-1,dy:0},{x:b.x+3*B,y:b.y+2.5*B,dx:1,dy:0}]};
 }
 function liquidCellsV70(x,y){const cells=[];for(let dy=0;dy<2;dy++)for(let dx=0;dx<2;dx++){const r=liquidSubRecV22(x*2+dx,y*2+dy);if(r?.a>0)cells.push(r)}return cells}
 function queryLiquidV70(x,y){
@@ -15,26 +15,20 @@ function queryLiquidV70(x,y){
  const kinds=new Set(cells.map(r=>r.kind));return {kind:kinds.size===1?cells[0].kind:'mixed',amount:cells.reduce((sum,r)=>sum+r.a,0)/4};
 }
 function invalidateLiquidV70(){liquidSubVisualV22.clear();liquidSubFlowV22.clear();liquidSubImpactV22.clear()}
-function extractLiquidV70(x,y,kind,requested){
- const cells=liquidCellsV70(x,y);if(cells.some(r=>r.kind!==kind)||!(requested>0))return 0;
- const amount=Math.min(requested,cells.reduce((sum,r)=>sum+r.a,0)/4);let remaining=amount*4;
- for(const r of cells){const take=Math.min(r.a,remaining);r.a-=take;remaining-=take;if(r.a<=0)liquidSubV22.delete(liquidSubKeyV22(r.x,r.y));if(remaining<=0)break}
- return amount;
-}
 function stepExtractionV70(elapsed){
  if(!(elapsed>0)||!Number.isFinite(elapsed))return false;
  const machines=structuresV46.filter(b=>b.type==='pumpjack'||b.type==='tank');
  // Unpowered pipe runs have no held volume or flow state to simulate.
  if(!machines.some(b=>b.type==='pumpjack')){extractionResultV70=null;return false}
  const dt=Math.min(elapsed,1500)/1000;
- extractionResultV70=extractionNetworkV70.update({pipes:[...pipesV70.values()],
+ extractionResultV70=extractionNetworkV70.update({renewableSources:true,pipes:[...pipesV70.values()],
   pumps:machines.filter(b=>b.type==='pumpjack').map(b=>({id:b.id,...extractionPortsV70(b),rate:1,enabled:!b.paused})),
   tanks:machines.filter(b=>b.type==='tank').map(b=>({id:b.id,...extractionPortsV70(b),capacity:TANK_CAPACITY_V70,amount:b.liquidAmount||0,kind:b.liquidKind||null}))
- },dt,{query:queryLiquidV70,extract:extractLiquidV70});
+ },dt,{query:queryLiquidV70});
  const byId=new Map(machines.map(b=>[b.id,b]));
  for(const tank of extractionResultV70.tanks){const b=byId.get(tank.id);b.liquidAmount=tank.amount;b.liquidKind=tank.kind}
  for(const pump of extractionResultV70.pumps){const b=byId.get(pump.id);b.extractionActive=pump.amount>0;b.extractionStatus=pump.status;b.liquidKind=pump.kind;if(b.extractionActive)b.extractionMotion=((b.extractionMotion||0)+elapsed)%900}
- if(extractionResultV70.totalTransferred>0){invalidateLiquidV70();extractionDirtyV70=true}
+ if(extractionResultV70.totalTransferred>0)extractionDirtyV70=true;
  extractionSaveClockV70+=elapsed;
  if(extractionDirtyV70&&extractionSaveClockV70>=500){extractionDirtyV70=false;extractionSaveClockV70=0;return true}return false;
 }
@@ -109,7 +103,7 @@ const extractionPlacementBeforeV70=validStructureV46;
 validStructureV46=function(b){const result=extractionPlacementBeforeV70(b);if(result)return result;const d=STRUCTURES_V46[b.type];for(const p of pipesV70.values())if(p.x*B>=b.x&&p.x*B<b.x+d.w*B&&p.y*B>=b.y&&p.y*B<b.y+d.h*B)return 'Remove pipes from this space first';return result};
 
 // Compact equipment controls live beside the Structures trigger; the world stays usable.
-const equipmentV70=document.createElement('section');equipmentV70.id='equipmentV70';equipmentV70.innerHTML='<h3>LIQUIDS</h3><div class="pipeToolsV70"><img alt=""><b id="pipeCountV70">0</b><button class="btn" id="craftPipeV70" title="One iron ingot makes four pipes">Craft 4<small>1 iron ingot</small></button><button class="btn" id="layPipeV70">Lay</button><button class="btn" id="removePipeV70">Remove</button></div><p>Drag pipes from the intake below a Pumpjack into a liquid pocket. Run its right outlet to a Tank. Keep the two lines apart.</p><p>Pipes drill through soil and stone. End a pipe in liquid. No fuel or Worker needed.</p>';
+const equipmentV70=document.createElement('section');equipmentV70.id='equipmentV70';equipmentV70.innerHTML='<h3>LIQUIDS</h3><div class="pipeToolsV70"><img alt=""><b id="pipeCountV70">0</b><button class="btn" id="craftPipeV70" title="One iron ingot makes four pipes">Craft 4<small>1 iron ingot</small></button><button class="btn" id="layPipeV70">Lay</button><button class="btn" id="removePipeV70">Remove</button></div><p>Drag pipes from the intake below a Pumpjack into a liquid pocket. Touch its right outlet to a Tank inlet, or join them with pipes. Keep intake and outlet lines apart.</p><p>Pipes drill through soil and stone. End a pipe in liquid. Pumping leaves the pool unchanged. No fuel or Worker needed.</p>';
 $('structureCards').after(equipmentV70);equipmentV70.querySelector('img').src=ButtonwoodArt.extractionIcon('pipe').toDataURL();
 $('craftPipeV70').onclick=craftPipesV70;$('layPipeV70').onclick=()=>selectPipeToolV70();$('removePipeV70').onclick=()=>selectPipeToolV70(true);
 $('layPipeV70').setAttribute('aria-label','Lay pipes');$('removePipeV70').setAttribute('aria-label','Remove pipes and return them to inventory');
@@ -137,7 +131,7 @@ function refreshExtractionV70(){
  $('extractionStatusV70').textContent=tank?(kind?bucketLiquidsV68[kind]:'Empty'):(b.paused?'Paused':extractionStatusTextV70[b.extractionStatus]||'Connect pipes to begin');
  const canvas=$('extractionPortraitV70'),sprite=ButtonwoodArt.extractionSprite(b.type,{frame:Math.floor((b.extractionMotion||0)/150)%6,active:!!b.extractionActive,kind,fill:amount/32});canvas.width=sprite.width;canvas.height=sprite.height;canvas.getContext('2d').drawImage(sprite,0,0);
  $('tankMeterV70').hidden=!tank;$('tankMeterV70').value=amount;
- $('extractionHintV70').textContent=tank?'One liquid per Tank. Side ports receive pipes. Drain releases liquid from the right outlet.':'Bottom port draws liquid. Right port sends it to a Tank. Pipe tips draw oil, water or lava.';
+ $('extractionHintV70').textContent=tank?'One liquid per Tank. Touching ports connect directly. Drain releases liquid from the right outlet.':'Bottom intake draws oil, water or lava without draining the pool. Touch the right outlet to a Tank, or use pipes.';
  $('pumpPauseV70').hidden=tank;$('pumpPauseV70').textContent=b.paused?'Resume':'Pause';
  $('tankFillBucketV70').hidden=$('tankDrainV70').hidden=!tank;$('tankFillBucketV70').disabled=amount<1||!(bucketBagV68.bucket>0);$('tankFillBucketV70').title='Transfer one block into an empty bucket';$('tankDrainV70').disabled=!(amount>0);
  $('tankAddV70').hidden=!tank;for(const button of $('tankAddV70').children){const k=button.dataset.kind;button.disabled=!tank||!(bucketBagV68['bucket:'+k]>0)||amount+1>32||(amount>0&&kind!==k)}

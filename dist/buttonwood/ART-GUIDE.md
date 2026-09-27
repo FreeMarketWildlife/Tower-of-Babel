@@ -247,16 +247,18 @@ These are current implementation facts from
 | Pumpjack construction | 15 wood, 8 stone, 5 iron ingots; 4 × 3 blocks. |
 | Tank construction | 8 wood, 4 stone, 6 iron ingots; 3 × 3 blocks. |
 | Pipe batch | 1 iron ingot makes 4 pipes; reclaim returns the placed pipes. |
-| Pump transfer | Up to 1 block per second; no fuel or assigned Worker. |
+| Pump transfer | Up to 1 block per second from a wet intake, without depleting it; no fuel or assigned Worker. |
+| Direct machine connection | Opposite outlet/inlet faces at the same world position connect without a pipe. Gaps and height differences need pipes. |
 | Tank capacity | 32 blocks of one liquid. |
 | Bucket transfer | 1 block per bucket; a mismatched occupied Tank cannot mix liquids. |
 | Tank drain | Up to 1 block through the right outlet, including a final fractional remainder; blocked outlets retain the contents. |
 
 Oil, water and lava follow the same extraction equipment path. Pipes drill
-through eligible terrain without making a walkable opening. Finite source volume,
-empty/blocked/full states and conserved storage belong to game logic. A Tank must
+through eligible terrain without making a walkable opening. Renewable pumping,
+real source presence, empty/blocked/full states and finite storage belong to game logic.
+Buckets still remove liquid; water–lava reactions still consume it. A Tank must
 be emptied before packing. Visuals must not advertise an unimplemented refinery,
-oil sale, unlimited oil supply, fuel cost or Worker staffing requirement.
+oil sale, automatic pool regeneration, fuel cost or Worker staffing requirement.
 
 ### Review the extraction family
 

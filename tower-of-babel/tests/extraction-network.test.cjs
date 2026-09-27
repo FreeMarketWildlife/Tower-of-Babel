@@ -253,6 +253,48 @@ test('adapter exceptions retain already completed transfers in returned tanks', 
   conserved(2, source, result);
 });
 
+test('renewable pumping fills storage without extracting or limiting rate to shallow cells', () => {
+  for (const kind of Network.KINDS) {
+    const state = {...basic(),renewableSources:true}, source=reservoir([[0,1,kind,.00001]]);
+    for(let i=0;i<128;i++){const result=Network.update(state,.25,source);state.tanks=result.tanks;assert.equal(result.totalTransferred,.25)}
+    assert.equal(state.tanks[0].amount,32);assert.equal(source.remaining,.00001);assert.equal(source.extractions,0);
+    assert.equal(Network.update(state,1,source).pumps[0].status,'full');
+    state.tanks[0].amount=0;state.tanks[0].kind=null;
+    assert.equal(Network.update(state,1,{query:()=>null}).pumps[0].status,'dry');
+    assert.equal(Network.update(state,1,{query:()=>({kind,amount:1})}).totalTransferred,1);
+  }
+});
+
+test('only coincident, opposite cardinal faces form a direct connection', () => {
+  const outlet={x:128,y:80,dx:1,dy:0},inlet={x:128,y:80,dx:-1,dy:0};
+  assert.equal(Network.portsTouch(outlet,inlet),true);
+  for(const face of [null,{...inlet,x:160},{...inlet,y:112},{...inlet,dx:1},{...inlet,dx:0,dy:1},{...inlet,dx:-2},{...inlet,x:NaN}])assert.equal(Network.portsTouch(outlet,face),false);
+  const state={renewableSources:true,pipes:[pipe(0,0),pipe(0,1)],pumps:[pump('p',pipe(0,0),pipe(4,2),{outletFace:outlet})],tanks:[tank('t',[],{faces:[inlet]})]};
+  const source=reservoir([[0,1,'water',1]]);
+  let result=Network.update(state,1,source);assert.equal(result.totalTransferred,1);assert.equal(result.pumps[0].status,'pumping');assert.equal(source.extractions,0);
+  for(const face of [{...inlet,x:160},{...inlet,y:112},{...inlet,dx:1}]){
+    state.tanks[0].faces=[face];assert.equal(Network.update(state,1,source).pumps[0].status,'no-outlet');
+  }
+});
+
+test('direct tanks honor full, pause, mixing and external pipe constraints', () => {
+  const face={x:128,y:80,dx:1,dy:0};
+  const state={renewableSources:true,pipes:[pipe(0,0),pipe(0,1),pipe(8,0)],pumps:[pump('p',pipe(0,0),pipe(4,2),{outletFace:face})],tanks:[tank('t',[pipe(8,0)],{faces:[{...face,dx:-1}]})]};
+  const source=reservoir([[0,1,'water',1]]);
+  state.tanks[0].amount=32;state.tanks[0].kind='water';assert.equal(Network.update(state,1,source).pumps[0].status,'full');
+  state.tanks[0].amount=1;state.tanks[0].kind='oil';assert.equal(Network.update(state,1,source).pumps[0].status,'mixed');
+  state.tanks[0].amount=0;state.tanks[0].kind=null;state.pumps[0].enabled=false;assert.equal(Network.update(state,1,source).pumps[0].status,'paused');
+  state.pumps[0].enabled=true;state.tanks.push(tank('other',[pipe(8,0)],{amount:2,kind:'lava'}));assert.equal(Network.update(state,1,source).pumps[0].status,'mixed');
+  state.tanks.pop();state.tanks[0].ports=[pipe(0,0)];assert.equal(Network.update(state,1,source).pumps[0].status,'loop');
+  assert.equal(source.extractions,0);assert.equal(source.remaining,1);
+});
+
+test('multiple renewable pumps share a source and never overfill shared tanks', () => {
+  const state={...basic(),renewableSources:true};state.pumps.push(pump('second'));state.tanks[0].capacity=1.25;
+  const source=reservoir([[0,1,'oil',.01]]),result=Network.update(state,1,source);
+  assert.equal(result.totalTransferred,1.25);assert.deepEqual(result.pumps.map(p=>p.amount),[1,.25]);assert.equal(source.remaining,.01);assert.equal(source.extractions,0);
+});
+
 let failed = 0;
 for (const { name, run } of tests) {
   try { run(); console.log('PASS ' + name); }

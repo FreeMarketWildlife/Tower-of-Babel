@@ -5,7 +5,7 @@ const STRUCTURES_V46={
  workshop:{name:'Workshop',w:4,h:4,cost:{wood:5,dirt:5,stone:10},note:'Craft structures for your settlement.'},
  forge:{name:'Forge',w:3,h:3,cost:{stone:15,wood:5,dirt:5},note:'Smelt ore into refined metal.'},
  blacksmith:{name:'Blacksmith',w:5,h:4,cost:{wood:15,stone:10,ironIngot:3},note:'Turn iron into construction nails.'},
- pumpjack:{name:'Pumpjack',w:4,h:3,cost:{wood:15,stone:8,ironIngot:5},playerCraftTime:3000,note:'Draw oil, water or lava through an intake pipe. Connect the side outlet to a Tank.'},
+ pumpjack:{name:'Pumpjack',w:4,h:3,cost:{wood:15,stone:8,ironIngot:5},playerCraftTime:3000,note:'Draw unlimited oil, water or lava from a wet intake. Touch the side outlet to a Tank or connect it with pipes.'},
  tank:{name:'Tank',w:3,h:3,cost:{wood:8,stone:4,ironIngot:6},playerCraftTime:2000,note:'Stores 32 blocks of one liquid. Use buckets to take liquid out or add it.'}
 };
 const JOBS_V46={

@@ -36,3 +36,19 @@ Reproduce with `tests/buttonwood-extraction-art.test.cjs`,
 `tests/oil-browser.test.cjs`, and `tests/extraction-browser.test.cjs` from the game
 root. Browser checks use `SKY_TEST_URL` and an HTTP-served checkout. Set
 `EXTRACTION_SCREENSHOT_DIR` for responsive panel captures.
+
+## September 27 follow-up: direct ports and renewable pumping
+
+Per the user's updated rules, touching opposite Pumpjack/Tank faces now connect
+without an intervening pipe. The sprite boundaries/ports stay unchanged (bible §7).
+Status/help text explains direct connections and renewable pumping (bible §9).
+Source pools do not lose volume while pumping; tanks retain finite capacity and
+bucket transfers still move real liquid. The original finite-pumping assertions
+above record the initial release and are superseded for pump transfers.
+
+`extraction-network.test.cjs` covers exact faces, gaps, orientation, capacity,
+mixing, multiple pumps and unlimited shallow sources.
+`extraction-integration.test.cjs` executes the production adapter, port calculation,
+and save/restore helpers against actual solver cells. Repeated pumping fills each
+liquid's Tank while preserving every source cell, survives reload, and stops after
+the actual water–lava reaction destroys the source. No new art assets or dimensions.

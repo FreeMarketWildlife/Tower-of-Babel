@@ -1,4 +1,5 @@
-/* Pure pipe topology and conserved pump transfers. Quantities are world blocks.
+/* Pure pipe topology and rate-limited pump transfers. Quantities are world blocks.
+   Renewable mode leaves real sources untouched; finite adapters remain supported.
    Tanks are sinks: their ports do not bridge otherwise disconnected pipe graphs. */
 (function (root, factory) {
   'use strict';
@@ -18,6 +19,11 @@
   const orderPoint = (a, b) => a.y - b.y || a.x - b.x;
   const orderId = (a, b) => String(a.id).localeCompare(String(b.id), 'en', { numeric: true }) || a.index - b.index;
   const positive = value => Number.isFinite(value) && value > 0;
+  // Faces use exact world coordinates and outward cardinal normals. Proximity
+  // alone cannot connect a gap, a diagonal, or two ports pointing the same way.
+  const faceValid = p => p && Number.isFinite(p.x) && Number.isFinite(p.y) &&
+    Number.isInteger(p.dx) && Number.isInteger(p.dy) && Math.abs(p.dx) + Math.abs(p.dy) === 1;
+  const portsTouch = (a, b) => !!(faceValid(a) && faceValid(b) && a.x === b.x && a.y === b.y && a.dx === -b.dx && a.dy === -b.dy);
 
   function createNetwork() {
     // A single latest topology is retained; repeated edits cannot grow this cache.
@@ -56,12 +62,14 @@
     }
 
     /**
-     * update({pipes,pumps,tanks}, dtSeconds, adapter)
-     * pipes: {x,y,kind?}; pumps: {id,intake:{x,y},outlet:{x,y},rate?:1,enabled?:true}
-     * tanks: {id,ports:[{x,y}],amount?:0,kind?:null,capacity?:32}
+     * update({pipes,pumps,tanks,renewableSources?}, dtSeconds, adapter)
+     * pipes: {x,y,kind?}; pumps: {id,intake:{x,y},outlet:{x,y},rate?:1,enabled?:true,outletFace?:{x,y,dx,dy}}
+     * tanks: {id,ports:[{x,y}],amount?:0,kind?:null,capacity?:32,faces?:[{x,y,dx,dy}]}
      * query(x,y) -> null | {kind,amount}; extract(x,y,kind,requested) -> amount.
      * Adapter quantities are block units. extract must atomically remove and return
      * a finite amount in [0, requested], or throw without removing anything.
+     * renewableSources:true only queries real liquid presence; never calls extract
+     * or caps the pump rate by the amount of liquid left in the sampled cell.
      * Inputs are never mutated; callers must apply returned tanks after every update.
      * Adapter failures are reported so earlier successful transfers are not lost.
      */
@@ -91,7 +99,7 @@
         component.terminals = component.cells.filter(cell => cell.degree <= 1 &&
           !(cell.degree > 0 && intakePorts.has(key(cell))));
       }
-      tanks.forEach((tank, index) => {
+      const tankRecords = tanks.map((tank, index) => {
         const ports = Array.isArray(tank.ports) ? tank.ports : [];
         const componentIds = [...new Set(ports.map(point => componentAt(point)?.id).filter(id => id !== undefined))];
         const valid = Number.isFinite(tank.capacity) && tank.capacity >= 0 &&
@@ -105,12 +113,13 @@
           // An invalid occupied tank must not silently allow a different fluid in.
           if (tank.amount > 0) constrain(component, tank.kind || 'unknown');
         }
+        return record;
       });
       for (const component of componentMap.values()) component.tanks.sort(orderId);
 
       let totalTransferred = 0;
-      const activeTime = positive(dtSeconds);
-      if (activeTime && (!adapter || typeof adapter.query !== 'function' || typeof adapter.extract !== 'function')) {
+      const activeTime = positive(dtSeconds), renewable = state.renewableSources === true;
+      if (activeTime && (!adapter || typeof adapter.query !== 'function' || (!renewable && typeof adapter.extract !== 'function'))) {
         throw new TypeError('ExtractionNetwork requires query and extract adapter functions');
       }
       function query(cell, pumpId) {
@@ -135,10 +144,19 @@
         if (!activeTime || pump.enabled === false || !positive(rate)) continue;
         const budget = rate * dtSeconds;
         if (!positive(budget)) continue;
-        const intake = componentAt(pump.intake), outlet = componentAt(pump.outlet);
+        const intake = componentAt(pump.intake), pipeOutlet = componentAt(pump.outlet);
+        const direct = tankRecords.filter(record => (Array.isArray(record.tank.faces) ? record.tank.faces : []).some(face => portsTouch(pump.outletFace, face)));
+        // A direct connection is a private outlet, never a virtual pipe through
+        // the building. Tanks still cannot bridge unrelated pipe components.
+        const outlet = pipeOutlet ? { ...pipeOutlet, tanks: [...new Set([...pipeOutlet.tanks, ...direct])] } :
+          direct.length ? { id: 'direct:' + pump.id, kind: null, mixed: false, tanks: direct } : null;
+        if (outlet) {
+          outlet.tanks.sort(orderId);
+          for (const record of direct) if (record.tank.amount > 0) constrain(outlet, record.tank.kind || 'unknown');
+        }
         if (!intake) { result.status = 'no-intake'; continue; }
         if (!outlet) { result.status = 'no-outlet'; continue; }
-        if (intake.id === outlet.id) { result.status = 'loop'; continue; }
+        if (intake.id === outlet.id || direct.some(record => record.componentIds.includes(intake.id))) { result.status = 'loop'; continue; }
         if (intake.mixed || outlet.mixed) { result.status = 'mixed'; continue; }
         if (!outlet.tanks.length) { result.status = 'no-tank'; continue; }
 
@@ -167,13 +185,13 @@
           const tank = record.tank;
           for (const { cell } of sources) {
             if (!(remaining > 0 && tank.amount < tank.capacity)) break;
-            // Sources are re-queried before each removal, including between pumps.
+            // Re-query presence/type for every transfer; destroyed sources never regenerate.
             const source = query(cell, pump.id);
             if (!source || source.kind !== kind) continue;
-            const requested = Math.min(remaining, source.amount, tank.capacity - tank.amount);
+            const requested = Math.min(remaining, renewable ? remaining : source.amount, tank.capacity - tank.amount);
             if (!positive(requested)) continue;
             let actual;
-            try { actual = adapter.extract(cell.x, cell.y, kind, requested); }
+            try { actual = renewable ? requested : adapter.extract(cell.x, cell.y, kind, requested); }
             catch (error) {
               diagnostics.push({ type: 'extract-error', pumpId: pump.id, message: String(error?.message || error) });
               failed = true; break;
@@ -187,7 +205,7 @@
             if (actual === 0) continue;
             tank.amount += actual; tank.kind = kind;
             remaining -= actual; result.amount += actual; totalTransferred += actual;
-            constrain(intake, kind); constrain(outlet, kind);
+            constrain(intake, kind); constrain(outlet, kind); constrain(pipeOutlet, kind);
             for (const id of record.componentIds) constrain(componentMap.get(id), kind);
             transfers.push({ pumpId: pump.id, tankId: record.id, kind, amount: actual, x: cell.x, y: cell.y });
           }
@@ -210,5 +228,5 @@
     });
   }
   const defaultNetwork = createNetwork();
-  return Object.freeze({ KINDS, createNetwork, update: defaultNetwork.update });
+  return Object.freeze({ KINDS, portsTouch, createNetwork, update: defaultNetwork.update });
 });

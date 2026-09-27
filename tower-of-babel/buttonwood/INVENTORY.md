@@ -34,7 +34,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | Wood / leaves | Four native variants each using shared material ramps. | Tree silhouettes and natural-tree composition are not redesigned. |
 | Ore | Four native transparent overlays each for copper ore, iron ore, and coal. | Review buried/exposed visibility, resource recognition, and mixed deposits. |
 | Water / lava | Shared three-color ramps and a renderer using one-world-unit pixels. | Review pools, falls, joins, depth, interaction boundaries, and sustained motion. Solver is unchanged. |
-| Oil | Third liquid uses existing `ink` / `deep` / `deepLight` tokens and restrained slow surface marks; dark extraction windows and oil bucket/drop art. | Preserve finite pocket levels and drained cavities. Do not imply mineable ore, combustion, automatic replenishment or a different pixel scale. |
+| Oil | Third liquid uses existing `ink` / `deep` / `deepLight` tokens and restrained slow surface marks; dark extraction windows and oil bucket/drop art. | Show the real pool level: pumping leaves it unchanged; buckets and reactions can alter it. Do not imply mineable ore, combustion, automatic replenishment or a different pixel scale. |
 | Garden accent | Small native greenery/flower cluster helper in `environment.js`. | Optional scene decoration; placement is not a general vegetation migration. |
 | Scenery / light | Smooth 30-second sunrise and sunset, native sky bands, clouds, hills, sun/moon/stars, ambient world tint, and warm building lights. Uses the existing 240-second saved clock. | Preserve twilight warmth and underground contrast; weather/depth expansion remains separate. |
 | UI | Warm styling, Worker art, native portraits and 32px miniatures for all five buildings, terrain swatches, and separately drawn Move glove, four pickaxe tiers, Craft hammer, disclosure chevron, and square wood/stone/dirt/deepslate/leaves/obsidian miniatures, and empty/water/lava buckets. | Controls and six-slot inventory reviewed at native size on desktop and phone (September 18, 2026); unlisted controls and currency retain existing art. Village/Industry/Mine views and time preview remain sample-only. |
@@ -68,8 +68,9 @@ continues to provide an isolated world for visual comparison and inspection.
 - Liquid art reads the existing solver. A one-pixel render layer does not change
   its 16-unit simulation cells, flow rules, reaction rules, or save format.
 - Oil/extraction gameplay is added separately in `game-v69-oil.txt`,
-  `extraction-network.js` and `game-v70-extraction.txt`. Those modules own finite
-  source volume, safe pocket migration, network status, amounts and saved state.
+  `extraction-network.js` and `game-v70-extraction.txt`. Those modules own renewable
+  pumping from real sources, direct port connections, safe pocket migration,
+  network status, finite storage amounts and saved state.
   `extraction.js` only draws the supplied state. Pumpjack/Tank placement envelopes
   are defined by the structure implementation, never inferred from decorative art.
 - In the sample, the Industry review district is added once in a clear site, avoiding existing

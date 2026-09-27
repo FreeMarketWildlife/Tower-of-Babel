@@ -54,13 +54,13 @@ const closeTo = (actual, expected, label) => assert.ok(Math.abs(actual - expecte
           t.step(250); const first = { world: t.volume(kind), tank: t.tank().liquidAmount, kind: t.tank().liquidKind, pump: t.pump().extractionStatus };
           t.step(750); return { before, first, world: t.volume(kind), tank: t.tank().liquidAmount, status: t.pump().extractionStatus };
         }, kind);
-        closeTo(result.first.world + result.first.tank, result.before, kind + ' first conserved');
+        closeTo(result.first.world, result.before, kind + ' source unchanged');
         closeTo(result.first.tank, 0.25, kind + ' rate');
         assert.equal(result.first.kind, kind); assert.equal(result.first.pump, 'pumping');
-        closeTo(result.world + result.tank, result.before, kind + ' final conserved');
+        closeTo(result.world, result.before, kind + ' source unchanged after pumping');
         closeTo(result.tank, 1, kind + ' one full block');
       }
-      console.log('PASS ' + mode + ' real oil/water/lava solver cells transfer at one block per second without loss');
+      console.log('PASS ' + mode + ' real oil/water/lava solver cells transfer at one block per second without depleting the source');
 
       const stopped = await page.evaluate(() => {
         const t = extractionTest, checks = [];

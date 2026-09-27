@@ -390,3 +390,10 @@ formats, slower flow, buckets, exposure, and the captured-autosave regression.
 Browser suites run the actual loader, simulation adapters, UI, and save/reload.
 See [liquid extraction](../LIQUID-EXTRACTION.md) for the player and implementation
 contracts. Existing crafting checks honor each building's configured duration.
+
+`node tower-of-babel/tests/extraction-integration.test.cjs` runs the real production
+adapter, direct-port geometry, liquid map and saved state without a browser. It
+checks renewable pumping of all three liquids, finite tank capacity, unchanged
+pools, direct joins versus pipe gaps, reload, and stopping after lava destroys
+water. `extraction-network.test.cjs` also retains finite-adapter regressions, while
+production explicitly selects renewable sources. Buckets remain volume-conserving.
