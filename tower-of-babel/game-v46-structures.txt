@@ -157,10 +157,40 @@ document.addEventListener('pointerup',e=>{if(!structureDragV46)return;const d=st
 document.addEventListener('pointercancel',cancelStructureDragV46);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cancelStructureDragV46()});
 // Capture building taps before mining gestures can damage terrain behind the shop.
+// Pickaxe and Hand drags still navigate when they start on a building.
 var buildingPressV46=null;
-c.addEventListener('pointerdown',e=>{if(structureDragV46||tool==='pipeV70'||tool==='pipeRemoveV70'||(typeof isBucketV68==='function'&&isBucketV68(tool)))return;const p=s2w(pos(e).x,pos(e).y),b=structureAtV47(p);if(b){if(e.pointerType==='touch')pinchTouchesV26.delete(e.pointerId);buildingPressV46={b,x:e.clientX,y:e.clientY,id:e.pointerId};e.stopImmediatePropagation();c.setPointerCapture(e.pointerId)}},{capture:true});
-c.addEventListener('pointerup',e=>{if(!buildingPressV46||buildingPressV46.id!==e.pointerId)return;const press=buildingPressV46;buildingPressV46=null;if(Math.hypot(e.clientX-press.x,e.clientY-press.y)<8)openBuildingV46(press.b);gesture=null;pointers.clear();e.stopImmediatePropagation()},{capture:true});
-c.addEventListener('pointercancel',()=>{buildingPressV46=null},{capture:true});
+document.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&buildingPressV46&&buildingPressV46.id!==e.pointerId)buildingPressV46=null},{capture:true});
+c.addEventListener('pointerdown',e=>{
+ if(e.button!==0||structureDragV46||tool==='pipeV70'||tool==='pipeRemoveV70'||(typeof isBucketV68==='function'&&isBucketV68(tool)))return;
+ const s=pos(e),p=s2w(s.x,s.y),b=structureAtV47(p);if(!b)return;
+ const canPan=tool==='pick'||tool==='move';
+ if(e.pointerType==='touch'&&!canPan)pinchTouchesV26.delete(e.pointerId);
+ buildingPressV46={b,start:s,a:p,id:e.pointerId,canPan};gesture=null;pickPendingV49=null;pointers.set(e.pointerId,s);
+ e.preventDefault();e.stopImmediatePropagation();try{c.setPointerCapture(e.pointerId)}catch{}
+},{capture:true,passive:false});
+c.addEventListener('pointermove',e=>{
+ const press=buildingPressV46;if(!press||press.id!==e.pointerId||!press.canPan)return;
+ const s=pos(e);if(Math.hypot(s.x-press.start.x,s.y-press.start.y)<=8)return;
+ buildingPressV46=null;
+ gesture={id:e.pointerId,start:press.start,last:s,a:press.a,b:s2w(s.x,s.y),moved:true,t:'move',buildingPanV46:true};
+ cameraBeginDragV24();pan(s.x-press.start.x,s.y-press.start.y);gesture.b=s2w(s.x,s.y);
+ e.preventDefault();e.stopImmediatePropagation();
+},{capture:true,passive:false});
+c.addEventListener('pointerup',e=>{
+ const press=buildingPressV46;if(!press||press.id!==e.pointerId)return;buildingPressV46=null;
+ const s=pos(e);if(Math.hypot(s.x-press.start.x,s.y-press.start.y)<=8)openBuildingV46(press.b);
+ gesture=null;pointers.delete(e.pointerId);cameraReleaseV24();e.preventDefault();e.stopImmediatePropagation();
+},{capture:true,passive:false});
+const cancelBuildingPressV46=e=>{
+ const press=buildingPressV46||(gesture?.buildingPanV46?gesture:null);
+ if(!press||(e.pointerId!=null&&press.id!==e.pointerId))return;
+ buildingPressV46=null;if(gesture?.buildingPanV46)gesture=null;
+ pointers.delete(press.id);pinchTouchesV26.delete(press.id);pinchConsumedV26.delete(press.id);
+ try{if(c.hasPointerCapture(press.id))c.releasePointerCapture(press.id)}catch{}
+ cameraReleaseV24();
+};
+c.addEventListener('pointercancel',cancelBuildingPressV46,{capture:true});c.addEventListener('lostpointercapture',cancelBuildingPressV46);
+addEventListener('blur',cancelBuildingPressV46);document.addEventListener('visibilitychange',cancelBuildingPressV46);
 $('structuresOpen').onclick=()=>{gesture=null;pointers.clear();openStructuresV48()};$('structuresClose').onclick=()=>$('structuresPanel').close();$('buildingClose').onclick=()=>$('buildingPanel').close();$('craftWorkshop').onclick=craftWorkshopV46;$('nailToggle').onclick=()=>{nailModeV46=!nailModeV46;ui();toast(nailModeV46?'NAILED BUILDING · 1 NAIL PER BLOCK · GRID SNAPPED':'LOOSE PHYSICS BLOCKS')};
 for(const [id,action] of Object.entries({buildingProduce:b=>startStructureV46(b),buildingPause:b=>b.paused=!b.paused,buildingRecipe:b=>{if(!b.job&&$('buildingRecipe'))b.selected=$('buildingRecipe').value},buildingPack:packStructureV46})){const el=$(id);if(el)el[id==='buildingRecipe'?'onchange':'onclick']=()=>{const b=structuresV46.find(b=>b.id===selectedBuildingV46);if(b){action(b);ui();saveGame()}}}
 const structureUiBaseV46=ui;ui=function(){structureUiBaseV46();refreshStructuresV46()};

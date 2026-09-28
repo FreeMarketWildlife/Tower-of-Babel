@@ -166,17 +166,35 @@ See `../STRUCTURES-V46.md` for the current costs and gameplay rules.
 The pickaxe toolbar slot now opens an attached, non-modal inventory. Purchases
 retain all earlier picks; `pickaxeOwnedTier` saves the highest purchased tier
 independently of the equipped `pickaxeTier`. Legacy saves retain earlier picks.
-Every pick supports desktop/mobile drag or hold mining. Each audio sixteenth
+Every pick supports desktop/mobile tap mining, drag panning, and hold mining.
+A press on a block waits 300 ms within an 8 CSS-pixel radius before committing
+to auto-mining. Moving farther first commits to panning for the whole gesture;
+starting in empty space or liquid also commits to panning, even beside an
+upgraded pick's wider brush. Once auto-mining starts, dragging aims the next hit.
+Each audio sixteenth
 (208.33 ms at 72 BPM) damages one square at the current pointer, with no interpolated
 swath and no replay of missed ticks. Muted/unavailable audio retains the tempo.
 Hardness, material unlocks, bedrock, protected foundations and buried-area rules
-remain in force. Short taps queue one swing; cancelled gestures do not.
+remain in force. Each short tap queues one swing, including rapid taps between
+ticks; cancelled gestures do not. Auto-mining starts at the next subdivision
+after the hold activates. Pinch, lost capture, focus loss, Escape, and tool changes
+cancel pending input.
 Dirt uses a short high-frequency noise hi-hat. A square groups its material sounds
 so nine dirt blocks produce one hat rather than nine overlapping voices.
 
 `pickaxe-browser.test.cjs` covers ownership/purchase/equip/save, exact square
-footprints, durability, pointer speed, desktop and mobile gestures, pinch/cancel,
+footprints, durability, pointer speed, desktop and mobile tap/hold/pan gestures,
+empty-space continuity, zoom-independent drag tolerance, rapid taps, pinch/cancel,
 and actual Web Audio subdivision timing and hi-hat filter/grouping behavior.
+
+`pickaxe-buildings-browser.test.cjs` checks Pickaxe/Move drags starting on a
+building, retained tap-to-open behavior, zoom-scaled camera movement, touch pinch,
+and cancellation before and after a drag begins.
+
+Pickaxe help retains the existing native icons, attached panel and typography;
+the copy follows Buttonwood art bible §9 (short, truthful control instructions)
+and §12 (review the delivered desktop/phone behavior). No asset-family coverage
+or art direction changes.
 
 ## Desktop controls — v52
 

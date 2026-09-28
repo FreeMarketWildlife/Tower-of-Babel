@@ -26,7 +26,7 @@ function pinchBeginV26(){
     anchor:s2w(m.mx,m.my)
   };
   pinchConsumedV26.add(pair.a[0]);pinchConsumedV26.add(pair.b[0]);
-  gesture=null;pointers.clear();cam.anim=false;zoomReturnActiveV26=false;
+  gesture=null;pickPendingV49=null;pointers.clear();cam.anim=false;zoomReturnActiveV26=false;
   if(typeof cameraSpringActiveV24!=='undefined')cameraSpringActiveV24=false;
   if(typeof cameraSpringVYV24!=='undefined')cameraSpringVYV24=0;
 }
