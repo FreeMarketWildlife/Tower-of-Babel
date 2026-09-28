@@ -32,6 +32,9 @@ existing four-minute day/night cycle. Existing worlds keep their saves, inventor
 building collision envelopes, progression, and camera behavior.
 
 Open `/tower-of-babel/buttonwood/` for the animated art gallery and reference.
+Buried terrain darkens through ten layers inward from exposed faces. The first
+unexposed layer is visibly shaded; the deepest stays nearly black with faint
+detail. Digging brightens nearby faces, and underground animals share the shading.
 The optional `/tower-of-babel/?sample=buttonwood` demo offers Village, Industry,
 and Mine views, original-art comparison, and a Time control for previewing twilight.
 Its free review fixtures and controls remain confined to the separate

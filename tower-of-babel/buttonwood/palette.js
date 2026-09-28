@@ -3,7 +3,7 @@
   'use strict';
   const A = window.ButtonwoodArt = window.ButtonwoodArt || {};
   A.palette = Object.freeze({
-    ink: '#49313f', outline: '#67434a',
+    ink: '#49313f', outline: '#67434a', buriedShade: '#0b0709',
     cream: '#f7e8c4', creamShade: '#d8c397', creamLight: '#fff3d6',
     mint: '#8fb69a', mintLight: '#b9d1ab', mintShade: '#597d70',
     coral: '#d97d68', coralLight: '#f0a17c', coralShade: '#ad5955',

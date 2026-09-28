@@ -31,6 +31,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | Dirt / grass | Rich loam, fuller rooted sod, continuous world-coordinate texture, and neighbor-aware 32px cells. | User endorsed the richer meadow; retain it as the terrain direction. Continue checking large-area density as other terrain families migrate. |
 | Stone | Continuous world-coordinate planes, soil boundary clusters, and exposed/corner treatments. | Check ore contrast, seams, and placed multi-block constructions. |
 | Deep materials | Deepslate joins the connected texture system; bedrock and obsidian use Buttonwood textures. | Review full depth transitions and distinct material identification. |
+| Buried lighting | Ten cardinal layers from exposed faces: 28% near-black wash on the first unexposed layer through a 96% cap at layer ten. One native-pixel world pass shades terrain, ore and animals together. | Check excavated sides/ceilings, hidden versus revealed pockets, fractional zoom, immediate updates, faint deepest detail and readable placement guides. No save or mining-rule changes. |
 | Wood / leaves | Four native variants each using shared material ramps. | Tree silhouettes and natural-tree composition are not redesigned. |
 | Ore | Four native transparent overlays each for copper ore, iron ore, and coal. | Review buried/exposed visibility, resource recognition, and mixed deposits. |
 | Water / lava | Shared three-color ramps and a renderer using one-world-unit pixels. | Review pools, falls, joins, depth, interaction boundaries, and sustained motion. Solver is unchanged. |
@@ -92,6 +93,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | Source | Responsibility |
 |---|---|
 | `palette.js` | Named palette and shared animation timings. |
+| `fog.js` / `../game-v72-terrain-fog.txt` | Pure exposure-distance/opacity helpers / read-only world exposure mask and final native-pixel fog composition. |
 | `workers.js` | Worker world poses, anchors, appearance variants, and native UI portrait. |
 | `buildings.js` | All five native buildings, separately authored 32px miniatures, working details, anchors, sizes, and warm light overlays. |
 | `extraction.js` | Pumpjack and Tank world art, fixed port metadata, six-pose activity, gauges, connected pipe segments and separately authored extraction UI icons. |

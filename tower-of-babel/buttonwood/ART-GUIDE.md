@@ -71,6 +71,7 @@ approved ramps, listed shadow → base → highlight where available.
 | Group | Tokens and exact colors |
 |---|---|
 | Contours | `ink #49313f`, `outline #67434a` |
+| Buried lighting | `buriedShade #0b0709`; renderer wash only, never a pure-black sprite fill. |
 | Cream | `creamShade #d8c397`, `cream #f7e8c4`, `creamLight #fff3d6` |
 | Mint | `mintShade #597d70`, `mint #8fb69a`, `mintLight #b9d1ab` |
 | Coral | `coralShade #ad5955`, `coral #d97d68`, `coralLight #f0a17c` |
@@ -321,6 +322,38 @@ Future particles should use small coherent clusters from the matching material
 ramp. Existing particles and death/revival effects remain to be reviewed.
 
 ## Daylight and atmosphere
+
+### Exposure-depth fog
+
+`fog.js` provides a pure, capped cardinal distance field and the shared opacity
+curve. Exposed cells are layer 0 (no extra wash). The first unexposed layer uses
+28% `buriedShade`; layers 2–10 increase linearly to 96%, which remains the cap
+below layer ten. This permits faint detail throughout the darkest terrain.
+
+`../game-v72-terrain-fog.txt` reads the existing `terrainExposed` rule and known
+open cells. Excavated cells and revealed/surface liquid pockets are open; hidden
+pockets, ungenerated space and the world's lower edge do not emit light. Layers
+spread in four directions, so diagonal gaps do not change mining eligibility.
+Undiscovered cavities inherit the distance field until revealed. Placed blocks
+retain the existing mining/exposure semantics and do not invent new blockers.
+
+Each render checks an exposure mask within the viewport plus eleven cells.
+The distance field is rebuilt only when this mask or its bounds change; equal
+collection sizes cannot hide changed occupancy. The temporary field never enters
+saves or changes terrain, liquids, collisions, animals, or progression.
+
+A native-world-pixel canvas applies the wash once after the complete world scene
+and its day/night tint. Ore, animal sprites and notices receive the same opacity
+as the ground beneath them, including sprite pixels crossing cell boundaries.
+Nearest-neighbor composition keeps joins closed at fractional zoom. Tool/build
+previews, including pipe placement, render afterwards. Original-art comparison
+in the optional sample keeps its original lighting.
+
+The gallery's exposure study uses the same opacity curve and native terrain,
+ore and animal art. See the fog unit/browser tests for all ten layers, digging,
+pocket visibility, render purity, zoom and shared animal shading.
+
+### Day/night cycle
 
 `sky.js` owns pure presentation through `A.skyState(seconds, day)` and
 `A.paintSky(context, options)`. The existing saved settlement clock stays authoritative:

@@ -1,6 +1,6 @@
 # Buttonwood art bible
 
-**Tower of Babel · Visual direction v1.3 · September 27, 2026**
+**Tower of Babel · Visual direction v1.4 · September 27, 2026**
 
 ## Start here
 
@@ -297,7 +297,7 @@ need a dark checkerboard outline to understand that the world is block based.
 
 | Situation | Required visual treatment |
 |---|---|
-| Same-material neighbors | Continuous texture; no interior box borders or per-cell darkening. |
+| Same-material neighbors | Continuous texture; no interior box borders or arbitrary per-cell darkening. Exposure-depth lighting may change between layers, with seamless joins at equal depth. |
 | Dirt / stone / deepslate boundary | One material owns each stepped join; paint inside occupied cells. |
 | Convex or concave exposed corner | Deliberate corner treatment with no implied tunnel or missing collision. |
 | Exposed surface dirt | Sod and roots only where meadow eligibility is real. |
@@ -528,7 +528,32 @@ sunset, mint clothing against meadow, skin against cream hats, and pale ore at n
 *Approved industry and nighttime evidence. The sample’s top review controls are
 not part of ordinary gameplay.*
 
+### Buried terrain and shared darkness
+
+Exposed, mineable faces retain their normal artwork. The first unexposed layer
+is noticeably darker: a 28% wash communicates that another face must be dug
+first. Each additional cardinal block layer becomes darker, reaching a 96% wash
+at layer ten and holding there. The new named `buriedShade #0b0709` is a warm
+near-black derived from the existing ink hue; no layer becomes pure black.
+
+Measure inward from actual exposed faces, including excavated walls, ceilings,
+and floors, rather than from surface height alone. Diagonal gaps do not expose
+a block. Undiscovered pockets and unloaded cells never become light sources.
+Concealed pocket space continues the distance field until discovery; actual
+excavation and revealed liquid pockets brighten their adjacent faces immediately.
+This is current exposure shading, not a separately saved exploration history.
+
+Apply the wash to the finished world at native pixel scale, including terrain,
+ore, liquids, underground animals, and their small response marks. Animals must
+not glow through buried blocks. Keep material and sprite detail faintly present
+even at the deepest shade. HUD, menus and placement/tool guides stay readable
+above world lighting. The effect uses the same camera transform as all world art;
+no blurred gradient, additional grid outlines, or fractional asset resizing.
+
 ### Vegetation and liquids
+
+Vegetation and fluid art retain the rules below; buried lighting applies to the
+finished world rather than changing their source sprites.
 
 Group leaves into masses; retain block-based trunks, crowns, falling pieces, and
 support behavior. Existing wood/leaf textures are migrated; complete tree
@@ -842,6 +867,11 @@ the starting view; plains and jungle fireflies emerge at night. Biomes alter onl
 parallax art, animal distribution, and music. Native review and regression evidence
 live in [the wildlife QA record](qa/wildlife/README.md); the illustrated v1.0 PDF
 remains a dated reference to the earlier foundation artwork.
+
+**v1.4 / 2026-09-27:** user-directed exposure-depth darkness: an unmistakable first
+unexposed layer, ten progressive layers capped short of black, and shared shading
+for ore and underground animals. Adds the named buried-shade token and native
+gallery study. Mining, terrain occupancy, wildlife behavior and saves are unchanged.
 
 ## 13. Research notebook
 

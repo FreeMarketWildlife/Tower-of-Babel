@@ -57,7 +57,7 @@ async function read(url){
     }
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='buttonwood/sample.css?v=67';document.head.append(sheet);
     (0,eval)(await read('biomes.js'));
-    for(const path of ['palette.js','sky.js','workers.js','buildings.js','environment.js','ui.js','extraction.js','biomes.js','wildlife.js']){
+    for(const path of ['palette.js','sky.js','workers.js','buildings.js','environment.js','ui.js','extraction.js','biomes.js','wildlife.js','fog.js']){
       (0,eval)(await read('buttonwood/'+path));
     }
     (0,eval)(await read('extraction-network.js'));
@@ -107,6 +107,7 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v69-oil.txt?v=69'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v70-extraction.txt?v=70'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v71-wildlife.txt?v=71'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v72-terrain-fog.txt?v=72'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

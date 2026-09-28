@@ -163,6 +163,11 @@ drawGoldBursts=function(now){
   const id=components[key(p.x,p.y)],kind=types[id];ctx.save();ctx.imageSmoothingEnabled=false;ctx.drawImage(ButtonwoodArt.extractionSprite('pipe',{mask:pipeMaskV70(p),kind,active:!!kind}),s.x,s.y,B*cam.z,B*cam.z);ctx.restore();
  }
  extractionDrawBeforeV70(now);
+};
+// Placement guidance stays above world lighting, like the pickaxe/build previews.
+const extractionPreviewBeforeV72=preview;
+preview=function(){
+ extractionPreviewBeforeV72();
  if(tool==='pipeV70'||tool==='pipeRemoveV70'){
   const a=gesture?.t===tool?gesture.a:pipeHoverV70,b=gesture?.t===tool?gesture.b:pipeHoverV70;if(!a||!b)return;
   const route=pipeRouteV70(a,b);if(!route)return;const remove=tool==='pipeRemoveV70',combined=new Map(pipesV70);for(const p of route)combined.set(key(p.x,p.y),p);

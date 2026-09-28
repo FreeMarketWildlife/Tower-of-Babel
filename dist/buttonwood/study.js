@@ -39,6 +39,13 @@
   for(const [side,dx,dy]of [['n',0,-1],['e',1,0],['s',0,1],['w',-1,0],['ne',1,-1],['se',1,1],['sw',-1,1],['nw',-1,-1]])neighbors[side]=materialAt(x+dx,y+dy);
   tg.drawImage(A.terrain(material,x,y,neighbors),x*32,y*32);
  }
+ // ART-BIBLE §§3–5, 8, 10: unchanged native art under the shared depth lighting.
+ const fogStudies=[],fogNeighbors=Object.fromEntries(['n','e','s','w','ne','se','sw','nw'].map(side=>[side,'stone']));
+ for(let layer=0;layer<=A.burialFog.maxLayer;layer++){
+  const figure=document.createElement('figure'),c=document.createElement('canvas'),caption=document.createElement('figcaption');
+  c.width=c.height=32;c.dataset.fogLayer=String(layer);c.setAttribute('role','img');c.setAttribute('aria-label',(layer?'Buried layer '+layer:'Exposed block')+': stone, copper ore and a mole under the same lighting');
+  caption.textContent=layer?String(layer):'Exposed';figure.append(c,caption);document.getElementById('fog-study').append(figure);fogStudies.push({c,layer});
+ }
  const artZoom=document.getElementById('art-zoom');
  function setZoom(){const z=Number(artZoom.value);for(const c of document.querySelectorAll('[data-worker]')){c.style.width=40*z+'px';c.style.height=32*z+'px'}for(const c of document.querySelectorAll('[data-building]')){const scale=Math.max(1,Math.min(z,2,Math.floor(c.closest('.buildings').clientWidth/c.width)));c.style.width=c.width*scale+'px';c.style.height=c.height*scale+'px'}}
  if(innerWidth<640)artZoom.value='2';artZoom.onchange=setZoom;setZoom();
@@ -77,6 +84,12 @@
   for(const c of buildings){const cg=c.getContext('2d');cg.clearRect(0,0,c.width,c.height);A.paintBuilding(cg,c.dataset.building,time,['workshop','forge','blacksmith'].includes(c.dataset.building))}
   for(const c of extraction){const cg=c.getContext('2d');cg.clearRect(0,0,c.width,c.height);cg.drawImage(A.extractionSprite(c.dataset.extraction,{frame:Math.floor(time/A.extractionFrameMs)%6,active:c.dataset.active==='true',kind:c.dataset.kind||null,fill:Number(c.dataset.fill||0)}),0,0)}
   for(const {c,species}of wildlifeStudies){const cg=c.getContext('2d');cg.clearRect(0,0,c.width,c.height);cg.drawImage(A.wildlifeSprite(species,{frame:Math.floor(time/A.wildlifeFrameMs[species])%4,burrowing:['worm','mole'].includes(species)}),0,0)}
+  for(const {c,layer}of fogStudies){
+   const cg=c.getContext('2d');cg.imageSmoothingEnabled=false;
+   cg.drawImage(A.terrain('stone',0,16,fogNeighbors),0,0);cg.drawImage(A.ore('copperOre',1),0,0);
+   cg.drawImage(A.wildlifeSprite('mole',{frame:Math.floor(time/A.wildlifeFrameMs.mole)%4}),4,15);
+   cg.save();cg.globalAlpha=A.burialFog.opacity(layer);cg.fillStyle=P.buriedShade;cg.fillRect(0,0,32,32);cg.restore();
+  }
   biomeStudy.width=Math.floor(biomeStudy.parentElement.clientWidth);const bg=biomeStudy.getContext('2d');bg.imageSmoothingEnabled=false;
   A.paintSky(bg,{width:biomeStudy.width,height:320,ground:286,camX:time/45,seconds:clock%240,day,biomeSeed:1709,biomeWeights:{[biomeSelect.value]:1}});
   for(let x=0;x<biomeStudy.width;x+=32)bg.drawImage(A.terrain('dirt',Math.floor(x/32),0,{n:null,e:'dirt',s:'dirt',w:'dirt',meadow:true}),x,286);

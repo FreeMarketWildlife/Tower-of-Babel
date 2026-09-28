@@ -56,6 +56,18 @@ liquids, and night/automation audio.
 
 ## Buttonwood artwork and sample
 
+`terrain-fog.test.cjs` checks the ten-layer cardinal distance and opacity curve.
+`terrain-fog-browser.test.cjs` exercises real exposure, excavation, concealed and
+revealed pockets, ore/animal shading, render purity and zoom through the production
+loader. Use the same `SKY_TEST_URL` and `SKY_TEST_BROWSER` setup as below.
+`FOG_SCREENSHOT_DIR` optionally records desktop/phone review evidence.
+
+Exposed faces keep their normal light. The first unexposed layer receives a 28%
+warm near-black wash, increasing to 96% at ten layers. A read-only bounded mask
+updates after digging or pocket discovery; the final world pass also shades ore
+and animals. Tool previews and the HUD remain above it. Saves and mining rules
+are unchanged. The native gallery includes the identical exposure curve.
+
 Ordinary gameplay uses the approved Buttonwood artwork and existing
 `skyStack.save.v1` saves. Open `../?sample=buttonwood` for the isolated playable
 sample, or `../buttonwood/` for the animated native art gallery. The sample uses
