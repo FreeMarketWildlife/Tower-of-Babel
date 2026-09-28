@@ -2,6 +2,10 @@
 'use strict';
 let ac,music,sfx,ambience,ready=false,timer=null,next=0,bar=0,beatOrigin=0,windSource=null,lastSplash=0,lastSizzle=0;
 let nightMix=0,arrangementMix=0;
+const biomeNames=['mountains','plains','jungle','ocean'];
+let biomeTarget={mountains:1,plains:0,jungle:0,ocean:0},biomeMix={...biomeTarget},biomeTime=0;
+let biomeArrangement={...biomeTarget},animalCues=0,lastAnimal=null;
+const animalSlots=new Map();
 let ghostMix=0,ghostPan=0,lastSpiritDeathSlot=-1,spiritCues=0,lastGoldSlot=-1,musicOn=true,sfxOn=true;
 let automation,machineSource=()=>[],machineSlot=0,machineVoices=[],machineHistory=[],machineMix=[];
 const minerSlots=new Map();
@@ -46,17 +50,30 @@ const NIGHT_MELODY=[
  [[.5,73,2.8],[3,69,1.7]],[[1.25,74,2.6]],[[.75,76,2.6]],[[1.5,73,2.5]]
 ];
 function setNightMix(value=0){nightMix=Number.isFinite(value)?Math.max(0,Math.min(1,value)):0}
+// Spatial weights are supplied by the same saved biome field as the scenery.
+// A three-second easing preserves the running score, night blend and work grid.
+function updateBiomeMix(){
+ const now=ac?.currentTime||0,elapsed=Math.max(0,now-biomeTime),step=1-Math.exp(-elapsed/3);
+ for(const key of biomeNames)biomeMix[key]+=(biomeTarget[key]-biomeMix[key])*step;
+ biomeTime=now;return biomeMix;
+}
+function setBiome(weights='mountains'){
+ updateBiomeMix();
+ const input=typeof weights==='string'?{[weights]:1}:weights||{},nextMix={};let sum=0;
+ for(const key of biomeNames){const value=input[key];nextMix[key]=Number.isFinite(value)?Math.max(0,value):0;sum+=nextMix[key];}
+ biomeTarget=sum>0?Object.fromEntries(biomeNames.map(key=>[key,nextMix[key]/sum])):{mountains:1,plains:0,jungle:0,ocean:0};
+}
 function moonBell(midi,t,d,v,pan){
  const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=hz(midi);
  env(g,t,.12,v,d);o.connect(g);route(g,music,pan);o.start(t);o.stop(t+d+.06);
 }
 function playBar(i,t){
- const p=SONG[i],pan=[-.48,-.15,.17,.48],n=nightMix,day=1-n;arrangementMix=n;
+ const p=SONG[i],pan=[-.48,-.15,.17,.48],n=nightMix,day=1-n,b={...updateBiomeMix()};arrangementMix=n;biomeArrangement=b;
  p.chord.forEach((note,j)=>pad(note,t,barLen*.98,pan[j],n));
  voice(p.bass[0],t,beat*(1.7+n),.028-.01*n,'triangle',music,-.08,0,600-180*n);
  if(day>.001){
   voice(p.bass[1],t+beat*2,beat*1.45,.021*day,'triangle',music,.08,0,560);
-  for(let s=0;s<8;s++){if((i+s)%7===5)continue;voice(p.chord[ARP[s]]+12,t+s*beat*.5,beat*.34,.011*day,'triangle',music,s%2?.2:-.2,s%3===0?-3:2,1250)}
+  for(let s=0;s<8;s++){if((i+s)%7===5)continue;voice(p.chord[ARP[s]]+12,t+s*beat*.5,beat*(.34+.1*b.ocean),.011*day*(1-.14*b.ocean),'triangle',music,s%2?.2:-.2,s%3===0?-3:2,1250+180*b.plains-200*b.ocean)}
   for(const [o,note,d] of p.melody)voice(note,t+o*beat,d*beat,.018*day,'sine',music,o<2?-.16:.16,0,1400);
   voice(38,t,.16,(i%4===0?.018:.012)*day,'sine',music,0,0,420);
   voice(38,t+beat*2,.16,.01*day,'sine',music,0,0,420);
@@ -68,6 +85,13 @@ function playBar(i,t){
   }
   for(const [o,tone] of [[0,1],[2.5,3]])moonBell(p.chord[tone]+12,t+o*beat,beat*1.6,.008*n,o?-.5:.5);
  }
+ // Small harmonic color changes sit beneath the melody. Every region uses the
+ // same chord, 72 BPM and bar phase, so moving across a border never restarts music.
+ const soft=1-.55*n;
+ if(b.mountains>.001)moonBell(p.chord[2]+24,t+beat*2.5,beat*1.65,.0028*b.mountains*soft,-.38);
+ if(b.plains>.001)for(const [o,tone] of [[.5,1],[2.5,2]])voice(p.chord[tone]+12,t+o*beat,beat*.58,.004*b.plains*soft,'triangle',music,o<2?-.34:.34,0,1550);
+ if(b.jungle>.001)for(const [o,tone] of [[.75,0],[1.5,2],[3.25,1]])voice(p.chord[tone]+12,t+o*beat,beat*.3,.0048*b.jungle*soft,'sine',music,o<2?-.4:.4,0,1900);
+ if(b.ocean>.001){moonBell(p.chord[1]+12,t+beat*.75,beat*2.8,.0045*b.ocean*soft,.42);moonBell(p.chord[1]+12,t+beat*1.5,beat*2.1,.0014*b.ocean*soft,-.42);}
 }
 function schedule(){if(!ready||ac.state!=='running'||document.hidden)return;while(next<ac.currentTime+1){playBar(bar,next);playGhostBar(bar,next);next+=barLen;bar=(bar+1)%SONG.length}scheduleMachines()}
 function start(){clearInterval(timer);next=ac.currentTime+.08;beatOrigin=next;bar=0;machineSlot=0;minerSlots.clear();lastSpiritDeathSlot=-1;timer=setInterval(schedule,50);schedule()}
@@ -112,6 +136,31 @@ function toneAt(freq,t,d=.08,v=.08,type='triangle',slide=0,bus=sfx,pan=0){if(!re
 function tone(freq,d=.08,v=.08,type='triangle',slide=0){if(ready)toneAt(freq,ac.currentTime,d,v,type,slide)}
 function noiseAt(t,d=.18,v=.04,cut=1800,pan=0){if(!ready)return;const src=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();src.buffer=makeNoise(Math.max(.25,d));f.type='lowpass';f.frequency.value=cut;env(g,t,.006,Math.max(.0001,v),d);src.connect(f);f.connect(g);route(g,sfx,pan);src.start(t);src.stop(t+d+.02)}
 function noise(d=.18,v=.04,cut=1800){if(ready)noiseAt(ac.currentTime,d,v,cut)}
+function animalSound(species,pan=0,gain=1){
+ if(!['bird','butterfly','worm','mole','rabbit','firefly'].includes(species))return false;
+ if(!ready){ensure().then(()=>{if(ready)animalSound(species,pan,gain)});return false;}
+ if(ac.state!=='running'||document.hidden||!sfxOn)return false;
+ const t=ac.currentTime,previous=animalSlots.get(species);
+ if(previous!==undefined&&t-previous<.1)return false;
+ animalSlots.set(species,t);pan=Number.isFinite(pan)?Math.max(-1,Math.min(1,pan)):0;gain=Number.isFinite(gain)?Math.max(0,Math.min(1,gain)):1;
+ if(!gain)return false;
+ // Tiny species use stylized wing/soil rustles; they are tactile sound cues,
+ // while the bird whistle and mammal squeaks retain a small, gentle voice.
+ if(species==='bird'){
+  toneAt(1720,t,.1,.027*gain,'sine',2350,sfx,pan);toneAt(2150,t+.12,.14,.022*gain,'sine',1560,sfx,pan);
+ }else if(species==='butterfly'){
+  noiseAt(t,.09,.065*gain,3900,pan);noiseAt(t+.11,.08,.045*gain,3100,pan);
+ }else if(species==='worm'){
+  noiseAt(t,.18,.13*gain,850,pan);toneAt(145,t,.1,.011*gain,'sine',115,sfx,pan);
+ }else if(species==='mole'){
+  noiseAt(t,.21,.12*gain,1100,pan);toneAt(440,t+.03,.12,.022*gain,'triangle',340,sfx,pan);toneAt(530,t+.17,.08,.012*gain,'sine',370,sfx,pan);
+ }else if(species==='rabbit'){
+  toneAt(970,t,.1,.024*gain,'sine',1300,sfx,pan);toneAt(1180,t+.11,.12,.017*gain,'sine',850,sfx,pan);noiseAt(t+.08,.13,.03*gain,1600,pan);
+ }else{
+  noiseAt(t,.16,.055*gain,4400,pan);toneAt(185,t,.12,.008*gain,'sine',210,sfx,pan);
+ }
+ animalCues++;lastAnimal=species;return true;
+}
 function stoneStrike(broken,gain=1,pan=0,midi=67){
  const t=ac.currentTime,d=.085;
  const buffer=ac.createBuffer(1,Math.ceil(ac.sampleRate*d),ac.sampleRate),samples=buffer.getChannelData(0);
@@ -195,7 +244,7 @@ function splash(kind='water'){if(!ready||performance.now()-lastSplash<180)return
 function sizzle(){if(!ready||performance.now()-lastSizzle<120)return;lastSizzle=performance.now();noise(.24,.045,3000);tone(170,.16,.03,'triangle',90)}
 async function ensure(){if(ready){if(ac.state==='suspended')try{await ac.resume()}catch{};return}try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ac=new AC();const master=ac.createGain(),comp=ac.createDynamicsCompressor();music=ac.createGain();sfx=ac.createGain();ambience=ac.createGain();automation=ac.createGain();automation.gain.value=.45;automation.connect(master);master.gain.value=.76;music.gain.value=.43;sfx.gain.value=.9;ambience.gain.value=.11;music.connect(master);sfx.connect(master);ambience.connect(master);master.connect(comp);comp.connect(ac.destination);await ac.resume();ready=true;start();startAmbience();setInterval(scheduleBirds,9000)}catch(e){console.warn('Audio start failed',e)}}
 document.addEventListener('pointerdown',ensure,{capture:true});document.addEventListener('keydown',ensure,{capture:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInterval(timer);timer=null}else if(ready)ac.resume().then(start).catch(()=>{})});
-window.SkyAudio={ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,bpm:BPM};
-window.__skyStackAudioDebug=()=>({ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
+window.SkyAudio={ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
+window.__skyStackAudioDebug=()=>({ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
 document.documentElement.dataset.audioEngine='midi-ready';
 })();

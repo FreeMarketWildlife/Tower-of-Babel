@@ -24,7 +24,7 @@ const url=process.env.SKY_TEST_URL||'http://127.0.0.1:8765/tower-of-babel/';
      const width=Math.ceil(W/cam.z),height=Math.ceil(HH/cam.z),ground=Math.round(w2s(0,0).y/cam.z);
      const native=document.createElement('canvas');native.width=width;native.height=height;
      const g=native.getContext('2d'),sky=bwSkyState();
-     ButtonwoodArt.paintSky(g,{width,height,ground,camX:cam.x,seconds:sky.seconds,day:settlementV55.day});
+     ButtonwoodArt.paintSky(g,{width,height,ground,camX:cam.x,seconds:sky.seconds,day:settlementV55.day,biomeSeed:skySeedV62,biomeWeights:ButtonwoodBiomes.weightsAt(skySeedV62,cam.x)});
      const data=g.getImageData(0,0,width,height).data,colors=new Set();
      const rgb=(p,i)=>(p[i]<<16)|(p[i+1]<<8)|p[i+2];
      for(let i=0;i<data.length;i+=4)colors.add(rgb(data,i));
@@ -47,12 +47,9 @@ const url=process.env.SKY_TEST_URL||'http://127.0.0.1:8765/tower-of-babel/';
     // Captured pre-fix middle row was [180,189,176], darker than BOTH sky bands.
     for(let channel=0;channel<3;channel++)assert.ok(pixels[1][channel]>=Math.min(pixels[0][channel],pixels[2][channel]),'No dark line between adjacent sky bands: '+JSON.stringify(pixels));
     assert.equal(pixels[1][3],255);
-    // All near-hill columns meet cleanly just above the ground, including at 1.15x.
-    const hills=await page.evaluate(()=>{
-     const t=backgroundTest,ground=Math.round(844/2/1.15+180),y=Math.floor((ground-2)*1.15);
-     const row=t.ctx.getImageData(0,y,390,1).data;return Array.from({length:390},(_,x)=>[...row.slice(x*4,x*4+3)]);
-    });
-    assert.ok(hills.every(rgb=>JSON.stringify(rgb)==='[158,188,162]'),'Near hills have no vertical antialiasing seams');
+    // The biome foothills are no longer one flat color. Validate the entire
+    // frame against its native composed colors, including every foothill column.
+    assert.equal((await page.evaluate(()=>backgroundTest.validate())).invalid,0,'Biome scenery has no fractional-zoom seams');
     if(process.env.BACKGROUND_SCREENSHOT_DIR){
      fs.mkdirSync(process.env.BACKGROUND_SCREENSHOT_DIR,{recursive:true});
      const png=await page.locator('#game').evaluate(c=>c.toDataURL());

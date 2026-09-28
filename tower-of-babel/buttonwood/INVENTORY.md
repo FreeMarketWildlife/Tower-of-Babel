@@ -37,6 +37,9 @@ continues to provide an isolated world for visual comparison and inspection.
 | Oil | Third liquid uses existing `ink` / `deep` / `deepLight` tokens and restrained slow surface marks; dark extraction windows and oil bucket/drop art. | Show the real pool level: pumping leaves it unchanged; buckets and reactions can alter it. Do not imply mineable ore, combustion, automatic replenishment or a different pixel scale. |
 | Garden accent | Small native greenery/flower cluster helper in `environment.js`. | Optional scene decoration; placement is not a general vegetation migration. |
 | Scenery / light | Smooth 30-second sunrise and sunset, native sky bands, clouds, hills, sun/moon/stars, ambient world tint, and warm building lights. Uses the existing 240-second saved clock. | Preserve twilight warmth and underground contrast; weather/depth expansion remains separate. |
+| Scenic biomes | Seeded large mountain, plains, jungle, and ocean regions; layered native parallax and gradual boundaries; mountains at spawn. | Scenery only: preserve terrain, resource distribution, support, day/night, and fractional-zoom compositing. |
+| Wildlife | Native bird, butterfly, worm, mole, rabbit, and firefly poses; shared palette and world pixel scale. | Every animal is tappable and bucketable; burrowing never changes soil. Review cutaway/night contrast and touch hit areas. |
+| Cages / animal buckets | Three native timber-and-iron cage sizes, layered bars and visible inhabitants; separately drawn 32px cage and animal-bucket icons. | Preserve size-specific footprints, real capacity and saved occupants, native portraits, and attached UI. |
 | UI | Warm styling, Worker art, native portraits and 32px miniatures for all five buildings, terrain swatches, and separately drawn Move glove, four pickaxe tiers, Craft hammer, disclosure chevron, and square wood/stone/dirt/deepslate/leaves/obsidian miniatures, and empty/water/lava buckets. | Controls and six-slot inventory reviewed at native size on desktop and phone (September 18, 2026); unlisted controls and currency retain existing art. Village/Industry/Mine views and time preview remain sample-only. |
 
 ## Explicitly deferred
@@ -51,7 +54,7 @@ continues to provide an isolated world for visual comparison and inspection.
 | Terrain edge cases | Remaining material pairs beyond soil/stone/deepslate, full placement/rotation review, and terrain damage/effects. |
 | World effects | Harvest rewards, gold, construction feedback, impacts, particles, ladder art, and smoke/fire outside the migrated building details. |
 | Complete UI | Resource/currency icons, controls, tools, locks, warnings, panels, tutorial art, dev controls, and all responsive states. |
-| Full scenery | Complete weather presentation and remaining background/depth layers. |
+| Full scenery | Weather and vertical environmental expansion beyond the four surface biomes. |
 
 ## Runtime and review boundaries
 
@@ -93,6 +96,8 @@ continues to provide an isolated world for visual comparison and inspection.
 | `buildings.js` | All five native buildings, separately authored 32px miniatures, working details, anchors, sizes, and warm light overlays. |
 | `extraction.js` | Pumpjack and Tank world art, fixed port metadata, six-pose activity, gauges, connected pipe segments and separately authored extraction UI icons. |
 | `sky.js` | Continuous saved-clock sky colors, native scenery, twilight timing, and ambient light state. |
+| `biomes.js` | Native pixel parallax mountain, plains, jungle, and ocean compositions. `../biomes.js` owns deterministic geographic regions. |
+| `wildlife.js` | Native animal poses, layered cage sprites, and separately composed animal-bucket and cage UI art. |
 | `environment.js` | Terrain, ore overlays, grass, optional garden cluster, and liquid ramps. |
 | `ui.js` | Cached native 32px tool icons, tier variants, disclosure arrow, and separately drawn square resource miniatures. |
 | `integration.txt` | Default-game render adapters, native sky compositing before camera zoom, liquid drawing, isolated sample setup, comparison, and review hooks. |
@@ -119,6 +124,15 @@ The reproducible check is `tests/buttonwood-extraction-art.test.cjs` (relative t
 interaction or oil save scenario has passed. The extraction-network and oil
 tests cover their respective behavior; record full gameplay integration evidence
 with the release QA. The v1.0 illustrated PDF predates this added family.
+
+## Scenic biome and wildlife review · September 27, 2026
+
+The four scenic regions, six animal pose families, three layered cage sizes, and
+native animal-bucket/cage icons are implemented. Review applies bible sections
+3–4 and 7–12. Natural fireflies emerge over plains and jungle at dusk/night;
+collected fireflies remain visible in their new homes. The geography, gameplay,
+art, audio, desktop/phone, and save checks are recorded with the
+[native scene and wildlife evidence](qa/wildlife/README.md).
 
 ## Future revision workflow
 

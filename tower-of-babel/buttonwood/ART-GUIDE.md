@@ -345,6 +345,46 @@ Apply one subtle scene wash (maximum 22% at night), followed by warm building li
 Never switch the background at a darkness threshold or add a second simulation clock.
 Meteor/weather presentation and more elaborate scenery remain deferred.
 
+## Scenic biomes and wildlife
+
+`../biomes.js` exports `ButtonwoodBiomes.regionAt(seed, x)`, `biomeAt(seed, x)`,
+and `weightsAt(seed, x)`. It uses the existing saved sky seed. Regions span
+2305–3839 world units, with 384-unit blending boundaries; the region at zero is
+mountains. Scenery, animals, and music use these regions. Terrain and resources do not.
+
+`biomes.js` adds `A.paintBiomeScenery`; `A.paintSky` accepts `biomeSeed` and
+`biomeWeights` alongside the existing options. The integration passes these
+through its native sky canvas before applying camera zoom. Unconfigured gallery
+and unit-test callers retain the original meadow scenery. Mountain ridges,
+rolling plains, clustered jungle crowns, and ocean islands use named palette
+tokens mixed with the existing day/night atmosphere.
+
+`wildlife.js` owns four authored poses per animal. `A.wildlifeSprite(species,
+{frame, direction, burrowing})` anchors at the bottom center. `A.wildlifeSizes`
+and `A.wildlifeFrameMs` expose the contracts below.
+
+| Species | Native canvas | Pose duration |
+|---|---|---|
+| Bird | 24 × 20 | 150ms |
+| Butterfly | 16 × 16 | 130ms |
+| Worm | 20 × 10 | 220ms |
+| Mole | 24 × 16 | 220ms |
+| Rabbit | 24 × 24 | 180ms |
+| Firefly | 12 × 12 | 160ms |
+
+Natural fireflies appear in plains and jungle at dusk/night. Captured and released
+fireflies remain visible by day. Light uses crisp warm body pixels, with no blur.
+Burrowers draw over soil in the cutaway without changing a terrain cell. Animal
+simulation, saved habitats, bucket transfers, and cage occupancy belong to
+`../game-v71-wildlife.txt`, not the art generator.
+
+`A.cageSprite(type, {layer})` returns a native `back`, `front`, or `all` composition.
+Draw inhabitants between the back and bars. Small cages use 64 × 64, medium
+96 × 64, and large 128 × 96; all use the same world pixel scale. Their fixed
+gameplay frame colliders are defined explicitly, never inferred from occupants.
+`A.cageIcon`, `A.wildlifeIcon`, and `A.wildlifeBucketIcon` return separately authored
+32 × 32 UI compositions. Display cage portraits at their native world dimensions.
+
 ## Physics and save boundaries
 
 Ordinary gameplay uses the existing `skyStack.save.v1` key and normal progression.

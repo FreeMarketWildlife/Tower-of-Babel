@@ -15,8 +15,10 @@ let bwIndustryStudy=bwSavedStudy?.version===1&&Number.isFinite(bwSavedStudy.cent
 const bwSaveStructures=saveStructuresV46;
 if(bwSampleMode)saveStructuresV46=function(){return{...bwSaveStructures(),buttonwoodIndustry:bwIndustryStudy}};
 function bwSkyState(){return bwArt.skyState((workerNightV55()?DAY_V55/1000:0)+settlementV55.elapsed/1000,settlementV55.day)}
+function bwBiomeWeights(){return window.ButtonwoodBiomes?.weightsAt(skySeedV62,cam.x)}
 const bwSyncOriginalAudio=syncSkyAudioV62;
-syncSkyAudioV62=function(){if(bwEnabled)window.SkyAudio?.setNightMix?.(bwSkyState().darkness);else bwSyncOriginalAudio()};
+syncSkyAudioV62=function(){if(bwEnabled)window.SkyAudio?.setNightMix?.(bwSkyState().darkness);else bwSyncOriginalAudio();window.SkyAudio?.setBiome?.(bwBiomeWeights())};
+window.__skyStackBiomeDebug=()=>({seed:skySeedV62,current:window.ButtonwoodBiomes?.biomeAt(skySeedV62,cam.x),region:window.ButtonwoodBiomes?.regionAt(skySeedV62,cam.x),weights:bwBiomeWeights()});
 
 // This visual index never enters the physics grid or the saved world. Rebuild it
 // once before rendering so excavation and block motion cannot leave stale joins.
@@ -150,7 +152,7 @@ bg=function(){
  const width=Math.ceil(W/cam.z),height=Math.ceil(HH/cam.z);
  if(bwSkyCanvas.width!==width)bwSkyCanvas.width=width;
  if(bwSkyCanvas.height!==height)bwSkyCanvas.height=height;
- bwArt.paintSky(bwSkyContext,{width,height,ground:Math.round(w2s(0,0).y/cam.z),camX:cam.x,seconds:sky.seconds,day:settlementV55.day});
+ bwArt.paintSky(bwSkyContext,{width,height,ground:Math.round(w2s(0,0).y/cam.z),camX:cam.x,seconds:sky.seconds,day:settlementV55.day,biomeSeed:skySeedV62,biomeWeights:bwBiomeWeights()});
  ctx.save();ctx.globalAlpha=1;ctx.imageSmoothingEnabled=false;
  ctx.drawImage(bwSkyCanvas,0,0,width*cam.z,height*cam.z);ctx.restore();
 };

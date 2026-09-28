@@ -145,8 +145,11 @@
       cloud(base + 33, Math.round(ground * .27), 0);
       cloud(base + 173, Math.round(ground * .48), 1);
     }
-    // Quiet stepped hills share the same palette interpolation as the sky.
-    for (const layer of [0, 1]) {
+    // Gallery callers without biome inputs retain the approved meadow baseline.
+    if (options.biomeWeights && A.paintBiomeScenery) {
+      A.paintBiomeScenery(g, {width, height, ground, camX: drift, state,
+        weights: options.biomeWeights, seed: options.biomeSeed || 0});
+    } else for (const layer of [0, 1]) {
       const step = layer ? 8 : 12;
       const parallax = drift * (layer ? .11 : .065);
       const color = layer ? state.colors.nearHill : state.colors.hill;

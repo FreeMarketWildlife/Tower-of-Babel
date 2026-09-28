@@ -40,9 +40,21 @@
   tg.drawImage(A.terrain(material,x,y,neighbors),x*32,y*32);
  }
  const artZoom=document.getElementById('art-zoom');
- function setZoom(){const z=Number(artZoom.value);for(const c of document.querySelectorAll('[data-worker]')){c.style.width=40*z+'px';c.style.height=32*z+'px'}for(const c of document.querySelectorAll('[data-building]')){const scale=Math.min(z,2);c.style.width=c.width*scale+'px';c.style.height=c.height*scale+'px'}}
+ function setZoom(){const z=Number(artZoom.value);for(const c of document.querySelectorAll('[data-worker]')){c.style.width=40*z+'px';c.style.height=32*z+'px'}for(const c of document.querySelectorAll('[data-building]')){const scale=Math.max(1,Math.min(z,2,Math.floor(c.closest('.buildings').clientWidth/c.width)));c.style.width=c.width*scale+'px';c.style.height=c.height*scale+'px'}}
  if(innerWidth<640)artZoom.value='2';artZoom.onchange=setZoom;setZoom();
+ addEventListener('resize',setZoom);
  const frame=(state)=>A.frameFor(state,time);
+ const wildlifeStudies=[];
+ for(const species of ['bird','butterfly','worm','mole','rabbit','firefly']){
+  const sprite=A.wildlifeSprite(species,{}),c=document.createElement('canvas'),figure=document.createElement('figure'),caption=document.createElement('figcaption');
+  c.width=sprite.width;c.height=sprite.height;c.style.width=c.width+'px';c.style.height=c.height+'px';c.setAttribute('role','img');c.setAttribute('aria-label',species+' animation');caption.textContent=species[0].toUpperCase()+species.slice(1);figure.append(c,caption);document.getElementById('wildlife-studies').append(figure);wildlifeStudies.push({c,species});
+  const icon=A.wildlifeBucketIcon(species);icon.setAttribute('role','img');icon.setAttribute('aria-label','Bucket of '+species);icon.title='Bucket of '+species;document.getElementById('wildlife-icons').append(icon);
+ }
+ for(const [type,label]of [['cageSmall','Small cage'],['cageMedium','Medium cage'],['cageLarge','Large cage']]){
+  const sprite=A.cageSprite(type,{layer:'all'}),figure=document.createElement('figure'),caption=document.createElement('figcaption');sprite.style.width=sprite.width+'px';sprite.style.height=sprite.height+'px';sprite.setAttribute('role','img');sprite.setAttribute('aria-label',label);caption.textContent=label;figure.append(sprite,caption);document.getElementById('cage-studies').append(figure);
+  const icon=A.cageIcon(type);icon.title=label;icon.setAttribute('role','img');icon.setAttribute('aria-label',label);document.getElementById('wildlife-icons').append(icon);
+ }
+ const biomeStudy=document.getElementById('biome-study'),biomeSelect=document.getElementById('biome-study-select');
  const workers=[...document.querySelectorAll('[data-worker]')],buildings=[...document.querySelectorAll('[data-building]')],extraction=[...document.querySelectorAll('[data-extraction]')];
  function render(now){
   if(!paused&&last&&now-last<250)time+=now-last;last=now;
@@ -64,6 +76,10 @@
   for(const [i,c] of workers.entries()){const cg=c.getContext('2d');cg.clearRect(0,0,40,32);cg.drawImage(A.worker({state:c.dataset.worker,frame:frame(c.dataset.worker),variant:i}),0,0)}
   for(const c of buildings){const cg=c.getContext('2d');cg.clearRect(0,0,c.width,c.height);A.paintBuilding(cg,c.dataset.building,time,['workshop','forge','blacksmith'].includes(c.dataset.building))}
   for(const c of extraction){const cg=c.getContext('2d');cg.clearRect(0,0,c.width,c.height);cg.drawImage(A.extractionSprite(c.dataset.extraction,{frame:Math.floor(time/A.extractionFrameMs)%6,active:c.dataset.active==='true',kind:c.dataset.kind||null,fill:Number(c.dataset.fill||0)}),0,0)}
+  for(const {c,species}of wildlifeStudies){const cg=c.getContext('2d');cg.clearRect(0,0,c.width,c.height);cg.drawImage(A.wildlifeSprite(species,{frame:Math.floor(time/A.wildlifeFrameMs[species])%4,burrowing:['worm','mole'].includes(species)}),0,0)}
+  biomeStudy.width=Math.floor(biomeStudy.parentElement.clientWidth);const bg=biomeStudy.getContext('2d');bg.imageSmoothingEnabled=false;
+  A.paintSky(bg,{width:biomeStudy.width,height:320,ground:286,camX:time/45,seconds:clock%240,day,biomeSeed:1709,biomeWeights:{[biomeSelect.value]:1}});
+  for(let x=0;x<biomeStudy.width;x+=32)bg.drawImage(A.terrain('dirt',Math.floor(x/32),0,{n:null,e:'dirt',s:'dirt',w:'dirt',meadow:true}),x,286);
   requestAnimationFrame(render);
  }
  requestAnimationFrame(render);

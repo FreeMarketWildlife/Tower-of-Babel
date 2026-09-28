@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="style-v66-mobile-ui.css?v=67">
   <link rel="stylesheet" href="style-v68-hotbar.css?v=68">
   <link rel="stylesheet" href="style-v70-extraction.css?v=70">
+  <link rel="stylesheet" href="wildlife-v71.css?v=71">
 </head>
 <body>
 <div id="app">
@@ -74,6 +75,9 @@
       </div></details>
       <details><summary>TREES <span>Wood, leaves, falling trunks</span></summary><div class="tipBody">
         <p>Wood takes two hits to chop. Every trunk block above the cut falls with gravity; you can mine the fallen logs too.</p><p>Unsupported leaves disappear in 1–2 seconds. Mine them first to collect leaf blocks.</p><p>Select blocks in slots 4–6 to build. Placed leaf blocks stay put. Double tap or double click an item slot to choose from your inventory.</p>
+      </div></details>
+      <details><summary>BIOMES &amp; ANIMALS <span>Explore, listen, collect</span></summary><div class="tipBody">
+        <p>Start among mountains. Pan across large, randomly ordered plains, jungles, and ocean views. Scenery, wildlife, and music change gently; ground and resources follow the same rules everywhere.</p><p>Fireflies light the plains at night. Tap any animal to hear it. Use an empty bucket to collect it, then use its filled bucket to release it wherever you choose.</p><p>Craft small, medium, or large cages in STRUCTURES. Use an animal bucket on a cage to put it inside. Use an empty bucket to take one out. Open a cage to choose an animal to take.</p>
       </div></details>
       <details><summary>LIQUIDS &amp; SECRETS <span>Water, lava, discoveries</span></summary><div class="tipBody">
         <p>Dirt floats in water. Stone and deepslate sink.</p><p>Water touching lava cools into solid obsidian.</p><p>No spoilers—valuable things can hide where you least expect them.</p>
@@ -147,8 +151,8 @@
   <div id="toast" class="hide"></div><div id="load">Loading physics…</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
-<script src="audio.js?v=63"></script>
-<script src="game-v28.js?v=71"></script>
+<script src="audio.js?v=71"></script>
+<script src="game-v28.js?v=73"></script>
 <script>
 for(const [id,label,fn] of [['musicToggle','MUSIC', 'setMusicEnabled'],['sfxToggle','SFX','setSfxEnabled']])document.getElementById(id).addEventListener('click',async()=>{await window.SkyAudio?.ensure();const on=window.SkyAudio?.[fn](!document.getElementById(id).matches('[aria-pressed=true]'));const b=document.getElementById(id);b.setAttribute('aria-pressed',on);b.textContent=(label==='MUSIC'?'♫ ':'♪ ')+label+' '+(on?'ON':'OFF')});
 </script>

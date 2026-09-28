@@ -18,6 +18,42 @@ liquid clock, conservative downward/lateral/pressure transfers, slower lava, and
 one offscreen pixel layer to avoid overlapping translucent cell seams. Simulation
 continues in the existing horizontal activity range around the camera.
 
+## Biomes, wildlife, and cages — v71
+
+```sh
+node tower-of-babel/tests/biomes.test.cjs
+node tower-of-babel/tests/biome-audio.test.cjs
+node tower-of-babel/tests/buttonwood-wildlife-art.test.cjs
+SKY_TEST_URL=http://127.0.0.1:8793/tower-of-babel/ node tower-of-babel/tests/biomes-browser.test.cjs
+SKY_TEST_URL=http://127.0.0.1:8793/tower-of-babel/ node tower-of-babel/tests/wildlife-browser.test.cjs
+SKY_TEST_URL=http://127.0.0.1:8793/tower-of-babel/ node tower-of-babel/tests/wildlife-ground-browser.test.cjs
+```
+
+The geography suite checks seeded reproducibility, randomized large regions,
+mountain spawn, blended borders, integer scenery pixels, day/night, and clipping.
+The biome browser suite checks the production loader, seed persistence, parallax
+motion, render purity, and native responsive gallery. `BIOME_SCREENSHOT_DIR`
+records native landscape views. The existing background browser suite now uses
+the actual biome inputs when checking fractional-zoom seams across 300 frames.
+
+The wildlife browser suite covers all six species with actual mouse and touch
+taps, sounds, capture/release, unchanged soil, each cage recipe and capacity,
+full-cage transaction purity, occupied packing, saved occupants/buckets, partial
+craft progress, finite habitats, nocturnal plains fireflies, daylight release,
+large animal saves, attached desktop/phone cage panels, focus, and cancelled or
+pinched gestures. `WILDLIFE_SCREENSHOT_DIR` records the cage views.
+The ground-animal suite covers gravity after release, actual terrain and placed
+block support, falling after excavation, unchanged flyers and terrain, and saved
+settled positions.
+
+The art suite verifies native dimensions, shared palette, opaque authored pixels,
+mirroring, poses, separately composed icons, and layered cages. `SKY_WILDLIFE_QA`
+writes its native/pose review sheet. The audio suite checks normalized gradual
+biome blending, distinct arrangements, unchanged 72 BPM/night mix, all animal
+cues, and SFX mute. Companion regressions cover Hotbar, Structures, Player
+crafting, Crafting inventory, Buttonwood, Mobile UI, Disclosures, Extraction,
+liquids, and night/automation audio.
+
 ## Buttonwood artwork and sample
 
 Ordinary gameplay uses the approved Buttonwood artwork and existing

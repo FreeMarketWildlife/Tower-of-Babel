@@ -59,6 +59,19 @@ transfers, and stop incompatible or full networks. Buckets still move real liqui
 See the [extraction guide](tower-of-babel/LIQUID-EXTRACTION.md) for controls, costs,
 save behavior, and the Turmoil / Factorio research behind the mechanics.
 
+## Biomes and wildlife
+
+Worlds start in the mountains. Explore large, randomly ordered plains, jungle,
+ocean, and mountain regions with layered pixel parallax and gently changing music.
+Biome geography saves with the world. Only scenery, animals, and music vary;
+terrain, resources, and construction rules remain the same.
+
+Tap birds, butterflies, worms, moles, rabbits, and fireflies to hear them. Collect
+any animal with an empty bucket; use its filled bucket to place it back into the
+world or into a cage. Craft small, medium, and large timber-and-iron cages from
+Structures. Animals, occupied cages, and filled buckets persist across reloads.
+The [wildlife guide](tower-of-babel/BIOMES-WILDLIFE.md) documents costs and controls.
+
 ## Migration
 
 Formerly Sky Stack in the Snake-Game-Test repository. This repository preserves the game's Git history and Tower of Babel's initial commit. The old Snake game remains in Git history; the root entry now opens Tower of Babel.
