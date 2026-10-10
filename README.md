@@ -1,8 +1,8 @@
-# Tower of Babel
+# Critz Tower Defense
 
-Stack a tower to the heavens and declare war on God.
+A small world with big ambitions, now moving toward a cast of wild critters.
 
-A pixel-art physics building game: mine resources, recruit Workers, craft industrial buildings, and raise a tower toward heaven. The heavenly war is the game's direction; the current playable game focuses on mining, crafting, and tower construction.
+A pixel-art physics building game transitioning toward animal Workers and tower defense. The current playable game still focuses on mining, crafting, and tower construction. The new critter cast is a concept study; combat and playable critter sprites are not implemented yet.
 
 ## Play locally
 
@@ -21,6 +21,10 @@ Open http://localhost:8765/. The game lives in `tower-of-babel/`; the old `sky-s
 No build step is required. Serve the files over HTTP so the JavaScript loader can fetch its modules. Matter.js loads from a CDN, so an internet connection is required.
 
 See [development and regression checks](tower-of-babel/tests/README.md) and [art direction](AGENTS.md).
+
+## Critter character concepts
+
+The [25-species Worker concept study](tower-of-babel/buttonwood/concepts/critz-workers/README.md) explores the new cast. Existing animal artwork and its implementation are preserved in the [wildlife archive](tower-of-babel/buttonwood/archive/wildlife-2026-10-10/README.md).
 
 ## Buttonwood artwork
 

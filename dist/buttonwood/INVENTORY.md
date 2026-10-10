@@ -167,3 +167,11 @@ terrain, and sky regressions remain documented in [QA evidence](qa/README.md).
 twilight, and requested its promotion to the default game. Production verification
 for that promotion is recorded in [QA evidence](qa/README.md). Remaining family
 work above is not a blocker to using the approved presentation.
+
+## Critz Tower Defense concept transition — October 10, 2026
+
+| Family | Coverage | Remaining work |
+|---|---|---|
+| Critter Workers | 25-species pixel concept roster in `concepts/critz-workers/`; exploration only. | Native 40 × 32 world sprites, 32 × 32 portraits, animations, implementation, and in-game review. |
+| Original wildlife archive | All six original species, cages, icons, palette, and integration snapshot in `archive/wildlife-2026-10-10/`. | Live wildlife remains intact until a deliberate migration. |
+| Game name | Root entry, game title, deployed-file title, native gallery wordmark, and README use Critz Tower Defense. | Historical filenames, URLs, and save keys retain compatibility. |

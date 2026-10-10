@@ -1,6 +1,6 @@
 # Buttonwood art bible
 
-**Tower of Babel · Visual direction v1.4 · September 27, 2026**
+**Critz Tower Defense · Visual direction v1.5 · October 10, 2026**
 
 ## Start here
 
@@ -327,6 +327,25 @@ tool; an entire isometric building would break the front-elevation language.
 
 *Existing connected terrain evidence. The solid cutaway stays readable while
 material texture crosses cell boundaries.*
+
+## Critz character transition — October 10, 2026
+
+The game is now named **Critz Tower Defense**. The user selected small wild animal
+Workers as the next character direction: 25 distinct species, none larger than a
+honey badger. Preserve Buttonwood warmth, cream hats, mint workwear, gold buttons,
+material clusters, and species-readable silhouettes. Adapt hats around ears and
+quills; leave some heads uncovered so species identity stays clear. Shells,
+snouts, tails, toe pads, and quills must distinguish species before accessories.
+
+The [critter roster](concepts/critz-workers/README.md) is **exploration**, not
+approved production sprites. Adult human Workers remain the current playable
+art until native replacements are authored and reviewed. Tower-defense combat
+is future gameplay direction, not a shipped feature. The original six wildlife
+designs are preserved in the [archive](archive/wildlife-2026-10-10/README.md).
+
+Native replacement work must retain the 40 × 32 Worker canvas and `(18,31)` anchor,
+separately authored 32 × 32 portraits, shared world scale, motion contracts, and
+save compatibility. Do not downsample the generated concept sheet into sprites.
 
 ## 6. Workers and character acting
 
