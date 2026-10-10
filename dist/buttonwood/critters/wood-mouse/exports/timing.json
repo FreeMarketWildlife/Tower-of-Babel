@@ -1,0 +1,30 @@
+{
+  "idle": {
+    "frames": 4,
+    "ms": 280
+  },
+  "walk": {
+    "frames": 8,
+    "ms": 110
+  },
+  "sprint": {
+    "frames": 8,
+    "ms": 70
+  },
+  "mine": {
+    "frames": 8,
+    "ms": 110
+  },
+  "use": {
+    "frames": 8,
+    "ms": 130
+  },
+  "yay": {
+    "frames": 10,
+    "ms": 100
+  },
+  "pet": {
+    "frames": 10,
+    "ms": 150
+  }
+}

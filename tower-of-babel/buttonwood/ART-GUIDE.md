@@ -475,3 +475,14 @@ character age has been redrawn.
 - Preserve production saves and keep sample reset, controls, and fixtures isolated.
 - Verify normal progression, native UI sizes, live simulation, and responsive layouts.
 - Update the gallery and QA evidence when authored assets change.
+
+## Critter Worker animation study
+
+The user selected clothing-free critters. The first native [wood mouse](critters/wood-mouse/)
+uses 40 × 32 frames and anchor `(18,31)`, shared named colors and binary alpha.
+`A.woodMouse.sprite({state, frame, direction})` returns cached native canvases.
+`motions` and `frameAt` own the study cadence; `jumpOffset` supplies integer
+Yay displacement without changing source size. Six actions plus idle provide
+56 frames. Human Workers and production integration retain existing contracts.
+See the [study notes](critters/wood-mouse/README.md) for the complete timing table
+and remaining action-hook, portrait and world-review work.

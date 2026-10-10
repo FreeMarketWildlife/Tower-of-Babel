@@ -175,3 +175,11 @@ work above is not a blocker to using the approved presentation.
 | Critter Workers | 25-species pixel concept roster plus full-overalls and clothing-free comparison sheets in `concepts/critz-workers/`; exploration only. | Native 40 × 32 world sprites, 32 × 32 portraits, animations, implementation, and in-game review. |
 | Original wildlife archive | All six original species, cages, icons, palette, and integration snapshot in `archive/wildlife-2026-10-10/`. | Live wildlife remains intact until a deliberate migration. |
 | Game name | Root entry, game title, deployed-file title, native gallery wordmark, and README use Critz Tower Defense. | Historical filenames, URLs, and save keys retain compatibility. |
+
+## Native critter animation coverage
+
+| Family | Coverage | Remaining work |
+|---|---|---|
+| Clothing direction | User selected no clothing for all critter Workers. | Apply natural species markings to future native characters. |
+| Wood mouse | Native 40 × 32 idle, Walk, Sprint, Mine, Use, Yay, Pet; 56 frames; interactive click-Pet review; PNG strips and GIF exports in `critters/wood-mouse/`. | User animation review; 32 × 32 portrait; game hooks, world/day/night review. |
+| Other 24 critters | Clothing-free roster concepts retained. | Native six-action sets after wood mouse review. |

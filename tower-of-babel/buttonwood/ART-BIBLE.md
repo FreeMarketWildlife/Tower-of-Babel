@@ -332,9 +332,9 @@ material texture crosses cell boundaries.*
 
 The game is now named **Critz Tower Defense**. The user selected small wild animal
 Workers as the next character direction: 25 distinct species, none larger than a
-honey badger. Preserve Buttonwood warmth, cream hats, mint workwear, gold buttons,
-material clusters, and species-readable silhouettes. Adapt hats around ears and
-quills; leave some heads uncovered so species identity stays clear. Shells,
+honey badger. Preserve Buttonwood warmth, deliberate material clusters, and
+species-readable silhouettes. The initial clothing exploration is retained as
+history; the selected clothing-free direction is described below. Shells,
 snouts, tails, toe pads, and quills must distinguish species before accessories.
 
 The [critter roster](concepts/critz-workers/README.md) is **exploration**, not
@@ -343,15 +343,27 @@ art until native replacements are authored and reviewed. Tower-defense combat
 is future gameplay direction, not a shipped feature. The original six wildlife
 designs are preserved in the [archive](archive/wildlife-2026-10-10/README.md).
 
-### Clothing comparison revision
+### Clothing decision and first animation reference
 
-The user liked the 25-critter concept but flagged the garments as apron-like.
-The next exploration compares all 25 in complete overalls with all 25 without
-clothing. Clothing is undecided until that comparison is reviewed. If overalls
-are selected, show a continuous waistband, covered rear seat, two trouser legs,
-and shoulder straps joined at the back. Tail openings sit above the seat; shell
-and quill accommodations must preserve the species silhouette. A front bib
-alone does not satisfy the overall design.
+The user selected **unclothed critter Workers** after comparing the two roster
+sheets. Future critter art uses natural fur, skin, scales, shells, and quills;
+no hats, aprons, overalls, or boots. Warmth comes from expressions, rounded
+silhouettes, cream bellies, colored contours, and purposeful tools.
+
+The [wood mouse animation study](critters/wood-mouse/README.md) is the first
+native interpretation, pending animation review. Use its 40 × 32 frame budget,
+`(18,31)` anchor, integer strokes, and shared palette as the starting contract
+for the remaining species. Preserve each species' distinguishing anatomy rather
+than recoloring a mouse or changing the world pixel scale.
+
+The first animation vocabulary is Walk, Sprint, Mine, Use, Yay, and Pet. Sprint
+has a distinct stride and forward lean. Mine hands grip the pickaxe through
+lift/contact/recovery. Use is a small two-handed assembly gesture. Yay is a
+joyful jump with renderer-level displacement. Pet looks toward the player and
+relaxes into the touch. Exact proposed frame counts and cadences are documented
+with the mouse; these new actions do not alter the human Worker scheduler.
+A 32 × 32 critter portrait, native day/night gameplay review, and engine action
+hooks remain future integration work.
 
 Native replacement work must retain the 40 × 32 Worker canvas and `(18,31)` anchor,
 separately authored 32 × 32 portraits, shared world scale, motion contracts, and
