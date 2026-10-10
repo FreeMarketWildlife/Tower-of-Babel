@@ -172,6 +172,6 @@ work above is not a blocker to using the approved presentation.
 
 | Family | Coverage | Remaining work |
 |---|---|---|
-| Critter Workers | 25-species pixel concept roster in `concepts/critz-workers/`; exploration only. | Native 40 × 32 world sprites, 32 × 32 portraits, animations, implementation, and in-game review. |
+| Critter Workers | 25-species pixel concept roster plus full-overalls and clothing-free comparison sheets in `concepts/critz-workers/`; exploration only. | Native 40 × 32 world sprites, 32 × 32 portraits, animations, implementation, and in-game review. |
 | Original wildlife archive | All six original species, cages, icons, palette, and integration snapshot in `archive/wildlife-2026-10-10/`. | Live wildlife remains intact until a deliberate migration. |
 | Game name | Root entry, game title, deployed-file title, native gallery wordmark, and README use Critz Tower Defense. | Historical filenames, URLs, and save keys retain compatibility. |

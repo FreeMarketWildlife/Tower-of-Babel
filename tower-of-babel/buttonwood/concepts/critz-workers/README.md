@@ -54,3 +54,33 @@ and separately draw 32 × 32 portraits. Never shrink this sheet into game assets
 
 Existing human Workers and live wildlife remain in gameplay. Original wildlife
 is preserved in [the archive](../../archive/wildlife-2026-10-10/README.md).
+
+## Clothing comparison — revision 2
+
+The original cast was liked, but the front-only garments looked like aprons.
+Two edits of the original sheet compare the clothing direction:
+
+- [A / Full overalls](critz-workers-25-overalls-v2.png): complete mint trousers,
+  rear seats, visible side/back pockets, cuffs, and connected shoulder straps.
+- [B / No overalls](critz-workers-25-no-overalls-v2.png): natural animal coats,
+  scales, and skin, with hats removed and held resources/tools retained.
+
+Generated with the built-in imagegen tool. Exact prompts are retained in
+[PROMPT-overalls-v2.txt](PROMPT-overalls-v2.txt) and
+[PROMPT-no-overalls-v2.txt](PROMPT-no-overalls-v2.txt). The original sheet remains
+preserved. Neither clothing direction is selected for production yet.
+
+Review references: art bible sections **1 (identity)**, **3 (pixel grammar)**,
+**4 (palette)**, **6 (Workers)**, and **Clothing comparison revision**; native art
+guide **Identity** and **Pixel scale and canvases**. Compared with the approved
+Buttonwood reference, native Worker sprite, and original critter concept.
+
+The full-overalls sheet retains the 25-species roster and shows covered rear
+hips and two trouser legs, particularly clearer on weasel, stoat, jerboa, and
+reptiles. Shells, tails, and spines remain visible. A dedicated rear-view native
+study is still needed to establish hidden strap routing before animation.
+
+The clothing-free sheet retains all 25 labeled species, tools, poses, and natural
+markings, with no remaining hats, bibs, straps, fasteners, or trousers visible.
+Both sheets preserve the 5 × 5 ordering for direct comparison. Generated concept
+pixels remain unsuitable for direct downsampling into production sprites.

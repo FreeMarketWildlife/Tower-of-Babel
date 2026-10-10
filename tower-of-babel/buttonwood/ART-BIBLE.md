@@ -343,6 +343,16 @@ art until native replacements are authored and reviewed. Tower-defense combat
 is future gameplay direction, not a shipped feature. The original six wildlife
 designs are preserved in the [archive](archive/wildlife-2026-10-10/README.md).
 
+### Clothing comparison revision
+
+The user liked the 25-critter concept but flagged the garments as apron-like.
+The next exploration compares all 25 in complete overalls with all 25 without
+clothing. Clothing is undecided until that comparison is reviewed. If overalls
+are selected, show a continuous waistband, covered rear seat, two trouser legs,
+and shoulder straps joined at the back. Tail openings sit above the seat; shell
+and quill accommodations must preserve the species silhouette. A front bib
+alone does not satisfy the overall design.
+
 Native replacement work must retain the 40 × 32 Worker canvas and `(18,31)` anchor,
 separately authored 32 × 32 portraits, shared world scale, motion contracts, and
 save compatibility. Do not downsample the generated concept sheet into sprites.
