@@ -596,3 +596,14 @@ uses nails if present, and places dynamic supported blocks otherwise. Installed
 ladders use the existing clear-cell checks and actual Workshop batch recipe.
 Sparkle audio uses the current MIDI chord, half-beat alignment, global cue limiting
 and music mute. Task navigation runs at 10Hz; sprite rendering remains at frame rate.
+
+## Pause transport — v76
+
+`game-v76-pause.txt` wraps the final frame loop. The lexical gameplay
+`performance.now()` in the core returns active-play time; browser performance
+remains untouched. Paused frames only schedule the next frame. Physics, liquids,
+production, eggs, Fey and settlement time therefore stop together.
+`SkyAudio.setPaused` suspends/resumes the AudioContext without resetting the score
+or beat origin; input initialization and visibility handlers respect pause.
+Master/Music/Effects volume preferences use `skyStack.audio.volume.v1` and are
+independent of world saves. Phone reflow leaves audio controls inside Options.

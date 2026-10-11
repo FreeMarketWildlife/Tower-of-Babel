@@ -1155,3 +1155,17 @@ widening to at least one cell per six cells of height before further ascent.
 Without nails it places normal dynamic blocks and uses actual ladders/routes;
 a Workshop batch remains five wood for ten ladders, taking five seconds.
 See [Fey visual and gameplay review](qa/fey/README.md).
+
+### Pause and Options — October 10, 2026
+
+Escape or Pause freezes the active-play clock, physics, world animation and audio
+transport. Resume continues the same music position and game deadlines without
+catch-up. Use §9 cream surfaces, warm outlines, mint hover/focus states, readable
+semantic labels and 44px targets. The pause menu is a centered modal over the
+visible world; inventory/category panels remain attached to their triggers.
+
+Resume, Options and Quit form the main menu. Options holds Dev Tools, Restart
+World and saved Master/Music/Effects sliders. Quit saves and returns to a paused
+title screen; Play resumes the world. Restart retains its explicit deletion
+confirmation. These controls work in ordinary gameplay, phone layout and the
+isolated review sample. See [pause review](qa/pause/README.md).

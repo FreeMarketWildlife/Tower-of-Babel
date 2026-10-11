@@ -1,6 +1,6 @@
 (() => {
 'use strict';
-let ac,music,sfx,ambience,ready=false,timer=null,next=0,bar=0,beatOrigin=0,windSource=null,lastSplash=0,lastSizzle=0;
+let ac,master,music,sfx,ambience,ready=false,timer=null,next=0,bar=0,beatOrigin=0,windSource=null,lastSplash=0,lastSizzle=0;
 let nightMix=0,arrangementMix=0;
 const biomeNames=['mountains','plains','jungle','ocean'];
 let biomeTarget={mountains:1,plains:0,jungle:0,ocean:0},biomeMix={...biomeTarget},biomeTime=0;
@@ -8,6 +8,12 @@ let biomeArrangement={...biomeTarget},animalCues=0,lastAnimal=null;
 const animalSlots=new Map();
 let ghostMix=0,ghostPan=0,lastSpiritDeathSlot=-1,spiritCues=0,lastGoldSlot=-1,musicOn=true,sfxOn=true;
 let automation,machineSource=()=>[],machineSlot=0,machineVoices=[],machineHistory=[],machineMix=[];
+let paused=false;
+const volumeKey='skyStack.audio.volume.v1',volumes={master:1,music:1,sfx:1};
+try{const saved=JSON.parse(localStorage.getItem(volumeKey)||'null');for(const key of Object.keys(volumes))if(Number.isFinite(saved?.[key]))volumes[key]=Math.max(0,Math.min(1,saved[key]))}catch{}
+function applyVolumes(){if(!ac)return;for(const [bus,value] of [[master,.76*volumes.master],[music,musicOn?.43*volumes.music:0],[sfx,sfxOn?.9*volumes.sfx:0],[ambience,sfxOn?.11*volumes.sfx:0],[automation,sfxOn?.45*volumes.sfx:0]])if(bus)bus.gain.setTargetAtTime(value,ac.currentTime,.025)}
+function setVolume(key,value){if(!Object.hasOwn(volumes,key)||!Number.isFinite(Number(value)))return;volumes[key]=Math.max(0,Math.min(1,Number(value)));applyVolumes();try{localStorage.setItem(volumeKey,JSON.stringify(volumes))}catch{}return volumes[key]}
+async function setPaused(on){paused=!!on;clearInterval(timer);timer=null;if(!ready)return;try{if(paused||document.hidden)await ac.suspend();else{await ac.resume();if(!paused&&!document.hidden){timer=setInterval(schedule,50);schedule()}}}catch{}}
 const minerSlots=new Map();
 const pendingMinerVoices=new Map();
 // Patterns use sixteenth-note positions within a 4/4 bar. Future physical
@@ -93,7 +99,7 @@ function playBar(i,t){
  if(b.jungle>.001)for(const [o,tone] of [[.75,0],[1.5,2],[3.25,1]])voice(p.chord[tone]+12,t+o*beat,beat*.3,.0048*b.jungle*soft,'sine',music,o<2?-.4:.4,0,1900);
  if(b.ocean>.001){moonBell(p.chord[1]+12,t+beat*.75,beat*2.8,.0045*b.ocean*soft,.42);moonBell(p.chord[1]+12,t+beat*1.5,beat*2.1,.0014*b.ocean*soft,-.42);}
 }
-function schedule(){if(!ready||ac.state!=='running'||document.hidden)return;while(next<ac.currentTime+1){playBar(bar,next);playGhostBar(bar,next);next+=barLen;bar=(bar+1)%SONG.length}scheduleMachines()}
+function schedule(){if(!ready||paused||ac.state!=='running'||document.hidden)return;while(next<ac.currentTime+1){playBar(bar,next);playGhostBar(bar,next);next+=barLen;bar=(bar+1)%SONG.length}scheduleMachines()}
 function start(){clearInterval(timer);next=ac.currentTime+.08;beatOrigin=next;bar=0;machineSlot=0;minerSlots.clear();lastSpiritDeathSlot=-1;timer=setInterval(schedule,50);schedule()}
 function setMachineSource(source){machineSource=typeof source==='function'?source:()=>[]}
 function scheduleMachines(){
@@ -243,16 +249,16 @@ function feySpark(id=0,pan=0){
  const t=beatOrigin+slot*step,index=((Math.floor(slot/8)%SONG.length)+SONG.length)%SONG.length;
  moonBell(SONG[index].chord[Math.abs(id)%4]+24,t,beat*.8,.012,pan);feySparkCues++;return true;
 }
-function setMusicEnabled(on){musicOn=!!on;if(music?.gain)music.gain.setTargetAtTime(musicOn?.43:.0001,ac.currentTime,.025);return musicOn}
-function setSfxEnabled(on){sfxOn=!!on;if(sfx?.gain)sfx.gain.setTargetAtTime(sfxOn?.9:.0001,ac.currentTime,.025);return sfxOn}
+function setMusicEnabled(on){musicOn=!!on;applyVolumes();return musicOn}
+function setSfxEnabled(on){sfxOn=!!on;applyVolumes();return sfxOn}
 function place(material,cost=1){if(!ready)return;voice(material==='deepslate'?36:material==='stone'?43:48,ac.currentTime,.14,.07+Math.min(.03,cost*.002),'triangle',sfx,0,0,700)}
 function unlock(){if(!ready)return;const t=ac.currentTime;[62,66,69,74].forEach((m,i)=>voice(m,t+i*.09,.48,.05,'sine',sfx,(i-1.5)*.12))}
 function ui(){tone(620,.035,.018,'sine')}
 function splash(kind='water'){if(!ready||performance.now()-lastSplash<180)return;lastSplash=performance.now();if(kind==='lava'){tone(92,.23,.05,'triangle',64);noise(.12,.014,520)}else{tone(360,.13,.026,'sine',205);noise(.07,.012,2200)}}
 function sizzle(){if(!ready||performance.now()-lastSizzle<120)return;lastSizzle=performance.now();noise(.24,.045,3000);tone(170,.16,.03,'triangle',90)}
-async function ensure(){if(ready){if(ac.state==='suspended')try{await ac.resume()}catch{};return}try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ac=new AC();const master=ac.createGain(),comp=ac.createDynamicsCompressor();music=ac.createGain();sfx=ac.createGain();ambience=ac.createGain();automation=ac.createGain();automation.gain.value=.45;automation.connect(master);master.gain.value=.76;music.gain.value=.43;sfx.gain.value=.9;ambience.gain.value=.11;music.connect(master);sfx.connect(master);ambience.connect(master);master.connect(comp);comp.connect(ac.destination);await ac.resume();ready=true;start();startAmbience();setInterval(scheduleBirds,9000)}catch(e){console.warn('Audio start failed',e)}}
-document.addEventListener('pointerdown',ensure,{capture:true});document.addEventListener('keydown',ensure,{capture:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInterval(timer);timer=null}else if(ready)ac.resume().then(start).catch(()=>{})});
-window.SkyAudio={feySpark,ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
-window.__skyStackAudioDebug=()=>({feySparkCues,ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
+async function ensure(){if(paused)return;if(ready){if(ac.state==='suspended')try{await ac.resume()}catch{};return}try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ac=new AC();master=ac.createGain();const comp=ac.createDynamicsCompressor();music=ac.createGain();sfx=ac.createGain();ambience=ac.createGain();automation=ac.createGain();automation.gain.value=.45;automation.connect(master);master.gain.value=.76;music.gain.value=.43;sfx.gain.value=.9;ambience.gain.value=.11;music.connect(master);sfx.connect(master);ambience.connect(master);master.connect(comp);comp.connect(ac.destination);await ac.resume();ready=true;applyVolumes();start();startAmbience();setInterval(scheduleBirds,9000);if(paused){clearInterval(timer);timer=null;await ac.suspend()}}catch(e){console.warn('Audio start failed',e)}}
+document.addEventListener('pointerdown',ensure,{capture:true});document.addEventListener('keydown',ensure,{capture:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInterval(timer);timer=null}else if(ready&&!paused)ac.resume().then(()=>{if(!paused){timer=setInterval(schedule,50);schedule()}}).catch(()=>{})});
+window.SkyAudio={setPaused,setVolume,getVolumes:()=>({...volumes}),feySpark,ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
+window.__skyStackAudioDebug=()=>({paused,contextState:ac?.state??'uninitialized',audioTime:ac?.currentTime??0,volumes:{...volumes},feySparkCues,ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
 document.documentElement.dataset.audioEngine='midi-ready';
 })();

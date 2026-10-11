@@ -14,7 +14,7 @@ phoneRootV66.innerHTML='<div class="phoneStats"></div><nav class="phoneTabs" ari
 document.body.append(phoneRootV66);
 document.body.style.setProperty('--phone-chevron','url('+compactArtV64.info+')');
 const phoneHomesV66=new Map(),phoneSectionsV66=[];
-function phoneMoveV66(el,parent){if(!phoneHomesV66.has(el)){const marker=document.createComment('phone UI return');el.before(marker);phoneHomesV66.set(el,marker)}parent.append(el)}
+function phoneMoveV66(el,parent){if($('pauseVolumesV76')?.contains(el))return;if(!phoneHomesV66.has(el)){const marker=document.createComment('phone UI return');el.before(marker);phoneHomesV66.set(el,marker)}parent.append(el)}
 function phoneSectionV66(id,label){const el=document.createElement('details');el.id=id;el.className='phoneSection';el.innerHTML='<summary>'+label+'</summary><div class="phoneContent box"></div>';phoneRootV66.querySelector('nav').append(el);phoneSectionsV66.push(el);el.querySelector('summary').addEventListener('click',()=>{if(!el.open&&phoneActiveV66()){closePhonePanelsV66(el);phoneBoundsV66()}});el.addEventListener('toggle',()=>{if(el.open&&phoneActiveV66()){closePhonePanelsV66(el);phoneBoundsV66()}});return el}
 const phoneGoalV66=phoneSectionV66('phoneGoal','Goal'),phoneVillageV66=phoneSectionV66('phoneVillage','Village'),phoneSettingsV66=phoneSectionV66('phoneSettings','Settings');
 const phoneTimeV66=document.createElement('span');phoneTimeV66.id='phoneTime';

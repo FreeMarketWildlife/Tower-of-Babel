@@ -31,7 +31,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   console.log('PASS WASD/arrows, consistent panning speed and key release');
   await page.keyboard.press('3');assert.equal(await page.locator('#structuresPanel').evaluate(e=>e.open),true);
   for(const [key,tool] of [['1','pick'],['2','move'],['4','wood'],['5','leaves'],['6','dirt']]){await page.keyboard.press(key);assert.equal(await page.evaluate(()=>keysTest.state.tool),tool)}
-  await page.keyboard.press('1');assert.equal(await page.locator('#pickaxeShop').evaluate(e=>e.open),false);await page.keyboard.press('1');assert.equal(await page.locator('#pickaxeShop').evaluate(e=>e.open),true);await page.keyboard.press('Escape');
+  await page.keyboard.press('1');assert.equal(await page.locator('#pickaxeShop').evaluate(e=>e.open),false);await page.keyboard.press('1');assert.equal(await page.locator('#pickaxeShop').evaluate(e=>e.open),true);await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>skyStackPause.state.paused),true);await page.keyboard.press('Escape');
   for(const key of ['7','8','9','0']){await page.keyboard.press(key);assert.equal(await page.evaluate(()=>keysTest.state.tool),'pick')}
   console.log('PASS six number-key toolbar mappings and retired shortcuts');
   await page.keyboard.press('4');await page.keyboard.down('Shift');assert.deepEqual(await page.evaluate(()=>[keysTest.state.tool,keysTest.state.grab]),['move',true]);

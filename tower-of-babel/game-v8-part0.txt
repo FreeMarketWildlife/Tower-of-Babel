@@ -1,6 +1,10 @@
 (() => {
 'use strict';
 
+// All gameplay deadlines share active-play time, including time spent in menus.
+const gameClockV76={paused:false,started:0,offset:0};
+const performance={now:()=> (gameClockV76.paused?gameClockV76.started:window.performance.now())-gameClockV76.offset};
+
 const $=id=>document.getElementById(id),load=$('load');
 if(!window.Matter){load.textContent='Physics failed to load';return}
 

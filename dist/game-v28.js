@@ -119,6 +119,7 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v73-critter-eggs.txt?v=73'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v74-meadow.txt?v=74'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v75-fey.txt?v=75'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v76-pause.txt?v=76'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

@@ -266,3 +266,10 @@ changes are deferred to the user's forthcoming rules.
 This supersedes speculative per-species abilities and animal Workers. Eggs now hatch
 wild animals; existing animal Worker models migrate to wild animals with their gold.
 Worker fairy models replace the prior adult presentation. Archives remain history.
+
+### v76 pause controls
+
+Implemented Escape/Pause menu, Options and saved-world title screen; cream/timber
+controls and shared palette per bible §9. Dev Tools, Restart World and audio
+controls now live in Options. No new sprite or icon family. Desktop and phone
+review: [pause QA](qa/pause/README.md).
