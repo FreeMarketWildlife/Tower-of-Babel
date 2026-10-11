@@ -4,13 +4,13 @@ let calls=[],audioMix,earthCalls=0;
 const ctx={globalAlpha:1,fillStyle:'',save(){},restore(){},beginPath(){},rect(){},clip(){},scale(){},
  fillRect(x,y,w,h){assert.ok([x,y,w,h,this.globalAlpha].every(Number.isFinite));assert.ok(w>=0&&h>=0);calls.push([x,y,w,h,this.fillStyle,this.globalAlpha])}};
 const s={ctx,window:{SkyAudio:{setNightMix(n){audioMix=n}}},Math,Number,B:32,W:1100,HH:820,cam:{x:0,y:-180,z:1},
- DAY_V55:180000,NIGHT_V55:60000,settlementV55:{day:1,phase:'day',elapsed:0},
+ DAY_V55:360000,NIGHT_V55:120000,settlementV55:{day:1,phase:'day',elapsed:0},
  clamp:(n,a,b)=>Math.max(a,Math.min(b,n)),workerNightV55:()=>s.settlementV55.phase==='night',
  saveWorkersV55:()=>({clock:{...s.settlementV55},families:['preserved']}),
  restoreDynamicState(save){if(save?.workersV55?.clock)s.settlementV55={...save.workersV55.clock}},
  artBaseBgV32(){earthCalls++},w2s:()=>({y:s.HH/2-s.cam.y*s.cam.z})};
 vm.createContext(s);vm.runInContext(source,s);
-function at(seconds,day=1){s.settlementV55={day,phase:seconds>=180?'night':'day',elapsed:(seconds>=180?seconds-180:seconds)*1000};return s.skyStateV62()}
+function at(seconds,day=1){s.settlementV55={day,phase:seconds>=180?'night':'day',elapsed:(seconds>=180?seconds-180:seconds)*2000};return s.skyStateV62()}
 for(const boundary of [22,48,140,163,180,193,207,226,240]){
  const before=at(boundary-.0001),after=at(boundary===240?0:boundary+.0001,boundary===240?2:1);
  assert.ok(Math.abs(before.darkness-after.darkness)<.0001,'continuous music at '+boundary);

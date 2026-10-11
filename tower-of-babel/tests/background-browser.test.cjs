@@ -18,7 +18,7 @@ const url=process.env.SKY_TEST_URL||'http://127.0.0.1:8765/tower-of-babel/';
    if(process.env.SKY_TEST_INTEGRATION)await page.route('**/buttonwood/integration.txt',route=>route.fulfill({contentType:'text/plain',body:fs.readFileSync(process.env.SKY_TEST_INTEGRATION,'utf8')}));
    await page.route('**/game-v8-part3.txt*',async route=>{const response=await route.fetch();await route.fulfill({response,body:(await response.text()).replace('restoreDynamicState(initialSave);',`restoreDynamicState(initialSave);window.backgroundTest={
     cam,ctx,c,clock:settlementV55,bg,tick:cameraTickV24,render:()=>{ctx.globalAlpha=1;loop(performance.now())},size:()=>({W,HH,DPR}),
-    set(x,y,z,seconds){Object.assign(cam,{x,y,z,anim:false});Object.assign(settlementV55,{day:4,phase:seconds>=180?'night':'day',elapsed:(seconds>=180?seconds-180:seconds)*1000});},
+    set(x,y,z,seconds){Object.assign(cam,{x,y,z,anim:false});Object.assign(settlementV55,{day:4,phase:seconds>=180?'night':'day',elapsed:(seconds>=180?seconds-180:seconds)*2000});},
     frame(){ctx.setTransform(DPR,0,0,DPR,0,0);ctx.globalAlpha=1;bg();},
     validate(){
      const width=Math.ceil(W/cam.z),height=Math.ceil(HH/cam.z),ground=Math.round(w2s(0,0).y/cam.z);

@@ -326,3 +326,12 @@ six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9�
 | Sky | Sapporo winter catalogue stars, visible planets, named inspection, cloud/mountain silhouettes. | [v80](qa/winter-inspector/README.md) |
 | Tools | Redrawn native 32px hand and all four pickaxe tiers. | [Icons](qa/winter-inspector/icons.png) |
 | Wildlife | All 31 fact descriptions; Fey birds/butterflies/fireflies retain flight and flapping. | [v80](qa/winter-inspector/README.md) |
+
+
+### v81 quiet sky and full-moon fire
+
+| Family | Coverage | Review |
+| --- | --- | --- |
+| Inspection | Exclusive hotbar state; unzoomed celestial pixels; snowcap/tree hits in every biome. | [v81](qa/moonfire/README.md) |
+| Ocean backdrop | Native island palms, separate from world trees/collision. | [v81](qa/moonfire/README.md) |
+| Sky/effects | Quarter-speed stars, coral-red event Moon, cool meteor trails, falling fire and impact sparks. | [Shower](qa/moonfire/shower.png) |

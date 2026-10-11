@@ -14,7 +14,7 @@ const bwSavedStudy=initialSave?.structuresV46?.buttonwoodIndustry;
 let bwIndustryStudy=bwSavedStudy?.version===1&&Number.isFinite(bwSavedStudy.center)?bwSavedStudy:null;
 const bwSaveStructures=saveStructuresV46;
 if(bwSampleMode)saveStructuresV46=function(){return{...bwSaveStructures(),buttonwoodIndustry:bwIndustryStudy}};
-function bwSkyState(){return bwArt.skyState((workerNightV55()?DAY_V55/1000:0)+settlementV55.elapsed/1000,settlementV55.day)}
+function bwSkyState(){return bwArt.skyState((workerNightV55()?DAY_V55/2000:0)+settlementV55.elapsed/2000,settlementV55.day)}
 function bwBiomeWeights(){return window.ButtonwoodBiomes?.weightsAt(skySeedV62,cam.x)}
 const bwSyncOriginalAudio=syncSkyAudioV62;
 syncSkyAudioV62=function(){if(bwEnabled)window.SkyAudio?.setNightMix?.(bwSkyState().darkness);else bwSyncOriginalAudio();window.SkyAudio?.setBiome?.(bwBiomeWeights())};
@@ -167,7 +167,7 @@ bg=function(){
  const width=Math.ceil(W/cam.z),height=Math.ceil(HH/cam.z);
  if(bwSkyCanvas.width!==width)bwSkyCanvas.width=width;
  if(bwSkyCanvas.height!==height)bwSkyCanvas.height=height;
- const paintKey=[width,height,cam.x,cam.y,cam.z,Math.floor(sky.seconds*20),settlementV55.day].join(':');
+ const paintKey=[width,height,cam.x,cam.y,cam.z,Math.floor(sky.seconds*20),settlementV55.day,bwArt.meteorSkyState?.active?Math.floor(bwArt.meteorSkyState.elapsed/50):0].join(':');
  if(paintKey!==bwSkyPaintKey){bwSkyPaintKey=paintKey;bwSkyPaintCount++;bwArt.paintSky(bwSkyContext,{width,height,ground:Math.round(w2s(0,0).y/cam.z),camX:cam.x,camY:cam.y,seconds:sky.seconds,day:settlementV55.day,biomeSeed:skySeedV62,biomeWeights:bwBiomeWeights()});}
  ctx.save();ctx.globalAlpha=1;ctx.imageSmoothingEnabled=false;
  ctx.drawImage(bwSkyCanvas,0,0,width*cam.z,height*cam.z);ctx.restore();
@@ -219,7 +219,7 @@ function bwCamera(view='village',zoom=cam.z){
 function bwTime(phase){
  const name=phase===true?'night':phase===false?'day':phase;
  const seconds={sunrise:0,day:90,sunset:150,night:210}[name]??90;
- settlementV55.phase=seconds>=180?'night':'day';settlementV55.elapsed=(seconds>=180?seconds-180:seconds)*1000;
+ settlementV55.phase=seconds>=180?'night':'day';settlementV55.elapsed=(seconds>=180?seconds-180:seconds)*2000;
  shelterWorkersV55();refreshWorkersV55();syncSkyAudioV62();
  if($('bw-time'))$('bw-time').value=name;
 }

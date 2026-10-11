@@ -692,7 +692,7 @@ Review: bible §§3–4, 6, 9–10 and [v79 QA](qa/inspector-crew/README.md).
 
 `winter-sky-data.js` holds the Yale V/50 bright-star subset and frozen JPL planet
 ephemeris; `winter-sky.js` precesses positions and computes Sapporo alt/az from
-local sidereal time. The compressed night covers 18:00–06:00 JST. The horizon
+local sidereal time. The v81 slowed night spans a stylized 18:00–00:00 JST segment. The horizon
 panorama wraps at 1440 native pixels, centered south before camera parallax.
 `sky.js` emits Sun/Moon and exact cloud hit geometry; `biomes.js` emits mountain
 slope hit geometry. `A.lastSkyObjects` is the last native painted frame, so the
@@ -701,8 +701,7 @@ Below-horizon objects never draw. Metadata and bibliography identify the frozen
 date, catalogue, projection limits and fact sources. No network access at runtime.
 
 The v80 integration selects semantic sky targets after foreground world targets;
-there is no generic sky bubble. Its 24× celestial sample is centered on the star,
-without changing camera zoom. New entries retain the v79 MIDI half-note gate.
+there is no generic sky bubble. Celestial samples retain the rendered size, without extra zoom. New entries retain the v79 MIDI half-note gate.
 Pointer movement invalidates the scan throttle, and exit clears immediately.
 Animal facts cover all 31 species and stay the same after Fey conversion.
 
@@ -713,3 +712,30 @@ Fey flyers retain their species motion and existing gravity cancellation, use
 solid collision bodies, route above obstacles, and keep wing animation while
 hovering. A blocked route never converts a flyer into a ground animal.
 Review: bible §§3–4, 8–10 and [v80 QA](qa/winter-inspector/README.md).
+
+
+## Slow clock, scenery picking and full-moon fire — v81
+
+`DAY_V55` / `NIGHT_V55` are 360000 / 120000ms. Sky color/trajectory APIs keep
+their normalized 240-second vocabulary; integration divides actual elapsed time
+by two. `hud-art.js` uses the longer durations. `workersV55.clockV81:2` marks
+saves using the longer clock; older saved elapsed values scale once on restore.
+Worker sleep/growth and the eight lunar stages follow the new day boundaries.
+
+`winter-sky.js` advances visible-night hour angle at half its previous normalized
+rate, hence one quarter of the old real-time star rate. No celestial enlargement
+is applied by the inspector. New facts keep half-note entry; exit stays immediate.
+`biomes.js` records clipped native snow/tree paint rectangles for picking. Small
+island palms add a real ocean backdrop tree family, with no structural collider.
+
+`game-v81-moonfire.txt` owns exclusive tool state, clock migration and the hidden
+full-moon event. Eligibility uses the supported tallest-tower component, not the
+all-time height record. Seed/world-day hashing gives one 1/6 roll per eligible
+full moon. `structuresV46.moonfireV81` saves the roll, elapsed time and up to eight
+projectiles. No player-facing announcement is generated. The active full Moon
+uses the named coral ramps; `meteor-art.js` draws native cool trails and hot fire.
+A 20Hz cached backdrop refresh renders the shower. Foreground fire uses swept
+Matter ray queries against real solids, adds impulses/damage to placed blocks,
+removes broken blocks and stale pins, invalidates support caches, and grants
+no inventory or Bells. Sparks expire within 900ms; effects stop at dawn.
+Review: bible §§3–4, 8–10 and [v81 QA](qa/moonfire/README.md).

@@ -19,7 +19,7 @@ const SKY_KEYS_V62=[
  [240,[76,79,132],[246,169,124],[111,103,143],[70,87,110],[164,126,157],[255,207,153]]
 ];
 function skyStateV62(){
- const night=workerNightV55(),seconds=(night?DAY_V55:0)/1000+settlementV55.elapsed/1000;
+ const night=workerNightV55(),seconds=(night?DAY_V55:0)/2000+settlementV55.elapsed/2000;
  let k=0;while(k<SKY_KEYS_V62.length-2&&seconds>SKY_KEYS_V62[k+1][0])k++;
  const a=SKY_KEYS_V62[k],b=SKY_KEYS_V62[k+1],t=skySmoothV62(a[0],b[0],seconds);
  const colors=a.slice(1).map((c,i)=>skyMixV62(c,b[i+1],t));

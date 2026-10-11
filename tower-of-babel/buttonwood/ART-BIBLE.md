@@ -1249,16 +1249,44 @@ Worker and Fey controls remain available. See [native and gameplay review](qa/in
 
 The winter backdrop represents Sapporo, Hokkaido (43.0618°N, 141.3545°E),
 January 15, 2027. Catalogue star positions are precessed from J2000 and projected
-through a 360° horizon panorama; Earth rotation advances through the compressed
+through a 360° horizon panorama; The horizon advances through the deliberately slowed
 game night. Only above-horizon stars and planets appear. Planet positions use a
 frozen JPL ephemeris for that date; this is a seasonal scene, not a live astronomy
 clock. The existing eight-night game Moon cycle remains a gameplay convention.
 The scene retains §§3–4 and §8 native pixels, palette and vertical parallax.
 
 Inspection describes Sun, Moon, clouds, mountains and individually named stars
-and planets; empty sky has no description. Star/planet lens samples enlarge at
-24× nearest-neighbor while ordinary objects stay at 2×. Sky silhouettes occlude
+and planets; empty sky has no description. Star/planet lens samples retain the rendered size (v81); ordinary objects
+stay at 2×. Sky silhouettes occlude
 celestial targets. Descriptions keep the §10 half-note entry rhythm; exit is
 immediate. All wild and Fey animal descriptions use short real animal facts.
 The §9 hand and pickaxe miniatures use compact, clearer native 32px silhouettes.
 Review and source provenance: [v80 QA](qa/winter-inspector/README.md).
+
+
+## Quiet sky and rare full-moon fire — v81
+
+Daytime lasts six real minutes and night lasts two, advancing only in active
+play. The icon clock follows those durations. Catalogue stars move at one
+quarter of the v80 real-time rate: doubling the clock plus another half-speed
+celestial rotation. Hokkaido's catalogue and latitude stay authoritative, while
+the motion is now a deliberate storybook pace rather than a full real night.
+
+The magnifier is an exclusive tool. Enabling it clears every hotbar selection;
+selecting a hotbar tool or item turns it off. Celestial targets have no extra
+zoom, preventing enlarged pixel squares. Mountain snowcaps and background
+conifers, broadleaf trees, jungle crowns and island palms have exact native
+shape hit regions. Tiny island palms extend the ocean scenery vocabulary (§8).
+
+On eligible full moons, a supported tower at least 100m tall enables a single
+seeded 1-in-6 event roll. A coral-red full Moon accompanies a quiet shower of
+cream-headed, cool turquoise stepped trails and rare gold/coral falling fire.
+No toast, quest, banner, tutorial or forecast announces the event. Trails use
+connected native pixels, restrained sparkle clusters, no blur or screen flash
+(§§3–4, 8, 10). Falling fire uses real swept collisions: unpinned blocks take
+material-dependent impulses, weak blocks take greater damage, nails hold bodies
+fixed, and obsidian withstands heat. Destroyed blocks grant no reward.
+
+The event and projectiles persist in saves, never reroll on reload, freeze with
+pause and clear at dawn. Particle and projectile budgets remain bounded.
+[Visual and behavior review](qa/moonfire/README.md).

@@ -1,5 +1,5 @@
 // Settlement time uses active play time; legacy worker IDs remain save-compatible.
-const DAY_V55=180000,NIGHT_V55=60000;
+const DAY_V55=360000,NIGHT_V55=120000;
 var settlementV55={day:1,phase:'day',elapsed:0},familiesV55=new Map(),childrenV55=[],lastWorkerTickV55=null;
 function workerNightV55(){return settlementV55.phase==='night'}
 function familyV55(id){if(!familiesV55.has(id))familiesV55.set(id,{home:null,pregnant:false});return familiesV55.get(id)}

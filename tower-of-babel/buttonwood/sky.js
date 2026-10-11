@@ -93,6 +93,7 @@
     const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
     const targets = A.paintWinterStars ? A.paintWinterStars(g,options,rect) : [];
     A.lastSkyObjects=targets;
+    if(A.paintMeteorShower)A.paintMeteorShower(g,options,rect);
     const disc = (x, y, r, color, alpha) => {
       // Fixed integer scanlines create a deliberately stepped, unblurred disc.
       for (let row = -r; row <= r; row++) {
@@ -122,7 +123,7 @@
         // Dawn retains the previous night's phase; a new phase begins at dusk.
         const nightDay=state.seconds<30?Math.max(1,day-1):day;
         g.globalAlpha=state.moonAlpha*.9;
-        A.lunar.paint(g,moonX,moonY,7,A.lunar.phaseForNight(nightDay));
+        A.lunar.paint(g,moonX,moonY,7,A.lunar.phaseForNight(nightDay),!!A.meteorSkyState?.active);
       }else{
         disc(moonX, moonY, 7, P.cream, state.moonAlpha * .9);
         rect(moonX - 3, moonY - 2, 2, 2, P.creamShade, state.moonAlpha * .65);

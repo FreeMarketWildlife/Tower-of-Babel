@@ -22,7 +22,9 @@
     let depth = 1;
     const darkness = state.darkness, phase = state.absoluteSeconds;
     const oldAlpha = g.globalAlpha;
-    let weight = 1;
+    let weight = 1, recording = null;
+    const register=(key,kind,name,fact,shape)=>{if(!options.targets||weight<=.15||!shape.length)return;const first=shape[0];options.targets.push({key,kind,name,fact,x:first[0]+first[2]/2,y:first[1]+first[3]/2,contains:p=>shape.some(([x,y,w,h])=>p.x>=x&&p.x<x+w&&p.y>=y&&p.y<y+h)})};
+    const target=(key,kind,name,fact,draw)=>{const previous=recording,shape=[];recording=shape;draw();recording=previous;register(key,kind,name,fact,shape)};
     g.save();
     const rect = (x, y, w, h, color, alpha = 1) => {
       const left = Math.max(0, Math.round(x)), top = Math.max(0, Math.round(y + camY * (1 - depth)));
@@ -30,6 +32,7 @@
       if (right <= left || end <= top || alpha <= 0) return;
       g.globalAlpha = clamp(alpha * weight); g.fillStyle = color;
       g.fillRect(left, top, right - left, end - top);
+      if(recording)recording.push([left,top,right-left,end-top]);
     };
     const color = (token, distance, shade = 0) => {
       const lit = mix(tokens[token], state.colors.horizon, distance);
@@ -89,7 +92,7 @@
           const h = r.min + hash(seed ^ (layer * 171), n + 94) * r.max;
           const center = n * r.period + (hash(seed, n + layer * 31) - .5) * r.period * .3;
           const x0 = screenX(center - r.period * .65, r.p), x1 = screenX(center, r.p), x2 = screenX(center + r.period * .74, r.p);
-          const peak = ground - h;
+          const peak = ground - h, snowShape=[];
           if(options.targets && weight>.15)options.targets.push({key:'mountain:'+layer+':'+n,kind:'mountain',name:'Mountain',fact:'Higher air is usually colder. Bring mittens!',x:x1,y:peak+camY*(1-r.p)+16,contains:p=>{if(p.x<x0||p.x>x2||p.y>=bottom)return false;const t=clamp(p.x<x1?(p.x-x0)/(x1-x0):(x2-p.x)/(x2-x1)),shoulder=t<.4?t*.77:.308+(t-.4)*1.154,rise=Math.round(r.base+shoulder*(h-r.base));return p.y>=ground-rise+camY*(1-r.p)}});
           for (let x = x0; x <= x2; x += 2) {
             const left = x < x1, t = clamp(left ? (x - x0) / (x1 - x0) : (x2 - x) / (x2 - x1));
@@ -98,13 +101,14 @@
             rect(x, ground - rise, 2, rise + Math.max(0,-camY * (1 - depth)), left ? r.fill : r.face);
             if (rise > h * .76) {
               const snow = Math.min(rise - h * .76, 9 + Math.sin((x - x1) / 11) * 5 + (left ? 4 : 0));
-              rect(x, ground - rise, 2, snow, r.snow);
+              recording=snowShape;rect(x, ground - rise, 2, snow, r.snow);recording=null;
             }
             if (!left && t > .27 && t < .69) {
               const notch = Math.round(peak + (1 - t) * h * 1.04);
               rect(x, notch, 2, 4, r.fill);
             }
           }
+          register('snow:'+layer+':'+n,'snow','Mountain snow','Cold summits keep their snow. Tiny white hats!',snowShape);
         });
       }
       const haze = css(mix(state.colors.hill, state.colors.horizon, .35));
@@ -114,7 +118,7 @@
       repeat(51, .19, n => {
         const x = screenX(n * 51 + hash(seed, n + 39) * 24, .19);
         const h = 22 + Math.floor(hash(seed, n + 123) * 23);
-        pine(x, ground - 13, h, tree, light);
+        target('tree:mountains:'+n,'tree','Pine tree','Keeps its needles through winter. Cozy green coat!',()=>pine(x, ground - 13, h, tree, light));
       });
       hills(.27, 12, 5, 68, color('grassShade', .58), 351);
     };
@@ -124,6 +128,7 @@
       const tree = color('mintShade', .69), light = color('mint', .68), trunk = color('woodShade', .80);
       repeat(217, .12, n => {
         const x = screenX(n * 217 + hash(seed, n + 95) * 82, .12);
+        target('tree:plains:'+n,'tree','Tree','Leaves use sunlight to make food. Solar snacks!',()=>{
         const h = 34 + Math.floor(hash(seed, n + 554) * 20), floor = ground - 26;
         rect(x - 2, floor - h + 15, 4, h - 15, trunk);
         rect(x - 9, floor - h + 28, 10, 3, trunk);
@@ -132,6 +137,7 @@
           rect(x + 40, floor - 20, 3, 21, trunk);
           crown(x + 40, floor - 39, 40, 26, tree, light, n + 1);
         }
+        });
       });
       hills(.18, 24, 11, 151, color('grass', .64), 863);
       hills(.27, 11, 4, 74, color('grassShade', .61), 826);
@@ -150,6 +156,7 @@
         const trunk = color('woodShade', distance + .06), vine = color('grassShade', distance + .03);
         repeat(period, p, n => {
           const salt = n + layer * 99, x = screenX(n * period + hash(seed, salt + 44) * period * .45, p);
+          target('tree:jungle:'+layer+':'+n,'tree','Jungle tree','Leaves catch sunshine. A leafy solar kitchen!',()=>{
           const h = [88, 117, 150][layer] + hash(seed, salt + 410) * [50, 55, 74][layer];
           const top = ground - h, floor = ground - 9;
           const trunkWidth = [4, 6, 8][layer], w = [85, 117, 147][layer] + hash(seed, salt + 632) * 21;
@@ -165,6 +172,7 @@
             rect(x + w * .3, top + 44, 1, length * .75, vine);
           }
           if (layer === 2 && hash(seed, salt) > .35) crown(x + 41, ground - 54, 70, 40, fill, light, salt + 1);
+          });
         }, period * 1.3);
         if (layer < 2) rect(0, ground - 36 - layer * 12, width, 14, css(state.colors.hill), .20);
       }
@@ -188,6 +196,7 @@
           rect(center + x, horizon + 4 - rise, 3, rise, color('mintShade', .78));
         }
         rect(center - span * .7, horizon + 4, span * 1.4, 2, color('stoneLight', .77));
+        if(h>29)target('tree:ocean:'+n,'tree','Palm tree','Fronds are leaves. A tiny seaside sun umbrella!',()=>{const y=horizon+4-h,x=center;rect(x,y-19,2,20,color('woodShade',.80));for(let side of [-1,1])for(let step=0;step<5;step++){rect(x+side*step*3,y-22+Math.floor(step*step/5),4,2,color('mintShade',.73));rect(x+side*step*2,y-26+step,3,2,color('mint',.74))}});
       });
       const ripple = color('waterLight', .48), shadow = color('waterShade', .75);
       for (let band = 0; band < 6; band++) {
