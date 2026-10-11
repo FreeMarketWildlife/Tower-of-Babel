@@ -24,7 +24,7 @@ const url=process.env.SKY_TEST_URL||'http://127.0.0.1:8765/tower-of-babel/';
      const width=Math.ceil(W/cam.z),height=Math.ceil(HH/cam.z),ground=Math.round(w2s(0,0).y/cam.z);
      const native=document.createElement('canvas');native.width=width;native.height=height;
      const g=native.getContext('2d'),sky=bwSkyState();
-     ButtonwoodArt.paintSky(g,{width,height,ground,camX:cam.x,seconds:sky.seconds,day:settlementV55.day,biomeSeed:skySeedV62,biomeWeights:ButtonwoodBiomes.weightsAt(skySeedV62,cam.x)});
+     ButtonwoodArt.paintSky(g,{width,height,ground,camX:cam.x,camY:cam.y,seconds:sky.seconds,day:settlementV55.day,biomeSeed:skySeedV62,biomeWeights:ButtonwoodBiomes.weightsAt(skySeedV62,cam.x)});
      const data=g.getImageData(0,0,width,height).data,colors=new Set();
      const rgb=(p,i)=>(p[i]<<16)|(p[i+1]<<8)|p[i+2];
      for(let i=0;i<data.length;i+=4)colors.add(rgb(data,i));

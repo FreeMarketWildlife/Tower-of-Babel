@@ -91,19 +91,8 @@
     const skySpan = Math.max(100, ground + camY);
     const drift = Number.isFinite(camX) ? camX : 0;
     const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
-    // Star positions do not regenerate on day wrap. Twinkling follows absolute saved time.
-    const starPeriod = 384;
-    const starShift = ((drift * .025) % starPeriod + starPeriod) % starPeriod;
-    for (let tile = -1; tile <= Math.ceil(width / starPeriod); tile++) for (let i = 0; i < 17; i++) {
-      const x = tile * starPeriod + Math.floor(hash(i + 8) * starPeriod) - starShift;
-      const y = Math.floor(-camY * .025 + skySpan * (.07 + hash(i + 67) * .57));
-      const twinkle = .64 + .24 * Math.sin(state.absoluteSeconds * .65 + i * 2.7);
-      rect(x, y, 1, 1, P.creamLight, state.starAlpha * twinkle);
-      if (i % 7 === 0) {
-        rect(x - 1, y, 3, 1, P.creamLight, state.starAlpha * twinkle * .48);
-        rect(x, y - 1, 1, 3, P.creamLight, state.starAlpha * twinkle * .48);
-      }
-    }
+    const targets = A.paintWinterStars ? A.paintWinterStars(g,options,rect) : [];
+    A.lastSkyObjects=targets;
     const disc = (x, y, r, color, alpha) => {
       // Fixed integer scanlines create a deliberately stepped, unblurred disc.
       for (let row = -r; row <= r; row++) {
@@ -114,6 +103,7 @@
     const sunT = clamp(state.seconds / 180);
     const sunX = Math.round(width * (.14 + sunT * .72));
     const sunY = Math.round(skyGround - 18 - Math.sin(Math.PI * sunT) * skySpan * .65);
+    if (state.sunAlpha > .1 && sunY>=0 && sunY<skyHeight) targets.push({key:'sun',kind:'sun',name:'Sun',fact:'Our nearest star. Eight light-minutes away!',x:sunX,y:sunY,radius:9});
     if (state.sunAlpha > 0) {
       if (state.warmth > 0) {
         rect(sunX - 20, sunY - 8, 41, 17, P.gold, state.sunAlpha * state.warmth * .14);
@@ -126,6 +116,7 @@
     const moonT = clamp((moonSeconds - 150) / 120);
     const moonX = Math.round(width * (.12 + moonT * .75));
     const moonY = Math.round(skyGround + 8 - Math.sin(Math.PI * moonT) * skySpan * .68);
+    if (state.moonAlpha > .1 && moonY>=0 && moonY<skyHeight) targets.push({key:'moon',kind:'moon',name:'Moon',fact:'The same side faces Earth. A loyal little face!',x:moonX,y:moonY,radius:7});
     if (state.moonAlpha > 0) {
       if(A.lunar){
         // Dawn retains the previous night's phase; a new phase begins at dusk.
@@ -144,6 +135,8 @@
     for (let tile = -1; tile <= Math.ceil(width / cloudPeriod); tile++) {
       const base = tile * cloudPeriod - cloudShift;
       const cloud = (x, y, variant) => {
+        const shape=[[x+8,y+5,48+variant*7,6],[x,y+3,61+variant*6,4],[x+8,y,45+variant*5,5],[x+18,y-4,20+variant*3,5],[x+39,y-1,15,5]];
+        if(y+11>0&&y-4<skyHeight)targets.push({key:'cloud:'+tile+':'+variant,kind:'cloud',name:'Cloud',fact:'Tiny water drops or ice crystals. Sky confetti!',x:x+30,y:y+3,contains:p=>p.y<skyHeight&&shape.some(([xx,yy,w,h])=>p.x>=xx&&p.x<xx+w&&p.y>=yy&&p.y<yy+h)});
         const alpha = .85 - state.darkness * .21;
         rect(x + 8, y + 5, 48 + variant * 7, 6, state.colors.cloudShade, alpha);
         rect(x, y + 3, 61 + variant * 6, 4, state.colors.cloud, alpha);
@@ -157,7 +150,7 @@
     // Gallery callers without biome inputs retain the approved meadow baseline.
     if (options.biomeWeights && A.paintBiomeScenery) {
       A.paintBiomeScenery(g, {width, height, ground, camX: drift, camY, state,
-        weights: options.biomeWeights, seed: options.biomeSeed || 0});
+        weights: options.biomeWeights, seed: options.biomeSeed || 0, targets});
     } else for (const layer of [0, 1]) {
       const step = layer ? 8 : 12;
       const parallax = drift * (layer ? .11 : .065);

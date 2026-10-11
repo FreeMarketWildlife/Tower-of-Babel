@@ -3,7 +3,7 @@
 // canvas becomes controlled in-game zoom, centered on the midpoint between fingers.
 var pinchTouchesV26=new Map(),pinchConsumedV26=new Set(),pinchStateV26=null;
 var zoomReturnActiveV26=false,zoomTargetV26=1,lastCanvasTouchEndV26=0;
-const MIN_ZOOM_V26=.72,MAX_ZOOM_V26=1.55,DEFAULT_ZOOM_V26=1;
+const MIN_ZOOM_V26=.72,MAX_ZOOM_V26=2.5,DEFAULT_ZOOM_V26=1;
 SKY_BUILD='v26';
 
 function pinchPosV26(e){
@@ -81,7 +81,7 @@ c.addEventListener('pointerup',pinchPointerEndV26,{capture:true,passive:false});
 c.addEventListener('pointercancel',pinchPointerEndV26,{capture:true,passive:false});
 
 // Safari/WebKit native page-zoom guards. The game handles pinch itself above.
-const blockNativeZoomV26=e=>{if(e.cancelable)e.preventDefault()};
+const blockNativeZoomV26=e=>{if(e.target===c&&e.cancelable)e.preventDefault()};
 for(const name of ['gesturestart','gesturechange','gestureend'])document.addEventListener(name,blockNativeZoomV26,{capture:true,passive:false});
 c.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1&&e.cancelable)e.preventDefault()},{capture:true,passive:false});
 c.addEventListener('touchend',e=>{

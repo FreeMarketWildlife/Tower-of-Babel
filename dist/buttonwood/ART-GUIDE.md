@@ -683,6 +683,33 @@ Window capture makes lens pointer actions read-only before legacy world handlers
 `SkyAudio.rhythm` and `inspectCue` share the MIDI origin; description changes are
 allowed only on even quarter-beat indices (one half note). Missed audio boundaries
 wait for the next half note; silent play uses the same 72 BPM active-play grid.
-A target outside the lens for 500ms loses its bubble. Pause freezes timing and
+A target outside the pointer hit area immediately loses its bubble. Pause freezes timing and
 hides the lens; Effects mute silences the cue. No inspection state enters saves.
 Review: bible §§3–4, 6, 9–10 and [v79 QA](qa/inspector-crew/README.md).
+
+
+## Winter inspection and flight — v80
+
+`winter-sky-data.js` holds the Yale V/50 bright-star subset and frozen JPL planet
+ephemeris; `winter-sky.js` precesses positions and computes Sapporo alt/az from
+local sidereal time. The compressed night covers 18:00–06:00 JST. The horizon
+panorama wraps at 1440 native pixels, centered south before camera parallax.
+`sky.js` emits Sun/Moon and exact cloud hit geometry; `biomes.js` emits mountain
+slope hit geometry. `A.lastSkyObjects` is the last native painted frame, so the
+inspector picks rendered objects, with scenery occlusion and closest-star hits.
+Below-horizon objects never draw. Metadata and bibliography identify the frozen
+date, catalogue, projection limits and fact sources. No network access at runtime.
+
+The v80 integration selects semantic sky targets after foreground world targets;
+there is no generic sky bubble. Its 24× celestial sample is centered on the star,
+without changing camera zoom. New entries retain the v79 MIDI half-note gate.
+Pointer movement invalidates the scan throttle, and exit clears immediately.
+Animal facts cover all 31 species and stay the same after Fey conversion.
+
+Ctrl-wheel on canvas handles Chromium Mac trackpad pinch; Safari GestureEvents
+use a stable world anchor. Touch pinch also works while inspection is enabled.
+Game zoom clamps to 0.72–2.5; paused input does not change the world.
+Fey flyers retain their species motion and existing gravity cancellation, use
+solid collision bodies, route above obstacles, and keep wing animation while
+hovering. A blocked route never converts a flyer into a ground animal.
+Review: bible §§3–4, 8–10 and [v80 QA](qa/winter-inspector/README.md).

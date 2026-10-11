@@ -1234,7 +1234,7 @@ The magnifying glass enlarges the world beneath the pointer by 2×, without
 changing camera zoom. Its mint rim and timber handle use crisp integer scanlines.
 One short semantic text bubble appears in a cream pixel frame, with a three-step
 rise and a chord-aware chime on the MIDI half-note grid (§10). New descriptions
-wait for that grid; absence for more than 500ms of active play dismisses the bubble.
+wait for that grid; leaving the target dismisses the bubble immediately.
 The lens is read-only and respects pause, Effects volume and reduced motion.
 Unexplored earth retains its mysteries.
 
@@ -1243,3 +1243,22 @@ Fey in the world, cages and buckets. Selecting a placed helper slides the camera
 to it and follows it until the roster closes. Resting Workers and bucketed Fey
 have honest release/deploy notes, rather than invented world locations. Existing
 Worker and Fey controls remain available. See [native and gameplay review](qa/inspector-crew/README.md).
+
+
+## Hokkaido winter sky and inspection — v80
+
+The winter backdrop represents Sapporo, Hokkaido (43.0618°N, 141.3545°E),
+January 15, 2027. Catalogue star positions are precessed from J2000 and projected
+through a 360° horizon panorama; Earth rotation advances through the compressed
+game night. Only above-horizon stars and planets appear. Planet positions use a
+frozen JPL ephemeris for that date; this is a seasonal scene, not a live astronomy
+clock. The existing eight-night game Moon cycle remains a gameplay convention.
+The scene retains §§3–4 and §8 native pixels, palette and vertical parallax.
+
+Inspection describes Sun, Moon, clouds, mountains and individually named stars
+and planets; empty sky has no description. Star/planet lens samples enlarge at
+24× nearest-neighbor while ordinary objects stay at 2×. Sky silhouettes occlude
+celestial targets. Descriptions keep the §10 half-note entry rhythm; exit is
+immediate. All wild and Fey animal descriptions use short real animal facts.
+The §9 hand and pickaxe miniatures use compact, clearer native 32px silhouettes.
+Review and source provenance: [v80 QA](qa/winter-inspector/README.md).

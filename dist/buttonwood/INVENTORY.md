@@ -317,3 +317,12 @@ remain historical. Gold color tokens and material terminology retain their names
 This supersedes v77's single navigation row and single quest trigger. The v78
 six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9–10;
 [verification notes](qa/inspector-crew/README.md).
+
+
+### v80 Hokkaido winter and native tools
+
+| Family | Coverage | Review |
+| --- | --- | --- |
+| Sky | Sapporo winter catalogue stars, visible planets, named inspection, cloud/mountain silhouettes. | [v80](qa/winter-inspector/README.md) |
+| Tools | Redrawn native 32px hand and all four pickaxe tiers. | [Icons](qa/winter-inspector/icons.png) |
+| Wildlife | All 31 fact descriptions; Fey birds/butterflies/fireflies retain flight and flapping. | [v80](qa/winter-inspector/README.md) |

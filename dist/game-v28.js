@@ -60,7 +60,7 @@ async function read(url){
     for(const path of ['palette.js','sky.js','workers.js','buildings.js','environment.js','ui.js','extraction.js','biomes.js','wildlife.js','fog.js']){
       (0,eval)(await read('buttonwood/'+path));
     }
-    for(const path of ['critters/wildlife-idles/sprites.js','critters/wildlife-idles/animations.js','lunar-art.js','meadow.js','fey-art.js','hud-art.js','inventory-art.js']){(0,eval)(await read('buttonwood/'+path));}
+    for(const path of ['winter-sky-data.js','winter-sky.js','animal-facts.js','critters/wildlife-idles/sprites.js','critters/wildlife-idles/animations.js','lunar-art.js','meadow.js','fey-art.js','hud-art.js','inventory-art.js']){(0,eval)(await read('buttonwood/'+path));}
     (0,eval)(await read('extraction-network.js'));
     if(buttonwoodSample&&new URLSearchParams(location.search).get('critters')==='42'){
       const names=['mouse','turtle','lizard'];
@@ -123,6 +123,7 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v77-minimal-hud.txt?v=77'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v78-inventory-nails.txt?v=78'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v79-inspector-crew.txt?v=79'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v80-winter-inspection.txt?v=80'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

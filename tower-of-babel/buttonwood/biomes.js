@@ -90,6 +90,7 @@
           const center = n * r.period + (hash(seed, n + layer * 31) - .5) * r.period * .3;
           const x0 = screenX(center - r.period * .65, r.p), x1 = screenX(center, r.p), x2 = screenX(center + r.period * .74, r.p);
           const peak = ground - h;
+          if(options.targets && weight>.15)options.targets.push({key:'mountain:'+layer+':'+n,kind:'mountain',name:'Mountain',fact:'Higher air is usually colder. Bring mittens!',x:x1,y:peak+camY*(1-r.p)+16,contains:p=>{if(p.x<x0||p.x>x2||p.y>=bottom)return false;const t=clamp(p.x<x1?(p.x-x0)/(x1-x0):(x2-p.x)/(x2-x1)),shoulder=t<.4?t*.77:.308+(t-.4)*1.154,rise=Math.round(r.base+shoulder*(h-r.base));return p.y>=ground-rise+camY*(1-r.p)}});
           for (let x = x0; x <= x2; x += 2) {
             const left = x < x1, t = clamp(left ? (x - x0) / (x1 - x0) : (x2 - x) / (x2 - x1));
             const shoulder = t < .4 ? t * .77 : .308 + (t - .4) * 1.154;
