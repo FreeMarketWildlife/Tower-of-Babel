@@ -61,6 +61,13 @@ async function read(url){
       (0,eval)(await read('buttonwood/'+path));
     }
     (0,eval)(await read('extraction-network.js'));
+    if(buttonwoodSample&&new URLSearchParams(location.search).get('critters')==='42'){
+      const names=['mouse','turtle','lizard'];
+      window.ButtonwoodArt.concepts42=await Promise.all(names.map(name=>new Promise((resolve,reject)=>{
+        const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Could not load '+name+' concept'));
+        image.src='buttonwood/critters/concepts-42/'+name+'-42.png';
+      })));
+    }
 
     let liquid='';
     for(const url of liquidParts)liquid+=await read(url);

@@ -428,7 +428,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     assert.equal(normalState.collisionsUnchanged, true);
     const normalUI = await productionUI(normal);
     assert.deepEqual({ ...normalUI, hudTop: undefined }, {
-      title: 'Tower of Babel', art: 'object', controls: false, note: false,
+      title: 'Critz Tower Defense', art: 'object', controls: false, note: false,
       sampleClass: false, artClass: true, fixture: 'undefined', timeControl: 'undefined',
       viewControl: 'undefined', comparison: 'undefined', questVisible: true, hudTop: undefined,
     });

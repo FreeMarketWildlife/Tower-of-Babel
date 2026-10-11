@@ -201,3 +201,11 @@ at 40 × 32 and exploratory 64 × 64, and actual-size/context controls. User sel
 A for work/Mine/Use and C for travel/Walk/Sprint from the generated concept.
 Native sprite quality, final budget, transition poses and other action states
 remain under review. Animation expansion is deferred until that review.
+
+## 42-pixel critter concepts — October 10, 2026
+
+Mouse, box turtle and woodland lizard: [42 × 42 raster still experiment](critters/concepts-42/).
+Generated source art and prompts preserved; exact 42px exports use shared palette
+and binary alpha. Review page includes 1× Home/terrain context and a live isolated
+sample with three render-only fixtures. Pending user visual review; no production
+Worker migration or animations. Earlier procedural mouse versions are rejected.

@@ -510,3 +510,12 @@ A is the selected upright work posture; C is selected for quadrupedal travel;
 B is a possible transition. The larger anchor `(32,61)` is a proposal, while
 production Workers retain their existing `(18,31)` anchor and dimensions.
 No new animations, scale changes, save migrations or physics changes occur here.
+
+## 42-pixel critter comparison (unapproved)
+
+[Raster concept review](critters/concepts-42/): mouse, turtle, lizard still PNGs,
+42 × 42, anchor `(21,40)`, binary alpha, shared palette. These are converted
+imagegen concepts for the user's size experiment, not approved production art.
+`?sample=buttonwood&critters=42` places render-only fixtures in the isolated
+sample. One exported pixel equals one world unit. UI portrait contracts remain
+32 × 32. Source artwork, prompts and conversion notes accompany the PNGs.

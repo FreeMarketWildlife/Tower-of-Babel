@@ -1024,3 +1024,19 @@ libraries. All illustrated game assets in this bible come from this repository.
 When adding a reference, record **what was studied, the useful principle, our
 original translation, and the limits of the comparison**. A mood-board image
 without a stated lesson is not an art rule.
+
+### 42-pixel critter concept experiment — October 10, 2026
+
+The user rejected both procedural 40 × 32 and 64 × 64 mouse interpretations.
+The generated silhouette study remains the style reference; it was not rejected.
+A upright is the intended work posture and C quadrupedal the travel posture.
+The user requested a new **42 × 42** still comparison for mouse, turtle and lizard,
+shown in gameplay context. See [the raster concept experiment](critters/concepts-42/).
+
+For this comparison only, enlarged generated pixel-style images are sampled to
+42 × 42 and mapped to the shared palette. This explicitly requested experiment
+is an exception to section 3's production authoring rule; resized concepts are
+not approved production sprites. Preserve source artwork and document conversion.
+Use one exported pixel per world unit, binary alpha, anchor `(21,40)`, and uniform
+camera zoom. Inspect the real exported PNG at 1× beside the Home and terrain.
+No animation or default Worker replacement is approved by this experiment.

@@ -67,6 +67,19 @@ uiPixelV48=function(kind){
 };
 
 const bwWorkerMotion=new WeakMap();
+// Render-only concept fixtures in the isolated sample; never enter saves or physics.
+if(bwSampleMode&&bwArt.concepts42){
+ const drawOriginalBursts=drawGoldBursts;
+ drawGoldBursts=function(now){
+  drawOriginalBursts(now);
+  const home=structuresV46.find(b=>b.type==='home');if(!home)return;
+  bwArt.concepts42.forEach((image,i)=>{
+   const foot=w2s(home.x+160+i*58,home.y+128);
+   ctx.save();ctx.translate(foot.x,foot.y);ctx.scale(cam.z,cam.z);ctx.imageSmoothingEnabled=false;
+   ctx.drawImage(image,-21,-40);ctx.restore();
+  });
+ };
+}
 spiritBaseMinerDrawV42=function(q,now){
  if(!bwEnabled)return bwOriginal.worker(q,now);
  const foot=w2s(Math.round(q.position.x),Math.round(q.position.y+B*.4));
@@ -286,6 +299,7 @@ function buttonwoodBoot(){
  $('bw-zoom').value=String(cam.z);bwRefreshIcons();
  $('questTitle').textContent='Make yourself at home';$('questSub').textContent='Mine, build, or open a Workshop.';
  const note=document.createElement('div');note.id='bw-note';note.textContent='Sample save · Mine and build freely';document.body.append(note);
+ if(bwArt.concepts42){note.textContent='42 × 42 critter stills · sample save';bwCamera('village',1);$('bw-zoom').value='1';}
  }
  window.__buttonwood={
   save:saveGame,
