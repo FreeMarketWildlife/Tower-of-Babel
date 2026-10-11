@@ -1,6 +1,6 @@
 # Buttonwood art bible
 
-**Critz Tower Defense · Visual direction v1.6 · October 10, 2026**
+**Critz Tower Defense · Visual direction v1.7 · October 10, 2026**
 
 ## Start here
 
@@ -1142,12 +1142,15 @@ Workers retain their native 40 × 32 adult silhouette, cream hat, mint clothing,
 and shared anchor, with little mint/cream wings. Native gallery and gameplay use
 these fairy models. The full-moon merchant remains a distinct wand-bearing fairy.
 
-Player knife choices are Stab and Slice. Their implemented effects are stylized:
-brief intact poses, small native knife/contact glints, an intact fading sprite,
-and a few coral blood pixels that dry in three seconds. No graphic wounds,
-dismemberment, or repeated stabbing are depicted. Both player actions release
-pocketed gold and create no ghost. Environmental deaths retain existing ghosts
-and never spill fairy blood or contaminate water.
+Player knife choices are Stab and Slice. The October 11 direction deliberately
+contrasts the gentle settlement with an explicit, bloody fairy sacrifice. Stab
+shows blade contact, a bleeding torso and a falling body. Slice separates the
+head from the falling torso. Hold the remains for 4.5 seconds before a two-second
+fade; timed blood sprays fall and spread into connected ground pools lasting
+12 seconds. Use the shared `blood`, `bloodShade`, and `bloodLight` ramp, distinct
+from coral roofs. Keep native pixels, uniform camera scale, and attached wings.
+Both player actions release pocketed Bells and create no ghost. Environmental
+deaths retain existing ghosts and never spill fairy blood or contaminate water.
 
 Tainted Water uses the existing 16-unit liquid solver, purple/coral palette ramps,
 and a separately authored 32px bucket icon. Blood touching water taints it;
@@ -1290,3 +1293,16 @@ fixed, and obsidian withstands heat. Destroyed blocks grant no reward.
 The event and projectiles persist in saves, never reroll on reload, freeze with
 pause and clear at dawn. Particle and projectile budgets remain bounded.
 [Visual and behavior review](qa/moonfire/README.md).
+
+## Generous magnifier and fairy sacrifice — October 11, 2026
+
+Apply §§3–4 (native pixels and dedicated blood ramp), §6 (shoulder-attached
+four-lobed wings), §9 (nonmodal Critterpedia beside the magnifier trigger), and
+§10 (action-specific contact, falling remains, sprays and settling pools).
+The lens acquires living subjects across 90% of its circular glass area, measured
+in the displayed magnification. Test nearest samples first and prefer living
+subjects over background terrain. A centered subject wins over other subjects.
+Click or tap opens that entry in Critterpedia, including fairy Workers and the
+full-moon merchant, without mining, petting, or opening helper controls.
+Review evidence: [fairy poses](qa/fey/defeat-poses.png),
+[blood pool](qa/fey/blood-pool.png), and [lens](qa/inspector-crew/lens.png).

@@ -260,7 +260,7 @@ changes are deferred to the user's forthcoming rules.
 | Fairy Workers | Native winged 40 × 32 models; unchanged anchors and adult physics; separate 32px icon. | Default gameplay and native gallery. |
 | Fey status | Existing 31 animal forms, sparse cream/gold sparkles and chord-aligned bell notes. | [Tasks and scene](qa/fey/tasks.png). |
 | Tainted Water | Existing liquid geometry/volume; new purple/coral ramps; distinct native bucket icon. | Flow, conservation, bucket and reload regressions. |
-| Knife choices | Stab/Slice with non-graphic knife/contact poses and intact fading sprites; small drying blood pixels. | [Native pose strip](qa/fey/defeat-poses.png). |
+| Knife choices | Stab/Slice with bloody contact, falling/separated remains, timed sprays and 12-second ground pools. | [Native pose strip](qa/fey/defeat-poses.png). |
 | Task gameplay | Base/Mine/Collect/Work/Tower; saved task, gold, building and supplies; real routes, stocks, nails and ladders. | [QA record](qa/fey/README.md). |
 
 This supersedes speculative per-species abilities and animal Workers. Eggs now hatch
@@ -343,3 +343,13 @@ six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9�
 | --- | --- | --- |
 | Survival event demo | Isolated 109m reinforced tower, seven real Fey builders, finite stock, pause-to-start event. | [QA](qa/moonfire-demo/README.md) |
 | Wildlife construction motion | Existing native Use poses appear after a real successful tower placement. | [Builders](qa/moonfire-demo/builders.png) |
+
+## October 11 lens and fairy revision
+
+- Fairy Worker wings: attached, tapered four-lobed silhouette and veins, native
+  40×32 canvas. [Scene](qa/fey/tasks.png).
+- Magnifier: 90% circular acquisition with center priority; click/tap opens an
+  attached Critterpedia entry for animals, fairy Workers and the moon fairy.
+- Sacrifice: distinct Stab/Slice contact and falling remains, named blood ramp,
+  timed sprays and broad settling pools. [Poses](qa/fey/defeat-poses.png),
+  [pool](qa/fey/blood-pool.png). ART-BIBLE §§3–4, 6, 9–10.

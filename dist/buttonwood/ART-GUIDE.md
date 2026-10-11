@@ -683,7 +683,7 @@ Window capture makes lens pointer actions read-only before legacy world handlers
 `SkyAudio.rhythm` and `inspectCue` share the MIDI origin; description changes are
 allowed only on even quarter-beat indices (one half note). Missed audio boundaries
 wait for the next half note; silent play uses the same 72 BPM active-play grid.
-A target outside the pointer hit area immediately loses its bubble. Pause freezes timing and
+A target outside the lens acquisition area immediately loses its bubble. Pause freezes timing and
 hides the lens; Effects mute silences the cue. No inspection state enters saves.
 Review: bible §§3–4, 6, 9–10 and [v79 QA](qa/inspector-crew/README.md).
 
@@ -758,3 +758,22 @@ normal routing, collision, material costs and nail placement still apply.
 A successful Fey Tower placement uses the approved Use animation for 650ms;
 no decorative building animation invents a resource or placed block.
 Review: bible §§3–4, 8–10 and [demo QA](qa/moonfire-demo/README.md).
+
+## Lens acquisition, Critterpedia, and sacrifice — October 11, 2026
+
+`inspectionSubjectV79` shares the point tests used by `inspectionV79`.
+`inspectLensTargetV79` scans ordered 4px lens samples inside radius
+`68 * sqrt(.9)`, divided by the world lens magnification of two. Centered
+subjects win; surrounding subjects outrank backdrop terrain. Sky uses its 1×
+source radius. The same picker runs on pointer release, with an 8px drag threshold
+and existing touch-pinch consumption. The nonmodal `critterpediaV79` displays
+the selected entry beside the magnifying-glass toolbar control, reflows on
+resize, and closes on Escape or pause. Inspection never invokes pet/mining actions.
+
+Four tapered wing lobes join the shoulders inside the existing 40×32 Worker
+canvas; wings have fixed veins and no independent animation. `paintFairyBody`
+uses native sprite crops, falling rotation and distinct Stab/Slice wounds.
+Forty-eight delayed blood particles start at contact, obey gravity and ground
+collision, contaminate real water, and form 12-second transient pools. A corpse
+holds 4.5 seconds and fades over two seconds. Blood adds no liquid volume on dry
+soil. The named blood ramp is reviewed under ART-BIBLE §§3–4, 6, 9–10.
