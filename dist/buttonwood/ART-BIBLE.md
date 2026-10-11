@@ -374,6 +374,30 @@ Native replacement work must retain the 40 × 32 Worker canvas and `(18,31)` anc
 separately authored 32 × 32 portraits, shared world scale, motion contracts, and
 save compatibility. Do not downsample the generated concept sheet into sprites.
 
+### Mouse reset — still silhouettes before animation
+
+The user rejected the procedural native roster's appearance. Its technical
+checks do not establish art quality; keep those assets as historical review
+work rather than an approved character direction. Return to the supplied
+wood-mouse concept's large rounded ears, glossy eye, warm cheeks, cream muzzle
+and belly, tiny pink paws, thin tail, and short natural limbs.
+
+The [mouse still study](critters/mouse-silhouettes/) compares upright, mostly
+quadrupedal, and quadrupedal versions. The user liked the generated concepts
+and selected **A upright for work/Mine/Use** and **C quadrupedal for travel/Walk/
+Sprint**. B can inform the transition. Species-specific animal locomotion takes
+precedence over a universal humanoid choreography. Native interpretations and
+transition poses still require review before animation is expanded again.
+
+The user explicitly allowed a larger Worker art budget if needed for charm.
+The study compares existing 40 × 32 `(18,31)` stills with proposed 64 × 64
+`(32,61)` stills. This is an exploration exception to the current Worker canvas,
+not a production scale change. One source pixel remains one world unit; do not
+independently shrink a larger sprite. Review doorway clearance, ground contacts,
+tool reach and engine anchors before adopting a new budget. UI portraits retain
+the separately authored 32 × 32 contract. Keep physics, saves, and current assets
+intact throughout this comparison.
+
 ## 6. Workers and character acting
 
 Workers are capable adults expressed through chibi proportions. The broad cream

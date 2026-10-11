@@ -500,3 +500,13 @@ The gallery adds all-species action selection and one-shot click-Pet responses.
 The export manifest documents seven row positions in native 400 × 224 sheets;
 each cell is still 40 × 32. See [the roster guide](critters/README.md) for timing,
 review evidence, export instructions, and remaining integration scope.
+
+### Mouse silhouette reset
+
+The previous 25-critter procedural roster was rejected visually and remains
+review history. [The still comparison](critters/mouse-silhouettes/) returns to
+one mouse and contains separate 40 × 32 and exploratory 64 × 64 source maps.
+A is the selected upright work posture; C is selected for quadrupedal travel;
+B is a possible transition. The larger anchor `(32,61)` is a proposal, while
+production Workers retain their existing `(18,31)` anchor and dimensions.
+No new animations, scale changes, save migrations or physics changes occur here.

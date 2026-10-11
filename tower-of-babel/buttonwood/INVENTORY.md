@@ -190,3 +190,14 @@ shared named palette and binary alpha. The original wood mouse is preserved.
 QA: `tests/critter-roster-art.test.cjs` passes all frames, unclipped padded
 bounds, mirror anchors, distinct species/actions, Pet interaction and mobile/
 reduced-motion gallery behavior. Concept and original-wildlife archives are retained.
+
+## Visual reset after roster review
+
+The user rejected the procedural roster's appearance. Its 1,400 technically
+valid frames remain available as rejected review history; they are not the
+approved visual baseline. The [mouse still reset](critters/mouse-silhouettes/)
+contains the preserved user reference, imagegen triptych, six native stills
+at 40 × 32 and exploratory 64 × 64, and actual-size/context controls. User selected
+A for work/Mine/Use and C for travel/Walk/Sprint from the generated concept.
+Native sprite quality, final budget, transition poses and other action states
+remain under review. Animation expansion is deferred until that review.
