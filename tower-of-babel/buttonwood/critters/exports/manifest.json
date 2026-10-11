@@ -1,0 +1,186 @@
+{
+  "width": 40,
+  "height": 32,
+  "anchor": {
+    "x": 18,
+    "y": 31
+  },
+  "rows": [
+    "idle",
+    "walk",
+    "sprint",
+    "mine",
+    "use",
+    "yay",
+    "pet"
+  ],
+  "motions": {
+    "idle": {
+      "frames": 4,
+      "ms": 280
+    },
+    "walk": {
+      "frames": 8,
+      "ms": 110
+    },
+    "sprint": {
+      "frames": 8,
+      "ms": 70
+    },
+    "mine": {
+      "frames": 8,
+      "ms": 110
+    },
+    "use": {
+      "frames": 8,
+      "ms": 130
+    },
+    "yay": {
+      "frames": 10,
+      "ms": 100
+    },
+    "pet": {
+      "frames": 10,
+      "ms": 150
+    }
+  },
+  "jumpOffset": [
+    0,
+    0,
+    0,
+    -2,
+    -5,
+    -5,
+    -3,
+    -1,
+    0,
+    0
+  ],
+  "roster": [
+    {
+      "id": "wood-mouse",
+      "name": "Wood mouse",
+      "cue": "Round ears, pink paws, curling thin tail"
+    },
+    {
+      "id": "sand-lizard",
+      "name": "Sand lizard",
+      "cue": "Green scales, long tapering tail"
+    },
+    {
+      "id": "fire-salamander",
+      "name": "Fire salamander",
+      "cue": "Rounded dark head and gold spots"
+    },
+    {
+      "id": "brush-tailed-porcupine",
+      "name": "African brush-tailed porcupine",
+      "cue": "Long cream quills and bristly tail"
+    },
+    {
+      "id": "box-turtle",
+      "name": "Box turtle",
+      "cue": "Domed patterned shell and green limbs"
+    },
+    {
+      "id": "european-mole",
+      "name": "European mole",
+      "cue": "Tiny eyes, broad pink digging paws"
+    },
+    {
+      "id": "hedgehog",
+      "name": "Hedgehog",
+      "cue": "Round spine mantle and pointed muzzle"
+    },
+    {
+      "id": "chipmunk",
+      "name": "Chipmunk",
+      "cue": "Face/back stripes and upright tail"
+    },
+    {
+      "id": "red-squirrel",
+      "name": "Red squirrel",
+      "cue": "Ear tufts and large curled russet tail"
+    },
+    {
+      "id": "field-vole",
+      "name": "Field vole",
+      "cue": "Round body, small ears, short tail"
+    },
+    {
+      "id": "shrew",
+      "name": "Shrew",
+      "cue": "Long narrow pointed nose"
+    },
+    {
+      "id": "least-weasel",
+      "name": "Least weasel",
+      "cue": "Slender long body and short cinnamon tail"
+    },
+    {
+      "id": "stoat",
+      "name": "Stoat",
+      "cue": "Long neck and black-tipped tail"
+    },
+    {
+      "id": "striped-skunk",
+      "name": "Striped skunk",
+      "cue": "Cream stripe and raised plume tail"
+    },
+    {
+      "id": "pygmy-spotted-skunk",
+      "name": "Pygmy spotted skunk",
+      "cue": "Broken cream spots and smaller bushy tail"
+    },
+    {
+      "id": "cottontail-rabbit",
+      "name": "Cottontail rabbit",
+      "cue": "Long ears and cream cotton tail"
+    },
+    {
+      "id": "pika",
+      "name": "Pika",
+      "cue": "Round ears, squat body, no visible tail"
+    },
+    {
+      "id": "jerboa",
+      "name": "Jerboa",
+      "cue": "Huge ears, long feet and tufted thin tail"
+    },
+    {
+      "id": "dormouse",
+      "name": "Dormouse",
+      "cue": "Golden coat and fluffy curling tail"
+    },
+    {
+      "id": "lesser-tenrec",
+      "name": "Lesser tenrec",
+      "cue": "Narrow spine crest and long snout"
+    },
+    {
+      "id": "tree-frog",
+      "name": "Tree frog",
+      "cue": "Large gold eyes and sticky toe pads"
+    },
+    {
+      "id": "natterjack-toad",
+      "name": "Natterjack toad",
+      "cue": "Stocky olive body and gold dorsal stripe"
+    },
+    {
+      "id": "crested-newt",
+      "name": "Crested newt",
+      "cue": "Jagged dark crest, coral belly, flat tail"
+    },
+    {
+      "id": "leopard-gecko",
+      "name": "Leopard gecko",
+      "cue": "Gold spots and thick segmented tail"
+    },
+    {
+      "id": "brown-anole",
+      "name": "Brown anole",
+      "cue": "Slender brown body and coral throat fan"
+    }
+  ]
+}

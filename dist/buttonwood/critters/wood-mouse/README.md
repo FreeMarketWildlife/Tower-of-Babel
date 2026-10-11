@@ -39,7 +39,7 @@ concept image was not downsampled. Palette comes from `../../palette.js`.
 These are the critter study's timings, separate from the existing human Worker
 scheduler. Future gameplay integration must align Mine contact with the actual
 mining event, apply real locomotion speeds, and trigger Pet on the critter hit
-area without interfering with tools. The remaining 24 species are still pending.
+area without interfering with tools. The remaining 24 species now have matching action coverage in the [full roster](../).
 
 ## Exports and review
 

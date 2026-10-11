@@ -486,3 +486,17 @@ Yay displacement without changing source size. Six actions plus idle provide
 56 frames. Human Workers and production integration retain existing contracts.
 See the [study notes](critters/wood-mouse/README.md) for the complete timing table
 and remaining action-hook, portrait and world-review work.
+
+### Complete critter roster
+
+[critters/](critters/) now contains all 25 species with Walk, Sprint, Mine, Use,
+Yay, Pet, and idle (56 frames each, 1,400 total). `roster.js` exposes
+`A.critters.sprite({species,state,frame,direction})`, `drawInto`, `roster`,
+`motions`, `frameAt`, `jumpOffset`, dimensions and anchor. The original mouse
+renderer is reused. Other species use separately specified head/body geometry,
+limb connections, ears, tails, shells, quills, crests and markings, with shared
+integer-pixel action choreography. No production save or action hook is changed.
+The gallery adds all-species action selection and one-shot click-Pet responses.
+The export manifest documents seven row positions in native 400 × 224 sheets;
+each cell is still 40 × 32. See [the roster guide](critters/README.md) for timing,
+review evidence, export instructions, and remaining integration scope.

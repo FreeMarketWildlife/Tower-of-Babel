@@ -22,6 +22,13 @@ No build step is required. Serve the files over HTTP so the JavaScript loader ca
 
 See [development and regression checks](tower-of-babel/tests/README.md) and [art direction](AGENTS.md).
 
+## Critter animations
+
+The [native critter gallery](tower-of-babel/buttonwood/critters/) has all 25 species
+with Walk, Sprint, Mine, Use, Yay, and Pet. Click a critter to pet it, compare actions,
+or inspect individual frames. All world frames are 40 × 32 with a shared pixel scale.
+This is an animation review gallery; gameplay integration remains separate.
+
 ## Critter character concepts
 
 The [25-species Worker concept study](tower-of-babel/buttonwood/concepts/critz-workers/README.md) explores the new cast. Existing animal artwork and its implementation are preserved in the [wildlife archive](tower-of-babel/buttonwood/archive/wildlife-2026-10-10/README.md).

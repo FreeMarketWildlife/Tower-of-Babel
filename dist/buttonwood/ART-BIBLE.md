@@ -350,8 +350,9 @@ sheets. Future critter art uses natural fur, skin, scales, shells, and quills;
 no hats, aprons, overalls, or boots. Warmth comes from expressions, rounded
 silhouettes, cream bellies, colored contours, and purposeful tools.
 
-The [wood mouse animation study](critters/wood-mouse/README.md) is the first
-native interpretation, pending animation review. Use its 40 × 32 frame budget,
+The wood mouse animation study established the first native interpretation;
+the user requested the same coverage for the full cast. The [25-critter gallery](critters/)
+now provides six actions plus idle for every species. Use the 40 × 32 frame budget,
 `(18,31)` anchor, integer strokes, and shared palette as the starting contract
 for the remaining species. Preserve each species' distinguishing anatomy rather
 than recoloring a mouse or changing the world pixel scale.
@@ -362,8 +363,12 @@ lift/contact/recovery. Use is a small two-handed assembly gesture. Yay is a
 joyful jump with renderer-level displacement. Pet looks toward the player and
 relaxes into the touch. Exact proposed frame counts and cadences are documented
 with the mouse; these new actions do not alter the human Worker scheduler.
-A 32 × 32 critter portrait, native day/night gameplay review, and engine action
-hooks remain future integration work.
+All 25 species share the timing vocabulary, with species-specific shells, quills,
+ears, tails, markings, foot types, and restrained turtle motion. Review source
+frames for attached limbs and unclipped tools/ears; review Pet in both directions
+with a frontal face and closed-eye hold. Portraits remain separately authored
+32 × 32 assets. Native day/night gameplay review and engine action hooks remain
+future integration work.
 
 Native replacement work must retain the 40 × 32 Worker canvas and `(18,31)` anchor,
 separately authored 32 × 32 portraits, shared world scale, motion contracts, and

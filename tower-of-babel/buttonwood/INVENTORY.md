@@ -182,4 +182,11 @@ work above is not a blocker to using the approved presentation.
 |---|---|---|
 | Clothing direction | User selected no clothing for all critter Workers. | Apply natural species markings to future native characters. |
 | Wood mouse | Native 40 × 32 idle, Walk, Sprint, Mine, Use, Yay, Pet; 56 frames; interactive click-Pet review; PNG strips and GIF exports in `critters/wood-mouse/`. | User animation review; 32 × 32 portrait; game hooks, world/day/night review. |
-| Other 24 critters | Clothing-free roster concepts retained. | Native six-action sets after wood mouse review. |
+| Other 24 critters | Native six-action sets plus idle in `critters/roster.js`; distinct silhouettes/markings; full-cast gallery and PNG/GIF exports. | Species visual review, 32 × 32 portraits, production save/action hooks and world/night review. |
+
+The full roster contains **150 requested action animations** plus idle, with
+**1,400 native frames**. All use 40 × 32 source canvases, the `(18,31)` anchor,
+shared named palette and binary alpha. The original wood mouse is preserved.
+QA: `tests/critter-roster-art.test.cjs` passes all frames, unclipped padded
+bounds, mirror anchors, distinct species/actions, Pet interaction and mobile/
+reduced-motion gallery behavior. Concept and original-wildlife archives are retained.
