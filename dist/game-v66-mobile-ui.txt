@@ -14,7 +14,7 @@ phoneRootV66.innerHTML='<div class="phoneStats"></div><nav class="phoneTabs" ari
 document.body.append(phoneRootV66);
 document.body.style.setProperty('--phone-chevron','url('+compactArtV64.info+')');
 const phoneHomesV66=new Map(),phoneSectionsV66=[];
-function phoneMoveV66(el,parent){if($('pauseVolumesV76')?.contains(el))return;if(!phoneHomesV66.has(el)){const marker=document.createComment('phone UI return');el.before(marker);phoneHomesV66.set(el,marker)}parent.append(el)}
+function phoneMoveV66(el,parent){if(el.closest('#pauseMenuV76,#minimalHudV77'))return;if(!phoneHomesV66.has(el)){const marker=document.createComment('phone UI return');el.before(marker);phoneHomesV66.set(el,marker)}parent.append(el)}
 function phoneSectionV66(id,label){const el=document.createElement('details');el.id=id;el.className='phoneSection';el.innerHTML='<summary>'+label+'</summary><div class="phoneContent box"></div>';phoneRootV66.querySelector('nav').append(el);phoneSectionsV66.push(el);el.querySelector('summary').addEventListener('click',()=>{if(!el.open&&phoneActiveV66()){closePhonePanelsV66(el);phoneBoundsV66()}});el.addEventListener('toggle',()=>{if(el.open&&phoneActiveV66()){closePhonePanelsV66(el);phoneBoundsV66()}});return el}
 const phoneGoalV66=phoneSectionV66('phoneGoal','Goal'),phoneVillageV66=phoneSectionV66('phoneVillage','Village'),phoneSettingsV66=phoneSectionV66('phoneSettings','Settings');
 const phoneTimeV66=document.createElement('span');phoneTimeV66.id='phoneTime';
@@ -32,7 +32,7 @@ function phoneBoundsV66(){
  const view=window.visualViewport,top=view?.offsetTop||0,height=view?.height||innerHeight;
  document.body.style.setProperty('--phone-top',Math.ceil(top)+'px');
  document.body.style.setProperty('--phone-bottom',Math.max(0,Math.ceil(innerHeight-top-height))+'px');
- const header=phoneRootV66.getBoundingClientRect(),bar=$('bar').getBoundingClientRect();
+ const minimal=$('minimalHudV77'),header={bottom:minimal?Math.max($('hudLeftV77').getBoundingClientRect().bottom,$('hudNavigationV77').getBoundingClientRect().bottom):phoneRootV66.getBoundingClientRect().bottom},bar=$('bar').getBoundingClientRect();
  document.body.style.setProperty('--phone-panel-top',Math.ceil(header.bottom+8)+'px');
  document.body.style.setProperty('--phone-panel-bottom',Math.ceil(innerHeight-bar.top+8)+'px');
  document.body.style.setProperty('--phone-panel-height',Math.max(0,Math.floor(bar.top-header.bottom-16))+'px');

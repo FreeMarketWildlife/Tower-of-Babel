@@ -49,4 +49,8 @@
 - Use “building inventory” for resources stored inside one building. Use
   “primary” and “secondary” for its ordered automatic crafting recipes.
 - Use “ladder” for the placeable mine-exit item. One Workshop batch costs five
-  wood and makes ten ladders; a Worker buys a batch for one pocketed gold.
+  wood and makes ten ladders; a Worker buys a batch for one pocketed Bell.
+
+- Use “Bells” for currency, including buried clusters and Worker/animal balances.
+  Gold ore and gold bars are separate material resources. Legacy `gold` currency
+  save keys remain compatible.

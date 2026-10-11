@@ -25,10 +25,10 @@ const hook=`window.hotbarTest={
   await page.addInitScript(()=>{window.requestAnimationFrame=()=>0});
   await page.route('**/game-v8-part3.txt*',async route=>{const response=await route.fetch();await route.fulfill({response,body:(await response.text()).replace('restoreDynamicState(initialSave);','restoreDynamicState(initialSave);'+hook)})});
   const load=async()=>{await page.goto(url);await page.waitForFunction(()=>window.hotbarTest,null,{polling:100})};
-  const state=()=>page.evaluate(()=>hotbarTest.state),slot=n=>page.locator('[data-hotbar-slot="'+n+'"]');
+  const state=()=>page.evaluate(()=>hotbarTest.state),slot=n=>page.locator('[data-hotbar-slot="'+(n+1)+'"]');
   const double=async n=>{if(mobile){await slot(n).tap();await slot(n).tap()}else await slot(n).dblclick()};
   await load();
-  assert.equal(await page.locator('#bar .slot').count(),6);
+  assert.equal(await page.locator('#bar .slot').count(),7);
   assert.equal(await page.evaluate(()=>{
    const A=ButtonwoodArt,colors=new Set(Object.values(A.palette).filter(v=>typeof v==='string'&&/^#[a-f0-9]{6}$/i.test(v)).map(v=>v.toLowerCase()));
    return [['bucket',''],['bucket','water'],['bucket','lava'],['leaves',0],['obsidian',0]].every(([kind,tier])=>{
@@ -40,13 +40,12 @@ const hook=`window.hotbarTest={
    });
   }),true);assert.equal(await page.locator('#bar .hotbarGroupV68').count(),2);
   assert.deepEqual((await state()).slots,[null,null,null]);
-  assert.deepEqual(await page.locator('#bar .slot').evaluateAll(bs=>bs.map(b=>b.getAttribute('aria-keyshortcuts'))),['1','2','3','4','5','6']);
+  assert.deepEqual(await page.locator('#bar .slot').evaluateAll(bs=>bs.map(b=>b.getAttribute('aria-keyshortcuts'))),['1','2','3','4','5','6','7']);
   for(const k of ['dirt','leaves','wood'])await page.evaluate(k=>{hotbarTest.harvest(k);hotbarTest.grant(k)},k);
   assert.deepEqual((await state()).slots,['dirt','leaves','wood']);
   await page.evaluate(()=>{hotbarTest.grant('dirt');hotbarTest.grant('stone',2)});
   assert.deepEqual((await state()).slots,['dirt','leaves','wood']);
-  await page.waitForFunction(m=>document.getElementById('toast').textContent.startsWith(m?'Double tap':'Double click'),mobile,{polling:100});
-  assert.equal(await page.locator('#toast').evaluate(e=>e.matches(':popover-open')),true);
+  await page.waitForTimeout(1650);assert.equal((await page.locator('#toast').textContent()).includes('Double'),false,'Inventory instructions now live in Options Tips');
   await double(5);assert.equal(await page.locator('#itemPickerV68').evaluate(e=>e.open),true);
   const before=await page.evaluate(()=>({...hotbarTest.inv}));
   await page.locator('#itemChoicesV68 [data-item=stone]').click();
@@ -147,7 +146,7 @@ const hook=`window.hotbarTest={
    await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
    assert.ok(await page.locator('#itemPickerV68').evaluate(e=>e.scrollTop>0));await cdp.detach();
   }
-  await page.keyboard.press('Escape');assert.equal(await page.locator('#itemPickerV68').evaluate(e=>e.open),false);assert.equal(await slot(6).evaluate(e=>e===document.activeElement),true);
+  await page.keyboard.press('Escape');assert.equal(await page.locator('#itemPickerV68').evaluate(e=>e.open),false);assert.equal(await page.evaluate(()=>skyStackPause.state.paused),true);await page.keyboard.press('Escape');
   // Selection rooted in hidden text is cleared even when mobile reports a fine pointer.
   await page.evaluate(()=>{const hidden=document.getElementById('legacyInventoryV68'),range=document.createRange();range.selectNodeContents(hidden);getSelection().addRange(range)});
   await page.waitForTimeout(50);assert.equal(await page.evaluate(()=>getSelection().toString()),'');
@@ -155,7 +154,7 @@ const hook=`window.hotbarTest={
   await page.evaluate(()=>document.dispatchEvent(new Event('selectionchange')));assert.equal(await page.evaluate(()=>getSelection().rangeCount),0);
   assert.equal(await page.locator('html').evaluate(e=>(getComputedStyle(e).userSelect||getComputedStyle(e).webkitUserSelect)),'none');
   await page.keyboard.press('F2');await page.locator('#devGold').fill('123');assert.equal(await page.locator('#devGold').inputValue(),'123');assert.equal(await page.locator('#devGold').evaluate(e=>(getComputedStyle(e).userSelect||getComputedStyle(e).webkitUserSelect)),'text');await page.locator('#devClose').click();
-  assert.deepEqual(errors,[]);console.log('PASS six native-size slots, bounded picker, portrait/landscape, hidden text selection guard and editable controls');
+  assert.deepEqual(errors,[]);console.log('PASS seven native-size slots, bounded picker, portrait/landscape, hidden text selection guard and editable controls');
   await context.close();
  }
  const migrationContext=await browser.newContext(),migration=await migrationContext.newPage();

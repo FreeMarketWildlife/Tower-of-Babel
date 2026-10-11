@@ -653,9 +653,17 @@ information belongs on quiet surfaces.
 - Keep inventory and category panels attached to the toolbar trigger that opened
   them. Flip or clamp at viewport edges and scroll contents when needed. Do not
   center these panels as modal windows.
-- Preserve the current six-slot toolbar: Pickaxe, Move, Structures, then three
-  assigned inventory items. Its two groups distinguish tools from carried items.
-  This is an existing interaction model, not a request to redesign progression.
+- Use seven toolbar slots: Pickaxe, Move, Structures, the Nails modifier, then
+  three assigned inventory items. Keep tools and carried items in two groups.
+  Show item quantities; omit shortcut corner digits and tool-name captions.
+- The main HUD contains icons and numbers: tower height and Bells at upper left,
+  an attached quest-log trigger below, up/down arrows and a circular day/night
+  clock at upper right. No day/population/MAX/audio strips. Tips, inventory instructions and grid controls
+  live in Options; sample art-review controls also live there. Retain accessible
+  labels, tooltips, and readable prose inside open panels.
+- The nail icon is grey/off by default, unavailable at zero stock, and bright/on
+  when enabled. Keep its quantity visible. Stable supported towers award height
+  immediately; the stability bar reports actual motion/support, without a timer.
 - Use a 4px spacing rhythm for new UI: typically 4/8/12/16px gaps. Grow the hit area
   around the native 32px asset. Target at least 44 × 44 CSS px for touch controls.
   The art canvas and the interactive target are different sizes.
@@ -725,7 +733,7 @@ help text to explain unfamiliar mechanics. “Short” must not become cryptic.
 Use **Worker / Workers**, **Home**, **bed**, **building inventory**, and **primary /
 secondary** recipes. Each Home has two adult beds, one baby slot, and one kid slot.
 Use **ladder** for the mine-exit item. A Workshop batch uses five wood and makes
-ten ladders; a Worker buys a batch for one pocketed gold. Keep those quantities
+ten ladders; a Worker buys a batch for one pocketed Bell. Keep those quantities
 correct in diagrams, help, and icon labels. Legacy internal identifiers stay
 unchanged for compatibility.
 
@@ -1169,3 +1177,23 @@ World and saved Master/Music/Effects sliders. Quit saves and returns to a paused
 title screen; Play resumes the world. Restart retains its explicit deletion
 confirmation. These controls work in ordinary gameplay, phone layout and the
 isolated review sample. See [pause review](qa/pause/README.md).
+
+
+### Minimal HUD and Bells — October 10, 2026
+
+The user requested an icon-and-number main HUD (§9). Tower, Bell, quest book,
+up/down arrows, nail states and a circular day/night clock are separately drawn
+32 × 32 assets, displayed at 1× inside 44px targets (§§3–4). The cream/timber frame,
+mint control states and named palette match the approved native equipment family.
+Small screens reflow the toolbar into two rows instead of shrinking icons.
+
+Bells replace buried currency, costs and Worker/animal balances. Gold ore and gold
+bars remain separate materials: gold-flecked stone and a gold ingot silhouette.
+A separately drawn 12px world Bell pickup uses normal camera zoom (§§3–4, 10).
+Its short ascending bell cue follows the current score chord, respects Effects
+volume/pause and limits simultaneous pickups to one cue per sixteenth-note slot.
+
+The quest log opens below its trigger and scrolls to the next height milestone.
+The stability checker awards supported, settled towers immediately. Options holds
+Tips, grid and sample review controls; the clock also opens Pause. See
+[HUD and currency review](qa/minimal-hud/README.md).

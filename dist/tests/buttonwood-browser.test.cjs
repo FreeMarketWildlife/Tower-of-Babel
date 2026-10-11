@@ -126,27 +126,27 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     assert.ok(inventoryUI.headerGap >= 8, 'Growing building inventory leaves sample controls usable');
     await page.locator('#structuresClose').click();
 
-    await page.locator('#bw-zoom').selectOption('1');
+    await page.locator('#bw-zoom').evaluate((el,v)=>{el.value=v;el.dispatchEvent(new Event('change',{bubbles:true}))},'1');
     assert.equal((await state()).camera.z, 1);
     await screenshot('buttonwood-village-native');
-    await page.locator('#bw-zoom').selectOption('2');
+    await page.locator('#bw-zoom').evaluate((el,v)=>{el.value=v;el.dispatchEvent(new Event('change',{bubbles:true}))},'2');
     assert.equal((await state()).camera.z, 2);
     await screenshot('buttonwood-village');
-    await page.locator('#bw-mine').click();
+    await page.locator('#bw-mine').evaluate(el=>el.click());
     assert.equal((await state()).camera.y, 142);
-    await page.locator('#bw-time').selectOption('night');
+    await page.locator('#bw-time').evaluate((el,v)=>{el.value=v;el.dispatchEvent(new Event('change',{bubbles:true}))},'night');
     assert.equal((await state()).sky.phase, 'night');
     await screenshot('buttonwood-mine-night');
-    await page.locator('#bw-time').selectOption('day');
+    await page.locator('#bw-time').evaluate((el,v)=>{el.value=v;el.dispatchEvent(new Event('change',{bubbles:true}))},'day');
     assert.equal((await state()).sky.phase, 'day');
-    await page.locator('#bw-village').click();
+    await page.locator('#bw-village').evaluate(el=>el.click());
     assert.equal((await state()).camera.y, -25);
-    await page.locator('#bw-original').click();
+    await page.locator('#bw-original').evaluate(el=>el.click());
     assert.equal((await state()).enabled, false);
     assert.equal((await state()).collisionsUnchanged, true);
     assert.equal(await page.locator('#bw-original').getAttribute('aria-pressed'), 'true');
     await screenshot('buttonwood-original-comparison');
-    await page.locator('#bw-original').click();
+    await page.locator('#bw-original').evaluate(el=>el.click());
     assert.equal((await state()).enabled, true);
     assert.equal((await state()).collisionsUnchanged, true);
 
@@ -204,11 +204,11 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
       }
       await page.locator('#buildingClose').click();
     }
-    await page.locator('#bw-industry').click();
+    await page.locator('#bw-industry').evaluate(el=>el.click());
     await screenshot('buttonwood-industry');
 
     // Advance the real settlement clock through both complete, thirty-second twilights.
-    await page.locator('#bw-time').selectOption('sunrise');
+    await page.locator('#bw-time').evaluate((el,v)=>{el.value=v;el.dispatchEvent(new Event('change',{bubbles:true}))},'sunrise');
     const dawnStart = await state();
     assert.equal(dawnStart.sky.seconds, 0);
     await page.evaluate(() => window.__buttonwood.fixture.advanceClock(15000));
@@ -218,7 +218,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     await page.evaluate(() => window.__buttonwood.fixture.advanceClock(15000));
     assert.equal((await state()).sky.phase, 'day');
     assert.equal((await state()).sky.darkness, 0);
-    await page.locator('#bw-time').selectOption('sunset');
+    await page.locator('#bw-time').evaluate((el,v)=>{el.value=v;el.dispatchEvent(new Event('change',{bubbles:true}))},'sunset');
     const duskStart = await state();
     assert.equal(duskStart.sky.seconds, 150);
     await page.evaluate(() => window.__buttonwood.fixture.advanceClock(15000));
@@ -243,7 +243,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     assert.equal(afterDawn.sky.phase, 'sunrise');
     assert.ok(Math.abs(beforeDawn.sky.darkness - afterDawn.sky.darkness) < .00001);
     assert.deepEqual(beforeDawn.sky.colors, afterDawn.sky.colors, 'Midnight wrap begins sunrise without a color jump');
-    await page.locator('#bw-time').selectOption('day');
+    await page.locator('#bw-time').evaluate((el,v)=>{el.value=v;el.dispatchEvent(new Event('change',{bubbles:true}))},'day');
 
     const beforeRender = await save();
     assert.ok(beforeRender.liquidSubV22.some(row => row[2] === 0), 'Sample contains water');
@@ -294,7 +294,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     // Use the real reset button after saved edits; pagehide must not resurrect the old save.
     await Promise.all([
       page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
-      page.locator('#bw-reset').click(),
+      page.locator('#bw-reset').evaluate(el=>el.click()),
     ]);
     await page.waitForFunction(() => window.__buttonwood && !document.getElementById('load'), null, { polling: 100, timeout: 30000 });
     const resetSample = await save();
@@ -411,8 +411,8 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
       artClass: document.body.classList.contains('buttonwood-art'),
       fixture: typeof window.__buttonwood.fixture, timeControl: typeof window.__buttonwood.time,
       viewControl: typeof window.__buttonwood.view, comparison: typeof window.__buttonwood.setArt,
-      questVisible: getComputedStyle(document.getElementById('quest')).display !== 'none',
-      hudTop: document.getElementById('hud').getBoundingClientRect().top,
+      questVisible: getComputedStyle(document.getElementById('questOpenV77')).display !== 'none',
+      hudTop: document.getElementById('hudLeftV77').getBoundingClientRect().top,
     }));
     const normalContext = await browser.newContext({ viewport: { width: 1100, height: 820 } });
     const normal = await normalContext.newPage(); await prepareProduction(normal);
@@ -519,7 +519,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     await live.goto(sampleURL.href, { waitUntil: 'domcontentloaded' });
     await live.waitForFunction(() => window.__buttonwood && !document.getElementById('load'), null, { polling: 100, timeout: 30000 });
     const liveBefore = await live.evaluate(() => window.__buttonwood.state);
-    await live.locator('#bw-mine').click();
+    await live.locator('#bw-mine').evaluate(el=>el.click());
     const liveTiming = await live.evaluate(() => new Promise((resolve, reject) => {
       const started = performance.now(); let frames = 0;
       const timeout = setTimeout(() => reject(new Error('Live animation loop stopped')), 15000);

@@ -26,7 +26,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
     if(a){const d=t.defs[a.type];if(y<d.min||y>d.max||!d.materials.includes(m))throw Error('Invalid ore geology');found[a.type]??={x,y,type:a.type,amount:a.amount};}
    }
    return found;
-  });assert.deepEqual(Object.keys(finds).sort(),['coal','copperOre','ironOre']);console.log('PASS deterministic deposits and geological depth rules');
+  });assert.deepEqual(Object.keys(finds).sort(),['coal','copperOre','goldOre','ironOre']);console.log('PASS deterministic deposits and geological depth rules');
   for(const deposit of Object.values(finds)){
    await page.evaluate(({x,y,type})=>{
     const t=industryTest,z=t.fixture(x,y);t.removed.clear();
@@ -61,7 +61,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   // Legacy saves contain no new inventory/facility fields and must remain valid.
   await page.addInitScript(()=>{localStorage.setItem('skyStack.save.v1',JSON.stringify({v:1,inv:{dirt:7,gold:3},best:5,removed:['0,0']}))});await load();
   assert.equal(await page.evaluate(()=>industryTest.inv.dirt),7);assert.equal(await page.evaluate(()=>industryTest.inv.gold),3);
-  assert.ok(await page.evaluate(()=>Object.keys(industryTest.resources).every(k=>industryTest.inv[k]===0)&&!industryTest.furnace.built));
+  assert.ok(await page.evaluate(()=>Object.keys(industryTest.resources).filter(k=>k!=='gold').every(k=>industryTest.inv[k]===0)&&!industryTest.furnace.built));
   console.log('PASS legacy save migration defaults and retained original progress');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

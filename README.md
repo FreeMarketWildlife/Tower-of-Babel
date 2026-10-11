@@ -91,3 +91,20 @@ The [wildlife guide](tower-of-babel/BIOMES-WILDLIFE.md) documents costs and cont
 Formerly Sky Stack in the Snake-Game-Test repository. This repository preserves the game's Git history and Tower of Babel's initial commit. The old Snake game remains in Git history; the root entry now opens Tower of Babel.
 
 Existing `skyStack` local-storage keys and debug APIs are retained for compatibility. Browser saves carry over when using the same origin (scheme, host, and port). Moving to a different hosting origin does not automatically transfer browser storage.
+
+
+## HUD and Bells
+
+The main interface uses native pixel icons and quantities. The tower icon shows
+height, the bell shows your Bells, and the quest book opens your scrollable log
+at the next milestone. Arrow buttons jump to the tower or mine; the circular clock
+shows day/night progress and opens Pause. Escape also pauses the game and music.
+Options contains Tips, Dev Tools, Restart World and volume sliders; sample art
+review controls are available there in the isolated demo.
+
+The toolbar has Pickaxe, Move, Structures, Nails, then three assigned items.
+Nails start off and require stock before they can be enabled. Keys 1–3 select
+tools, 4 toggles Nails, and 5–7 select items. Supported stable towers earn height
+immediately. Buried currency clusters and Worker/animal balances are Bells, with
+a short bell pickup sound. Gold ore and gold bars are separate materials;
+a Forge smelts one gold ore and one coal into one bar.

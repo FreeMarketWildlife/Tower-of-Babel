@@ -607,3 +607,30 @@ production, eggs, Fey and settlement time therefore stop together.
 or beat origin; input initialization and visibility handlers respect pause.
 Master/Music/Effects volume preferences use `skyStack.audio.volume.v1` and are
 independent of world saves. Phone reflow leaves audio controls inside Options.
+
+
+## Minimal HUD and currency — v77
+
+`hud-art.js` provides cached `A.hudIcon(kind, active)` 32 × 32 miniatures, a
+separate `A.bellSprite()` 12 × 12 world pickup, gold ore overlays, and
+`A.paintDayClock(context, phase, elapsedMs)`. All opaque pixels use shared named
+palette colors; UI art displays at 32 CSS pixels with binary alpha. The clock
+traverses its daylight semicircle over 180 seconds and night over 60 seconds.
+
+`game-v77-bells-resources.txt` loads immediately after industry, before building
+inventory resource registration. Currency retains `inv.gold` and existing saved
+Worker/animal `gold` fields; new `goldOre` and `goldIngot` fields are independent
+materials. Forge smelting uses one ore plus one coal for one gold bar in four
+seconds. Buried Bell cluster generation and costs remain unchanged.
+
+`game-v77-minimal-hud.txt` owns the icon HUD, attached scrollable quest log and
+seven-slot toolbar. Keys 1–3 select tools, 4 toggles Nails, 5–7 select assigned
+items; saved item indices remain unchanged. Zero stock forces Nails off.
+Tips, grid and isolated sample review controls live in Options. Click the clock
+or press Escape to pause. Labels and keyboard focus remain accessible.
+
+Height progression uses supported placed-block components and actual body speed,
+spin and tilt; it no longer uses a dwell timer. The active currency effect in
+`game-v32-art-direction.txt` draws the native Bell pickup and numeric yield.
+`SkyAudio.bellCollect` is Effects-volume gated and chord-aware; `goldChaching`
+remains a compatibility alias. Review: [HUD QA](qa/minimal-hud/README.md).

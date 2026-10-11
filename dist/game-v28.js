@@ -60,7 +60,7 @@ async function read(url){
     for(const path of ['palette.js','sky.js','workers.js','buildings.js','environment.js','ui.js','extraction.js','biomes.js','wildlife.js','fog.js']){
       (0,eval)(await read('buttonwood/'+path));
     }
-    for(const path of ['critters/wildlife-idles/sprites.js','critters/wildlife-idles/animations.js','lunar-art.js','meadow.js','fey-art.js']){(0,eval)(await read('buttonwood/'+path));}
+    for(const path of ['critters/wildlife-idles/sprites.js','critters/wildlife-idles/animations.js','lunar-art.js','meadow.js','fey-art.js','hud-art.js']){(0,eval)(await read('buttonwood/'+path));}
     (0,eval)(await read('extraction-network.js'));
     if(buttonwoodSample&&new URLSearchParams(location.search).get('critters')==='42'){
       const names=['mouse','turtle','lizard'];
@@ -88,7 +88,7 @@ async function read(url){
     const pickaxe=await read(pickaxeUrl);
     const trees=await read(treesUrl);
     const spirits=await read(spiritsUrl);
-    const industry=await read(industryUrl);
+    const industry=await read(industryUrl)+'\n'+await read('game-v77-bells-resources.txt?v=77');
     const structureArt=await read(structureArtUrl);
     const structures=await read(structuresUrl);
     const structuresUi=await read('game-v48-structures-ui.txt?v=48');
@@ -120,6 +120,7 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v74-meadow.txt?v=74'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v75-fey.txt?v=75'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v76-pause.txt?v=76'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v77-minimal-hud.txt?v=77'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

@@ -273,3 +273,18 @@ Implemented Escape/Pause menu, Options and saved-world title screen; cream/timbe
 controls and shared palette per bible §9. Dev Tools, Restart World and audio
 controls now live in Options. No new sprite or icon family. Desktop and phone
 review: [pause QA](qa/pause/README.md).
+
+
+### v77 minimal HUD and Bells
+
+| Family | Current coverage | Review |
+|---|---|---|
+| Main HUD | Tower/Bell counts, quest book, up/down arrows and circular clock; native 32px assets, 44px targets. | [Desktop](qa/minimal-hud/desktop.png). |
+| Toolbar | Four tools including Nails plus three carried items; quantities only, no corner shortcut digits or tool captions. Grey/off Nails at zero stock. | [Phone](qa/minimal-hud/hud-390.png), [small phone](qa/minimal-hud/hud-320.png), [landscape](qa/minimal-hud/hud-844.png). |
+| Quests | Attached scrollable log, completion/progress and automatic next-milestone scroll. | [Quest log](qa/minimal-hud/quests.png). |
+| Bells | Native world pickup, currency labels/prices/balances and short chord-aware collection sound; existing saved balances retained. | [Behavior and native review](qa/minimal-hud/README.md). |
+| Gold materials | Separate gold ore veins/icons and Forge gold-bar recipe/icon; separate inventory/save fields. | Native gallery and harvest/smelting/reload checks. |
+| Options / stability | Tips and grid in Options; sample art review tucked away; supported stable towers award immediately without countdown. | HUD/Pause/keyboard/toolbar/Buttonwood integration checks. |
+
+Supersedes the six-slot toolbar and textual main status strips. Earlier captures
+remain historical. Gold color tokens and material terminology retain their names.

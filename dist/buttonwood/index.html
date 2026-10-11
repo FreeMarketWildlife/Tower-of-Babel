@@ -81,12 +81,19 @@
    <div class="section-heading"><h2 id="tools-heading">Tools &amp; pocket blocks</h2><span>UI art · 32 × 32 native</span></div>
    <div id="ui-icons" class="ui-icons"></div>
   </section>
+  <section class="study" aria-labelledby="hud-heading">
+   <div class="section-heading"><h2 id="hud-heading">Tower &amp; Bells</h2><span>HUD art · 32 × 32 native</span></div>
+   <div id="hud-studies" class="ui-icons" aria-label="Native tower, Bells, quests, nail states, arrows, clock and gold materials"></div>
+  </section>
   <section class="review">
    <div><p class="eyebrow">ART PLAYGROUND</p><h2>Try it in the world.</h2><p>Mine, place blocks, and open the buildings. Compare original art, visit the mine, and switch between day and night.</p><a class="play" href="../?sample=buttonwood">Play the sample</a><p class="small">Uses a separate sample save. Buttonwood is also the default artwork in the main game.</p></div>
    <div class="reference"><a href="reference/buttonwood-approved.png"><img src="reference/buttonwood-approved.png" alt="Approved Buttonwood concept: cream-capped Workers, coral-roof Home and Workshop"></a><span>Approved concept reference</span></div>
   </section>
  </main>
  <footer><a href="ART-GUIDE.md">Art guide</a><a href="INVENTORY.md">Migration inventory</a><a href="../">Return to game</a><span>Buttonwood · Art sample</span></footer>
- <script src="../biomes.js"></script><script src="palette.js?v=72"></script><script src="sky.js"></script><script src="workers.js"></script><script src="buildings.js"></script><script src="environment.js"></script><script src="ui.js"></script><script src="extraction.js"></script><script src="biomes.js"></script><script src="wildlife.js"></script><script src="fog.js"></script><script src="lunar-art.js"></script><script src="fey-art.js"></script><script src="study.js?v=72"></script>
+ <script src="../biomes.js"></script><script src="palette.js?v=72"></script><script src="sky.js"></script><script src="workers.js"></script><script src="buildings.js"></script><script src="environment.js"></script><script src="ui.js"></script><script src="extraction.js"></script><script src="biomes.js"></script><script src="wildlife.js"></script><script src="fog.js"></script><script src="lunar-art.js"></script><script src="fey-art.js"></script><script src="hud-art.js"></script><script src="study.js?v=72"></script>
+ <script>
+ (()=>{const A=ButtonwoodArt,host=document.getElementById('hud-studies');for(const [kind,label,active]of [['tower','Tower',true],['bell','Bells',true],['quest','Quests',true],['nail','Nails on',true],['nail','Nails off',false],['up','Up',true],['down','Down',true],['clock','Clock',true],['goldOre','Gold ore',true],['goldIngot','Gold bar',true]]){const f=document.createElement('figure'),c=document.createElement('canvas'),t=document.createElement('figcaption');c.width=c.height=32;c.setAttribute('role','img');c.setAttribute('aria-label',label);const g=c.getContext('2d');if(kind==='clock')A.paintDayClock(g,'day',90000);else g.drawImage(A.hudIcon(kind,active),0,0);t.textContent=label;f.append(c,t);host.append(f)}})();
+ </script>
 </body>
 </html>
