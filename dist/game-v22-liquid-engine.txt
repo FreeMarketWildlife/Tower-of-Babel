@@ -5,6 +5,7 @@
 // renderer that treats pools and falling streams as continuous shapes rather than tiles.
 var liquidSubV22,liquidSubSeededV22,liquidSubFlowV22,liquidSubVisualV22,liquidSubImpactV22,liquidSubTickV22,liquidSubScaleV22;
 SKY_BUILD='v22';
+var liquidHasTaintV75=false;
 
 function liquidV22Init(){
   liquidInit();
@@ -28,7 +29,7 @@ function liquidSubOpenV22(sx,sy){
   return !grid.has(key(cx,cy))
 }
 function liquidSubPutV22(sx,sy,kind,amount){
-  liquidV22Init();amount=finite(amount);if(amount<=.0002)return 0;
+  liquidV22Init();if(kind==='taintedWater')liquidHasTaintV75=true;amount=finite(amount);if(amount<=.0002)return 0;
   const k=liquidSubKeyV22(sx,sy),old=liquidSubV22.get(k);if(old&&old.kind!==kind)return 0;
   const before=old?old.a:0,after=before+amount;
   if(old)old.a=after;else liquidSubV22.set(k,{x:sx,y:sy,kind,a:after});
@@ -154,7 +155,7 @@ function liquidReactV22(now){
   if(!Number.isFinite(liquidLastReactV18))liquidLastReactV18=0;if(now-liquidLastReactV18<125)return;liquidLastReactV18=now;
   let made=0;const vals=[...liquidSubV22.values()];
   for(const w of vals){
-    if(w.kind!=='water'||w.a<.10)continue;
+    if(!['water','taintedWater'].includes(w.kind)||w.a<.10)continue;
     for(const d of [[1,0],[-1,0],[0,1],[0,-1]]){
       const l=liquidSubRecV22(w.x+d[0],w.y+d[1]);if(!l||l.kind!=='lava'||l.a<.10)continue;
       const consume=Math.min(.42,w.a,l.a);w.a-=consume;l.a-=consume;
@@ -170,7 +171,7 @@ function updateBuoyancyV22(){
     if(!z.game?.placed||z.isStatic)continue;
     const sb=liquidSBV22(),x0=Math.floor(z.bounds.min.x/sb),x1=Math.floor(z.bounds.max.x/sb),y0=Math.floor(z.bounds.min.y/sb),y1=Math.floor(z.bounds.max.y/sb);
     const count=Math.max(1,(x1-x0+1)*(y1-y0+1)),stride=count>90?2:1;let wet=0,n=0;
-    for(let y=y0;y<=y1;y+=stride)for(let x=x0;x<=x1;x+=stride){n++;const r=liquidSubRecV22(x,y);if(r?.kind==='water'||r?.kind==='oil')wet+=clamp(r.a,0,1)}
+    for(let y=y0;y<=y1;y+=stride)for(let x=x0;x<=x1;x+=stride){n++;const r=liquidSubRecV22(x,y);if(r?.kind==='water'||r?.kind==='taintedWater'||r?.kind==='oil')wet+=clamp(r.a,0,1)}
     const coverage=clamp(wet/Math.max(1,n*.58),0,1);
     if(coverage<=.015){wetBodies.delete(z);continue}
     if(z.game.material==='dirt'){
@@ -181,7 +182,7 @@ function updateBuoyancyV22(){
 }
 function updateLiquids(now){
   liquidV22Init();liquidSubTickV22++;
-  if(liquidSubTickV22%2===0)liquidStepSubV22('water',now);
+  if(liquidSubTickV22%2===0){liquidStepSubV22('water',now);liquidStepSubV22('taintedWater',now);}
   if(liquidSubTickV22%5===0)liquidStepSubV22('lava',now);
   if(liquidSubTickV22%4===0)updateBuoyancyV22();
   liquidReactV22(now);liquidCleanV22(now)
@@ -296,7 +297,7 @@ var v22BaseSaveGame=saveGame;
 saveGame=function(){
   v22BaseSaveGame();liquidV22Init();
   try{const raw=localStorage.getItem(SAVE_KEY);if(!raw)return;const s=JSON.parse(raw);
-    s.liquidSubV22=[...liquidSubV22.values()].filter(r=>Number.isFinite(r.a)&&r.a>0&&['water','lava','oil'].includes(r.kind)).map(r=>[r.x,r.y,r.kind==='oil'?2:r.kind==='lava'?1:0,r.a*10000]);
+    s.liquidSubV22=[...liquidSubV22.values()].filter(r=>Number.isFinite(r.a)&&r.a>0&&['water','lava','oil','taintedWater'].includes(r.kind)).map(r=>[r.x,r.y,r.kind==='taintedWater'?3:r.kind==='oil'?2:r.kind==='lava'?1:0,r.a*10000]);
     s.liquidSubSeededV22=[...liquidSubSeededV22];s.liquidCellsV18=[];s.liquidSeededV18=[];s.fluids=[];localStorage.setItem(SAVE_KEY,JSON.stringify(s))
   }catch(e){console.warn('v22 liquid save failed',e)}
 };
@@ -306,7 +307,7 @@ restoreDynamicState=function(s){
   const has=Array.isArray(s.liquidSubV22),copy=has?{...s,liquidCellsV18:[],liquidSeededV18:[],fluids:[]}:s;
   v22BaseRestoreDynamicState(copy);liquidSubV22.clear();liquidSubSeededV22.clear();liquidSubFlowV22.clear();liquidSubImpactV22.clear();liquidSubVisualV22.clear();
   if(has){
-    for(const row of s.liquidSubV22){if(!Array.isArray(row)||row.length<4||![0,1,2].includes(row[2])||!Number.isFinite(row[0])||!Number.isFinite(row[1]))continue;const x=Math.floor(row[0]),y=Math.floor(row[1]),kind=row[2]===2?'oil':row[2]===1?'lava':'water',a=finite(row[3])/10000;if(a>0)liquidSubV22.set(liquidSubKeyV22(x,y),{x,y,kind,a})}
+    for(const row of s.liquidSubV22){if(!Array.isArray(row)||row.length<4||![0,1,2,3].includes(row[2])||!Number.isFinite(row[0])||!Number.isFinite(row[1]))continue;const x=Math.floor(row[0]),y=Math.floor(row[1]),kind=row[2]===3?'taintedWater':row[2]===2?'oil':row[2]===1?'lava':'water',a=finite(row[3])/10000;if(a>0){if(kind==='taintedWater')liquidHasTaintV75=true;liquidSubV22.set(liquidSubKeyV22(x,y),{x,y,kind,a})}}
     if(Array.isArray(s.liquidSubSeededV22))for(const id of s.liquidSubSeededV22)if(typeof id==='string')liquidSubSeededV22.add(id)
   }else if(!liquidMigrateV18ToV22()){
     if(fluidSeeded)for(const id of fluidSeeded)liquidSubSeededV22.add(id);

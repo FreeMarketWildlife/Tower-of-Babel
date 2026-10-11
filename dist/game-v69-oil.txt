@@ -104,14 +104,14 @@ minerExposureV42=function(q){
  const e=oilExposureBeforeV69(q);let covered=0;
  for(const dx of [-B*.18,0,B*.18]){
   const kind=liquidPointV42(q.position.x+dx,q.bounds.min.y+B*.12);
-  if(kind==='water'||kind==='oil')covered++;
+  if(kind==='water'||kind==='taintedWater'||kind==='oil')covered++;
  }
  // The existing air timer handles immersion; only actual lava sets the fire flag.
  return{...e,underwater:covered>=2};
 };
 const oilDebugBeforeV69=window.__skyStackLiquidDebug;
 window.__skyStackLiquidDebug=()=>{
- const old=oilDebugBeforeV69(),counts={water:0,lava:0,oil:0},volumes={water:0,lava:0,oil:0};
+ const old=oilDebugBeforeV69(),counts={water:0,lava:0,oil:0,taintedWater:0},volumes={water:0,lava:0,oil:0,taintedWater:0};
  for(const r of liquidSubV22.values())if(Object.hasOwn(counts,r.kind)){counts[r.kind]++;volumes[r.kind]+=r.a/(liquidSubScaleV22*liquidSubScaleV22)}
  return{...old,build:'v69',...counts,volumes,oilPockets:oilPocketChunksV69.size};
 };

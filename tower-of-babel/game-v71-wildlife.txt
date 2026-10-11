@@ -258,7 +258,7 @@ stepStructuresV46=function(elapsed){
  let obstacles=null;
  for(const a of wildlifeV71)if(Math.abs(a.homeX-cam.x)<W/cam.z+512){
   wildlifePositionV71(a);const motion=WILDLIFE_SPECIES_V71[a.species].motion;
-  if(motion==='hop'||motion==='burrow'){obstacles??=wildlifeObstaclesV71();wildlifeDirtyV71=settleWildlifeV71(a,elapsed,obstacles)||wildlifeDirtyV71}
+  if(!a.feyV75&&(motion==='hop'||motion==='burrow')){obstacles??=wildlifeObstaclesV71();wildlifeDirtyV71=settleWildlifeV71(a,elapsed,obstacles)||wildlifeDirtyV71}
  }
  if(wildlifeDirtyV71&&wildlifeSaveClockV71>=1200){wildlifeDirtyV71=false;wildlifeSaveClockV71=0;return true}return changed;
 };

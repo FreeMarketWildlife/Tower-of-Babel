@@ -51,7 +51,7 @@ function tank(s){s.generated.add(0);s.generated.add(-1);for(let x=-2;x<=12;x++)s
  console.log('PASS oil fixed-step behavior at 30/60/144 Hz and hidden-tab pause');
 }
 {
- const s=world(),amounts=[.752398231,1.012398754,1e-8,8.24681935],types=['water','lava','oil'];
+ const s=world(),amounts=[.752398231,1.012398754,1e-8,8.24681935],types=['water','lava','oil','taintedWater'];
  for(const [code,kind] of types.entries())for(const [index,a] of amounts.entries())s.liquidSubV22.set(`${code},${index}`,{x:code,y:index,kind,a});
  const expected=Object.fromEntries(types.map(kind=>[kind,mass(s,kind)]));
  for(let i=0;i<20;i++){s.saveGame();s.restoreDynamicState(JSON.parse(s.localStorage.getItem()))}
@@ -60,7 +60,7 @@ function tank(s){s.generated.add(0);s.generated.add(-1);for(let x=-2;x<=12;x++)s
   assert.ok(data.liquidSubV22.filter(r=>r[2]===code).length===amounts.length,'each liquid retains its persistent type');
   assert.ok(Math.abs(mass(s,kind)-expected[kind])<1e-12,'repeated saves preserve fractional, compressed and shallow liquid volumes');
  }
- data.liquidSubV22.push([99,99,3,10000],[98,98,'oil',10000]);s.restoreDynamicState(data);
+ data.liquidSubV22.push([99,99,4,10000],[98,98,'oil',10000]);s.restoreDynamicState(data);
  assert.equal(s.liquidSubRecV22(99,99),null);assert.equal(s.liquidSubRecV22(98,98),null);assert.equal(data.inv.wood,7);
  s.restoreDynamicState({liquidSubV22:[[3,6,0,7523],[7,8,1,10123],[9,12,2,9143]]});
  assert.equal(s.liquidSubRecV22(3,6).a,.7523);assert.equal(s.liquidSubRecV22(7,8).a,1.0123);assert.equal(s.liquidSubRecV22(9,12).a,.9143);

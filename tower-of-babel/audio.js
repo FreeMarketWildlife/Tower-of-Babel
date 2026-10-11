@@ -235,6 +235,14 @@ function spiritCue(kind,gain=1,pan=0){
  if(kind==='revive')noiseAt(ac.currentTime,.09,.017*gain,1600,pan);
  spiritCues++
 }
+let lastFeySparkSlot=-1,feySparkCues=0;
+function feySpark(id=0,pan=0){
+ if(!ready||ac.state!=='running'||!musicOn)return false;
+ const step=beat*.5,slot=Math.ceil((ac.currentTime+.015-beatOrigin)/step);
+ if(slot===lastFeySparkSlot)return false;lastFeySparkSlot=slot;
+ const t=beatOrigin+slot*step,index=((Math.floor(slot/8)%SONG.length)+SONG.length)%SONG.length;
+ moonBell(SONG[index].chord[Math.abs(id)%4]+24,t,beat*.8,.012,pan);feySparkCues++;return true;
+}
 function setMusicEnabled(on){musicOn=!!on;if(music?.gain)music.gain.setTargetAtTime(musicOn?.43:.0001,ac.currentTime,.025);return musicOn}
 function setSfxEnabled(on){sfxOn=!!on;if(sfx?.gain)sfx.gain.setTargetAtTime(sfxOn?.9:.0001,ac.currentTime,.025);return sfxOn}
 function place(material,cost=1){if(!ready)return;voice(material==='deepslate'?36:material==='stone'?43:48,ac.currentTime,.14,.07+Math.min(.03,cost*.002),'triangle',sfx,0,0,700)}
@@ -244,7 +252,7 @@ function splash(kind='water'){if(!ready||performance.now()-lastSplash<180)return
 function sizzle(){if(!ready||performance.now()-lastSizzle<120)return;lastSizzle=performance.now();noise(.24,.045,3000);tone(170,.16,.03,'triangle',90)}
 async function ensure(){if(ready){if(ac.state==='suspended')try{await ac.resume()}catch{};return}try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ac=new AC();const master=ac.createGain(),comp=ac.createDynamicsCompressor();music=ac.createGain();sfx=ac.createGain();ambience=ac.createGain();automation=ac.createGain();automation.gain.value=.45;automation.connect(master);master.gain.value=.76;music.gain.value=.43;sfx.gain.value=.9;ambience.gain.value=.11;music.connect(master);sfx.connect(master);ambience.connect(master);master.connect(comp);comp.connect(ac.destination);await ac.resume();ready=true;start();startAmbience();setInterval(scheduleBirds,9000)}catch(e){console.warn('Audio start failed',e)}}
 document.addEventListener('pointerdown',ensure,{capture:true});document.addEventListener('keydown',ensure,{capture:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInterval(timer);timer=null}else if(ready)ac.resume().then(start).catch(()=>{})});
-window.SkyAudio={ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
-window.__skyStackAudioDebug=()=>({ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
+window.SkyAudio={feySpark,ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
+window.__skyStackAudioDebug=()=>({feySparkCues,ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
 document.documentElement.dataset.audioEngine='midi-ready';
 })();

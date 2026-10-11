@@ -68,6 +68,7 @@ updateLiquids=function(now){
     liquidAccumulatorV29-=step;liquidStepsV29++;liquidSubTickV22++;
     const t=now-liquidAccumulatorV29;
     liquidStepSubV22('water',t);
+    if(liquidHasTaintV75)liquidStepSubV22('taintedWater',t);
     if(liquidStepsV29%2===0)liquidStepSubV22('oil',t);
     if(liquidStepsV29%3===0)liquidStepSubV22('lava',t);
     liquidReactV22(t);

@@ -4,7 +4,7 @@ const blockItemsV68=Object.keys(M).filter(k=>k!=='bedrock'&&Object.hasOwn(inv,k)
 const bucketLiquidsV68={water:'Water',lava:'Lava'};
 const bucketBagV68=Object.create(null),hotbarSaveV68=initialSave?.hotbarV68;
 function isBucketV68(item){return typeof item==='string'&&(item==='bucket'||item.startsWith('bucket:'))}
-function validItemV68(item){return blockItemsV68.includes(item)||item==='miner'||item==='bucket'||(isBucketV68(item)&&/^[a-z][a-z0-9_-]{0,39}$/.test(item.slice(7)))}
+function validItemV68(item){return item==='bucket:taintedWater'||blockItemsV68.includes(item)||item==='miner'||item==='bucket'||(isBucketV68(item)&&/^[a-z][a-z0-9_-]{0,39}$/.test(item.slice(7)))}
 function countItemV68(item,real=false){
  if(isBucketV68(item))return bucketBagV68[item]||0;
  if(item==='miner')return unlockedMiners()>0?availableMiners():0;

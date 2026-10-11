@@ -567,3 +567,32 @@ Existing horizontal depth factors are unchanged. Sky repainting is capped at
 20Hz while stationary; camera/viewport changes repaint immediately. The moon HUD
 caches data URLs and skips unchanged content/layout; obstacle scans reuse a
 100ms cache, invalidated immediately when body counts change.
+
+
+## Fairy Workers and Fey task integration
+
+`fey-art.js` wraps `A.worker` with native wing pixels inside its unchanged 40 × 32
+canvas and ground anchor. `A.workerIcon` uses a separate 32px fairy portrait.
+`A.paintFeySpark` and `A.paintFairyDefeat` use integer palette rectangles. Gameplay
+effects are drawn before the shared buried-light pass.
+
+`game-v75-fey.txt` owns saved animal Fey/task/gold/supply state, temporary Matter
+bodies for terrain/ladder travel, and bucket metadata. Animal sprites and animations
+are reused. Tool mining poses are excluded from Fey rendering. Eggs hatch wild
+animals; older animal Worker records migrate into wild animals carrying their gold.
+Human Worker IDs and normal environmental ghost/revival behavior remain intact.
+
+Tainted Water is liquid save type 3 (existing 0/1/2 types remain compatible).
+The fixed-step solver in `game-v29-liquid-feel.txt` advances it at water cadence;
+blood conversion changes kind without changing volume. `bucket:taintedWater`
+retains bucket volume checks, atomic transactions and save validation.
+
+Base uses connected supported placed-block components, excluding natural trees.
+Mine checks local exposed terrain and counts three eligible rhythm beats per hit.
+Collect excludes living Workers; transfers between Collect Fey flow toward lower
+IDs to prevent a gold ping-pong loop. Work extends employee readiness at the real
+building entrance. Tower keeps width >= ceil(next height / 6), consumes local stock,
+uses nails if present, and places dynamic supported blocks otherwise. Installed
+ladders use the existing clear-cell checks and actual Workshop batch recipe.
+Sparkle audio uses the current MIDI chord, half-beat alignment, global cue limiting
+and music mute. Task navigation runs at 10Hz; sprite rendering remains at frame rate.

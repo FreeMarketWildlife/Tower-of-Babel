@@ -1,0 +1,11 @@
+// ART-BIBLE §§3–4, 6, 9–10: tiny native wings, restrained magic and intact defeat poses.
+(()=>{'use strict';const A=ButtonwoodArt,P=A.palette,cache=new Map(),base=A.worker;
+A.worker=function(options={}){const key=JSON.stringify(options);if(cache.has(key))return cache.get(key);const c=document.createElement('canvas');c.width=40;c.height=32;const g=c.getContext('2d'),d=options.dir<0?-1:1;if(d<0){g.translate(36,0);g.scale(-1,1)}const r=(x,y,w,h,k)=>{g.fillStyle=P[k];g.fillRect(x,y,w,h)},lift=(options.frame||0)%3===1?1:0;
+for(const [x,k]of [[3,'mintLight'],[25,'creamLight']]){r(x+1,14-lift,7,1,'mintShade');r(x,15-lift,9,5,'mintShade');r(x+1,15-lift,7,4,k);r(x+2,20-lift,6,4,'mintShade');r(x+3,20-lift,4,3,k);r(x+4,16-lift,1,5,'mint');r(x+2,15-lift,2,1,'creamLight')}
+g.setTransform(1,0,0,1,0,0);g.drawImage(base(options),0,0);cache.set(key,c);return c};
+A.workerIcon=()=>A.fairyIcon();
+A.liquidColors.taintedWater=[P.deepLight,P.coralLight,P.deepShade];
+A.taintedBucketIcon=()=>{if(cache.has('bucket'))return cache.get('bucket');const c=document.createElement('canvas');c.width=c.height=32;const g=c.getContext('2d'),r=(x,y,w,h,k)=>{g.fillStyle=P[k];g.fillRect(x,y,w,h)};r(7,4,18,2,'outline');r(5,6,2,13,'outline');r(25,6,2,13,'outline');r(4,13,24,3,'ink');r(7,16,18,13,'outline');r(8,16,16,11,'stoneLight');r(9,16,14,5,'deepLight');r(10,16,5,1,'coralLight');r(12,8,1,5,'gold');r(10,10,5,1,'creamLight');cache.set('bucket',c);return c};
+A.paintFeySpark=function(g,x,y,frame){const points=[[0,-26],[18,-15],[-17,-10]];for(let i=0;i<points.length;i++){const p=points[(i+frame)%3],n=(frame+i)%4;g.fillStyle=P[n<2?'creamLight':'gold'];g.fillRect(Math.round(x+p[0]),Math.round(y+p[1]-n),1,1);if(n===1){g.fillRect(Math.round(x+p[0]-1),Math.round(y+p[1]),3,1);g.fillRect(Math.round(x+p[0]),Math.round(y+p[1]-1),1,3)}}};
+A.paintFairyDefeat=function(g,method,frame){const r=(x,y,w,h,k)=>{g.fillStyle=P[k];g.fillRect(x,y,w,h)};const x=method==='stab'?7+Math.min(3,frame)*2:4+frame*3,y=method==='stab'?-16:-24+frame*3;r(x,y,7,2,'stoneLight');r(x+1,y+2,5,1,'stoneShade');r(x+7,y-1,1,4,'goldShade');r(x+8,y,4,2,'woodShade');if(frame===2){r(3,-18,1,5,'creamLight');r(1,-16,5,1,'creamLight');r(-5,-12,2,2,'gold')}};
+})();

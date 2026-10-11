@@ -400,7 +400,8 @@ intact throughout this comparison.
 
 ## 6. Workers and character acting
 
-Workers are capable adults expressed through chibi proportions. The broad cream
+Workers are now fairies: capable adults expressed through chibi proportions,
+with small paired cream/mint wings behind their shoulders. The broad cream
 hat and mint band identify the family; rounded hair, cheeks, short overalls, gold
 buttons, and grounded boots make it personable. Hat, hair, and face occupy a
 little over half the standing silhouette. Preserve the approved three appearances
@@ -1118,3 +1119,39 @@ at 6–10%, celestial bodies at 4%. Real terrain retains full camera movement.
 Sky/scenery clips against the actual cutaway surface (§8). No scenery creates
 collision or support. Native compositing and nearest-neighbor zoom are retained.
 See [meadow review](qa/meadow/README.md).
+
+
+### Wild animals, Fey and fairy Workers — October 10, 2026
+
+The user defines two animal states: wild and Fey. Drinking fairy blood through
+contact with tainted water converts an animal to Fey. Keep all existing animal
+sprites and poses. Fey use sparse cream/gold four-pose sparkles lasting 600ms,
+roughly every 3.6–5.6 seconds. Chord-aligned bell notes accompany visible pulses;
+aggregate cues to at most one per half beat. Follow music mute and buried light.
+
+Workers retain their native 40 × 32 adult silhouette, cream hat, mint clothing,
+and shared anchor, with little mint/cream wings. Native gallery and gameplay use
+these fairy models. The full-moon merchant remains a distinct wand-bearing fairy.
+
+Player knife choices are Stab and Slice. Their implemented effects are stylized:
+brief intact poses, small native knife/contact glints, an intact fading sprite,
+and a few coral blood pixels that dry in three seconds. No graphic wounds,
+dismemberment, or repeated stabbing are depicted. Both player actions release
+pocketed gold and create no ghost. Environmental deaths retain existing ghosts
+and never spill fairy blood or contaminate water.
+
+Tainted Water uses the existing 16-unit liquid solver, purple/coral palette ramps,
+and a separately authored 32px bucket icon. Blood touching water taints it;
+contamination spreads through touching water cells and travels with flowing
+liquid. Preserve volume, bucket transactions, drowning and lava reactions.
+
+Fey tasks are Base, Mine, Collect, Work and Tower. Base gathers everyone around
+the tallest supported placed-block tower. Mine has no pickaxe and hits once per
+three eligible Worker rhythm beats. Gold stays with the animal for Take gold.
+Collect transfers gold from ghosts and animals, never Workers. Work targets any
+placed building; crafting uses real local inventory and existing recipes. Tower
+reserves up to 100 stored nails, prefers the strongest available unlocked block,
+widening to at least one cell per six cells of height before further ascent.
+Without nails it places normal dynamic blocks and uses actual ladders/routes;
+a Workshop batch remains five wood for ten ladders, taking five seconds.
+See [Fey visual and gameplay review](qa/fey/README.md).

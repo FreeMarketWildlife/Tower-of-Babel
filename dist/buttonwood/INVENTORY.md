@@ -251,3 +251,18 @@ abilities, normal/sample separation and original wildlife/settlement behavior.
 This supersedes the previous six-species natural spawn coverage. Earlier assets
 and existing saved/captive/released animals remain compatible. Animal ability
 changes are deferred to the user's forthcoming rules.
+
+
+## Fairy Workers and Fey — October 10, 2026
+
+| Family | Current coverage | Review |
+|---|---|---|
+| Fairy Workers | Native winged 40 × 32 models; unchanged anchors and adult physics; separate 32px icon. | Default gameplay and native gallery. |
+| Fey status | Existing 31 animal forms, sparse cream/gold sparkles and chord-aligned bell notes. | [Tasks and scene](qa/fey/tasks.png). |
+| Tainted Water | Existing liquid geometry/volume; new purple/coral ramps; distinct native bucket icon. | Flow, conservation, bucket and reload regressions. |
+| Knife choices | Stab/Slice with non-graphic knife/contact poses and intact fading sprites; small drying blood pixels. | [Native pose strip](qa/fey/defeat-poses.png). |
+| Task gameplay | Base/Mine/Collect/Work/Tower; saved task, gold, building and supplies; real routes, stocks, nails and ladders. | [QA record](qa/fey/README.md). |
+
+This supersedes speculative per-species abilities and animal Workers. Eggs now hatch
+wild animals; existing animal Worker models migrate to wild animals with their gold.
+Worker fairy models replace the prior adult presentation. Archives remain history.
