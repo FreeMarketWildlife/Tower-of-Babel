@@ -198,6 +198,17 @@ function nailHammer(beatIndex=null){
  source.buffer=buffer;filter.type='bandpass';filter.frequency.value=3400;filter.Q.value=1.2;env(g,t,.001,.09,duration);source.connect(filter);filter.connect(g);route(g,sfx,0);source.start(t);source.stop(t+.055);
  nailCues++;lastNailTime=t;return true;
 }
+// Half-note inspector chimes share the score chord and audio clock.
+let inspectCues=0,lastInspectBeat=null,lastInspectTime=null;
+function inspectCue(beatIndex){
+ if(!ready||paused||ac.state!=='running'||document.hidden||!sfxOn||volumes.sfx===0||!Number.isInteger(beatIndex)||beatIndex%2!==0)return false;
+ if(beatIndex===lastInspectBeat)return false;
+ const t=beatOrigin+beatIndex*beat;if(t<ac.currentTime-.035)return false;
+ const chord=SONG[((Math.floor(beatIndex/4)%SONG.length)+SONG.length)%SONG.length].chord;
+ voice(chord[1]+24,Math.max(t,ac.currentTime),.15,.055,'sine',sfx,0,0,9000);
+ voice(chord[2]+36,Math.max(t,ac.currentTime)+.04,.12,.018,'sine',sfx,0,0,9000);
+ inspectCues++;lastInspectBeat=beatIndex;lastInspectTime=t;return true;
+}
 // Legacy callers use the same currency pickup sound.
 function goldChaching(gain=1,pan=0){return bellCollect(gain,pan)}
 
@@ -276,7 +287,7 @@ function splash(kind='water'){if(!ready||performance.now()-lastSplash<180)return
 function sizzle(){if(!ready||performance.now()-lastSizzle<120)return;lastSizzle=performance.now();noise(.24,.045,3000);tone(170,.16,.03,'triangle',90)}
 async function ensure(){if(paused)return;if(ready){if(ac.state==='suspended')try{await ac.resume()}catch{};return}try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ac=new AC();master=ac.createGain();const comp=ac.createDynamicsCompressor();music=ac.createGain();sfx=ac.createGain();ambience=ac.createGain();automation=ac.createGain();automation.gain.value=.45;automation.connect(master);master.gain.value=.76;music.gain.value=.43;sfx.gain.value=.9;ambience.gain.value=.11;music.connect(master);sfx.connect(master);ambience.connect(master);master.connect(comp);comp.connect(ac.destination);await ac.resume();ready=true;applyVolumes();start();startAmbience();setInterval(scheduleBirds,9000);if(paused){clearInterval(timer);timer=null;await ac.suspend()}}catch(e){console.warn('Audio start failed',e)}}
 document.addEventListener('pointerdown',ensure,{capture:true});document.addEventListener('keydown',ensure,{capture:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInterval(timer);timer=null}else if(ready&&!paused)ac.resume().then(()=>{if(!paused){timer=setInterval(schedule,50);schedule()}}).catch(()=>{})});
-window.SkyAudio={setPaused,setVolume,getVolumes:()=>({...volumes}),nailHammer,bellCollect,feySpark,ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
-window.__skyStackAudioDebug=()=>({nailCues,lastNailBeat,lastNailTime,bellCues,paused,contextState:ac?.state??'uninitialized',audioTime:ac?.currentTime??0,volumes:{...volumes},feySparkCues,ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
+window.SkyAudio={setPaused,setVolume,getVolumes:()=>({...volumes}),inspectCue,nailHammer,bellCollect,feySpark,ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
+window.__skyStackAudioDebug=()=>({inspectCues,lastInspectBeat,lastInspectTime,nailCues,lastNailBeat,lastNailTime,bellCues,paused,contextState:ac?.state??'uninitialized',audioTime:ac?.currentTime??0,volumes:{...volumes},feySparkCues,ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
 document.documentElement.dataset.audioEngine='midi-ready';
 })();

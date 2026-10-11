@@ -303,3 +303,17 @@ remain historical. Gold color tokens and material terminology retain their names
   gameplay control uses that state; legacy renderer assets remain for compatibility.
 - **Review:** bible §§3–4, 9–10; [inventory/nails QA](qa/inventory-nails/README.md),
   native gallery and approved equipment comparison.
+
+
+## v79 inspection equipment and helper roster
+
+| Family | Coverage | Review |
+|---|---|---|
+| HUD | Two-row corner grids; native 32px magnifying glass and Worker face. | [HUD](qa/inspector-crew/hud.png). |
+| Bells | Independently composed 32px currency miniature and 12px world pickup, round jingle silhouette. Gold ore/bars remain distinct. | HUD and native gallery. |
+| Inspector | Read-only 2× lens, short cute descriptions, stepped entry animation and MIDI half-note chime; no close button. | [Lens](qa/inspector-crew/lens.png). |
+| Workers/Fey | Attached scrolling roster with existing controls, moving camera lock and release on close/pause/removal. Resting, young, caged and bucketed helpers included. | [Workers](qa/inspector-crew/worker-roster.png), [Fey](qa/inspector-crew/fey-roster.png), [phone](qa/inspector-crew/roster-390.png), [small phone](qa/inspector-crew/roster-320.png), [landscape](qa/inspector-crew/roster-844.png). |
+
+This supersedes v77's single navigation row and single quest trigger. The v78
+six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9–10;
+[verification notes](qa/inspector-crew/README.md).

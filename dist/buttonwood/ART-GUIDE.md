@@ -661,3 +661,28 @@ to the next beat. Without audio, the same 72 BPM active-play timing is used.
 Pin positions live in `structuresV46.inventoryV78`; legacy nailed bodies import
 occupied cells, removed/released bodies discard their pins. Review: §§3–4, 9–10
 of the bible and [v78 QA](qa/inventory-nails/README.md).
+
+
+## Inspector and helper roster — v79
+
+`hud-art.js` adds independent 32px `hudIcon('magnifier')` and
+`hudIcon('workers')` assets and recomposes `bell` / `bellSprite` as round jingle
+bells. Named palette, native display, and approved Worker face landmarks remain
+mandatory. The native gallery includes both new equipment icons.
+
+`game-v79-inspector-crew.txt` lays out the HUD in two 2-column corner grids.
+Its nonmodal left roster embeds existing Worker and Fey controls. Stable entity
+IDs drive selection; the camera eases toward a moving world target in the area
+beside the panel. Closing, pausing or losing the target releases tracking.
+Resting/young/bucketed entries remain visible without pretending to occupy a
+world position. Icon URLs are cached; roster refresh is throttled while open.
+
+The 192px lens overlay samples the rendered world canvas at 2× nearest-neighbor,
+with a separately drawn stepped rim and wood handle. It never changes `cam.z`.
+Window capture makes lens pointer actions read-only before legacy world handlers.
+`SkyAudio.rhythm` and `inspectCue` share the MIDI origin; description changes are
+allowed only on even quarter-beat indices (one half note). Missed audio boundaries
+wait for the next half note; silent play uses the same 72 BPM active-play grid.
+A target outside the lens for 500ms loses its bubble. Pause freezes timing and
+hides the lens; Effects mute silences the cue. No inspection state enters saves.
+Review: bible §§3–4, 6, 9–10 and [v79 QA](qa/inspector-crew/README.md).

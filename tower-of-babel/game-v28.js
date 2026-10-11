@@ -122,6 +122,7 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v76-pause.txt?v=76'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v77-minimal-hud.txt?v=77'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v78-inventory-nails.txt?v=78'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v79-inspector-crew.txt?v=79'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

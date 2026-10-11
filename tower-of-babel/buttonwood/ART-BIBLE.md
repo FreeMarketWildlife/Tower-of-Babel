@@ -657,8 +657,8 @@ information belongs on quiet surfaces.
   assigned inventory items on the right. Nails are carried items, not a modifier. Keep tools and carried items in two groups.
   Show item quantities; omit shortcut corner digits and tool-name captions.
 - The main HUD contains icons and numbers: tower height and Bells at upper left,
-  an attached quest-log trigger below, up/down arrows and a circular day/night
-  clock at upper right. No day/population/MAX/audio strips. Tips, inventory instructions and grid controls
+  quest and Worker-face triggers below. Upper right is a two-column grid:
+  magnifying glass / circular pause clock, then up / down arrows. No day/population/MAX/audio strips. Tips, inventory instructions and grid controls
   live in Options; sample art-review controls also live there. Retain accessible
   labels, tooltips, and readable prose inside open panels.
 - Nails have one steel equipment icon, with no grey/off variant. One nail pins
@@ -1218,3 +1218,28 @@ stateful toggle. The hammer uses four crisp contact poses and a small strike fla
 and sound follow a quarter note in the MIDI score and pause with the game.
 
 Review: [inventory and nail QA](qa/inventory-nails/README.md).
+
+
+### Magnifying glass, jingle Bells and helper roster — October 10, 2026, v79
+
+The HUD uses two rows at each corner (§9). Tower/Bells counts sit above
+Quests/Workers on the left; Magnifier/Clock sit above Up/Down on the right.
+The equipment icons remain independently authored 32 × 32 canvases at native
+size (§§3–4), with 44px touch areas. The Worker-face miniature retains the broad
+cream hat, mint band, named hair/skin ramps and clear eyes (§6). Bells are now
+round jingle bells with a hanging ring, bright shoulder and dark sound slits;
+the 12px world pickup is composed separately.
+
+The magnifying glass enlarges the world beneath the pointer by 2×, without
+changing camera zoom. Its mint rim and timber handle use crisp integer scanlines.
+One short semantic text bubble appears in a cream pixel frame, with a three-step
+rise and a chord-aware chime on the MIDI half-note grid (§10). New descriptions
+wait for that grid; absence for more than 500ms of active play dismisses the bubble.
+The lens is read-only and respects pause, Effects volume and reduced motion.
+Unexplored earth retains its mysteries.
+
+The attached left roster lists Workers (including resting and young Workers) and
+Fey in the world, cages and buckets. Selecting a placed helper slides the camera
+to it and follows it until the roster closes. Resting Workers and bucketed Fey
+have honest release/deploy notes, rather than invented world locations. Existing
+Worker and Fey controls remain available. See [native and gameplay review](qa/inspector-crew/README.md).
