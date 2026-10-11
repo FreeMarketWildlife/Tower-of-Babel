@@ -288,3 +288,18 @@ review: [pause QA](qa/pause/README.md).
 
 Supersedes the six-slot toolbar and textual main status strips. Earlier captures
 remain historical. Gold color tokens and material terminology retain their names.
+
+
+## v78 inventory equipment and contacts
+
+- **Current:** native 32px nail bundle (replaces the toggle), ladder, search, All-items
+  grid, coal/iron/copper ore and iron/copper ingot miniatures. Gold resource icons,
+  building miniatures, pickaxes and animal/liquid buckets reuse approved assets.
+- **Current:** category grid/search with the same organization in normal/Creative
+  modes; owned-only normal entries; six-slot toolbar with native icon dimensions.
+- **Current:** per-cell nail heads, four native hammer contact poses and quarter-note
+  impact audio; one pin per cell with saved positions and pause-safe scheduling.
+- **Superseded:** v77 dedicated fourth nail slot and grey/off nail state. No current
+  gameplay control uses that state; legacy renderer assets remain for compatibility.
+- **Review:** bible §§3–4, 9–10; [inventory/nails QA](qa/inventory-nails/README.md),
+  native gallery and approved equipment comparison.

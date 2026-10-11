@@ -248,7 +248,7 @@ or art direction changes.
 
 Selecting the pickaxe from another tool equips the last-used pick. Clicking the
 already-selected pickaxe toggles its inventory. WASD and arrow keys pan the camera
-at a consistent screen speed. Number keys 1–7 activate the seven toolbar slots left to right,
+at a consistent screen speed. Number keys 1–6 activate the six toolbar slots left to right,
 using their normal availability rules. Shift temporarily selects Grab and restores
 the previous tool on release; release also cancels the active drag. Focus loss
 clears held keys, and shortcuts do not intercept form input or modal dialogs.
@@ -399,7 +399,7 @@ and [before/after review](../buttonwood/qa/README.md).
 The toolbar has Pickaxe, Move, Structures, Nails, then three assignable inventory slots.
 Newly acquired types fill the first empty slot, in acquisition order. Overflow
 stays in inventory; repeat acquisitions only change counts. Slots keep their
-assignment at zero stock. Double click/tap slots 5–7 to choose an item, or focus a
+assignment at zero stock. Double click/tap slots 4–6 to choose an item, or focus a
 slot and press Enter/Space. An empty slot opens the chooser on a single press.
 Close returns focus; clicking outside dismisses. Escape opens Pause. Keys 8–0 have no action.
 
@@ -468,7 +468,7 @@ production explicitly selects renewable sources. Buckets remain volume-conservin
 ## Minimal HUD and Bells — v77
 
 Run `minimal-hud-browser.test.cjs` for native 32px icons, the circular day/night
-clock, seven toolbar slots and stock-gated Nails, attached quest log/auto-scroll,
+clock, six toolbar slots, attached quest log/auto-scroll,
 Options Tips and sample review controls, saved Bell balances and collection sound,
 separate gold ore/bar mining and smelting, immediate supported stability awards,
 and desktop/phone/landscape layouts. `industry-browser.test.cjs` includes all four
@@ -478,3 +478,17 @@ Buttonwood, Fey and critter-eggs checks cover integration.
 Currency still uses legacy `gold` fields internally; player-facing currency is
 Bells. Gold ore (`goldOre`) and bars (`goldIngot`) are independent resources.
 Native screenshots and art direction citations: [HUD QA](../buttonwood/qa/minimal-hud/README.md).
+
+
+## Searchable inventory, Creative and grid nails — v78
+
+Run `inventory-nails-browser.test.cjs` with the normal `SKY_TEST_URL`/Playwright
+setup. It checks the shared category grid, search and owned-only normal entries;
+all Creative items/unlocks and persisted mode; normal resource/building balances
+across use/reload/disable; native 32px palette/alpha and 44px targets; attached bounds
+at 1100, 390, 320 and 844px; real mouse/touch nail taps and touch cancellation;
+per-cell multi-block pins, duplicates, drag rejection, no-stock rejection,
+pause queues, save/reload and mining cleanup; actual MIDI quarter-note hammer
+scheduling and Effects mute. Screenshots live in `buttonwood/qa/inventory-nails`.
+Existing hotbar, keyboard, mobile UI, pause, minimal HUD, Dev resources, Fey,
+extraction, player crafting and Buttonwood integration checks cover compatibility.

@@ -1,6 +1,6 @@
 # Buttonwood art bible
 
-**Critz Tower Defense · Visual direction v1.5 · October 10, 2026**
+**Critz Tower Defense · Visual direction v1.6 · October 10, 2026**
 
 ## Start here
 
@@ -653,16 +653,17 @@ information belongs on quiet surfaces.
 - Keep inventory and category panels attached to the toolbar trigger that opened
   them. Flip or clamp at viewport edges and scroll contents when needed. Do not
   center these panels as modal windows.
-- Use seven toolbar slots: Pickaxe, Move, Structures, the Nails modifier, then
-  three assigned inventory items. Keep tools and carried items in two groups.
+- Use six toolbar slots: Pickaxe, Move and Structures on the left, and three
+  assigned inventory items on the right. Nails are carried items, not a modifier. Keep tools and carried items in two groups.
   Show item quantities; omit shortcut corner digits and tool-name captions.
 - The main HUD contains icons and numbers: tower height and Bells at upper left,
   an attached quest-log trigger below, up/down arrows and a circular day/night
   clock at upper right. No day/population/MAX/audio strips. Tips, inventory instructions and grid controls
   live in Options; sample art-review controls also live there. Retain accessible
   labels, tooltips, and readable prose inside open panels.
-- The nail icon is grey/off by default, unavailable at zero stock, and bright/on
-  when enabled. Keep its quantity visible. Stable supported towers award height
+- Nails have one steel equipment icon, with no grey/off variant. One nail pins
+  an existing block at the nearest grid-cell center; one pin per square. Keep the
+  inventory quantity visible. Stable supported towers award height
   immediately; the stability bar reports actual motion/support, without a timer.
 - Use a 4px spacing rhythm for new UI: typically 4/8/12/16px gaps. Grow the hit area
   around the native 32px asset. Target at least 44 × 44 CSS px for touch controls.
@@ -1182,10 +1183,10 @@ isolated review sample. See [pause review](qa/pause/README.md).
 ### Minimal HUD and Bells — October 10, 2026
 
 The user requested an icon-and-number main HUD (§9). Tower, Bell, quest book,
-up/down arrows, nail states and a circular day/night clock are separately drawn
+up/down arrows and a circular day/night clock are separately drawn
 32 × 32 assets, displayed at 1× inside 44px targets (§§3–4). The cream/timber frame,
 mint control states and named palette match the approved native equipment family.
-Small screens reflow the toolbar into two rows instead of shrinking icons.
+The six-slot toolbar retains native icons at small widths.
 
 Bells replace buried currency, costs and Worker/animal balances. Gold ore and gold
 bars remain separate materials: gold-flecked stone and a gold ingot silhouette.
@@ -1197,3 +1198,23 @@ The quest log opens below its trigger and scrolls to the next height milestone.
 The stability checker awards supported, settled towers immediately. Options holds
 Tips, grid and sample review controls; the clock also opens Pause. See
 [HUD and currency review](qa/minimal-hud/README.md).
+
+
+### Inventory and nail contacts — October 10, 2026, v78
+
+The toolbar returns to three tools and three assigned item slots (§9). An inventory
+opens beside its slot. All, Blocks, Nature, Materials, Tools, Buildings and Animals
+share one searchable item grid in normal and Creative play. Normal inventory hides
+unowned entries; Creative shows the full catalog with unlimited quantities. Borrow
+Minecraft’s category organization, using our own assets and item families, rather
+than reproducing its textures or UI. Reference: [official Minecraft Creative
+inventory organization](https://feedback.minecraft.net/hc/en-us/articles/11280166737293-Minecraft-Java-Edition-1-19-3).
+
+Nails, ladders, search and category miniatures follow the existing pocket equipment
+family (§§3–4, 9): 32 × 32 canvases, named palette, native display, generous touch
+areas. The nail bundle uses slender steel points and visible heads rather than a
+stateful toggle. The hammer uses four crisp contact poses and a small strike flash
+(§10), anchored to the cell center at the shared world-pixel scale. Hammer impact
+and sound follow a quarter note in the MIDI score and pause with the game.
+
+Review: [inventory and nail QA](qa/inventory-nails/README.md).

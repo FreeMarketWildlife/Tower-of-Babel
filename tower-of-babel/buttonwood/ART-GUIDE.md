@@ -624,8 +624,8 @@ materials. Forge smelting uses one ore plus one coal for one gold bar in four
 seconds. Buried Bell cluster generation and costs remain unchanged.
 
 `game-v77-minimal-hud.txt` owns the icon HUD, attached scrollable quest log and
-seven-slot toolbar. Keys 1–3 select tools, 4 toggles Nails, 5–7 select assigned
-items; saved item indices remain unchanged. Zero stock forces Nails off.
+six-slot toolbar (updated in v78). Keys 1–3 select tools and 4–6 select assigned
+items; saved item indices remain unchanged. Nails are inventory items.
 Tips, grid and isolated sample review controls live in Options. Click the clock
 or press Escape to pause. Labels and keyboard focus remain accessible.
 
@@ -634,3 +634,30 @@ spin and tilt; it no longer uses a dwell timer. The active currency effect in
 `game-v32-art-direction.txt` draws the native Bell pickup and numeric yield.
 `SkyAudio.bellCollect` is Effects-volume gated and chord-aware; `goldChaching`
 remains a compatibility alias. Review: [HUD QA](qa/minimal-hud/README.md).
+
+
+## Searchable inventory and nail items — v78
+
+`inventory-art.js` provides cached 32 × 32 `inventoryIcon` and
+`inventoryCategoryIcon` assets and four `paintNailStrike` contact poses. Display UI
+icons at native size; contact effects use the shared world pixel scale. New ore,
+metal and ladder miniatures are drawn independently; building and bucket entries
+reuse approved native inventory assets. Native gallery includes the new family.
+
+`game-v78-inventory-nails.txt` supplies seven category tabs, search and a quantity
+grid attached to the selected hotbar slot. Normal inventory omits zero stock.
+Creative (Options → Dev Tools) exposes the whole catalog and all unlocks, with
+virtual resource/building/Worker supplies. Filled buckets, pipes and ladders use
+transaction wrappers rather than writing virtual stock to saves. Mode and normal
+unlock snapshots persist per world; earned height remains an actual record.
+Existing three saved item assignments keep their indices. Keys 4–6 select them.
+
+Nail taps target `ctr(cell(x)), ctr(cell(y))` on an existing visible solid block.
+One saved pin per cell, including multi-cell blocks; pins preserve the original
+body envelope. Duplicate or invalid requests cost nothing; stock is consumed only
+at the strike. `SkyAudio.nailHammer` schedules a chord-aware steel/wood impact on
+a MIDI quarter-note boundary. Paused requests wait; missed audio boundaries move
+to the next beat. Without audio, the same 72 BPM active-play timing is used.
+Pin positions live in `structuresV46.inventoryV78`; legacy nailed bodies import
+occupied cells, removed/released bodies discard their pins. Review: §§3–4, 9–10
+of the bible and [v78 QA](qa/inventory-nails/README.md).

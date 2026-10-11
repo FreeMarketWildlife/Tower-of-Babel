@@ -185,6 +185,19 @@ function bellCollect(gain=1,pan=0){
  // A quick bright ding blooms into a short, playful ascending bell chord.
  [chord[0]+24,chord[1]+24,chord[2]+36].forEach((note,i)=>{const time=t+i*.055;for(const [partial,level]of [[0,.05],[12,.013],[19,.004]]){const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=hz(note+partial);env(g,time,.002,level*Math.min(1,gain),.28-i*.035);o.connect(g);route(g,sfx,pan);o.start(time);o.stop(time+.34)}});bellCues++;return true;
 }
+let nailCues=0,lastNailBeat=null,lastNailTime=null;
+function nailHammer(beatIndex=null){
+ if(!ready||paused||ac.state!=='running'||document.hidden||!sfxOn||volumes.sfx===0)return false;
+ const slot=Number.isInteger(beatIndex)?beatIndex:Math.max(0,Math.ceil((ac.currentTime+.015-beatOrigin)/beat));
+ if(slot===lastNailBeat)return false;lastNailBeat=slot;
+ const t=Math.max(ac.currentTime,beatOrigin+slot*beat),chord=SONG[((Math.floor(slot/4)%SONG.length)+SONG.length)%SONG.length].chord;
+ voice(chord[0]+12,t,.075,.09,'triangle',sfx,0,0,2200);
+ for(const [offset,level]of [[24,.05],[43,.017]])voice(chord[0]+offset,t,.13,level,'sine',sfx,0,0,9000);
+ const source=ac.createBufferSource(),filter=ac.createBiquadFilter(),g=ac.createGain(),duration=.035,buffer=ac.createBuffer(1,Math.ceil(ac.sampleRate*duration),ac.sampleRate),data=buffer.getChannelData(0);
+ for(let n=0;n<data.length;n++)data[n]=Math.random()*2-1;
+ source.buffer=buffer;filter.type='bandpass';filter.frequency.value=3400;filter.Q.value=1.2;env(g,t,.001,.09,duration);source.connect(filter);filter.connect(g);route(g,sfx,0);source.start(t);source.stop(t+.055);
+ nailCues++;lastNailTime=t;return true;
+}
 // Legacy callers use the same currency pickup sound.
 function goldChaching(gain=1,pan=0){return bellCollect(gain,pan)}
 
@@ -263,7 +276,7 @@ function splash(kind='water'){if(!ready||performance.now()-lastSplash<180)return
 function sizzle(){if(!ready||performance.now()-lastSizzle<120)return;lastSizzle=performance.now();noise(.24,.045,3000);tone(170,.16,.03,'triangle',90)}
 async function ensure(){if(paused)return;if(ready){if(ac.state==='suspended')try{await ac.resume()}catch{};return}try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ac=new AC();master=ac.createGain();const comp=ac.createDynamicsCompressor();music=ac.createGain();sfx=ac.createGain();ambience=ac.createGain();automation=ac.createGain();automation.gain.value=.45;automation.connect(master);master.gain.value=.76;music.gain.value=.43;sfx.gain.value=.9;ambience.gain.value=.11;music.connect(master);sfx.connect(master);ambience.connect(master);master.connect(comp);comp.connect(ac.destination);await ac.resume();ready=true;applyVolumes();start();startAmbience();setInterval(scheduleBirds,9000);if(paused){clearInterval(timer);timer=null;await ac.suspend()}}catch(e){console.warn('Audio start failed',e)}}
 document.addEventListener('pointerdown',ensure,{capture:true});document.addEventListener('keydown',ensure,{capture:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInterval(timer);timer=null}else if(ready&&!paused)ac.resume().then(()=>{if(!paused){timer=setInterval(schedule,50);schedule()}}).catch(()=>{})});
-window.SkyAudio={setPaused,setVolume,getVolumes:()=>({...volumes}),bellCollect,feySpark,ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
-window.__skyStackAudioDebug=()=>({bellCues,paused,contextState:ac?.state??'uninitialized',audioTime:ac?.currentTime??0,volumes:{...volumes},feySparkCues,ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
+window.SkyAudio={setPaused,setVolume,getVolumes:()=>({...volumes}),nailHammer,bellCollect,feySpark,ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
+window.__skyStackAudioDebug=()=>({nailCues,lastNailBeat,lastNailTime,bellCues,paused,contextState:ac?.state??'uninitialized',audioTime:ac?.currentTime??0,volumes:{...volumes},feySparkCues,ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
 document.documentElement.dataset.audioEngine='midi-ready';
 })();

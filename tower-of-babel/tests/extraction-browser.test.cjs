@@ -97,7 +97,7 @@ const closeTo = (actual, expected, label) => assert.ok(Math.abs(actual - expecte
       assert.equal(await page.locator('#structuresOpen').evaluate(element => document.activeElement === element), true);
       await page.evaluate(()=>extractionTest.open('pumpjack'));await page.keyboard.press('Escape');
       assert.equal(await page.locator('#extractionPanelV70').evaluate(element=>element.open),false);
-      assert.equal(await page.locator('#structuresOpen').evaluate(element=>document.activeElement===element),true,'Escape restores equipment trigger focus');
+      assert.equal(await page.evaluate(()=>skyStackPause.state.paused),true,'Escape pauses from equipment');await page.keyboard.press('Escape');
 
       const tankTransactions = await page.evaluate(() => {
         const t = extractionTest, checks = [];
@@ -196,7 +196,7 @@ const closeTo = (actual, expected, label) => assert.ok(Math.abs(actual - expecte
         await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();
         assert.equal((await state()).pipes.length,0);assert.equal((await state()).pipeBag,12);
       }
-      await page.keyboard.press('Escape');assert.equal((await state()).tool,'pick');
+      await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>skyStackPause.state.paused),true);assert.equal((await state()).tool,'pipeV70');await page.keyboard.press('Escape');await page.keyboard.press('1');assert.equal((await state()).tool,'pick');
       console.log('PASS real ' + mode + ' pipe drag lays a connected route, removal refunds, cancellation spends nothing');
 
       for(const viewport of mobile?[{width:320,height:568},{width:390,height:844},{width:844,height:390}]:[{width:1100,height:820}]){

@@ -4,7 +4,7 @@ const blockItemsV68=Object.keys(M).filter(k=>k!=='bedrock'&&Object.hasOwn(inv,k)
 const bucketLiquidsV68={water:'Water',lava:'Lava'};
 const bucketBagV68=Object.create(null),hotbarSaveV68=initialSave?.hotbarV68;
 function isBucketV68(item){return typeof item==='string'&&(item==='bucket'||item.startsWith('bucket:'))}
-function validItemV68(item){return item==='bucket:taintedWater'||blockItemsV68.includes(item)||item==='miner'||item==='bucket'||(isBucketV68(item)&&/^[a-z][a-z0-9_-]{0,39}$/.test(item.slice(7)))}
+function validItemV68(item){return typeof item==='string'&&(item==='bucket:taintedWater'||['nails','ladder','pipeV70'].includes(item)||(Object.hasOwn(inv,item)&&!['gold','diamond'].includes(item))||(item?.startsWith('building:')&&(Object.hasOwn(STRUCTURES_V46,item.slice(9))||['cageSmall','cageMedium','cageLarge'].includes(item.slice(9))))||blockItemsV68.includes(item)||item==='miner'||item==='bucket'||(isBucketV68(item)&&/^[a-z][a-z0-9_-]{0,39}$/.test(item.slice(7))))}
 function countItemV68(item,real=false){
  if(isBucketV68(item))return bucketBagV68[item]||0;
  if(item==='miner')return unlockedMiners()>0?availableMiners():0;
@@ -138,7 +138,7 @@ for(const [i,b]of itemButtonsV68.entries()){
 }
 document.addEventListener('keydown',e=>{
  if(e.key==='Escape'&&pickerV68.open){e.preventDefault();closePickerV68(true)}
- if(e.key==='Tab'&&pickerV68.open){const focusable=[...pickerV68.querySelectorAll('button:not(:disabled)')],first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
+ if(e.key==='Tab'&&pickerV68.open){const focusable=[...pickerV68.querySelectorAll('button:not(:disabled),input:not(:disabled)')],first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
 },{capture:true});
 new MutationObserver(()=>{if(panelV48.open||pickPanelV49.open)closePickerV68();markHotbarV68()}).observe(panelV48,{attributes:true,attributeFilter:['open']});
 new MutationObserver(()=>{if(pickPanelV49.open)closePickerV68();markHotbarV68()}).observe(pickPanelV49,{attributes:true,attributeFilter:['open']});

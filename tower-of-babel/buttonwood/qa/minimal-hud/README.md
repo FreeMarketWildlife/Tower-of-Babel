@@ -12,12 +12,13 @@ at 1× in the native gallery’s Tower & Bells section.
 
 The main interface uses icons and quantities. Each new icon and clock is 32 × 32
 source/display pixels with shared palette colors and binary alpha. Narrow screens
-reflow controls instead of shrinking art. The nail has separate bright/on and
-grey/off states and a stock count; it is disabled at zero stock. The quest log
+reflow controls instead of shrinking art. The original v77 nail-toggle study is superseded by the v78 inventory nail item;
+current gameplay screenshots show the six-slot toolbar. See [inventory/nails
+review](../inventory-nails/README.md) for the new equipment and pinning behavior. The quest log
 remains attached to its trigger, scrolls, and opens at the next milestone.
 
 `tests/minimal-hud-browser.test.cjs` verifies hidden status strips, native sizes
-and palette/alpha, toolbar/nail state, quest progression and auto-scroll, day/night
+and palette/alpha, six-slot toolbar, quest progression and auto-scroll, day/night
 clock and Pause, Options Tips, player/Worker/Fey Bell harvesting, actual native Bell
 reward rendering, independent gold ore/bar smelting, save/reload, immediate height
 awards and rejection of unsupported/tilted towers, pickup sound limiting/mute,

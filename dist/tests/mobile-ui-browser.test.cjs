@@ -49,8 +49,7 @@ const url=process.env.SKY_TEST_URL||'http://127.0.0.1:8765/tower-of-babel/';
   console.log('PASS touch hold, selection/menu suppression on game UI, and editable control exceptions');
 
   await page.setViewportSize({width:390,height:844});await page.evaluate(()=>mobileTest.unlock());
-  assert.equal(await page.locator('#phoneVillage').isVisible(),false);assert.equal(await page.locator('#bar .slot').count(),7);
-  assert(await page.locator('#hudNailsV77').isEnabled());await page.locator('#hudNailsV77').click();assert.equal(await page.locator('#hudNailsV77').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('#phoneVillage').isVisible(),false);assert.equal(await page.locator('#bar .slot').count(),6);
   for(const type of ['workshop','forge','blacksmith','storehouse','home']){
    await page.evaluate(type=>mobileTest.building(type),type);const panel=type==='home'?'#homePanel':'#buildingPanel';await bounded(panel);await shot(type);
    if(type!=='home'){
@@ -61,7 +60,7 @@ const url=process.env.SKY_TEST_URL||'http://127.0.0.1:8765/tower-of-babel/';
    await page.setViewportSize({width:844,height:390});await bounded(panel);await shot(type+'-landscape');await page.setViewportSize({width:390,height:844});
    await page.locator(type==='home'?'#homeClose':'#buildingClose').click();
   }
-  console.log('PASS unlocked Nails, all building panels, inventory transfers, expandable automation and rotation');
+  console.log('PASS all building panels, inventory transfers, expandable automation and rotation');
   await page.evaluate(()=>{document.getElementById('devPanel').showModal();mobileTest.toast('A notification above the dialog',true)});
   assert.equal(await page.locator('#toast').evaluate(el=>el.matches(':popover-open')),true);await shot('toast-over-dialog');
   await page.evaluate(()=>document.getElementById('devPanel').close());

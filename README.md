@@ -102,9 +102,21 @@ shows day/night progress and opens Pause. Escape also pauses the game and music.
 Options contains Tips, Dev Tools, Restart World and volume sliders; sample art
 review controls are available there in the isolated demo.
 
-The toolbar has Pickaxe, Move, Structures, Nails, then three assigned items.
-Nails start off and require stock before they can be enabled. Keys 1–3 select
-tools, 4 toggles Nails, and 5–7 select items. Supported stable towers earn height
+The toolbar has Pickaxe, Move and Structures on the left, and three assigned
+inventory items on the right.
+Choose Nails from inventory and tap an existing block to pin it at the closest
+grid-cell center, once per square. Hammer strikes follow the MIDI quarter-note
+beat. Keys 1–3 select tools and 4–6 select items. Supported stable towers earn height
 immediately. Buried currency clusters and Worker/animal balances are Bells, with
 a short bell pickup sound. Gold ore and gold bars are separate materials;
 a Forge smelts one gold ore and one coal into one bar.
+
+
+## Inventory and Creative mode
+
+Double click/tap an item slot to open its attached inventory. Category tabs and
+search organize blocks, nature, materials, tools, buildings and animals. Normal
+play shows only owned items. In Escape → Options → Dev Tools, Creative mode unlocks
+all items and equipment with unlimited supplies. Mode persists per world; disabling
+it restores real inventory balances and normal unlocks. Inventory icons remain
+32 × 32 native pixels, including the new nail bundle and resource miniatures.

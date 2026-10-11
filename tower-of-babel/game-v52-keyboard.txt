@@ -28,7 +28,7 @@ document.addEventListener('keydown',e=>{
  if(e.ctrlKey||e.metaKey||e.altKey||keyboardBlockedV52())return;
  if(e.code==='ShiftLeft'||e.code==='ShiftRight'){e.preventDefault();shiftKeysV52.add(e.code);startGrabV52();return}
  if(directionCodesV52.has(e.code)){e.preventDefault();panKeysV52.add(e.code);return}
- const digit=/^Digit([1-7])$/.exec(e.code);if(!digit||e.repeat)return;
+ const digit=/^Digit([1-6])$/.exec(e.code);if(!digit||e.repeat)return;
  e.preventDefault();const index=Number(digit[1])-1,button=$('bar').querySelectorAll('.slot')[index];if(!button)return;
  const held=temporaryGrabV52;endGrabV52();stopPointerV52();
  $('structuresPanel').close();if(button!==pickButtonV49)$('pickaxeShop').close();

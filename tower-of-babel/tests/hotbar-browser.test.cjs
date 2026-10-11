@@ -25,10 +25,10 @@ const hook=`window.hotbarTest={
   await page.addInitScript(()=>{window.requestAnimationFrame=()=>0});
   await page.route('**/game-v8-part3.txt*',async route=>{const response=await route.fetch();await route.fulfill({response,body:(await response.text()).replace('restoreDynamicState(initialSave);','restoreDynamicState(initialSave);'+hook)})});
   const load=async()=>{await page.goto(url);await page.waitForFunction(()=>window.hotbarTest,null,{polling:100})};
-  const state=()=>page.evaluate(()=>hotbarTest.state),slot=n=>page.locator('[data-hotbar-slot="'+(n+1)+'"]');
+  const state=()=>page.evaluate(()=>hotbarTest.state),slot=n=>page.locator('[data-hotbar-slot="'+n+'"]');
   const double=async n=>{if(mobile){await slot(n).tap();await slot(n).tap()}else await slot(n).dblclick()};
   await load();
-  assert.equal(await page.locator('#bar .slot').count(),7);
+  assert.equal(await page.locator('#bar .slot').count(),6);
   assert.equal(await page.evaluate(()=>{
    const A=ButtonwoodArt,colors=new Set(Object.values(A.palette).filter(v=>typeof v==='string'&&/^#[a-f0-9]{6}$/i.test(v)).map(v=>v.toLowerCase()));
    return [['bucket',''],['bucket','water'],['bucket','lava'],['leaves',0],['obsidian',0]].every(([kind,tier])=>{
@@ -40,7 +40,7 @@ const hook=`window.hotbarTest={
    });
   }),true);assert.equal(await page.locator('#bar .hotbarGroupV68').count(),2);
   assert.deepEqual((await state()).slots,[null,null,null]);
-  assert.deepEqual(await page.locator('#bar .slot').evaluateAll(bs=>bs.map(b=>b.getAttribute('aria-keyshortcuts'))),['1','2','3','4','5','6','7']);
+  assert.deepEqual(await page.locator('#bar .slot').evaluateAll(bs=>bs.map(b=>b.getAttribute('aria-keyshortcuts'))),['1','2','3','4','5','6']);
   for(const k of ['dirt','leaves','wood'])await page.evaluate(k=>{hotbarTest.harvest(k);hotbarTest.grant(k)},k);
   assert.deepEqual((await state()).slots,['dirt','leaves','wood']);
   await page.evaluate(()=>{hotbarTest.grant('dirt');hotbarTest.grant('stone',2)});
@@ -67,7 +67,7 @@ const hook=`window.hotbarTest={
   assert.equal(await page.locator('#craftBucketV68').isDisabled(),true);
   assert.equal(await page.evaluate(()=>hotbarTest.craft()),false);assert.equal(await page.evaluate(()=>hotbarTest.inv.ironIngot),4);
   await page.evaluate(()=>{hotbarTest.inv.ironIngot=10;hotbarTest.ui()});await page.locator('#craftBucketV68').click();
-  assert.equal(await page.evaluate(()=>hotbarTest.inv.ironIngot),5);assert.equal((await state()).buckets.bucket,1);assert.equal((await state()).slots[0],'bucket');
+  assert.equal(await page.evaluate(()=>hotbarTest.inv.ironIngot),5);assert.equal((await state()).buckets.bucket,1);assert.equal((await state()).slots[0],'ironIngot');assert((await state()).slots.includes('bucket'));
   await page.locator('#itemChoicesV68 [data-item=bucket]').click();
   assert.equal((await state()).tool,'bucket');
   const result=await page.evaluate(()=>{
@@ -154,7 +154,7 @@ const hook=`window.hotbarTest={
   await page.evaluate(()=>document.dispatchEvent(new Event('selectionchange')));assert.equal(await page.evaluate(()=>getSelection().rangeCount),0);
   assert.equal(await page.locator('html').evaluate(e=>(getComputedStyle(e).userSelect||getComputedStyle(e).webkitUserSelect)),'none');
   await page.keyboard.press('F2');await page.locator('#devGold').fill('123');assert.equal(await page.locator('#devGold').inputValue(),'123');assert.equal(await page.locator('#devGold').evaluate(e=>(getComputedStyle(e).userSelect||getComputedStyle(e).webkitUserSelect)),'text');await page.locator('#devClose').click();
-  assert.deepEqual(errors,[]);console.log('PASS seven native-size slots, bounded picker, portrait/landscape, hidden text selection guard and editable controls');
+  assert.deepEqual(errors,[]);console.log('PASS six native-size slots, bounded picker, portrait/landscape, hidden text selection guard and editable controls');
   await context.close();
  }
  const migrationContext=await browser.newContext(),migration=await migrationContext.newPage();

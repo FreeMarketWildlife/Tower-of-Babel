@@ -161,7 +161,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')cancelStructureDragV
 var buildingPressV46=null;
 document.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&buildingPressV46&&buildingPressV46.id!==e.pointerId)buildingPressV46=null},{capture:true});
 c.addEventListener('pointerdown',e=>{
- if(e.button!==0||structureDragV46||tool==='pipeV70'||tool==='pipeRemoveV70'||(typeof isBucketV68==='function'&&isBucketV68(tool)))return;
+ if(e.button!==0||structureDragV46||(typeof inventoryWorldItemV78==='function'&&inventoryWorldItemV78(tool))||tool==='pipeV70'||tool==='pipeRemoveV70'||(typeof isBucketV68==='function'&&isBucketV68(tool)))return;
  const s=pos(e),p=s2w(s.x,s.y),b=structureAtV47(p);if(!b)return;
  const canPan=tool==='pick'||tool==='move';
  if(e.pointerType==='touch'&&!canPan)pinchTouchesV26.delete(e.pointerId);
@@ -197,7 +197,7 @@ const structureUiBaseV46=ui;ui=function(){structureUiBaseV46();refreshStructures
 const structureUpdateBaseV46=updateMiners;updateMiners=function(now){structureUpdateBaseV46(now);const elapsed=structureLastV46===null?0:now-structureLastV46;structureLastV46=now;if(!document.hidden&&stepStructuresV46(elapsed>=0&&elapsed<=1500?elapsed:0)){ui();saveGame()}for(const b of structuresV46)SkyMachines.update('structure-'+b.id,{type:'furnace',x:b.x+STRUCTURES_V46[b.type].w*B/2,y:b.y+STRUCTURES_V46[b.type].h*B,active:!!b.job&&!b.paused});if(now-structureUiLastV46>100){refreshStructuresV46();structureUiLastV46=now}};
 document.addEventListener('visibilitychange',()=>{structureLastV46=null});
 const structureDrawBaseV46=draw;
-draw=function(z){structureDrawBaseV46(z);if(z.game.nailed){const s=w2s(z.position.x,z.position.y);ctx.save();ctx.translate(s.x,s.y);ctx.scale(cam.z,cam.z);ctx.fillStyle='#292939';for(const x of [-10,8])for(const y of [-10,8]){ctx.fillRect(x,y,3,3);ctx.fillStyle='#d7dfdf';ctx.fillRect(x,y,2,1);ctx.fillStyle='#292939'}ctx.restore()}};
+draw=function(z){structureDrawBaseV46(z);if(z.game.nailed&&typeof nailPinsV78==='undefined'){const s=w2s(z.position.x,z.position.y);ctx.save();ctx.translate(s.x,s.y);ctx.scale(cam.z,cam.z);ctx.fillStyle='#292939';for(const x of [-10,8])for(const y of [-10,8]){ctx.fillRect(x,y,3,3);ctx.fillStyle='#d7dfdf';ctx.fillRect(x,y,2,1);ctx.fillStyle='#292939'}ctx.restore()}};
 const structureBurstsBaseV46=drawGoldBursts;
 drawGoldBursts=function(now){for(const b of structuresV46){const s=w2s(b.x,b.y),d=STRUCTURES_V46[b.type];if(s.x+d.w*B*cam.z<0||s.x>W||s.y+d.h*B*cam.z<0||s.y>HH)continue;ctx.save();ctx.translate(s.x,s.y);ctx.scale(cam.z,cam.z);ctx.imageSmoothingEnabled=false;paintStructureV46(ctx,b,now,!!b.job&&!b.paused);ctx.restore()}structureBurstsBaseV46(now)};
 const structurePreviewBaseV46=preview;
