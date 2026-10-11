@@ -54,8 +54,51 @@ const burstBeforeV77=goldBurst;goldBurst=function(x,y,n,stolen=false){burstBefor
 const collectBeforeV77=feyCollectV75;feyCollectV75=function(a,now){const held=a.gold||0;collectBeforeV77(a,now);if(a.gold>held){const sp=spiritSpatialV42(a.x,a.y);SkyAudio.bellCollect?.(sp.gain,sp.pan)}};
 const defeatBeforeV77=fairyDefeatV75;fairyDefeatV75=function(q,method){const held=q?.game?.gold||0,result=defeatBeforeV77(q,method);if(result&&held>0)SkyAudio.bellCollect?.(1,0);return result};skyStackFey.defeat=fairyDefeatV75;
 const toastBeforeV77=toast;toast=function(text,...args){toastBeforeV77(bellTextV77(text),...args)};
-// Stability alone awards height: no dwell timer or countdown.
-progress=function(now){const p=topInfo(),m=p?p.m:0;$('height').textContent=String(m);heightCardV77.setAttribute('aria-label','Tower height: '+m+' metres');if(!p||m<=best){highCandidate=null;$('stability').classList.remove('show');return}if(now-stableCheckV77<100)return;stableCheckV77=now;feyTowerStampV75=-Infinity;const tower=feyTallestTowerV75(),bodies=[...bs].filter(q=>q.game?.placed&&!q.game.naturalTree&&tower.cells.has(key(cell(q.position.x),cell(q.position.y))));const supported=tower.height>=m&&bodies.includes(p.body);let quality=supported?1:0;for(const q of bodies)quality=Math.min(quality,clamp(1-Math.hypot(q.velocity.x,q.velocity.y)/.16,0,1),clamp(1-Math.abs(q.angularVelocity)/.025,0,1),clamp(1-Math.abs(normAngle(q.angle))/.075,0,1));const stable=supported&&bodies.every(q=>Math.hypot(q.velocity.x,q.velocity.y)<.16&&Math.abs(q.angularVelocity)<.025&&Math.abs(normAngle(q.angle))<.075);$('stability').classList.add('show');$('stability').setAttribute('aria-label',supported?'Tower stability':'Tower needs ground support');$('stability').title=supported?'Tower stability':'Tower needs ground support';$('stabilityFill').style.width=Math.round(quality*100)+'%';if(stable){awardHigh(m);highCandidate=null;$('stability').classList.remove('show');refreshQuestV77(questLogV77.open)}};
+// Measure real body envelopes, including multi-cell and off-grid construction.
+// Only settled paths to terrain/buildings earn height; unrelated loose blocks do not veto them.
+function towerStabilityV77(){
+  const bodies=[...bs].filter(q=>q.game?.placed&&!q.game.naturalTree), anchors=worldSolidsV56().filter(q=>q.isStatic&&!q.game?.placed&&!q.game?.naturalTree);
+  const buckets=new Map(),edges=new Map(),roots=[];
+  const near=(a,b)=>{const x=Math.min(a.max.x,b.max.x)-Math.max(a.min.x,b.min.x),y=Math.min(a.max.y,b.max.y)-Math.max(a.min.y,b.min.y);return (x>2&&y>=-2)||(y>2&&x>=-2)};
+  const quality=q=>Math.min(clamp(1-Math.hypot(q.velocity.x,q.velocity.y)/.16,0,1),clamp(1-Math.abs(q.angularVelocity)/.025,0,1),clamp(1-Math.abs(normAngle(q.angle))/.075,0,1));
+  const settled=q=>Math.hypot(q.velocity.x,q.velocity.y)<.16&&Math.abs(q.angularVelocity)<.025&&Math.abs(normAngle(q.angle))<.075;
+  for(const q of bodies){
+    edges.set(q,new Set());const a=q.bounds,candidates=new Set();
+    for(let y=cell(a.min.y-2);y<=cell(a.max.y+2);y++)for(let x=cell(a.min.x-2);x<=cell(a.max.x+2);x++){
+      const k=key(x,y);if(!buckets.has(k))buckets.set(k,[]);for(const other of buckets.get(k))candidates.add(other);buckets.get(k).push(q);
+    }
+    for(const other of candidates)if(near(a,other.bounds)){edges.get(q).add(other);edges.get(other).add(q)}
+    const foot={min:{x:a.min.x+2,y:a.max.y-.1},max:{x:a.max.x-2,y:a.max.y+2}};
+    if(Query.region(anchors,foot).some(z=>z.bounds.min.y>=a.max.y-2))roots.push(q);
+  }
+  function connected(onlySettled){const seen=new Set(roots.filter(q=>!onlySettled||settled(q))),queue=[...seen];for(let i=0;i<queue.length;i++)for(const q of edges.get(queue[i]))if(!seen.has(q)&&(!onlySettled||settled(q))){seen.add(q);queue.push(q)}return seen}
+  const supported=connected(false),stable=connected(true),height=q=>Math.max(0,Math.round(-Math.min(0,q.bounds.min.y)/B));
+  let rawHeight=0,stableHeight=0,supportedHeight=0,top=null;
+  for(const q of bodies){const h=height(q);if(!top||h>rawHeight){rawHeight=h;top=q}if(supported.has(q))supportedHeight=Math.max(supportedHeight,h);if(stable.has(q))stableHeight=Math.max(stableHeight,h)}
+  const component=new Set(),queue=top?[top]:[];for(let i=0;i<queue.length;i++){const q=queue[i];if(component.has(q))continue;component.add(q);for(const n of edges.get(q))if(!component.has(n))queue.push(n)}
+  const grounded=!!top&&supported.has(top);let fill=grounded?1:0;for(const q of component)fill=Math.min(fill,quality(q));
+  return {rawHeight,supportedHeight,stableHeight,quality:fill,reason:!top?'No tower':!grounded?'Needs ground support':stable.has(top)?'Stable':'Blocks are moving or tilted',blocks:bodies.map(q=>({id:q.id,material:q.game.material,x:q.position.x,y:q.position.y,w:q.game.w,h:q.game.h,angle:q.angle,speed:Math.hypot(q.velocity.x,q.velocity.y),spin:Math.abs(q.angularVelocity),nailed:!!q.game.nailed,supported:supported.has(q),settled:settled(q),stablePath:stable.has(q)}))};
+}
+progress=function(now){
+  if(now-stableCheckV77<100)return;stableCheckV77=now;const state=towerStabilityV77();
+  $('height').textContent=String(state.rawHeight);heightCardV77.setAttribute('aria-label','Tower height: '+state.rawHeight+' metres');
+  if(state.stableHeight>best){awardHigh(state.stableHeight);refreshQuestV77(questLogV77.open)}
+  highCandidate=null;const pending=state.rawHeight>best;$('stability').classList.toggle('show',pending);
+  $('stability').setAttribute('aria-label',state.reason);$('stability').title=state.reason;$('stabilityFill').style.width=Math.round(state.quality*100)+'%';
+};
+// A report captures the current physics and this world's latest save for reproduction.
+function debugReportV77(){
+  const stability=towerStabilityV77();saveGame();let save=null,saveError=null;
+  try{save=JSON.parse(localStorage.getItem(SAVE_KEY));if(!save)saveError='No saved world available'}catch(e){saveError=String(e)}
+  return {format:'buttonwood-debug-v1',createdAt:new Date().toISOString(),page:location.pathname,saveKey:SAVE_KEY,paused:gameClockV76.paused,record:best,nextQuest:questsV77().find(q=>!q.done)||null,stability,devTools:{...devToolsV30,creative:typeof creativeV78!=='undefined'&&creativeV78},save,saveError};
+}
+const debugToolsV77=document.createElement('section');debugToolsV77.id='debugToolsV77';debugToolsV77.innerHTML='<button type="button" class="btn" id="debugCopyV77">Copy debug report</button><p class="devHint">Copy tower diagnostics and this world’s save to share in chat.</p><textarea id="debugReportV77" aria-label="Debug report" rows="6" readonly hidden></textarea>';$('devPanel').insertBefore(debugToolsV77,$('devFeedback'));
+const debugStyleV77=document.createElement('style');debugStyleV77.textContent=`#debugCopyV77{min-height:44px}#debugReportV77{box-sizing:border-box;width:100%;font:14px ui-monospace,monospace;user-select:text;color:${hudP77.ink};background:${hudP77.creamLight};border:2px solid ${hudP77.outline}}`;document.head.append(debugStyleV77);
+$('debugCopyV77').onclick=async()=>{
+  const field=$('debugReportV77');field.value=JSON.stringify(debugReportV77(),null,2);
+  try{await navigator.clipboard.writeText(field.value);field.hidden=true;$('devFeedback').textContent='Debug report copied. Paste it in chat.'}
+  catch{field.hidden=false;field.focus();field.select();$('devFeedback').textContent='Select and copy the report below.'}
+};
 function refreshMinimalV77(){$('height').textContent=String(parseInt($('height').textContent,10)||0);for(const [i,b]of itemButtonsV68.entries()){const label='Slot '+(i+4)+': '+itemNameV68(hotbarItemsV68[i])+'. Double click or tap to change.';b.setAttribute('aria-label',label);b.title=label}const frame=settlementV55.phase+':'+Math.floor(settlementV55.elapsed/1000);if(frame!==clockKeyV77){clockKeyV77=frame;ButtonwoodArt.paintDayClock(dayClockV77.querySelector('canvas').getContext('2d'),settlementV55.phase,settlementV55.elapsed);dayClockV77.setAttribute('aria-label',(workerNightV55()?'Night':'Day')+' clock. Click to pause');}if(questLogV77.open)refreshQuestV77();}
 const uiBeforeV77=ui;ui=function(){uiBeforeV77();refreshMinimalV77()};const workersBeforeV77=refreshWorkersV55;refreshWorkersV55=function(){workersBeforeV77();refreshMinimalV77()};
 window.skyStackHud={get state(){return{bells:inv.gold,goldOre:inv.goldOre,goldBars:inv.goldIngot,nails:inv.nails,nailMode:nailModeV46,quests:questsV77(),clock:{...settlementV55}}}};
