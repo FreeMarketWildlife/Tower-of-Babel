@@ -335,3 +335,11 @@ six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9�
 | Inspection | Exclusive hotbar state; unzoomed celestial pixels; snowcap/tree hits in every biome. | [v81](qa/moonfire/README.md) |
 | Ocean backdrop | Native island palms, separate from world trees/collision. | [v81](qa/moonfire/README.md) |
 | Sky/effects | Quarter-speed stars, coral-red event Moon, cool meteor trails, falling fire and impact sparks. | [Shower](qa/moonfire/shower.png) |
+
+
+### v82 playable survival event fixture
+
+| Family | Coverage | Review |
+| --- | --- | --- |
+| Survival event demo | Isolated 109m reinforced tower, seven real Fey builders, finite stock, pause-to-start event. | [QA](qa/moonfire-demo/README.md) |
+| Wildlife construction motion | Existing native Use poses appear after a real successful tower placement. | [Builders](qa/moonfire-demo/builders.png) |

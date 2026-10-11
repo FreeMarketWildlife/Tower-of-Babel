@@ -739,3 +739,22 @@ Matter ray queries against real solids, adds impulses/damage to placed blocks,
 removes broken blocks and stale pins, invalidates support caches, and grants
 no inventory or Bells. Sparks expire within 900ms; effects stop at dawn.
 Review: bible §§3–4, 8–10 and [v81 QA](qa/moonfire/README.md).
+
+
+## Survival event demo — v82
+
+`?demo=moonfire` selects `tower.moonfire.survival-demo.v1` before core restore or
+autosave registration. It never reads or overwrites the normal or art-sample
+world. The fresh fixture seeds a 109m, 24-cell-wide reinforced tower, finite
+player supplies, a stocked Storehouse, and seven Fey Tower helpers: two birds,
+two butterflies, a firefly, a wood mouse and a mole. Pockets are deducted from
+the Storehouse. Creative mode and infinite resources/Workers remain off.
+
+A seeded winning full-moon roll queues the ordinary event with unchanged game
+probability outside the fixture. Initial load and reload pause before play;
+Resume starts the normal simulation. Restart World resets only this demo save.
+Demo builders space their turns around the current real construction cell;
+normal routing, collision, material costs and nail placement still apply.
+A successful Fey Tower placement uses the approved Use animation for 650ms;
+no decorative building animation invents a resource or placed block.
+Review: bible §§3–4, 8–10 and [demo QA](qa/moonfire-demo/README.md).
