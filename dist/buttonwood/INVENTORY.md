@@ -219,3 +219,22 @@ are directly authored at wildlife scale, with per-species PNGs, native/4× roste
 pixel-for-pixel. Current status: idle stills implemented, individual visual
 approval pending. Previous animation roster and 42px comparison are abandoned
 art direction, retained as history. Production wildlife remains unchanged.
+
+## Wildlife crew gameplay — October 10, 2026
+
+Wildlife-style idle cast approved by user. All 25 selected critters and the six
+existing wildlife forms now have Walk, Sprint, Mine, Use, Yay, Pet and idle:
+31 forms / 1,612 right-facing frames plus mirrored facing. Native sheets, six
+all-cast GIFs, moon phase strip and gameplay evidence are in
+[the animation gallery](critters/wildlife-animations/). These actions are wired
+into hatched Workers, wandering wildlife and cage occupants. New animation poses
+remain available for visual refinement; technical checks do not replace review.
+
+Ordinary gameplay includes an eight-night lunar cycle, full-moon fairy visits,
+5-gold species eggs, active-play incubation, saved critter Workers, Pet/action
+interactions, and digging/crafting/sprint/scouting abilities with cooldowns.
+Native fairy, moon and egg icons use shared colors. Existing save contents,
+Worker physics, wildlife population, bucket capture and cage behavior are kept.
+The full-moon sample is free-fixture review only. Regression evidence covers
+phase order, merchant gating, balances, hatch/save roundtrips, species identity,
+abilities, normal/sample separation and original wildlife/settlement behavior.

@@ -125,9 +125,16 @@
     const moonX = Math.round(width * (.12 + moonT * .75));
     const moonY = Math.round(ground + 8 - Math.sin(Math.PI * moonT) * skySpan * .68);
     if (state.moonAlpha > 0) {
-      disc(moonX, moonY, 7, P.cream, state.moonAlpha * .9);
-      rect(moonX - 3, moonY - 2, 2, 2, P.creamShade, state.moonAlpha * .65);
-      rect(moonX + 1, moonY + 2, 3, 2, P.creamShade, state.moonAlpha * .6);
+      if(A.lunar){
+        // Dawn retains the previous night's phase; a new phase begins at dusk.
+        const nightDay=state.seconds<30?Math.max(1,day-1):day;
+        g.globalAlpha=state.moonAlpha*.9;
+        A.lunar.paint(g,moonX,moonY,7,A.lunar.phaseForNight(nightDay));
+      }else{
+        disc(moonX, moonY, 7, P.cream, state.moonAlpha * .9);
+        rect(moonX - 3, moonY - 2, 2, 2, P.creamShade, state.moonAlpha * .65);
+        rect(moonX + 1, moonY + 2, 3, 2, P.creamShade, state.moonAlpha * .6);
+      }
     }
     // Two airy banks: cream light on top, a peach/lavender underside at twilight.
     const cloudPeriod = 296;

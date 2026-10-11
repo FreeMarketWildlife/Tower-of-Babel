@@ -294,6 +294,7 @@ function buttonwoodBoot(){
  if(!initialSave)bwSeedSample();else{bwDecorateSampleTerrain();bwCamera('village',innerWidth<700?1:2)}
  bwSeedIndustryStudy();$('bw-industry').disabled=!bwIndustryStudy;$('bw-time').value=bwSkyState().phase;
  const requestedView=new URLSearchParams(location.search).get('view');if(['industry','storehouse','forge','blacksmith'].includes(requestedView))bwCamera(requestedView,innerWidth<1050?1:2);
+ if(requestedView==='moon-fairy'&&typeof refreshCrittersV73==='function'){settlementV55.day=5;bwTime('night');bwCamera('village',innerWidth<700?1:2);inv.gold=Math.max(inv.gold||0,50);ui();refreshCrittersV73();}
  const resizeHeader=()=>{const header=nav.getBoundingClientRect(),bar=$('bar').getBoundingClientRect();document.documentElement.style.setProperty('--bw-header-height',Math.ceil(header.height)+'px');document.documentElement.style.setProperty('--bw-panel-height',Math.max(0,Math.floor(bar.top-header.bottom-16))+'px')};
  const sampleBounds=new ResizeObserver(resizeHeader);sampleBounds.observe(nav);sampleBounds.observe($('bar'));addEventListener('resize',resizeHeader);resizeHeader();
  $('bw-zoom').value=String(cam.z);bwRefreshIcons();

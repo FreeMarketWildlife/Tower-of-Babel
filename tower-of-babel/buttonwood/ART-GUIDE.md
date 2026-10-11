@@ -529,3 +529,21 @@ anchor is `(floor(width/2),height-1)`. Shared palette, binary alpha and one sour
 pixel per world unit. Original mole pixels are reused exactly. PNGs and metadata
 are in that gallery's `exports/`. Earlier animation/42px galleries are history.
 No production replacement, animation hooks or UI portrait changes yet.
+
+## Wildlife animations, eggs and lunar gameplay
+
+`critters/wildlife-idles/animations.js` exposes `A.animalAnimations`: 31 roster
+forms, seven states and 1,612 right-facing frames, with exact left mirroring.
+Frames are 40 × 32 padding at `(20,31)`; approved small animal pixels retain their
+native size. Idle: 4 × 350ms; Walk: 8 × 110ms; Sprint: 8 × 70ms; Mine: 8 × 110ms;
+Use: 8 × 130ms; Yay: 8 × 110ms; Pet: 8 × 150ms. Individual sprite sheets and
+all-cast GIFs are in [the animation gallery](critters/wildlife-animations/).
+
+`lunar-art.js` owns pixel moon masks, separately authored 32px icons, native fairy
+32 × 40 and egg 16 × 20. `game-v73-critter-eggs.txt` integrates saved species,
+clock-derived phase/merchant gating, 5-gold eggs, 30-second active incubation,
+real Worker creation, actions and four ability classes. `crittersV73` is additive
+under `structuresV46`; Worker IDs and physics/save compatibility remain intact.
+Original wildlife rendering/cages pass explicit animation state. Bucket targeting
+keeps established wildlife dimensions; action padding does not enlarge hitboxes.
+The sample `view=moon-fairy` is explicitly isolated from ordinary saves.

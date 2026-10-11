@@ -1061,3 +1061,40 @@ the existing rabbit silhouette. Original wildlife remains intact. The gallery
 compares originals, new stills at 1×/4× and the Home/meadow at shared world scale.
 These are idle studies pending visual review, not a production Worker migration.
 New animation authoring and UI portraits follow after the stills are accepted.
+
+### Wildlife crew production integration — October 10, 2026
+
+The user approved the wildlife-style idle cast and requested all six actions,
+small abilities, hatchable eggs, and a full-moon fairy merchant. The
+[current animation gallery](critters/wildlife-animations/) covers all 25 selected
+critters plus the six existing wildlife forms: Walk, Sprint, Mine, Use, Yay, Pet
+and quiet idle. Preserve each approved native silhouette. Tools and small action
+clusters fit a 40 × 32 padded frame, anchor `(20,31)`, without scaling the animal.
+Pet turns its tiny face toward the camera and shows a brief hand/spark response.
+No clothing. Flyers use wing motion; burrowers remain low; shell/quill silhouettes
+stay intact. New icons are separately authored 32px egg, fairy and moon art.
+
+Hatched animals enter ordinary gameplay as Workers using established physics,
+Home beds, crafting assignments, mining tiers, health and stable saved IDs.
+Existing human Workers and collected wildlife retain their identities and saves.
+Wild inhabitants and cage occupants use the same action vocabulary. A short tap
+pets an animal and opens its adjacent interaction panel; bucket tools retain
+capture/release behavior. Ability effects obey exposed terrain and real jobs.
+Diggers add one dirt hit, handy animals advance an active job by two seconds,
+quick animals sprint for four seconds, and scouts mark nearby exposed ore for
+six seconds. Cooldowns prevent repeated rewards; no action pose invents a yield.
+
+Moon phases follow the saved settlement clock, one stage per night: New Moon,
+Waxing Crescent, First Quarter, Waxing Gibbous, Full Moon, Waning Gibbous, Third
+Quarter, Waning Crescent. Waxing light is on the right; waning on the left.
+New Moon is invisible in the sky; the UI may show an outline. Dawn retains the
+previous night's moon until it fades. This eight-night game cycle is deliberately
+compressed, not a real astronomical calendar. Phase silhouettes were checked
+against [NASA's phase order](https://science.nasa.gov/moon/moon-phases/).
+
+The fairy visits only during full-moon nights (5, 13, 21…). Her adjacent panel
+sells species-specific eggs for five gold each, with a 64-egg incubation limit.
+Eggs hatch after 30 seconds of active play, without offline progress. Purchases,
+remaining incubation, Worker species and ability cooldowns persist in additive
+save data. The isolated `?sample=buttonwood&view=moon-fairy` preview starts on
+night 5 with sample gold; ordinary gameplay receives no free fixtures.

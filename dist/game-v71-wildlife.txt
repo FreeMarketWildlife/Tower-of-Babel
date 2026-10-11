@@ -182,7 +182,7 @@ for(const [type,d]of Object.entries(CAGES_V71)){
 function paintCageV71(g,b){
  g.drawImage(ButtonwoodArt.cageSprite(b.type,{layer:'back'}),0,0);
  for(const [i,a]of cageAnimalsV71(b).entries()){
-  const p=cagePositionV71(b,i),sprite=ButtonwoodArt.wildlifeSprite(a.species,{frame:wildlifeFrameV71(a),direction:a.direction||1});
+  const p=cagePositionV71(b,i),sprite=ButtonwoodArt.wildlifeSprite(a.species,{...(typeof wildlifeAnimationV73==='function'?wildlifeAnimationV73(a):{frame:wildlifeFrameV71(a)}),direction:a.direction||1});
   g.drawImage(sprite,Math.round(p.x-b.x-sprite.width/2),Math.round(p.y-b.y-sprite.height));
  }
  g.drawImage(ButtonwoodArt.cageSprite(b.type,{layer:'front'}),0,0);
@@ -240,7 +240,7 @@ function endWildlifePressV71(e){
  try{if(c.hasPointerCapture(e.pointerId))c.releasePointerCapture(e.pointerId)}catch{}
  if(e.type==='pointerup'&&!press.moved&&Math.hypot(pos(e).x-press.start.x,pos(e).y-press.start.y)<=8){
   if(press.item==='bucket'){if(press.target)captureWildlifeV71(press.target);else bucketActionV68('bucket',s2w(press.start.x,press.start.y))}
-  else if(press.target)animalSoundV71(press.target.animal,press.target.p);
+  else if(press.target){animalSoundV71(press.target.animal,press.target.p);if(typeof openCritterV73==='function')openCritterV73({animal:press.target.animal,p:press.target.p});}
  }
  e.preventDefault();e.stopImmediatePropagation();
 }
@@ -282,7 +282,7 @@ drawGoldBursts=function(now){
   const s=w2s(Math.round(a.x),Math.round(a.y));if(s.x<-40||s.x>W+40||s.y<-40||s.y>HH+40)continue;
   if(!wildlifeVisibleV71(a)||structuresV46.some(b=>{const d=STRUCTURES_V46[b.type];return a.x>=b.x&&a.x<b.x+d.w*B&&a.y>=b.y&&a.y<b.y+d.h*B}))continue;
   const burrowing=WILDLIFE_SPECIES_V71[a.species].motion==='burrow'&&grid.get(key(Math.floor(a.x/B),Math.floor(a.y/B)))?.game.material==='dirt';
-  const sprite=ButtonwoodArt.wildlifeSprite(a.species,{frame:wildlifeFrameV71(a),direction:a.direction,burrowing});ctx.save();ctx.translate(s.x,s.y);ctx.scale(cam.z,cam.z);ctx.imageSmoothingEnabled=false;if(a.nocturnal)ctx.globalAlpha=clamp((bwSkyState().darkness-.08)/.45,0,1);ctx.drawImage(sprite,-sprite.width/2,-sprite.height);
+  const sprite=ButtonwoodArt.wildlifeSprite(a.species,{...(typeof wildlifeAnimationV73==='function'?wildlifeAnimationV73(a):{frame:wildlifeFrameV71(a)}),direction:a.direction,burrowing});ctx.save();ctx.translate(s.x,s.y);ctx.scale(cam.z,cam.z);ctx.imageSmoothingEnabled=false;if(a.nocturnal)ctx.globalAlpha=clamp((bwSkyState().darkness-.08)/.45,0,1);ctx.drawImage(sprite,-sprite.width/2,-sprite.height);
   if(a.noticeUntilV71>wildlifeClockV71){ctx.fillStyle=ButtonwoodArt.palette.cream;ctx.fillRect(-1,-sprite.height-5,2,2)}ctx.restore();
  }
  wildlifeDrawBeforeV71(now);

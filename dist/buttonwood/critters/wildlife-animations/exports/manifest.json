@@ -1,0 +1,381 @@
+{
+  "width": 40,
+  "height": 32,
+  "anchor": {
+    "x": 20,
+    "y": 31
+  },
+  "states": {
+    "idle": {
+      "frames": 4,
+      "ms": 350
+    },
+    "walk": {
+      "frames": 8,
+      "ms": 110
+    },
+    "sprint": {
+      "frames": 8,
+      "ms": 70
+    },
+    "mine": {
+      "frames": 8,
+      "ms": 110
+    },
+    "use": {
+      "frames": 8,
+      "ms": 130
+    },
+    "yay": {
+      "frames": 8,
+      "ms": 110
+    },
+    "pet": {
+      "frames": 8,
+      "ms": 150
+    }
+  },
+  "roster": [
+    {
+      "id": "wood-mouse",
+      "name": "Wood mouse",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "wood-mouse-sheet.png"
+    },
+    {
+      "id": "sand-lizard",
+      "name": "Sand lizard",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "sand-lizard-sheet.png"
+    },
+    {
+      "id": "fire-salamander",
+      "name": "Fire salamander",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "fire-salamander-sheet.png"
+    },
+    {
+      "id": "brush-tailed-porcupine",
+      "name": "African brush-tailed porcupine",
+      "ability": {
+        "kind": "craft",
+        "name": "Handy paws",
+        "description": "Advance a nearby active building job by 2 seconds.",
+        "cooldown": 20000
+      },
+      "file": "brush-tailed-porcupine-sheet.png"
+    },
+    {
+      "id": "box-turtle",
+      "name": "Box turtle",
+      "ability": {
+        "kind": "craft",
+        "name": "Handy paws",
+        "description": "Advance a nearby active building job by 2 seconds.",
+        "cooldown": 20000
+      },
+      "file": "box-turtle-sheet.png"
+    },
+    {
+      "id": "european-mole",
+      "name": "European mole",
+      "ability": {
+        "kind": "dig",
+        "name": "Burrow",
+        "description": "One extra hit on nearby exposed dirt.",
+        "cooldown": 15000
+      },
+      "file": "european-mole-sheet.png"
+    },
+    {
+      "id": "hedgehog",
+      "name": "Hedgehog",
+      "ability": {
+        "kind": "craft",
+        "name": "Handy paws",
+        "description": "Advance a nearby active building job by 2 seconds.",
+        "cooldown": 20000
+      },
+      "file": "hedgehog-sheet.png"
+    },
+    {
+      "id": "chipmunk",
+      "name": "Chipmunk",
+      "ability": {
+        "kind": "craft",
+        "name": "Handy paws",
+        "description": "Advance a nearby active building job by 2 seconds.",
+        "cooldown": 20000
+      },
+      "file": "chipmunk-sheet.png"
+    },
+    {
+      "id": "red-squirrel",
+      "name": "Red squirrel",
+      "ability": {
+        "kind": "sprint",
+        "name": "Quick feet",
+        "description": "Sprint for 4 seconds.",
+        "cooldown": 12000
+      },
+      "file": "red-squirrel-sheet.png"
+    },
+    {
+      "id": "field-vole",
+      "name": "Field vole",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "field-vole-sheet.png"
+    },
+    {
+      "id": "shrew",
+      "name": "Shrew",
+      "ability": {
+        "kind": "dig",
+        "name": "Burrow",
+        "description": "One extra hit on nearby exposed dirt.",
+        "cooldown": 15000
+      },
+      "file": "shrew-sheet.png"
+    },
+    {
+      "id": "least-weasel",
+      "name": "Least weasel",
+      "ability": {
+        "kind": "sprint",
+        "name": "Quick feet",
+        "description": "Sprint for 4 seconds.",
+        "cooldown": 12000
+      },
+      "file": "least-weasel-sheet.png"
+    },
+    {
+      "id": "stoat",
+      "name": "Stoat",
+      "ability": {
+        "kind": "sprint",
+        "name": "Quick feet",
+        "description": "Sprint for 4 seconds.",
+        "cooldown": 12000
+      },
+      "file": "stoat-sheet.png"
+    },
+    {
+      "id": "striped-skunk",
+      "name": "Striped skunk",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "striped-skunk-sheet.png"
+    },
+    {
+      "id": "pygmy-spotted-skunk",
+      "name": "Pygmy spotted skunk",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "pygmy-spotted-skunk-sheet.png"
+    },
+    {
+      "id": "cottontail-rabbit",
+      "name": "Cottontail rabbit",
+      "ability": {
+        "kind": "sprint",
+        "name": "Quick feet",
+        "description": "Sprint for 4 seconds.",
+        "cooldown": 12000
+      },
+      "file": "cottontail-rabbit-sheet.png"
+    },
+    {
+      "id": "pika",
+      "name": "Pika",
+      "ability": {
+        "kind": "sprint",
+        "name": "Quick feet",
+        "description": "Sprint for 4 seconds.",
+        "cooldown": 12000
+      },
+      "file": "pika-sheet.png"
+    },
+    {
+      "id": "jerboa",
+      "name": "Jerboa",
+      "ability": {
+        "kind": "sprint",
+        "name": "Quick feet",
+        "description": "Sprint for 4 seconds.",
+        "cooldown": 12000
+      },
+      "file": "jerboa-sheet.png"
+    },
+    {
+      "id": "dormouse",
+      "name": "Dormouse",
+      "ability": {
+        "kind": "craft",
+        "name": "Handy paws",
+        "description": "Advance a nearby active building job by 2 seconds.",
+        "cooldown": 20000
+      },
+      "file": "dormouse-sheet.png"
+    },
+    {
+      "id": "lesser-tenrec",
+      "name": "Lesser tenrec",
+      "ability": {
+        "kind": "dig",
+        "name": "Burrow",
+        "description": "One extra hit on nearby exposed dirt.",
+        "cooldown": 15000
+      },
+      "file": "lesser-tenrec-sheet.png"
+    },
+    {
+      "id": "tree-frog",
+      "name": "Tree frog",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "tree-frog-sheet.png"
+    },
+    {
+      "id": "natterjack-toad",
+      "name": "Natterjack toad",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "natterjack-toad-sheet.png"
+    },
+    {
+      "id": "crested-newt",
+      "name": "Crested newt",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "crested-newt-sheet.png"
+    },
+    {
+      "id": "leopard-gecko",
+      "name": "Leopard gecko",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "leopard-gecko-sheet.png"
+    },
+    {
+      "id": "brown-anole",
+      "name": "Brown anole",
+      "ability": {
+        "kind": "scout",
+        "name": "Keen senses",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "brown-anole-sheet.png"
+    },
+    {
+      "id": "bird",
+      "name": "Bird",
+      "ability": {
+        "kind": "scout",
+        "name": "Scout",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "bird-sheet.png"
+    },
+    {
+      "id": "butterfly",
+      "name": "Butterfly",
+      "ability": {
+        "kind": "scout",
+        "name": "Scout",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "butterfly-sheet.png"
+    },
+    {
+      "id": "worm",
+      "name": "Worm",
+      "ability": {
+        "kind": "dig",
+        "name": "Burrow",
+        "description": "One extra hit on nearby exposed dirt.",
+        "cooldown": 15000
+      },
+      "file": "worm-sheet.png"
+    },
+    {
+      "id": "mole",
+      "name": "Mole",
+      "ability": {
+        "kind": "dig",
+        "name": "Burrow",
+        "description": "One extra hit on nearby exposed dirt.",
+        "cooldown": 15000
+      },
+      "file": "mole-sheet.png"
+    },
+    {
+      "id": "rabbit",
+      "name": "Rabbit",
+      "ability": {
+        "kind": "sprint",
+        "name": "Quick feet",
+        "description": "Sprint for 4 seconds.",
+        "cooldown": 12000
+      },
+      "file": "rabbit-sheet.png"
+    },
+    {
+      "id": "firefly",
+      "name": "Firefly",
+      "ability": {
+        "kind": "scout",
+        "name": "Scout",
+        "description": "Mark the nearest exposed ore within six blocks.",
+        "cooldown": 15000
+      },
+      "file": "firefly-sheet.png"
+    }
+  ]
+}
