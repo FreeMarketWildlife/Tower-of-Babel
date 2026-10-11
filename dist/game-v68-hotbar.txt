@@ -1,5 +1,5 @@
 // Six slots share inventory counts; assignments never reserve or spend items.
-const blockItemsV68=Object.keys(M).filter(k=>k!=='bedrock'&&Object.hasOwn(inv,k));
+const blockItemsV68=Object.keys(M).filter(k=>k!=='bedrock'&&Object.hasOwn(inv,k)).concat('flowers');
 // Add future bucket liquids here alongside their simulation support. Contents use type IDs.
 const bucketLiquidsV68={water:'Water',lava:'Lava'};
 const bucketBagV68=Object.create(null),hotbarSaveV68=initialSave?.hotbarV68;
@@ -23,7 +23,7 @@ function itemNameV68(item){
 }
 const itemImagesV68=new Map();
 function itemImageV68(item){
- if(!itemImagesV68.has(item))itemImagesV68.set(item,(item==='miner'?ButtonwoodArt.workerIcon():ButtonwoodArt.uiIcon(isBucketV68(item)?'bucket':item,isBucketV68(item)?item.slice(7):0)).toDataURL());
+ if(!itemImagesV68.has(item))itemImagesV68.set(item,(item==='flowers'?ButtonwoodArt.flowerIcon():item==='miner'?ButtonwoodArt.workerIcon():ButtonwoodArt.uiIcon(isBucketV68(item)?'bucket':item,isBucketV68(item)?item.slice(7):0)).toDataURL());
  return itemImagesV68.get(item);
 }
 const barV68=$('bar'),fixedV68=document.createElement('div'),itemsV68=document.createElement('div'),legacyV68=document.createElement('div');

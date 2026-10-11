@@ -86,7 +86,9 @@
       const top = Math.round(ground * bands[i]), bottom = Math.round(ground * bands[i + 1]);
       rect(0, top, width, bottom - top, mix(state.colors.sky, state.colors.horizon, i / (bands.length - 2)));
     }
-    const skySpan = Math.max(100, ground);
+    const camY = Number.isFinite(options.camY) ? options.camY : 0;
+    const skyGround = ground + camY * .96;
+    const skySpan = Math.max(100, ground + camY);
     const drift = Number.isFinite(camX) ? camX : 0;
     const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
     // Star positions do not regenerate on day wrap. Twinkling follows absolute saved time.
@@ -94,7 +96,7 @@
     const starShift = ((drift * .025) % starPeriod + starPeriod) % starPeriod;
     for (let tile = -1; tile <= Math.ceil(width / starPeriod); tile++) for (let i = 0; i < 17; i++) {
       const x = tile * starPeriod + Math.floor(hash(i + 8) * starPeriod) - starShift;
-      const y = Math.floor(skySpan * (.07 + hash(i + 67) * .57));
+      const y = Math.floor(-camY * .025 + skySpan * (.07 + hash(i + 67) * .57));
       const twinkle = .64 + .24 * Math.sin(state.absoluteSeconds * .65 + i * 2.7);
       rect(x, y, 1, 1, P.creamLight, state.starAlpha * twinkle);
       if (i % 7 === 0) {
@@ -111,7 +113,7 @@
     };
     const sunT = clamp(state.seconds / 180);
     const sunX = Math.round(width * (.14 + sunT * .72));
-    const sunY = Math.round(ground - 18 - Math.sin(Math.PI * sunT) * skySpan * .65);
+    const sunY = Math.round(skyGround - 18 - Math.sin(Math.PI * sunT) * skySpan * .65);
     if (state.sunAlpha > 0) {
       if (state.warmth > 0) {
         rect(sunX - 20, sunY - 8, 41, 17, P.gold, state.sunAlpha * state.warmth * .14);
@@ -123,7 +125,7 @@
     const moonSeconds = state.seconds < 30 ? state.seconds + 240 : state.seconds;
     const moonT = clamp((moonSeconds - 150) / 120);
     const moonX = Math.round(width * (.12 + moonT * .75));
-    const moonY = Math.round(ground + 8 - Math.sin(Math.PI * moonT) * skySpan * .68);
+    const moonY = Math.round(skyGround + 8 - Math.sin(Math.PI * moonT) * skySpan * .68);
     if (state.moonAlpha > 0) {
       if(A.lunar){
         // Dawn retains the previous night's phase; a new phase begins at dusk.
@@ -149,12 +151,12 @@
         rect(x + 18, y - 4, 20 + variant * 3, 5, state.colors.cloud, alpha);
         rect(x + 39, y - 1, 15, 5, state.colors.cloud, alpha);
       };
-      cloud(base + 33, Math.round(ground * .27), 0);
-      cloud(base + 173, Math.round(ground * .48), 1);
+      cloud(base + 33, Math.round((ground + camY) * .27 - camY * .06), 0);
+      cloud(base + 173, Math.round((ground + camY) * .48 - camY * .10), 1);
     }
     // Gallery callers without biome inputs retain the approved meadow baseline.
     if (options.biomeWeights && A.paintBiomeScenery) {
-      A.paintBiomeScenery(g, {width, height, ground, camX: drift, state,
+      A.paintBiomeScenery(g, {width, height, ground, camX: drift, camY, state,
         weights: options.biomeWeights, seed: options.biomeSeed || 0});
     } else for (const layer of [0, 1]) {
       const step = layer ? 8 : 12;

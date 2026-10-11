@@ -6,7 +6,8 @@ const WILDLIFE_SPECIES_V71=Object.freeze({
  worm:{name:'Worm',motion:'burrow',range:28,speed:.2},
  mole:{name:'Mole',motion:'burrow',range:46,speed:.15},
  rabbit:{name:'Rabbit',motion:'hop',range:64,speed:.2},
- firefly:{name:'Firefly',motion:'flutter',range:40,speed:.34}
+ firefly:{name:'Firefly',motion:'flutter',range:40,speed:.34},
+ ...Object.fromEntries(ButtonwoodArt.critterIdles.roster.map(s=>[s.id,{name:s.name,motion:['european-mole','shrew','lesser-tenrec'].includes(s.id)?'burrow':'hop',range:36,speed:.16}]))
 });
 const CAGES_V71=Object.freeze({
  cageSmall:{name:'Small cage',w:2,h:2,capacity:1,cost:{wood:5,ironIngot:2}},
@@ -37,7 +38,8 @@ function wildlifeNewV71(species,p,phase=0){
  // The release point is the actual initial anchor, including vertical motion.
  const posed=wildlifePositionV71(a);a.homeY+=p.y-posed.y;wildlifePositionV71(a);return a;
 }
-function wildlifeObstaclesV71(){return [...bs].filter(b=>!b.game?.terrain&&!b.game?.liquid&&!b.game?.reservoir&&!b.isSensor).concat([...structureBodiesV47.values()])}
+let wildlifeObstacleCacheV71=[],wildlifeObstacleStampV71=-Infinity,wildlifeObstacleCountV71=-1;
+function wildlifeObstaclesV71(){const count=bs.size+structureBodiesV47.size;if(count!==wildlifeObstacleCountV71||wildlifeClockV71-wildlifeObstacleStampV71>=.1){wildlifeObstacleCountV71=count;wildlifeObstacleStampV71=wildlifeClockV71;wildlifeObstacleCacheV71=[...bs].filter(b=>!b.game?.terrain&&!b.game?.liquid&&!b.game?.reservoir&&!b.isSensor).concat([...structureBodiesV47.values()])}return wildlifeObstacleCacheV71}
 function settleWildlifeV71(a,elapsed,obstacles=wildlifeObstaclesV71()){
  const motion=WILDLIFE_SPECIES_V71[a.species].motion;if((motion!=='hop'&&motion!=='burrow')||!(elapsed>0))return false;
  const cx=Math.floor(a.x/B),burrow=motion==='burrow',soil=grid.get(key(cx,Math.floor(a.y/B)));
@@ -73,8 +75,9 @@ function seedWildlifeV71(){
   if(!generated.has(ch)||wildlifeHabitatsV71.has(ch))continue;
   if(populationCount>WILDLIFE_LIMIT_V71-9)continue;
   wildlifeHabitatsV71.add(ch);changed=true;
-  const biome=window.ButtonwoodBiomes?.biomeAt(skySeedV62,(ch+.5)*24*B)||'mountains';
-  const population=biome==='jungle'?['bird','butterfly','butterfly','worm','mole','firefly','firefly']:biome==='plains'?['bird','butterfly','worm','mole','rabbit','rabbit','firefly','firefly','firefly']:biome==='ocean'?['bird','bird','butterfly','worm','mole']:['bird','bird','butterfly','worm','mole'];
+  // One or two encounters per visited 24-block habitat; every species is eligible.
+  const kinds=Object.keys(WILDLIFE_SPECIES_V71),count=wildlifeHashV71(ch,901)<.35?2:1;
+  const population=Array.from({length:count},(_,i)=>kinds[Math.floor(wildlifeHashV71(ch,902+i)*kinds.length)]);
   for(let i=0;i<population.length;i++){
    const species=population[i],d=WILDLIFE_SPECIES_V71[species],x=ch*24*B+64+wildlifeHashV71(ch,i)*(24*B-128);
    const y=d.motion==='fly'?-95-wildlifeHashV71(ch,i+40)*160:d.motion==='flutter'?-18-wildlifeHashV71(ch,i+50)*65:d.motion==='burrow'?12+wildlifeHashV71(ch,i+60)*72:0;

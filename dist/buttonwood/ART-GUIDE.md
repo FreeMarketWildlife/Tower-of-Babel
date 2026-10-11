@@ -547,3 +547,23 @@ under `structuresV46`; Worker IDs and physics/save compatibility remain intact.
 Original wildlife rendering/cages pass explicit animation state. Bucket targeting
 keeps established wildlife dimensions; action padding does not enlarge hitboxes.
 The sample `view=moon-fairy` is explicitly isolated from ordinary saves.
+
+## Sparse habitats, flowers and vertical depth
+
+`meadow.js` extends wildlife size/pose contracts to the 25 approved critters and
+adds separately authored 32px animal portraits and bucket miniatures. All 31
+species use the existing capture/release/cage save paths. `game-v71-wildlife.txt`
+seeds 1–2 animals per newly visited 24-block habitat. Existing saved animals stay.
+
+`A.flowerSprite(type)` returns 12 × 12 native art; `A.flowerIcon()` returns a
+separate 32 × 32 bouquet. `game-v74-meadow.txt` owns saved surface plants,
+tap gathering, support removal and the Flowers inventory item. Each eligible
+surface dirt cell has a deterministic 19% plant chance on first habitat visit;
+collected plants do not regenerate on revisit. Drag/cancel/pinch do not gather.
+
+The integration supplies `camY` to sky and biome art. Integer rectangles receive
+vertical depth translation before zoom, and clip against real world ground.
+Existing horizontal depth factors are unchanged. Sky repainting is capped at
+20Hz while stationary; camera/viewport changes repaint immediately. The moon HUD
+caches data URLs and skips unchanged content/layout; obstacle scans reuse a
+100ms cache, invalidated immediately when body counts change.

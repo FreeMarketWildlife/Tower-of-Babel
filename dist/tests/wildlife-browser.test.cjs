@@ -12,7 +12,7 @@ const hook=`window.wildlifeTest={
  cage(type,x=0){structureBagV46[type]++;return placeStructureV46({type,x,y:-CAGES_V71[type].h*B})},
  openStructures:openStructuresV48,
  setNight(night){settlementV55.phase=night?'night':'day';settlementV55.elapsed=night?15000:90000},
- seedPlains(){wildlifeV71=[];let x=0;for(let i=1;i<80;i++){const r=ButtonwoodBiomes.regionAt(skySeedV62,i*1024);if(r.id==='plains'){x=(r.start+r.end)/2;break}}cam.x=x;const ch=Math.floor(x/(24*B));generated.add(ch);wildlifeHabitatsV71.delete(ch);seedWildlifeV71();return ButtonwoodBiomes.biomeAt(skySeedV62,x)},
+ seedPlains(){wildlifeV71=[];const kinds=Object.keys(WILDLIFE_SPECIES_V71);for(let ch=1;ch<1000;ch++){const x=(ch+.5)*24*B;if(ButtonwoodBiomes.biomeAt(skySeedV62,x)!=='plains')continue;const count=wildlifeHashV71(ch,901)<.35?2:1;if(!Array.from({length:count},(_,i)=>kinds[Math.floor(wildlifeHashV71(ch,902+i)*kinds.length)]).includes('firefly'))continue;cam.x=x;generated.add(ch);wildlifeHabitatsV71.delete(ch);seedWildlifeV71();return 'plains'}throw Error('no rare plains firefly habitat')},
  get sounds(){return wildlifeSoundCalls},get counts(){return {world:wildlifeV71.length,captive:structuresV46.reduce((n,b)=>n+cageAnimalsV71(b).length,0),buckets:Object.entries(bucketBagV68).filter(([k])=>animalKindV71(k)).reduce((n,[,v])=>n+v,0),empty:bucketBagV68.bucket||0}}
 };
 const wildlifeSoundCalls=[];const animalSoundReal=SkyAudio.animalSound;SkyAudio.animalSound=function(...args){wildlifeSoundCalls.push(args);return animalSoundReal.apply(this,args)};
@@ -30,7 +30,7 @@ const wildlifeSoundCalls=[];const animalSoundReal=SkyAudio.animalSound;SkyAudio.
   if(!mobile){
    assert.equal(await page.evaluate(()=>wildlifeTest.seedPlains()),'plains');
    const nocturnal=await page.evaluate(()=>{wildlifeTest.setNight(false);return skyStackWildlife.state.animals.filter(a=>a.species==='firefly')});
-   assert.ok(nocturnal.length>=3&&nocturnal.every(a=>a.nocturnal&&!a.visible),'plains fireflies rest by day');
+   assert.ok(nocturnal.length>=1&&nocturnal.every(a=>a.nocturnal&&!a.visible),'plains fireflies rest by day');
    await page.evaluate(()=>wildlifeTest.setNight(true));assert.ok(await page.evaluate(()=>skyStackWildlife.state.animals.filter(a=>a.species==='firefly').every(a=>a.visible)),'plains fireflies emerge at night');
    await page.evaluate(()=>{const a=skyStackWildlife.state.animals.find(a=>a.species==='firefly');wildlifeTest.grant('bucket');if(!skyStackWildlife.bucket('bucket',{x:a.x,y:a.y-2}))throw Error('night firefly capture');if(!skyStackWildlife.bucket('bucket:firefly',{x:a.x,y:-100}))throw Error('firefly release');wildlifeTest.setNight(false);if(!skyStackWildlife.state.animals.find(a=>a.species==='firefly'&&!a.nocturnal)?.visible)throw Error('collected firefly hidden by day')});
    const count=await page.evaluate(()=>{skyStackWildlife.seed();return skyStackWildlife.state.animals.length});await page.evaluate(()=>skyStackWildlife.seed());assert.equal(await page.evaluate(()=>skyStackWildlife.state.animals.length),count,'revisiting habitats never duplicates animals');
@@ -44,7 +44,7 @@ const wildlifeSoundCalls=[];const animalSoundReal=SkyAudio.animalSound;SkyAudio.
   }
   await page.evaluate(()=>wildlifeTest.fresh());
   const tap=async p=>mobile?page.touchscreen.tap(p.x,p.y):page.mouse.click(p.x,p.y);
-  for(const species of ['bird','butterfly','worm','mole','rabbit','firefly']){
+  for(const species of await page.evaluate(()=>Object.keys(skyStackWildlife.species))){
    await page.evaluate(species=>{wildlifeTest.spawn(species);wildlifeTest.select('pick')},species);
    let p=await page.evaluate(()=>wildlifeTest.screen(-100,-85));await tap(p);
    assert.equal(await page.evaluate(()=>wildlifeTest.sounds.at(-1)?.[0]),species,'tap sound '+species);
@@ -59,8 +59,8 @@ const wildlifeSoundCalls=[];const animalSoundReal=SkyAudio.animalSound;SkyAudio.
    // Put this animal back in a bucket for the cage tests.
    assert.equal(await page.evaluate(()=>{const a=skyStackWildlife.state.animals[0];return skyStackWildlife.bucket('bucket',{x:a.x,y:a.y-4})}),true);
   }
-  assert.equal(await page.evaluate(()=>wildlifeTest.counts.buckets),6);
-  console.log('PASS '+(mobile?'touch':'mouse')+' six species tap/capture/release and soil preservation');
+  assert.equal(await page.evaluate(()=>wildlifeTest.counts.buckets),31);
+  console.log('PASS '+(mobile?'touch':'mouse')+' all 31 species tap/capture/release and soil preservation');
   const recipes=await page.evaluate(()=>{
    const out=[];for(const [type,d]of Object.entries(wildlifeTest.defs)){
     for(const k of Object.keys(d.cost))wildlifeTest.inv[k]=0;

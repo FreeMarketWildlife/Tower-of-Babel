@@ -18,13 +18,15 @@
     const ground = Math.round(options.ground), bottom = Math.min(height, ground);
     if (!width || bottom <= 0 || !state) return;
     const camX = Number.isFinite(options.camX) ? options.camX : 0;
+    const camY = Number.isFinite(options.camY) ? options.camY : 0;
+    let depth = 1;
     const darkness = state.darkness, phase = state.absoluteSeconds;
     const oldAlpha = g.globalAlpha;
     let weight = 1;
     g.save();
     const rect = (x, y, w, h, color, alpha = 1) => {
-      const left = Math.max(0, Math.round(x)), top = Math.max(0, Math.round(y));
-      const right = Math.min(width, Math.round(x + w)), end = Math.min(bottom, Math.round(y + h));
+      const left = Math.max(0, Math.round(x)), top = Math.max(0, Math.round(y + camY * (1 - depth)));
+      const right = Math.min(width, Math.round(x + w)), end = Math.min(bottom, Math.round(y + h + camY * (1 - depth)));
       if (right <= left || end <= top || alpha <= 0) return;
       g.globalAlpha = clamp(alpha * weight); g.fillStyle = color;
       g.fillRect(left, top, right - left, end - top);
@@ -43,15 +45,17 @@
     };
     const screenX = (x, parallax) => Math.round(x - camX * parallax + width / 2);
     const repeat = (period, parallax, fn, padding = period) => {
+      depth = parallax;
       const left = camX * parallax - width / 2;
       for (let n = Math.floor((left - padding) / period); n <= Math.ceil((left + width + padding) / period); n++) fn(n);
     };
     const hills = (parallax, base, amplitude, period, fill, salt = 0) => {
+      depth = parallax;
       const offset = hash(seed, salt) * 2000;
       for (let x = 0; x < width; x += 3) {
         const q = x - width / 2 + camX * parallax + offset;
         const rise = Math.round(base + Math.sin(q / period) * amplitude + Math.sin(q / (period * 2.3) + 1.4) * amplitude * .45);
-        rect(x, ground - rise, Math.min(3, width - x), rise, fill);
+        rect(x, ground - rise, Math.min(3, width - x), rise + Math.max(0,-camY * (1 - depth)), fill);
       }
     };
     const pine = (x, baseline, h, fill, light) => {
@@ -90,7 +94,7 @@
             const left = x < x1, t = clamp(left ? (x - x0) / (x1 - x0) : (x2 - x) / (x2 - x1));
             const shoulder = t < .4 ? t * .77 : .308 + (t - .4) * 1.154;
             const rise = Math.round(r.base + shoulder * (h - r.base));
-            rect(x, ground - rise, 2, rise, left ? r.fill : r.face);
+            rect(x, ground - rise, 2, rise + Math.max(0,-camY * (1 - depth)), left ? r.fill : r.face);
             if (rise > h * .76) {
               const snow = Math.min(rise - h * .76, 9 + Math.sin((x - x1) / 11) * 5 + (left ? 4 : 0));
               rect(x, ground - rise, 2, snow, r.snow);
@@ -166,6 +170,7 @@
       hills(.29, 16, 5, 66, color('grassShade', .56), 772);
     };
     const ocean = () => {
+      depth = .055;
       const horizon = ground - 91, sea = color('water', .51), farSea = color('waterLight', .58);
       rect(0, horizon, width, 91, farSea);
       rect(0, horizon + 16, width, 75, color('water', .66));

@@ -1,11 +1,13 @@
 // Industrial inventory and production extend the existing world and save.
 const RESOURCE_DEFS_V44={
+  flowers:{name:'Flowers',color:'#d97d68',kind:'Gathered'},
   coal:{name:'Coal',color:'#82929c',kind:'Raw'},
   ironOre:{name:'Iron ore',color:'#dda783',kind:'Raw'},
   copperOre:{name:'Copper ore',color:'#b8754f',kind:'Raw'},
   ironIngot:{name:'Iron ingot',color:'#dce6eb',kind:'Refined'},
   copperIngot:{name:'Copper ingot',color:'#e6ad72',kind:'Refined'}
 };
+document.querySelector('.industryResources').insertAdjacentHTML('beforeend','<div class="resourceCard"><span>Flowers</span><b id="resource-flowers">0</b></div>');
 const ORE_DEFS_V44={
   coal:{materials:['stone'],min:4,max:25,salt:4401,chance:.46,radius:2.6,amount:1},
   ironOre:{materials:['stone'],min:8,max:27,salt:4411,chance:.42,radius:2.3,amount:1},

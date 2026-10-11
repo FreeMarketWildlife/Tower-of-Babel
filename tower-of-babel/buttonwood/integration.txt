@@ -61,6 +61,7 @@ paintStructureV46=function(g,b,now=0,active=false){
  else bwOriginal.building(g,b,now,active);
 };
 uiPixelV48=function(kind){
+ if(kind==='flowers')return bwArt.flowerIcon().toDataURL();
  if(bwEnabled&&bwIsBuilding(kind))return bwArt.buildingIcon(kind).toDataURL();
  if(bwEnabled&&['close','up','down','grid','music','sound','nails'].includes(kind))return bwOriginal.icon(kind,{ink:bwP.ink,pale:bwP.ink,gold:bwP.woodShade});
  return bwOriginal.icon(kind);
@@ -156,6 +157,7 @@ drawMappedLiquids=function(now){
 
 // Composite scenery in native world pixels before the camera scales it. Painting
 // adjacent rectangles directly at fractional zoom exposes dark antialiased seams.
+let bwSkyPaintKey='',bwSkyPaintCount=0;
 const bwSkyCanvas=document.createElement('canvas'),bwSkyContext=bwSkyCanvas.getContext('2d');
 bg=function(){
  if(!bwEnabled)return bwOriginal.background();
@@ -165,7 +167,8 @@ bg=function(){
  const width=Math.ceil(W/cam.z),height=Math.ceil(HH/cam.z);
  if(bwSkyCanvas.width!==width)bwSkyCanvas.width=width;
  if(bwSkyCanvas.height!==height)bwSkyCanvas.height=height;
- bwArt.paintSky(bwSkyContext,{width,height,ground:Math.round(w2s(0,0).y/cam.z),camX:cam.x,seconds:sky.seconds,day:settlementV55.day,biomeSeed:skySeedV62,biomeWeights:bwBiomeWeights()});
+ const paintKey=[width,height,cam.x,cam.y,cam.z,Math.floor(sky.seconds*20),settlementV55.day].join(':');
+ if(paintKey!==bwSkyPaintKey){bwSkyPaintKey=paintKey;bwSkyPaintCount++;bwArt.paintSky(bwSkyContext,{width,height,ground:Math.round(w2s(0,0).y/cam.z),camX:cam.x,camY:cam.y,seconds:sky.seconds,day:settlementV55.day,biomeSeed:skySeedV62,biomeWeights:bwBiomeWeights()});}
  ctx.save();ctx.globalAlpha=1;ctx.imageSmoothingEnabled=false;
  ctx.drawImage(bwSkyCanvas,0,0,width*cam.z,height*cam.z);ctx.restore();
 };

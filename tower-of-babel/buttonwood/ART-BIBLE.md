@@ -1098,3 +1098,23 @@ Eggs hatch after 30 seconds of active play, without offline progress. Purchases,
 remaining incubation, Worker species and ability cooldowns persist in additive
 save data. The isolated `?sample=buttonwood&view=moon-fairy` preview starts on
 night 5 with sample gold; ordinary gameplay receives no free fixtures.
+
+### Sparse wildlife and meadow gathering — October 10, 2026
+
+All 31 animal forms can occur naturally. Newly visited 24-block habitats contain
+one animal, with a 35% chance of a second; collected, released and previously
+saved animals retain their identities. Habitat visitation prevents replacement
+of collected animals. Animal abilities await the user's next design pass.
+
+Ground flowers use 12 × 12 native canvases, connected green stems/leaves, cream,
+coral or gold petals, and small gold centers (§§3–4, 8). Flowers grow on real
+surface dirt, with one art pixel per world unit. Tapping collects one Flowers
+item; destroying the supporting soil collects it too. Inventory art is a
+separately composed 32 × 32 bouquet (§9). Plants and collected inventory persist.
+
+Vertical backdrop movement follows each existing horizontal layer's depth:
+distant peaks move at 3.5–8% of camera travel, hills and trees at 12–29%, clouds
+at 6–10%, celestial bodies at 4%. Real terrain retains full camera movement.
+Sky/scenery clips against the actual cutaway surface (§8). No scenery creates
+collision or support. Native compositing and nearest-neighbor zoom are retained.
+See [meadow review](qa/meadow/README.md).
