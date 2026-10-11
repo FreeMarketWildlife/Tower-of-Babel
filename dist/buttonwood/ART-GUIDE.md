@@ -519,3 +519,13 @@ imagegen concepts for the user's size experiment, not approved production art.
 `?sample=buttonwood&critters=42` places render-only fixtures in the isolated
 sample. One exported pixel equals one world unit. UI portrait contracts remain
 32 × 32. Source artwork, prompts and conversion notes accompany the PNGs.
+
+## Current critter direction: native wildlife
+
+The user selected existing wildlife style and abandoned the prior critter concept
+style. [25 idle models](critters/wildlife-idles/) expose `A.critterIdles.sprite`
+and `roster`. Species-specific canvases are 22–32 × 14–26 pixels; each ground
+anchor is `(floor(width/2),height-1)`. Shared palette, binary alpha and one source
+pixel per world unit. Original mole pixels are reused exactly. PNGs and metadata
+are in that gallery's `exports/`. Earlier animation/42px galleries are history.
+No production replacement, animation hooks or UI portrait changes yet.

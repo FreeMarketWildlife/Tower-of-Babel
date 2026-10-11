@@ -1040,3 +1040,24 @@ not approved production sprites. Preserve source artwork and document conversion
 Use one exported pixel per world unit, binary alpha, anchor `(21,40)`, and uniform
 camera zoom. Inspect the real exported PNG at 1× beside the Home and terrain.
 No animation or default Worker replacement is approved by this experiment.
+
+### Wildlife-style critter reset — October 10, 2026
+
+**Current character direction:** the user abandoned the previous concept-derived
+critter style, including the 42-pixel experiment, and explicitly selected the
+existing mole, worm, bird and butterfly art as the better reference. Earlier
+large-eye concept proportions and their native interpretations are review history.
+
+New animal Workers use the native wildlife vocabulary in `wildlife.js`: compact
+natural profiles, one-pixel eyes, stepped contours, broad upper-left material
+clusters and sparse distinguishing markings. No oversized glossy eyes, dense
+fur noise or universal upright humanoid rig. No clothing. Follow §3, §4 and §8's
+wildlife guidance, with one art pixel per world unit. Budget follows each animal's
+silhouette at existing wildlife scale rather than forcing every animal into 42px.
+
+[All 25 idle models](critters/wildlife-idles/) now use 22–32px widths and 14–26px
+heights. The mole reuses the original wildlife pixels; the cottontail builds on
+the existing rabbit silhouette. Original wildlife remains intact. The gallery
+compares originals, new stills at 1×/4× and the Home/meadow at shared world scale.
+These are idle studies pending visual review, not a production Worker migration.
+New animation authoring and UI portraits follow after the stills are accepted.

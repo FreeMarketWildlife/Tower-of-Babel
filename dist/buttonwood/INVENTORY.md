@@ -209,3 +209,13 @@ Generated source art and prompts preserved; exact 42px exports use shared palett
 and binary alpha. Review page includes 1× Home/terrain context and a live isolated
 sample with three render-only fixtures. Pending user visual review; no production
 Worker migration or animations. Earlier procedural mouse versions are rejected.
+
+## Current critter direction: wildlife style — October 10, 2026
+
+The user rejected the previous critter style and selected the existing native
+mole/worm/bird/butterfly vocabulary. [All 25 idle animals](critters/wildlife-idles/)
+are directly authored at wildlife scale, with per-species PNGs, native/4× roster,
+1× Home/meadow scene and original wildlife references. Original mole is reused
+pixel-for-pixel. Current status: idle stills implemented, individual visual
+approval pending. Previous animation roster and 42px comparison are abandoned
+art direction, retained as history. Production wildlife remains unchanged.

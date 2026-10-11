@@ -1,3 +1,5 @@
+**Archived art direction.** The user selected [wildlife-style idle animals](wildlife-idles/) as the replacement direction.
+
 # Critz — 25 native critter Workers
 
 [Open the animation gallery](index.html). Choose an action to see the whole cast,
