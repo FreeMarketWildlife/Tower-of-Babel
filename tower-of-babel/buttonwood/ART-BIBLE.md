@@ -1306,3 +1306,30 @@ Click or tap opens that entry in Critterpedia, including fairy Workers and the
 full-moon merchant, without mining, petting, or opening helper controls.
 Review evidence: [fairy poses](qa/fey/defeat-poses.png),
 [blood pool](qa/fey/blood-pool.png), and [lens](qa/inspector-crew/lens.png).
+
+
+## Fire and brimstone — v83, October 11, 2026
+
+The rare full-moon event is now a forceful fire-and-brimstone hailstorm. This is
+an exceptional danger sequence, not routine feedback: dense cool sky streaks,
+fast white/gold molten cores, dark rocky rims and long coral flame tails. Two
+separately authored fireball sizes retain one art pixel per world unit. Expanding
+stepped blast masks, scattered hot fragments and flying steel pins convey actual
+contact. No full-screen flashes, blur, bloom or routine camera shake. The main
+HUD remains usable and the event still has no announcement (§§3–4, 8–10).
+
+This supersedes v81's light meteor damage and heat-proof obsidian. A standard
+blast uses the rounded four-cell mask `0xx0 / xxxx / xxxx / 0xx0`; larger balls
+use six-cell circles. Visual footprints snap to the same native grid as damage.
+Every affected non-bedrock block takes one two-point strike per explosion. A
+nail supplies one armor point, is consumed first, and all pins on that damaged
+physics block break. Surviving placed blocks become movable, with mass-sensitive
+outward/upward impulses and rotation. Every other source of positive block
+damage also breaks its nail before reducing material durability.
+
+Touched Workers, wild critters and Fey die; ashes use the existing native sprite
+identities and fade into hot fragments. Worker environmental deaths retain
+ghosts/Bells and never spill fairy blood into water. Buildings, cages, eggs,
+flowers, ladders and pipes can be lost; unhit cage survivors are released.
+The fairy merchant can be lost for that full moon. No free items or currency
+are awarded by destructive impacts. [Review](qa/brimstone/README.md).

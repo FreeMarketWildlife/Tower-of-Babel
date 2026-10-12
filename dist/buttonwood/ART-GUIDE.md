@@ -743,7 +743,7 @@ Review: bible §§3–4, 8–10 and [v81 QA](qa/moonfire/README.md).
 
 ## Survival event demo — v82
 
-`?demo=moonfire` selects `tower.moonfire.survival-demo.v1` before core restore or
+`?demo=moonfire` selects `tower.moonfire.survival-demo.v2` before core restore or
 autosave registration. It never reads or overwrites the normal or art-sample
 world. The fresh fixture seeds a 109m, 24-cell-wide reinforced tower, finite
 player supplies, a stocked Storehouse, and seven Fey Tower helpers: two birds,
@@ -777,3 +777,35 @@ Forty-eight delayed blood particles start at contact, obey gravity and ground
 collision, contaminate real water, and form 12-second transient pools. A corpse
 holds 4.5 seconds and fades over two seconds. Blood adds no liquid volume on dry
 soil. The named blood ramp is reviewed under ART-BIBLE §§3–4, 6, 9–10.
+
+
+## Brimstone mechanics and effects — v83
+
+`game-v83-brimstone.txt` installs a damage accessor on existing and future block
+bodies. Positive `game.hits` increments first consume one point of nail armor
+and clear the body's pins and queued nail operations; placed bodies become
+dynamic. Constructor/restored hit values are imported before the accessor, so
+loading an undamaged nailed block never spends its armor. Material max durability
+stays unchanged, with the nail providing the separate first point.
+
+The barrage spawns at 140ms intervals after an eight-second build-up, with at
+most 24 active projectiles and 640 total launches. Fast swept Matter rays and
+wild-sprite segment tests prevent tunneling. Each 4/6-cell rounded blast damages
+a body once, regardless of how many covered cells overlap it. Damage is two
+points across materials; bedrock retains its existing immunity. Natural terrain
+stays anchored until destroyed, with removed-cell/save bookkeeping preserved.
+Dynamic debris uses real existing bodies, bounded velocities and angular impulse.
+No replacement collision envelopes or inventory rewards are introduced.
+
+Worker deaths use the environmental path; wild/Fey victims are removed along
+with their physics bodies. Building wear, surviving-cage release and fairy loss
+persist. Projectiles, spawn count and the last tower footprint save with validated
+limits; the shower can continue after tower support collapses. Particle caps: 18
+blast effects, 24 fading figures, 64 flying nails. Pause freezes all effects.
+Chord-root bass drops and filtered impacts use the Effects bus, existing volume
+controls, pause guards and a 180ms spatial cue throttle.
+
+The isolated survival demo now uses its v2 save, preserving the earlier v1 demo
+and ordinary world. It includes three fairy Workers in addition to the seven
+Fey builders. Initial load stays paused. Review: bible §§3–4, 6, 8–10 and
+[brimstone QA](qa/brimstone/README.md).

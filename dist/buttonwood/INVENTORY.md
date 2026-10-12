@@ -353,3 +353,12 @@ six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9�
 - Sacrifice: distinct Stab/Slice contact and falling remains, named blood ramp,
   timed sprays and broad settling pools. [Poses](qa/fey/defeat-poses.png),
   [pool](qa/fey/blood-pool.png). ART-BIBLE §§3–4, 6, 9–10.
+
+
+### v83 fire-and-brimstone event
+
+| Family | Coverage | Review |
+| --- | --- | --- |
+| Meteor danger | Two native molten fireball sizes, dense sky streaks, grid-matched blast masks, fragments and flying pins. | [Barrage](qa/brimstone/barrage.png) |
+| Death effects | Existing native figures fade into hot fragments; actual Worker/wild/Fey deaths and environmental ghosts. | [QA](qa/brimstone/README.md) |
+| Block state | First-hit nail armor, unpinning, material damage and real debris impulses. | [QA](qa/brimstone/README.md) |
