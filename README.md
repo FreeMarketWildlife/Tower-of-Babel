@@ -143,3 +143,10 @@ entire first damage event and break without wearing the material; loose pieces u
 It starts paused with a reinforced 109m tower, finite supplies, three Workers and
 seven Fey builders. Resume to begin. Options → Restart World resets only this
 demo; the normal world save is separate.
+
+## Optimized public release
+
+The hosted game is public and requires no sign-in. v87 adds spatial nearby-block
+queries, sparse collision filtering, early off-screen drawing rejection, exposure
+and terrain caches, and parallel module downloads. Normal gameplay includes the
+current Moonfire event and whole-hit nail shield; the demo seeds the same mechanics.

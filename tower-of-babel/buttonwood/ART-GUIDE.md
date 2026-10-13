@@ -816,3 +816,22 @@ The isolated survival demo now uses its v2 save, preserving the earlier v1 demo
 and ordinary world. It includes three fairy Workers in addition to the seven
 Fey builders. Initial load stays paused. Review: bible §§3–4, 6, 8–10 and
 [brimstone QA](qa/brimstone/README.md).
+
+## Spatial and rendering performance — v87
+
+`game-v87-performance.txt` adds persistent static spatial buckets and refreshed
+moving buckets for nearby queries. Original bounds tests, return order, collider
+shapes and world membership stay authoritative. Membership/geometry/static-state
+changes invalidate indexes; broad and outside queries use linear fallbacks.
+Matter receives awake bodies and spatial neighbors only in sparse scenes; dense
+piles retain its original sweep-and-prune. Repeatedly fixing an already-static
+block preserves its original finite mass for nail release. New fixed blocks are
+constructed with finite material mass first; older fixed blocks with missing
+dynamic properties recover material mass/inertia on release.
+
+Placed-block terrain joins, early off-screen rejection, cached exposure seeds,
+indexed tower anchors, Worker solids and blast lookups reduce per-frame work.
+The loader downloads modules independently and evaluates them in the existing
+order. No art, physics timestep, liquid clock, save key or gameplay rule changes.
+[Performance evidence](qa/performance/README.md) records native-pixel/collision
+parity and measured CPU/query improvements.

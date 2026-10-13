@@ -26,7 +26,7 @@ const bwTerrainDirections={n:[0,-1],e:[1,0],s:[0,1],w:[-1,0],ne:[1,-1],se:[1,1],
 const bwPlacedCells=new Map();let bwAlignedBodies=new WeakMap();
 function bwIndexTerrain(){
  bwPlacedCells.clear();bwAlignedBodies=new WeakMap();
- for(const z of bs){
+ for(const z of (typeof placedBodiesV87==='undefined'?bs:placedBodiesV87)){
   if(!z.game?.placed||z.game.naturalTree||!artPaletteV32[z.game.material]||(!z.isStatic&&!z.isSleeping))continue;
   const cols=Math.max(1,Math.round(z.game.w/B)),rows=Math.max(1,Math.round(z.game.h/B));
   const ox=z.position.x-cols*B/2,oy=z.position.y-rows*B/2,cx=Math.round(ox/B),cy=Math.round(oy/B);

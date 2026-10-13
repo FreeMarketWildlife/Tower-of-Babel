@@ -192,7 +192,7 @@ function minerNavigateV27(q,target,now){
 
 updateMiners=function(now){
   const rhythm=minerRhythmV27(now);
-  const bodies=[...bs].filter(z=>z.game&&!z.isSensor&&!z.game.liquid&&!z.game.reservoir);
+  const bodies=typeof blockSolidsV87==='function'?blockSolidsV87():[...bs].filter(z=>z.game&&!z.isSensor&&!z.game.liquid&&!z.game.reservoir);
   const workerCount=Math.max(1,miners.size),thinkDelay=Math.min(480,90+workerCount*3);
   for(const q of miners){
     if(typeof workerControlledV56==='function'&&workerControlledV56(q))continue;

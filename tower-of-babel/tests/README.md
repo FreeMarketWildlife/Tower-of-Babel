@@ -492,3 +492,11 @@ pause queues, save/reload and mining cleanup; actual MIDI quarter-note hammer
 scheduling and Effects mute. Screenshots live in `buttonwood/qa/inventory-nails`.
 Existing hotbar, keyboard, mobile UI, pause, minimal HUD, Dev resources, Fey,
 extraction, player crafting and Buttonwood integration checks cover compatibility.
+
+## Performance — v87
+
+Run `node tower-of-babel/tests/performance-browser.test.cjs` with Playwright and
+Chromium configured as above. It compares indexed queries and exact collision
+pairs with their originals, exercises transforms/mutations/stale lists, verifies
+unchanged native pixels, benchmarks bounded candidate work and runs real storm
+physics. See the [profile review](../buttonwood/qa/performance/README.md).

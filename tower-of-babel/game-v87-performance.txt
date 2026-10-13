@@ -1,0 +1,84 @@
+// Spatial broad phase and render caches; simulation, saves and art stay authoritative.
+SKY_BUILD='v87';
+let perfEnabledV87=true,perfRevisionV87=0,perfGeometryV87=0;
+const placedBodiesV87=new Set([...bs].filter(z=>z.game?.placed));
+const perfArrayIndexesV87=new WeakMap();
+const perfCountersV87={queries:0,candidates:0,skippedDraws:0,indexBuilds:0};
+const perfSetAddV87=bs.add,perfSetDeleteV87=bs.delete,perfSetClearV87=bs.clear;
+bs.add=function(z){if(!this.has(z)){perfRevisionV87++;if(z.game?.placed)placedBodiesV87.add(z)}return perfSetAddV87.call(this,z)};
+bs.delete=function(z){if(this.has(z)){perfRevisionV87++;placedBodiesV87.delete(z)}return perfSetDeleteV87.call(this,z)};
+bs.clear=function(){perfRevisionV87++;placedBodiesV87.clear();return perfSetClearV87.call(this)};
+for(const name of ['add','remove','clear']){const original=World[name];World[name]=function(...args){if(args[0]===eng.world)perfRevisionV87++;return original.apply(this,args)}}
+for(const name of ['setPosition','setAngle','setVertices','setParts','scale','setStatic','setVelocity','setAngularVelocity']){
+ const original=Body[name];Body[name]=function(z,...args){
+  // Re-pinning an already fixed block must not overwrite Matter’s saved finite mass.
+  if(name==='setStatic'&&bs.has(z)&&z.isStatic&&args[0]===true)return z;
+  if(bs.has(z)||z.label?.startsWith('structure-')||z.parent?.label?.startsWith('structure-')){perfGeometryV87++;if(z.isStatic||name==='setStatic')perfRevisionV87++}
+  const result=original.call(this,z,...args);
+  if(name==='setStatic'&&args[0]===false&&bs.has(z)&&!Number.isFinite(z.mass)){
+   // Older fixed-body saves can lack Matter's original dynamic properties.
+   const material=M[z.game.material];for(const part of z.parts){const mass=part.area*material.d;Body.setMass(part,mass);Body.setInertia(part,Matter.Body._inertiaScale*Matter.Vertices.inertia(part.vertices.map(v=>({x:v.x-part.position.x,y:v.y-part.position.y})),mass));part.density=material.d;part.friction=material.f;part.restitution=material.r}
+  }
+  return result;
+ };
+}
+// Construct real finite dynamic properties before fixing a newly made block.
+const makeBeforeV87=mk;
+mk=function(x,y,material,options={}){const fixed=!!options.static,z=makeBeforeV87(x,y,material,{...options,static:false});if(fixed)Body.setStatic(z,true);return z};
+class SpatialBodiesV87{
+ constructor(bodies){this.bodies=bodies;this.fixed=new Map();this.movers=[];this.rank=new Map();this.stamp=-1;perfCountersV87.indexBuilds++;
+  for(let i=0;i<bodies.length;i++){const z=bodies[i];this.rank.set(z,i);if(z.isStatic)this.insert(this.fixed,z);else this.movers.push(z)}
+ }
+ insert(buckets,z){const b=z.bounds;if(![b.min.x,b.min.y,b.max.x,b.max.y].every(Number.isFinite)){(buckets.large||=[]).push(z);return;}if((Math.floor(b.max.x/128)-Math.floor(b.min.x/128)+1)*(Math.floor(b.max.y/128)-Math.floor(b.min.y/128)+1)>512){(buckets.large||= []).push(z);return}for(let y=Math.floor(b.min.y/128);y<=Math.floor(b.max.y/128);y++)for(let x=Math.floor(b.min.x/128);x<=Math.floor(b.max.x/128);x++){const k=x+','+y;let list=buckets.get(k);if(!list)buckets.set(k,list=[]);list.push(z)}}
+ query(bounds){if(![bounds.min.x,bounds.min.y,bounds.max.x,bounds.max.y].every(Number.isFinite))return this.bodies;const stamp=eng.timing.timestamp+':'+perfGeometryV87;if(this.stamp!==stamp){this.moving=new Map();for(const z of this.movers)this.insert(this.moving,z);this.stamp=stamp}
+  const x0=Math.floor(bounds.min.x/128),x1=Math.floor(bounds.max.x/128),y0=Math.floor(bounds.min.y/128),y1=Math.floor(bounds.max.y/128);
+  // Very broad queries already need most bodies; avoid a huge sparse bucket walk.
+  if((x1-x0+1)*(y1-y0+1)>512)return this.bodies;
+  const candidates=new Set([...(this.fixed.large||[]),...(this.moving.large||[])]);for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const k=x+','+y;for(const z of this.fixed.get(k)||[])candidates.add(z);for(const z of this.moving.get(k)||[])candidates.add(z)}
+  return [...candidates].sort((a,b)=>this.rank.get(a)-this.rank.get(b));
+ }
+}
+function indexArrayV87(bodies){perfArrayIndexesV87.set(bodies,{revision:perfRevisionV87,index:new SpatialBodiesV87(bodies)});return bodies}
+const regionBeforeV87=Query.region;
+Query.region=function(bodies,bounds,outside){const record=perfEnabledV87&&!outside&&perfArrayIndexesV87.get(bodies);
+ if(record&&record.revision===perfRevisionV87){const candidates=record.index.query(bounds);perfCountersV87.queries++;perfCountersV87.candidates+=candidates.length;return regionBeforeV87(candidates,bounds,false)}
+ return regionBeforeV87(bodies,bounds,outside);
+};
+const solidsBeforeV87=worldSolidsV56;
+let perfSolidsV87=null,perfSolidsRevisionV87=-1,perfStructureCountV87=-1;
+worldSolidsV56=function(){if(!perfEnabledV87)return solidsBeforeV87();
+ if(perfSolidsV87&&perfSolidsRevisionV87===perfRevisionV87&&perfStructureCountV87===structureBodiesV47.size&&solidCacheV57?.bodies===perfSolidsV87)return perfSolidsV87;
+ solidCacheV57=null;perfSolidsV87=indexArrayV87(solidsBeforeV87());perfSolidsRevisionV87=perfRevisionV87;perfStructureCountV87=structureBodiesV47.size;return perfSolidsV87;
+};
+let perfMiningV87=null,perfMiningRevisionV87=-1;
+function blockSolidsV87(){if(!perfEnabledV87)return [...bs].filter(z=>z.game&&!z.isSensor&&!z.game.liquid&&!z.game.reservoir);if(perfMiningRevisionV87!==perfRevisionV87){perfMiningV87=indexArrayV87([...bs].filter(z=>z.game&&!z.isSensor&&!z.game.liquid&&!z.game.reservoir));perfMiningRevisionV87=perfRevisionV87}return perfMiningV87}
+let perfBlocksV87=null,perfBlocksRevisionV87=-1,perfAnchorsV87=null,perfAnchorSourceV87=null;
+function blocksInRegionV87(bounds){if(!perfEnabledV87)return regionBeforeV87([...bs],bounds);if(perfBlocksRevisionV87!==perfRevisionV87){perfBlocksV87=indexArrayV87([...bs]);perfBlocksRevisionV87=perfRevisionV87}return Query.region(perfBlocksV87,bounds)}
+function staticAnchorsV87(){const source=worldSolidsV56();if(!perfEnabledV87)return source.filter(q=>q.isStatic&&!q.game?.placed&&!q.game?.naturalTree);if(perfAnchorSourceV87!==source){perfAnchorSourceV87=source;perfAnchorsV87=indexArrayV87(source.filter(q=>q.isStatic&&!q.game?.placed&&!q.game?.naturalTree))}return perfAnchorsV87}
+const topBeforeV87=topInfo;
+topInfo=function(){if(!perfEnabledV87)return topBeforeV87();let bestBody=null,bestY=Infinity,bestX=0;
+ for(const q of placedBodiesV87){let y=Infinity;for(const v of q.vertices)y=Math.min(y,v.y);if(y<bestY){bestY=y;bestBody=q;let sum=0,n=0;for(const v of q.vertices)if(v.y<=y+1.5){sum+=v.x;n++}bestX=sum/n}}
+ return bestBody?{body:bestBody,x:bestX,y:bestY,m:Math.max(0,Math.round(-Math.min(0,bestY)/B))}:null;
+};
+const drawBeforeV87=draw;
+draw=function(z){if(perfEnabledV87){const b=z.bounds,pad=B*2;if(b.max.x<cam.x-W/(2*cam.z)-pad||b.min.x>cam.x+W/(2*cam.z)+pad||b.max.y<cam.y-HH/(2*cam.z)-pad||b.min.y>cam.y+HH/(2*cam.z)+pad){perfCountersV87.skippedDraws++;return}}return drawBeforeV87(z)};
+const fogBeforeV87=fogPrepareV72;let perfFogKeyV87=null;
+fogPrepareV72=function(){if(!perfEnabledV87)return fogBeforeV87();const k=[bwEnabled,cell(cam.x-W/(2*cam.z)),cell(cam.x+W/(2*cam.z)),cell(cam.y-HH/(2*cam.z)),cell(cam.y+HH/(2*cam.z)),perfRevisionV87,grid.size,removedTerrain.size,revealedPockets.size].join(':');if(k===perfFogKeyV87)return;perfFogKeyV87=k;return fogBeforeV87()};
+window.skyStackPerf={get enabled(){return perfEnabledV87},set enabled(value){perfEnabledV87=!!value;perfFogKeyV87=null;solidCacheV57=null},get state(){return {...perfCountersV87,revision:perfRevisionV87,placed:placedBodiesV87.size,world:bs.size}},reset(){for(const k of Object.keys(perfCountersV87))perfCountersV87[k]=0}};
+
+// Matter ignores pairs where both bodies are static/asleep. Keep the same real
+// narrow phase, but give it only awake bodies and their spatial neighbors.
+const detectorSetBeforeV87=Matter.Detector.setBodies,detectorBeforeV87=Matter.Detector.collisions;
+let perfDetectorSourceV87=null,perfDetectorIndexV87=null,perfDetectorRevisionV87=-1;
+Matter.Detector.setBodies=function(detector,bodies){if(detector===eng.detector){perfDetectorSourceV87=bodies.slice();perfDetectorIndexV87=null}return detectorSetBeforeV87(detector,bodies)};
+Matter.Detector.collisions=function(detector){
+ if(!perfEnabledV87||detector!==eng.detector)return detectorBeforeV87(detector);
+ if(!perfDetectorSourceV87)perfDetectorSourceV87=detector.bodies.slice();
+ if(!perfDetectorIndexV87||perfDetectorRevisionV87!==perfRevisionV87){perfDetectorIndexV87=new SpatialBodiesV87(perfDetectorSourceV87);perfDetectorRevisionV87=perfRevisionV87}
+ const active=perfDetectorIndexV87.movers.filter(z=>!z.isSleeping);
+ // Dense moving piles already favor Matter’s sweep-and-prune over neighborhood unions.
+ if(active.length>48||active.some(z=>![z.bounds.min.x,z.bounds.min.y,z.bounds.max.x,z.bounds.max.y].every(Number.isFinite)))return detectorBeforeV87(detector);
+ const chosen=new Set();for(const z of active){chosen.add(z);for(const near of perfDetectorIndexV87.query(z.bounds))chosen.add(near)}
+ const full=detector.bodies;detector.bodies=[...chosen].sort((a,b)=>perfDetectorIndexV87.rank.get(a)-perfDetectorIndexV87.rank.get(b));
+ try{return detectorBeforeV87(detector)}finally{detector.bodies=full}
+};

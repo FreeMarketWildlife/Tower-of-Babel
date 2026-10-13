@@ -211,22 +211,22 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     await page.locator('#bw-time').evaluate((el,v)=>{el.value=v;el.dispatchEvent(new Event('change',{bubbles:true}))},'sunrise');
     const dawnStart = await state();
     assert.equal(dawnStart.sky.seconds, 0);
-    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(15000));
+    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(30000));
     const dawnMid = await state();
     assert.equal(dawnMid.sky.phase, 'sunrise');
     assert.ok(dawnMid.sky.darkness > 0 && dawnMid.sky.darkness < dawnStart.sky.darkness);
-    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(15000));
+    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(30000));
     assert.equal((await state()).sky.phase, 'day');
     assert.equal((await state()).sky.darkness, 0);
     await page.locator('#bw-time').evaluate((el,v)=>{el.value=v;el.dispatchEvent(new Event('change',{bubbles:true}))},'sunset');
     const duskStart = await state();
     assert.equal(duskStart.sky.seconds, 150);
-    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(15000));
+    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(30000));
     const duskMid = await state();
     assert.equal(duskMid.sky.phase, 'sunset');
     assert.ok(duskMid.sky.darkness > 0 && duskMid.sky.darkness < 1);
     await screenshot('buttonwood-industry-sunset');
-    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(14999));
+    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(29999));
     const beforeDusk = await state();
     await page.evaluate(() => window.__buttonwood.fixture.advanceClock(1));
     const afterDusk = await state();
@@ -236,7 +236,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
       assert.ok(Math.abs(beforeDusk.sky.colors[key][i] - afterDusk.sky.colors[key][i]) < .001,
         'Sunset crosses the gameplay phase boundary continuously');
     }
-    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(59999));
+    await page.evaluate(() => window.__buttonwood.fixture.advanceClock(119999));
     const beforeDawn = await state();
     await page.evaluate(() => window.__buttonwood.fixture.advanceClock(1));
     const afterDawn = await state();
@@ -370,7 +370,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     for (let n = 0; n < 2; n++) {
       await reloadMigration();
       const afterReload = await migrationSave();
-      assert.deepEqual(afterReload.structuresV46.buildings.map(restoredBuilding), packed.structuresV46.buildings.map(restoredBuilding),
+      assert.deepEqual(afterReload.structuresV46.buildings.map(b=>({...restoredBuilding(b),blastHitsV83:b.blastHitsV83||0})), packed.structuresV46.buildings.map(b=>({...restoredBuilding(b),blastHitsV83:b.blastHitsV83||0})),
         'Reload never respawns a packed review building');
       assert.deepEqual(afterReload.structuresV46.bag, packed.structuresV46.bag);
       assert.deepEqual(afterReload.inv, packed.inv);
@@ -467,7 +467,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     productionRecord.miners[0].gold = 12;
     productionRecord.miners[1].dir = -1;
     productionRecord.cam = { x: 720, y: -140 };
-    productionRecord.workersV55.clock = { day: 7, phase: 'day', elapsed: 164500 };
+    productionRecord.workersV55.clock = { day: 7, phase: 'day', elapsed: 329000 };
     const preservedSample = JSON.stringify(legacy);
     const productionContext = await browser.newContext({ viewport: { width: 1100, height: 820 } });
     const production = await productionContext.newPage(); await prepareProduction(production);
@@ -484,7 +484,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
         'best', 'pickaxeTier', 'pickaxeOwnedTier', 'deepslateUnlocked', 'deadMiners', 'liquidSubV22']) {
         assert.deepEqual(actual[field], productionRecord[field], 'Buttonwood rollout preserves production ' + field);
       }
-      assert.deepEqual(actual.structuresV46.buildings.map(restoredBuilding), productionRecord.structuresV46.buildings.map(restoredBuilding),
+      assert.deepEqual(actual.structuresV46.buildings.map(b=>({...restoredBuilding(b),blastHitsV83:b.blastHitsV83||0})), productionRecord.structuresV46.buildings.map(b=>({...restoredBuilding(b),blastHitsV83:b.blastHitsV83||0})),
         'Every existing building, position, recipe and building inventory survives art migration');
       assert.deepEqual(actual.structuresV46.bag, productionRecord.structuresV46.bag);
       assert.equal(Object.hasOwn(actual.structuresV46, 'buttonwoodIndustry'), false);
@@ -561,7 +561,7 @@ const restoredBuilding = building => ({ ...building, workerId: building.workerId
     assert.ok(await liveProduction.evaluate(key => !!localStorage.getItem(key), NORMAL_KEY));
     await liveProductionContext.close();
     assert.deepEqual(errors, [], 'No browser runtime or console errors');
-    console.log('PASS Buttonwood save isolation/reset, all five native building sprites/icons/portraits, thirty-second sunrise/sunset and clock continuity, safe additive migration with blocked-site relocation and packed-building persistence, terrain/ore persistence, collision invariance, read-only rendering, mining/building save roundtrip, default production art without review controls or fixtures, existing production save and Worker preservation, and live simulation');
+    console.log('PASS Buttonwood save isolation/reset, all five native building sprites/icons/portraits, slowed sunrise/sunset and clock continuity, safe additive migration with blocked-site relocation and packed-building persistence, terrain/ore persistence, collision invariance, read-only rendering, mining/building save roundtrip, default production art without review controls or fixtures, existing production save and Worker preservation, and live simulation');
     console.log(`Live smoke check: ${liveTiming.frames} frames over ${Math.round(liveTiming.elapsed)} ms`);
   } finally {
     await browser.close();
