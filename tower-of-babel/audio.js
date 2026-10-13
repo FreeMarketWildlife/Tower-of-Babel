@@ -264,7 +264,33 @@ function playGhostBar(i,t){
  ghostVoice(p.chord[2]+12,t+beat*1.25,beat*.8,v*.2,ghostPan*.5)
 }
 function setGhostPresence(gain=0,pan=0){ghostMix=Math.max(0,Math.min(1,gain));ghostPan=Math.max(-1,Math.min(1,pan))}
+// Gameplay departures share the score's next 4/4 downbeat, even with Effects muted.
+let departureEvents=[],lastErrorSlot=-1;
+function deathCue(kind='worker',gain=1,pan=0,beats=1){
+ const r=rhythm();if(!r.ready||paused||document.hidden)return null;
+ const slot=Math.max(0,Math.ceil((ac.currentTime+.015-beatOrigin)/barLen));
+ const t=beatOrigin+slot*barLen,duration=[0,1,2,4].includes(beats)?beats:1;
+ const p=SONG[slot%SONG.length],notes=[p.chord[2]+12,p.chord[0]+12];
+ const event={kind,beatIndex:slot*4,time:t,end:t+duration*beat,beats:duration};
+ departureEvents.push(event);if(departureEvents.length>32)departureEvents.shift();
+ if(sfxOn&&volumes.sfx>0&&gain>=.012&&slot!==lastSpiritDeathSlot){
+  lastSpiritDeathSlot=slot;
+  // A single soft falling interval; both voices attack on 1, never between bars.
+  notes.forEach((n,i)=>ghostVoice(n,t,Math.max(.12,duration*beat)*(.9-i*.12),.035*Math.min(1,gain)*(i?.65:1),pan));spiritCues++;
+ }
+ return event;
+}
+function miningError(reason='blocked',pan=0){
+ if(!ready||paused||document.hidden||ac.state!=='running'||!sfxOn||volumes.sfx===0)return false;
+ const slot=Math.max(0,Math.ceil((ac.currentTime+.015-beatOrigin)/beat));
+ if(slot===lastErrorSlot)return false;lastErrorSlot=slot;
+ const t=beatOrigin+slot*beat,p=SONG[Math.floor(slot/4)%SONG.length];
+ voice(p.chord[1]+12,t,beat*.22,.022,'triangle',sfx,pan,0,1100);
+ voice(p.chord[0]+12,t+beat*.25,beat*.28,.018,'sine',sfx,pan,0,900);
+ return true;
+}
 function spiritCue(kind,gain=1,pan=0){
+ if(kind==='death')return deathCue('worker',gain,pan);
  if(!ready||ac.state!=='running'||gain<.012)return;
  const step=beat*.5,slot=Math.max(0,Math.ceil((ac.currentTime+.015-beatOrigin)/step)),t=beatOrigin+slot*step;
  if(kind==='death'&&slot===lastSpiritDeathSlot)return;if(kind==='death')lastSpiritDeathSlot=slot;
@@ -292,7 +318,7 @@ function sizzle(){if(!ready||performance.now()-lastSizzle<120)return;lastSizzle=
 async function ensure(){if(paused)return;if(ready){if(ac.state==='suspended')try{await ac.resume()}catch{};return}try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ac=new AC();master=ac.createGain();const comp=ac.createDynamicsCompressor();music=ac.createGain();sfx=ac.createGain();ambience=ac.createGain();automation=ac.createGain();automation.gain.value=.45;automation.connect(master);master.gain.value=.76;music.gain.value=.43;sfx.gain.value=.9;ambience.gain.value=.11;music.connect(master);sfx.connect(master);ambience.connect(master);master.connect(comp);comp.connect(ac.destination);await ac.resume();ready=true;applyVolumes();start();startAmbience();setInterval(scheduleBirds,9000);if(paused){clearInterval(timer);timer=null;await ac.suspend()}}catch(e){console.warn('Audio start failed',e)}}
 document.addEventListener('pointerdown',ensure,{capture:true});document.addEventListener('keydown',ensure,{capture:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInterval(timer);timer=null}else if(ready&&!paused)ac.resume().then(()=>{if(!paused){timer=setInterval(schedule,50);schedule()}}).catch(()=>{})});
 function meteorImpact(power=1,pan=0){if(!ready||paused||!sfxOn||ac.state!=='running')return;const t=ac.currentTime;const chord=SONG[Math.max(0,Math.floor(rhythm().beatIndex/4))%SONG.length].chord;toneAt(hz(chord[0]-24),t,.32,.15*power,'sine',35,sfx,pan);noiseAt(t,.24,.04*power,580,pan);toneAt(hz(chord[1]),t,.09,.025*power,'triangle',0,sfx,pan)}
-window.SkyAudio={meteorImpact,setPaused,setVolume,getVolumes:()=>({...volumes}),inspectCue,nailHammer,bellCollect,feySpark,ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
-window.__skyStackAudioDebug=()=>({inspectCues,lastInspectBeat,lastInspectTime,nailCues,lastNailBeat,lastNailTime,bellCues,paused,contextState:ac?.state??'uninitialized',audioTime:ac?.currentTime??0,volumes:{...volumes},feySparkCues,ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
+window.SkyAudio={deathCue,miningError,meteorImpact,setPaused,setVolume,getVolumes:()=>({...volumes}),inspectCue,nailHammer,bellCollect,feySpark,ensure,beginPickStroke,endPickStroke,hit,minerHit,rhythm,place,unlock,ui,splash,sizzle,spiritCue,setGhostPresence,goldChaching,setMachineSource,setMusicEnabled,setSfxEnabled,setNightMix,setBiome,animalSound,bpm:BPM};
+window.__skyStackAudioDebug=()=>({departureEvents,lastErrorSlot,inspectCues,lastInspectBeat,lastInspectTime,nailCues,lastNailBeat,lastNailTime,bellCues,paused,contextState:ac?.state??'uninitialized',audioTime:ac?.currentTime??0,volumes:{...volumes},feySparkCues,ready,bpm:BPM,bar,scoreBars:SONG.length,midiOnly:true,nightMix,arrangementMix,arrangement:arrangementMix>.65?'nocturne':arrangementMix>.1?'twilight':'day',biome:{target:{...biomeTarget},mix:{...biomeMix},arrangement:{...biomeArrangement}},animalCues,lastAnimal,wind:!!windSource,musicGain:music?.gain?.value??null,ambienceGain:ambience?.gain?.value??null,ghostMix,spiritCues,automation:{beatOrigin,beat:rhythm().beatIndex,currentBar:Math.floor(rhythm().beatIndex/4),subdivision:Math.floor(rhythm().phase*4),definitions:MACHINE_AUDIO,mix:machineMix,activeVoices:machineVoices.filter(v=>v.end>(ac?.currentTime||0)).length,events:machineHistory,minerVoices:minerSlots.size}});
 document.documentElement.dataset.audioEngine='midi-ready';
 })();

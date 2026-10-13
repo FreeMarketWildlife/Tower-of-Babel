@@ -2,6 +2,7 @@
 'use strict';
 
 const moonfireDemo = new URLSearchParams(location.search).get('demo') === 'moonfire';
+const soundDemo = new URLSearchParams(location.search).get('demo') === 'sound';
 const buttonwoodSample = new URLSearchParams(location.search).get('sample') === 'buttonwood';
 
 const coreParts=[
@@ -54,10 +55,10 @@ function read(url){
     let core='';
     for(const url of coreParts)core+=await read(url);
     // Select the sample save before the core reads or registers autosaves.
-    if(buttonwoodSample||moonfireDemo){
+    if(buttonwoodSample||moonfireDemo||soundDemo){
       const saveDeclaration="const SAVE_KEY='skyStack.save.v1';";
       if(!core.includes(saveDeclaration))throw new Error('Sample save declaration missing');
-      core=core.replace(saveDeclaration,moonfireDemo?"const SAVE_KEY='tower.moonfire.survival-demo.v2';":"const SAVE_KEY='tower.buttonwood.sample.v1';");
+      core=core.replace(saveDeclaration,soundDemo?"const SAVE_KEY='tower.sound.demo.v1';":moonfireDemo?"const SAVE_KEY='tower.moonfire.survival-demo.v2';":"const SAVE_KEY='tower.buttonwood.sample.v1';");
     }
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='buttonwood/sample.css?v=67';document.head.append(sheet);
     (0,eval)(await read('biomes.js'));
@@ -132,6 +133,7 @@ function read(url){
     tail=tail.replace(marker,(await read('game-v82-moonfire-demo.txt?v=82'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v83-brimstone.txt?v=86'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v87-performance.txt?v=87'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v88-musical-feedback.txt'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){

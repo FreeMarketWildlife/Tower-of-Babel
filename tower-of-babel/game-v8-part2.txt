@@ -9,9 +9,9 @@
 }
 function mine(p){
   const z=at(p);if(!z)return;
-  if(z.game.material==='bedrock'){toast('BEDROCK WON’T BUDGE.');return}
-  if(z.game.terrain&&!terrainExposed(z)){toast('BURIED BLOCK\nExpose a side first.',true);return}
-  if(z.game.material==='stone'&&!stone){toast('🔒 STONE LOCKED\nReach 10 m first!',true);return}
+  if(z.game.material==='bedrock'){SkyAudio.miningError?.('bedrock');toast('BEDROCK WON’T BUDGE.');return}
+  if(z.game.terrain&&!terrainExposed(z)){SkyAudio.miningError?.('buried');toast('BURIED BLOCK\nExpose a side first.',true);return}
+  if(z.game.material==='stone'&&!stone){SkyAudio.miningError?.('stone');toast('🔒 STONE LOCKED\nReach 10 m first!',true);return}
   z.game.hits++;z.game.flash=7;if(z.game.terrain)terrainDamage.set(key(z.game.cx,z.game.cy),z.game.hits);
   const broken=z.game.hits>=z.game.max;SkyAudio.hit(z.game.material,broken,z.game.hits);if(broken)harvest(z,'player');else saveSoon()
 }

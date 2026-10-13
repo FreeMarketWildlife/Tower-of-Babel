@@ -150,3 +150,10 @@ The hosted game is public and requires no sign-in. v87 adds spatial nearby-block
 queries, sparse collision filtering, early off-screen drawing rejection, exposure
 and terrain caches, and parallel module downloads. Normal gameplay includes the
 current Moonfire event and whole-hit nail shield; the demo seeds the same mechanics.
+
+## Musical sound playground
+
+Open `tower-of-babel/?demo=sound` to compare creature, Fey and Worker deaths on
+the next bar downbeat. Choose instant, quarter, half or whole-note departures;
+try Locked stone and Buried earth, or mine the world with the pickaxe. Day / night
+switches the score arrangement. The playground has its own save.

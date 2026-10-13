@@ -1346,3 +1346,15 @@ ghosts/Bells and never spill fairy blood into water. Buildings, cages, eggs,
 flowers, ladders and pipes can be lost; unhit cage survivors are released.
 The fairy merchant can be lost for that full moon. No free items or currency
 are awarded by destructive impacts. [Review](qa/brimstone/README.md).
+
+## Musical departures — v88, October 13, 2026
+
+Deaths retain immediate simulation consequences. A frozen native silhouette waits
+for the next score downbeat (1 in 4/4), then rises in integer pixel steps and fades
+for one quarter note by default. The isolated `?demo=sound` playground compares
+instant, quarter, half and whole-note departures. Both death voices attack on that
+same downbeat using its chord; simultaneous deaths share a restrained voicing.
+Blocked mining uses a soft chord-tone answer, capped to one cue per quarter-note
+slot. Existing contact/blood art remains action-specific. Follow §§3–4, 6, 9–10:
+shared native scale, named palette, readable cream controls, no resampled poses or
+screen flash. Normal world saves stay separate from all demo fixtures.

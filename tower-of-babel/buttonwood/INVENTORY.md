@@ -362,3 +362,7 @@ six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9�
 | Meteor danger | Two native molten fireball sizes, dense sky streaks, grid-matched blast masks, fragments and flying pins. | [Barrage](qa/brimstone/barrage.png) |
 | Death effects | Existing native figures fade into hot fragments; actual Worker/wild/Fey deaths and environmental ghosts. | [QA](qa/brimstone/README.md) |
 | Block state | Local fracture, core/rim damage, whole-hit one-use nail shields and real debris; five persistent native obsidian/deepslate wear stages. | [QA](qa/brimstone/README.md) |
+
+- v88 musical departure layer: native frozen Worker/wildlife/Fey/merchant
+  silhouettes, downbeat onset and quarter-note fade; isolated sound playground
+  exposes instant/quarter/half/whole durations. Existing contact poses remain.

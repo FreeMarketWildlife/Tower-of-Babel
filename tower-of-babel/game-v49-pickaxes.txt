@@ -42,11 +42,11 @@ function strikePickV49(g){
  for(let y=brush.y;y<brush.y+brush.size;y++)for(let x=brush.x;x<brush.x+brush.size;x++){const z=at({x:ctr(x),y:ctr(y)});if(z?.game&&!z.game.liquid&&!z.game.reservoir)targets.add(z)}
  // Expose a square as one stroke, rather than letting iteration order trim corners.
  // Fully buried squares still cannot be mined through an intervening wall.
- if(![...targets].some(z=>!z.game.terrain||terrainExposed(z)))return;
+ if(targets.size&&!([...targets].some(z=>!z.game.terrain||terrainExposed(z)))){SkyAudio.miningError?.('buried');g.pickSwung=true;return;}
  const exposedBefore=terrainExposed;
  terrainExposed=function(z){return targets.has(z)||exposedBefore(z)};
  window.SkyAudio?.beginPickStroke?.();
- try{for(const z of targets){if(!bs.has(z)||z.game.material==='bedrock')continue;mine(z.position)}}
+ try{for(const z of targets){if(!bs.has(z))continue;mine(z.position)}}
  finally{terrainExposed=exposedBefore;window.SkyAudio?.endPickStroke?.()}
  g.pickSwung=true;
 }
