@@ -788,11 +788,14 @@ dynamic. Constructor/restored hit values are imported before the accessor, so
 loading an undamaged nailed block never spends its armor. Material max durability
 stays unchanged, with the nail providing the separate first point.
 
-The barrage spawns at 140ms intervals after an eight-second build-up, with at
-most 24 active projectiles and 640 total launches. Fast swept Matter rays and
+The barrage spawns at 450ms intervals after an eight-second build-up, with at
+most 24 active projectiles and 200 total launches in a fresh shower. Fast swept Matter rays and
 wild-sprite segment tests prevent tunneling. Each 4/6-cell rounded blast damages
-a body once, regardless of how many covered cells overlap it. Damage is two
-points across materials; bedrock retains its existing immunity. Natural terrain
+a body once, regardless of how many covered cells overlap it. Large placed blocks fracture into saved cell-sized bodies on contact; only
+intersected pieces take damage. Real polygon tests preserve rotated shapes.
+Actual nails, previous wear, material, total area cost and motion transfer.
+Untouched pieces keep nails and durability. Dirt/wood/stone take two points;
+obsidian/deepslate take one. Bedrock retains its existing immunity. Natural terrain
 stays anchored until destroyed, with removed-cell/save bookkeeping preserved.
 Dynamic debris uses real existing bodies, bounded velocities and angular impulse.
 No replacement collision envelopes or inventory rewards are introduced.

@@ -30,3 +30,21 @@ Physics debris consists of existing blocks; no permanent particle bodies accrue.
 Audio uses the Effects bus with spatial, chord-root impacts and volume/pause
 guards. [Barrage screenshot](barrage.png) shows an isolated simulation after
 roughly 12 seconds of active play, before transient effects are cleared by load.
+
+## Local fracture revision — v84
+
+Reviewed under bible §§3–5 and §10: existing native material tiles and progressive
+crack marks identify individual surviving cells. No new palette or pixel scale.
+Large placed rectangles split into real cell bodies on first contact. Rotation,
+material, existing wear, area cost, velocity, and actual cell nails transfer; only
+blast-intersecting pieces are damaged. Geometry tests use real polygon collision,
+not only bounding boxes. Two points for soft materials/stone; one for obsidian
+and deepslate. Each affected piece is processed once; untouched pieces keep pins.
+The 450ms launch cadence caps a fresh shower at 200 launches.
+
+Browser regressions cover a 5×5 nailed stone block becoming 25 pieces, exactly
+12 worn cells and 13 untouched cells, then only the worn stone cells disappearing
+on the next strike. Obsidian survives both strikes; rotated deepslate survives;
+fragment shape, wear, nails and material survive save/restore. Existing actor
+deaths, pause, event eligibility and demo save isolation remain covered.
+The updated barrage screenshot shows the less destructive actual survival scene.
