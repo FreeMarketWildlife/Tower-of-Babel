@@ -2,7 +2,7 @@
 
 A small world with big ambitions, now moving toward a cast of wild critters.
 
-A pixel-art physics building game transitioning toward animal Workers and tower defense. The current playable game still focuses on mining, crafting, and tower construction. The new critter cast is a concept study; combat and playable critter sprites are not implemented yet.
+A pixel-art physics building game about mining, crafting, fairy Workers, wild critters, Fey helpers, and raising towers. The current game includes native wildlife animations, an eight-stage moon cycle, and a rare destructive full-moon hailstorm.
 
 ## Play locally
 
@@ -27,7 +27,7 @@ See [development and regression checks](tower-of-babel/tests/README.md) and [art
 The [native critter gallery](tower-of-babel/buttonwood/critters/) has all 25 species
 with Walk, Sprint, Mine, Use, Yay, and Pet. Click a critter to pet it, compare actions,
 or inspect individual frames. All world frames are 40 × 32 with a shared pixel scale.
-This is an animation review gallery; gameplay integration remains separate.
+The current production cast uses the approved native wildlife style in the [wildlife animation gallery](tower-of-babel/buttonwood/critters/wildlife-animations/); earlier concept studies remain available for review.
 
 ## Critter character concepts
 
@@ -39,7 +39,7 @@ Buttonwood is the game's default art direction: chibi adult Workers, warm
 front-facing buildings, rich meadow soil, connected terrain, and turquoise water
 in a side-view cutaway world. Home, Workshop, Storehouse, Forge, and Blacksmith
 share one native pixel scale. Sunrise and sunset each last 30 seconds within the
-existing four-minute day/night cycle. Existing worlds keep their saves, inventories,
+eight-minute day/night cycle (six minutes of day and two of night). Existing worlds keep their saves, inventories,
 building collision envelopes, progression, and camera behavior.
 
 Open `/tower-of-babel/buttonwood/` for the animated art gallery and reference.
@@ -120,3 +120,26 @@ play shows only owned items. In Escape → Options → Dev Tools, Creative mode 
 all items and equipment with unlimited supplies. Mode persists per world; disabling
 it restores real inventory balances and normal unlocks. Inventory icons remain
 32 × 32 native pixels, including the new nail bundle and resource miniatures.
+
+## Inspection, helpers, and full-moon fire
+
+The magnifying glass identifies foreground objects, animals, and the Hokkaido
+winter sky with short facts. It is exclusive with hotbar tools and items. The
+Worker roster follows a selected Worker or Fey helper; closing it releases the
+camera. Mac trackpad pinch zooms the game world.
+
+Wildlife uses the native mole/bird/butterfly family: all 31 animal forms can
+appear in sparse natural habitats. Fey conversion adds sparkles and Base, Mine,
+Collect, Work and Tower tasks. The full-moon fairy merchant sells animal eggs.
+
+A supported tower at least 100m high has a one-in-six chance of fire and brimstone
+on a full moon. The event is unannounced, with a red moon, meteor trails and real
+impacts. Explosions fracture large blocks locally, dealing two damage in the core
+and one in the rim without stacking on overlapping cells. Strong materials retain
+their greater durability and show progressive native cracks. Nails absorb the
+first damage point and break; loose pieces use real physics.
+
+[Play the survival hailstorm demo](https://tower-of-babel.freemarketwildlife.chatgpt.site/?demo=moonfire).
+It starts paused with a reinforced 109m tower, finite supplies, three Workers and
+seven Fey builders. Resume to begin. Options → Restart World resets only this
+demo; the normal world save is separate.

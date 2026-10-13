@@ -24,7 +24,10 @@ are unchanged. The ocean is a distant view behind the playable land.
 
 Birds, butterflies, worms, moles, rabbits, and fireflies each have their own native
 sprites and movement. Worms and moles move through the dirt cutaway without mining
-terrain. Natural habitats are remembered, so collecting an animal and revisiting
+terrain. All 31 animal forms can spawn naturally without eggs, in every biome. New habitats
+keep 25% of the former spawn opportunities (about one animal per three 24-block
+habitats); empty habitats are normal. Existing saved animals remain, so explore
+new terrain to encounter the expanded roster at the lower density. Natural habitats are remembered, so collecting an animal and revisiting
 the area cannot duplicate it. Released animals remain where you put them as they
 move about their new home range.
 

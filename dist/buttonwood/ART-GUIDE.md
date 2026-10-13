@@ -553,7 +553,7 @@ The sample `view=moon-fairy` is explicitly isolated from ordinary saves.
 `meadow.js` extends wildlife size/pose contracts to the 25 approved critters and
 adds separately authored 32px animal portraits and bucket miniatures. All 31
 species use the existing capture/release/cage save paths. `game-v71-wildlife.txt`
-seeds 1–2 animals per newly visited 24-block habitat. Existing saved animals stay.
+keeps 25% of the former 1–2 spawn opportunities per newly visited 24-block habitat (about 0.34 animals per habitat). All 31 forms spawn naturally; empty habitats are remembered. Existing saved animals stay.
 
 `A.flowerSprite(type)` returns 12 × 12 native art; `A.flowerIcon()` returns a
 separate 32 × 32 bouquet. `game-v74-meadow.txt` owns saved surface plants,

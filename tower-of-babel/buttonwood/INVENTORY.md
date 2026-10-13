@@ -243,7 +243,7 @@ abilities, normal/sample separation and original wildlife/settlement behavior.
 
 | Family | Coverage | Evidence |
 |---|---|---|
-| Wild animals | All 31 forms; 1–2 per newly explored habitat; existing identities preserved. Native size contracts and separate 32px portraits/buckets cover the added 25. | `tests/meadow-browser.test.cjs`, expanded mouse/touch wildlife regression. |
+| Wild animals | All 31 forms spawn naturally at 25% of former density (about 0.34 per newly explored habitat); empty habitats and existing identities preserved. Native size contracts and separate 32px portraits/buckets cover the added 25. | `tests/meadow-browser.test.cjs`, expanded mouse/touch wildlife regression. |
 | Gatherable flowers | Three 12px petal variants on real surface soil; independent 32px bouquet; tap/support destruction, saved inventory and persistent picked plants. | [Surface review](qa/meadow/surface.png). |
 | Vertical scenery | Existing horizontal depth factors also control vertical travel; cloud/celestial layers move more slowly, actual cutaway clipping preserved. | [Ascent review](qa/meadow/ascent.png). |
 | Performance | Stationary sky repaint cache, unchanged HUD avoids image encoding/layout, wildlife obstacle cache. | [QA notes](qa/meadow/README.md). |

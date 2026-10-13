@@ -12,7 +12,7 @@ const hook=`window.wildlifeTest={
  cage(type,x=0){structureBagV46[type]++;return placeStructureV46({type,x,y:-CAGES_V71[type].h*B})},
  openStructures:openStructuresV48,
  setNight(night){settlementV55.phase=night?'night':'day';settlementV55.elapsed=night?15000:90000},
- seedPlains(){wildlifeV71=[];const kinds=Object.keys(WILDLIFE_SPECIES_V71);for(let ch=1;ch<1000;ch++){const x=(ch+.5)*24*B;if(ButtonwoodBiomes.biomeAt(skySeedV62,x)!=='plains')continue;const count=wildlifeHashV71(ch,901)<.35?2:1;if(!Array.from({length:count},(_,i)=>kinds[Math.floor(wildlifeHashV71(ch,902+i)*kinds.length)]).includes('firefly'))continue;cam.x=x;generated.add(ch);wildlifeHabitatsV71.delete(ch);seedWildlifeV71();return 'plains'}throw Error('no rare plains firefly habitat')},
+ seedPlains(){wildlifeV71=[];const kinds=Object.keys(WILDLIFE_SPECIES_V71);for(let ch=1;ch<1000;ch++){const x=(ch+.5)*24*B;if(ButtonwoodBiomes.biomeAt(skySeedV62,x)!=='plains')continue;const count=wildlifeHashV71(ch,901)<.35?2:1;if(!Array.from({length:count},(_,i)=>wildlifeHashV71(ch,910+i)<WILDLIFE_SPAWN_RATE_V71?kinds[Math.floor(wildlifeHashV71(ch,902+i)*kinds.length)]:null).includes('firefly'))continue;cam.x=x;generated.add(ch);wildlifeHabitatsV71.delete(ch);seedWildlifeV71();return 'plains'}throw Error('no rare plains firefly habitat')},
  get sounds(){return wildlifeSoundCalls},get counts(){return {world:wildlifeV71.length,captive:structuresV46.reduce((n,b)=>n+cageAnimalsV71(b).length,0),buckets:Object.entries(bucketBagV68).filter(([k])=>animalKindV71(k)).reduce((n,[,v])=>n+v,0),empty:bucketBagV68.bucket||0}}
 };
 const wildlifeSoundCalls=[];const animalSoundReal=SkyAudio.animalSound;SkyAudio.animalSound=function(...args){wildlifeSoundCalls.push(args);return animalSoundReal.apply(this,args)};
@@ -26,7 +26,7 @@ const wildlifeSoundCalls=[];const animalSoundReal=SkyAudio.animalSound;SkyAudio.
   await page.addInitScript(()=>{window.requestAnimationFrame=()=>0});
   await page.route('**/game-v8-part3.txt*',async route=>{const response=await route.fetch();await route.fulfill({response,body:(await response.text()).replace('restoreDynamicState(initialSave);','restoreDynamicState(initialSave);'+hook)})});
   const load=async()=>{await page.goto(url);await page.waitForFunction(()=>window.wildlifeTest,null,{polling:100})};
-  await load();assert.ok(await page.evaluate(()=>skyStackWildlife.state.animals.length>0),'legacy/new worlds gain wildlife');
+  await load();assert.ok((await page.evaluate(()=>skyStackWildlife.state.habitats.length))>0,'legacy/new worlds visit habitats, including empty ones');
   if(!mobile){
    assert.equal(await page.evaluate(()=>wildlifeTest.seedPlains()),'plains');
    const nocturnal=await page.evaluate(()=>{wildlifeTest.setNight(false);return skyStackWildlife.state.animals.filter(a=>a.species==='firefly')});
@@ -97,7 +97,7 @@ const wildlifeSoundCalls=[];const animalSoundReal=SkyAudio.animalSound;SkyAudio.
    const bounds=await page.locator('#cagePanelV71').evaluate(p=>{const r=p.getBoundingClientRect(),bar=document.getElementById('bar').getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,bar:bar.top,overflow:p.scrollWidth>p.clientWidth,modal:p.matches(':modal'),native:[...p.querySelectorAll('img')].every(i=>i.width===32&&i.height===32)}});
    assert.ok(bounds.left>=0&&bounds.right<=viewport.width&&bounds.top>=0&&bounds.bottom<=bounds.bar&& !bounds.overflow&&!bounds.modal&&bounds.native,'attached cage fits '+JSON.stringify({viewport,bounds}));
    if(process.env.WILDLIFE_SCREENSHOT_DIR){fs.mkdirSync(process.env.WILDLIFE_SCREENSHOT_DIR,{recursive:true});await page.evaluate(()=>wildlifeTest.render());await page.screenshot({path:process.env.WILDLIFE_SCREENSHOT_DIR+'/cage-'+viewport.width+'.png'})}
-   await page.keyboard.press('Escape');assert.equal(await page.locator('#structuresOpen').evaluate(e=>e===document.activeElement),true);
+   await page.keyboard.press('Escape');assert.equal(await page.locator('#cagePanelV71').getAttribute('open'),null);assert.equal(await page.evaluate(()=>skyStackPause.state.paused),true);assert.equal(await page.locator('#pauseResumeV76').evaluate(e=>e===document.activeElement),true);await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>skyStackPause.state.paused),false);
   }
   if(mobile){
    await page.setViewportSize({width:390,height:844});await page.evaluate(()=>{wildlifeTest.fresh();wildlifeTest.spawn('mole');wildlifeTest.grant('bucket');wildlifeTest.select('bucket')});

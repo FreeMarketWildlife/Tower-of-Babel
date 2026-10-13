@@ -15,6 +15,7 @@ const CAGES_V71=Object.freeze({
  cageLarge:{name:'Large cage',w:4,h:3,capacity:6,cost:{wood:18,ironIngot:8}}
 });
 const WILDLIFE_LIMIT_V71=4096,HABITAT_LIMIT_V71=16384;
+const WILDLIFE_SPAWN_RATE_V71=.25;
 var wildlifeV71=[],wildlifeNextIdV71=0,wildlifeClockV71=0,wildlifeHabitatsV71=new Set();
 let wildlifeSeedReadyV71=false,wildlifeDirtyV71=false,wildlifeSaveClockV71=0,wildlifeHabitatClockV71=0,wildlifePressV71=null,cageSelectedV71=null;
 function isCageV71(type){return Object.hasOwn(CAGES_V71,type)}
@@ -75,10 +76,12 @@ function seedWildlifeV71(){
   if(!generated.has(ch)||wildlifeHabitatsV71.has(ch))continue;
   if(populationCount>WILDLIFE_LIMIT_V71-9)continue;
   wildlifeHabitatsV71.add(ch);changed=true;
-  // One or two encounters per visited 24-block habitat; every species is eligible.
+  // Keep a quarter of the former encounters, including all 31 animal forms.
+  // Empty habitats are saved too, so revisiting never rerolls their population.
   const kinds=Object.keys(WILDLIFE_SPECIES_V71),count=wildlifeHashV71(ch,901)<.35?2:1;
   const population=Array.from({length:count},(_,i)=>kinds[Math.floor(wildlifeHashV71(ch,902+i)*kinds.length)]);
   for(let i=0;i<population.length;i++){
+   if(wildlifeHashV71(ch,910+i)>=WILDLIFE_SPAWN_RATE_V71)continue;
    const species=population[i],d=WILDLIFE_SPECIES_V71[species],x=ch*24*B+64+wildlifeHashV71(ch,i)*(24*B-128);
    const y=d.motion==='fly'?-95-wildlifeHashV71(ch,i+40)*160:d.motion==='flutter'?-18-wildlifeHashV71(ch,i+50)*65:d.motion==='burrow'?12+wildlifeHashV71(ch,i+60)*72:0;
    const animal=wildlifeNewV71(species,{x,y},wildlifeHashV71(ch,i+80)*Math.PI*2);if(species==='firefly')animal.nocturnal=true;wildlifeV71.push(animal);populationCount++;
