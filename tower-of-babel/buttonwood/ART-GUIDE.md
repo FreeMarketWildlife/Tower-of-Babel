@@ -835,3 +835,19 @@ The loader downloads modules independently and evaluates them in the existing
 order. No art, physics timestep, liquid clock, save key or gameplay rule changes.
 [Performance evidence](qa/performance/README.md) records native-pixel/collision
 parity and measured CPU/query improvements.
+
+## Storm score and ice — v89
+
+`storm-audio.js` receives the real context, Effects bus, beat origin and score
+chord through `SkyAudio.stormTransportV89`. `stormGrid`, `stormFlight` and
+`stormImpact` schedule sixteenth-note phrases with distance gain/pan, voice caps
+and cleanup. The storm owns an independent submix and debug cue history.
+
+`game-v89-storm-score.txt` retains the 24-live/200-launch budgets, marks every
+third launch ice, predicts imminent contact for the whoosh at a 100ms cadence,
+and holds actual contact until a sixteenth boundary. Pending waits/kinds save;
+transient target references use a WeakMap. Reload re-arms sound on the new clock.
+Fire's linear impulse/caps increase 20%; ice wears only its contacted cell.
+`paintHail`/`paintHailImpact` use 16px shared-palette ice and eight cold shards;
+the existing renderer supplies the projectile kind without changing scale.
+Review: bible §§3–5, 8,10 and [storm score](qa/storm-score/README.md).

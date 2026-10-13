@@ -1358,3 +1358,19 @@ Blocked mining uses a soft chord-tone answer, capped to one cue per quarter-note
 slot. Existing contact/blood art remains action-specific. Follow §§3–4, 6, 9–10:
 shared native scale, named palette, readable cream controls, no resampled poses or
 screen flash. Normal world saves stay separate from all demo fixtures.
+
+## Scored storm and ice hail — v89, October 13, 2026
+
+Fire's outward/upward launch velocity increases by 20%, with proportionate caps.
+Its damage and nail-shield rules stay unchanged. One third of existing storm
+launches are cold 16px hail crystals: water/cream ramps, crisp facets and a short
+stepped cool trail. Ice has one contact cell of physical damage and cold chips;
+it never uses an expanding explosion mask or splash damage. All art retains one
+pixel per world unit and the existing palette (§§3–5, 8, 10).
+
+An incoming whoosh rises into chord-tuned bass and a metallic percussive crash.
+Whoosh onsets, phrase endings and visible impacts follow the MIDI sixteenth grid;
+ice gets a shorter tuned contact. Nearby events have more presence, distant
+ones recede and pan with their position. Voices are bounded, Effects-volume gated
+and frozen with pause. Storm scoring stays separate from creature death and
+mining feedback. [Review](qa/storm-score/README.md).

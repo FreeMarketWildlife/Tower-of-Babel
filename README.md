@@ -157,3 +157,8 @@ Open `tower-of-babel/?demo=sound` to compare creature, Fey and Worker deaths on
 the next bar downbeat. Choose instant, quarter, half or whole-note departures;
 try Locked stone and Buried earth, or mine the world with the pickaxe. Day / night
 switches the score arrangement. The playground has its own save.
+
+The storm now mixes fire and non-exploding ice hail. Fire throws debris 20% faster;
+ice chips only its contacted cell. Incoming whooshes crescendo into chord-tuned
+bass/crashes or ice taps on the MIDI sixteenth grid, with distance attenuation.
+Storm sound stays separate from the death/mining feedback system.

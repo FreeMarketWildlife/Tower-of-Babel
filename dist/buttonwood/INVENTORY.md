@@ -366,3 +366,10 @@ six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9�
 - v88 musical departure layer: native frozen Worker/wildlife/Fey/merchant
   silhouettes, downbeat onset and quarter-note fade; isolated sound playground
   exposes instant/quarter/half/whole durations. Existing contact poses remain.
+
+### v89 storm score and ice hail
+
+| Family | Coverage | Review |
+| --- | --- | --- |
+| Ice hail | Native 16px cold crystal/trail, eight contact shards, one-cell physical damage without AoE. | [Storm score](qa/storm-score/README.md) |
+| Storm motion/audio | 20% stronger launch velocity; MIDI sixteenth whoosh → chord-root bass/crash, attenuated ice taps, bounded independent submix. | `tests/storm-score-browser.test.cjs` |
