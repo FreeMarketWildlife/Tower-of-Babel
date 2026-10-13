@@ -1,9 +1,9 @@
 // --- v83 FIRE AND BRIMSTONE / FIRST-HIT NAIL ARMOR ----------------------------
-SKY_BUILD='v85';
+SKY_BUILD='v86';
 const fairyBeforeV83=fairyPresentV73;fairyPresentV73=function(){return fairyBeforeV83()&&moonfireV81.fairyKilledDayV83!==settlementV55.day};
 const brimstoneAshV83=[],brimstoneNailsV83=[];let brimstoneAudioV83=-Infinity;
 function stripNailV83(z){if(!z.game.nailed)return false;z.game.nailed=false;for(const [k,p]of nailPinsV78)if(p.body===z){nailPinsV78.delete(k);if(brimstoneNailsV83.length<64)brimstoneNailsV83.push({x:ctr(p.cx),y:ctr(p.cy),age:0,dir:skyHashV62(z.id+p.cx)>.5?1:-1})}for(const [k,p]of nailQueueV78)if(p.body===z)nailQueueV78.delete(k);if(!z.game.terrain){Body.setStatic(z,false);Sleeping.set(z,false)}solidCacheV57=null;feyTowerCacheV75=null;feyTowerStampV75=-Infinity;return true}
-function armorBodyV83(z){if(!z?.game||z.game.armorHookV83)return z;let hits=z.game.hits||0;Object.defineProperty(z.game,'armorHookV83',{value:true});Object.defineProperty(z.game,'hits',{enumerable:true,configurable:true,get:()=>hits,set:value=>{if(!Number.isFinite(value))return;const delta=value-hits;if(delta>0&&z.game.nailed){stripNailV83(z);hits+=Math.max(0,delta-1)}else hits=Math.max(0,value)}});return z}
+function armorBodyV83(z){if(!z?.game||z.game.armorHookV83)return z;let hits=z.game.hits||0;Object.defineProperty(z.game,'armorHookV83',{value:true});Object.defineProperty(z.game,'hits',{enumerable:true,configurable:true,get:()=>hits,set:value=>{if(!Number.isFinite(value))return;const delta=value-hits;if(delta>0&&z.game.nailed){stripNailV83(z);/* One-use shield absorbs the entire damage event. */}else hits=Math.max(0,value)}});return z}
 const mkBeforeV83=mk;mk=function(...args){return armorBodyV83(mkBeforeV83(...args))};for(const z of bs)armorBodyV83(z);
 function blastCellsV83(x,y,size=4){const cx=Math.floor(x/B),cy=Math.floor(y/B),half=size/2,result=[];for(let dy=0;dy<size;dy++)for(let dx=0;dx<size;dx++)if((dx+.5-half)**2+(dy+.5-half)**2<=half**2)result.push({cx:cx+dx-half,cy:cy+dy-half,damage:(dx+.5-half)**2+(dy+.5-half)**2<=(half-1)**2?2:1});return result}
 function blastMasksV85(cells){return cells.map(p=>{const z=Bodies.rectangle(ctr(p.cx),ctr(p.cy),B,B,{isStatic:true});z.blastDamageV85=p.damage;return z})}
@@ -39,7 +39,7 @@ function brimstoneBlockV83(z,r,masks=null){
  masks=masks||blastMasksV85(blastCellsV83(r.x,r.y,r.size===6?6:4));
  if(!Query.collides(z,masks).length)return;
  for(const p of brimstonePiecesV83(z)){
-  const damage=blastDamageV85(p,masks);if(!damage)continue;
+  const damage=blastDamageV85(p,masks);if(!damage)continue;const shielded=p.game.nailed;
   const strong=['obsidian','deepslate'].includes(p.game.material);
   p.game.hits=(p.game.hits||0)+damage;p.game.flash=8;
   if(p.game.terrain)terrainDamage.set(key(p.game.cx,p.game.cy),p.game.hits);
@@ -49,8 +49,8 @@ function brimstoneBlockV83(z,r,masks=null){
   }else if(!p.game.terrain){
    if(p.isStatic)Body.setStatic(p,false);Sleeping.set(p,false);
    const dx=p.position.x-r.x,dy=p.position.y-r.y,len=Math.max(10,Math.hypot(dx,dy));
-   const force=(r.size===6?5:3.5)*(strong?.35:1)/Math.max(.6,Math.sqrt(p.mass));
-   Body.setVelocity(p,{x:clamp(p.velocity.x+dx/len*force+r.vx*3,-10,10),y:clamp(p.velocity.y+dy/len*force-1.2,-10,10)});
+   const force=(shielded?(r.size===6?10:8):(r.size===6?5:3.5))*(strong?(shielded?.7:.35):1)/Math.max(.6,Math.sqrt(p.mass));
+   Body.setVelocity(p,{x:clamp(p.velocity.x+dx/len*force+r.vx*3,-10,10),y:clamp(p.velocity.y+dy/len*force-(shielded?3.5:1.2),-10,10)});
    Body.setAngularVelocity(p,clamp(p.angularVelocity+(dx>=0?1:-1)*.05/Math.max(1,Math.sqrt(p.mass)),-.12,.12));
   }
  }

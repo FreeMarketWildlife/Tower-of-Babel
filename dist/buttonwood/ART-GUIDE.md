@@ -782,11 +782,11 @@ soil. The named blood ramp is reviewed under ART-BIBLE §§3–4, 6, 9–10.
 ## Brimstone mechanics and effects — v83
 
 `game-v83-brimstone.txt` installs a damage accessor on existing and future block
-bodies. Positive `game.hits` increments first consume one point of nail armor
-and clear the body's pins and queued nail operations; placed bodies become
+bodies. A positive `game.hits` increment consumes a nailed body’s entire one-use
+shield, absorbs the whole increment without changing material hits, and clears the body's pins and queued nail operations; placed bodies become
 dynamic. Constructor/restored hit values are imported before the accessor, so
 loading an undamaged nailed block never spends its armor. Material max durability
-stays unchanged, with the nail providing the separate first point.
+stays unchanged; the nail protects against one complete damage event.
 
 The barrage spawns at 450ms intervals after an eight-second build-up, with at
 most 24 active projectiles and 200 total launches in a fresh shower. Fast swept Matter rays and
@@ -796,8 +796,8 @@ intersected pieces take damage. Real polygon tests preserve rotated shapes.
 Actual nails, previous wear, material, total area cost and motion transfer.
 Untouched pieces keep nails and durability. The inner radius (blast radius minus
 one cell) deals two damage, the outer rim one. Each piece takes only the maximum
-overlapping zone damage, never their sum; nail armor still absorbs the first
-point. Strong materials retain their higher durability. Native terrain rendering
+overlapping zone damage, never their sum; an intact nail absorbs the entire
+first strike. Shielded fragments receive a stronger bounded release impulse. Strong materials retain their higher durability. Native terrain rendering
 calls `paintStrongWearV85` for five persistent fracture/chip stages using named
 palette colors and one art pixel per world unit. Bedrock retains its immunity. Natural terrain
 stays anchored until destroyed, with removed-cell/save bookkeeping preserved.

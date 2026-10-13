@@ -71,3 +71,19 @@ saves, live demo, pause and eligibility. Pixel samples from the actual native
 renderer confirm strictly increasing fracture coverage over five wear stages
 and identical pixels when redrawn. Earlier v83/v84 damage descriptions above
 are historical; this revision supersedes their uniform damage rules.
+
+## Whole-hit nail shields — v86
+
+The first positive damage event consumes the nail and all pins on that affected
+piece, absorbing the entire event with no material wear. This replaces the earlier
+one-point armor rule. Player mining and every other `game.hits` damage source
+share the accessor. Restore imports saved wear without consuming the shield.
+Blasts still fracture large bodies locally; unaffected pieces keep their shields.
+Released pieces get a stronger bounded upward/outward impulse, using real mass
+and physics, with no new visual asset or camera effect (bible §§3–5,10).
+
+Checks cover one-, two-, and million-point strikes, a nearly broken block surviving
+its first real player mining hit then breaking on the next, shield persistence
+after reload, unchanged saved material wear, normal second-hit damage, local
+blast fracture, first-impact material protection, real velocity, missing pins,
+nail inventory/audio/save behavior, and actual demo survival hail.

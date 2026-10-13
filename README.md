@@ -137,7 +137,7 @@ on a full moon. The event is unannounced, with a red moon, meteor trails and rea
 impacts. Explosions fracture large blocks locally, dealing two damage in the core
 and one in the rim without stacking on overlapping cells. Strong materials retain
 their greater durability and show progressive native cracks. Nails absorb the
-first damage point and break; loose pieces use real physics.
+entire first damage event and break without wearing the material; loose pieces use real physics.
 
 [Play the survival hailstorm demo](https://tower-of-babel.freemarketwildlife.chatgpt.site/?demo=moonfire).
 It starts paused with a reinforced 109m tower, finite supplies, three Workers and

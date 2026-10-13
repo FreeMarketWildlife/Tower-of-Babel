@@ -1326,15 +1326,19 @@ intersecting the rounded blast footprint wear down: the inner core deals two
 points and the outer rim one, for every material. Stronger blocks keep their
 higher material durability. Each piece is hit once per explosion,
 regardless of overlapping blast cells. Unhit pieces retain durability and actual
-nails. A nail supplies one armor point, is consumed first, and pins on that
-damaged piece break. The 450ms hail cadence leaves time to read progressive
+nails. A nail is a one-use shield: the first positive damage event is completely
+absorbed, regardless of magnitude, then that piece loses its pins. Material
+durability stays unchanged for that hit. The 450ms hail cadence leaves time to read progressive
 cracks, missing cells and debris rather than whole-block disappearance.
 Obsidian and deepslate show five persistent wear stages: connected dark splits,
 bright exposed edges, broader chipped faces and branching fractures. Marks follow
 saved hits, retain native pixel scale, and never imply a removed collision cell.
 Explosion cores use cream/gold; their lower-damage rim uses darker coral. Surviving placed blocks become movable, with mass-sensitive
 outward/upward impulses and rotation. Every other source of positive block
-damage also breaks its nail before reducing material durability.
+damage also consumes the shield without reducing material durability on that hit.
+The released piece receives a visible, bounded blast impulse; subsequent hits
+wear its material normally. This applies to player mining and future damage
+sources through the shared damage accessor.
 
 Touched Workers, wild critters and Fey die; ashes use the existing native sprite
 identities and fade into hot fragments. Worker environmental deaths retain

@@ -127,7 +127,7 @@ async function read(url){
     tail=tail.replace(marker,(await read('game-v80-winter-inspection.txt?v=80'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v81-moonfire.txt?v=81'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v82-moonfire-demo.txt?v=82'))+'\n'+marker);
-    tail=tail.replace(marker,(await read('game-v83-brimstone.txt?v=85'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v83-brimstone.txt?v=86'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){
