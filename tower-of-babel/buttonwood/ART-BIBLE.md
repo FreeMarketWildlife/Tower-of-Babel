@@ -1322,12 +1322,17 @@ This supersedes v81's light meteor damage and heat-proof obsidian. A standard
 blast uses the rounded four-cell mask `0xx0 / xxxx / xxxx / 0xx0`; larger balls
 use six-cell circles. Visual footprints snap to the same native grid as damage.
 Impacts fracture large placed blocks into cell-sized material pieces. Only pieces
-intersecting the rounded blast footprint wear down: dirt, wood and stone take two
-points; deepslate and obsidian take one. Each piece is hit once per explosion,
+intersecting the rounded blast footprint wear down: the inner core deals two
+points and the outer rim one, for every material. Stronger blocks keep their
+higher material durability. Each piece is hit once per explosion,
 regardless of overlapping blast cells. Unhit pieces retain durability and actual
 nails. A nail supplies one armor point, is consumed first, and pins on that
 damaged piece break. The 450ms hail cadence leaves time to read progressive
-cracks, missing cells and debris rather than whole-block disappearance. Surviving placed blocks become movable, with mass-sensitive
+cracks, missing cells and debris rather than whole-block disappearance.
+Obsidian and deepslate show five persistent wear stages: connected dark splits,
+bright exposed edges, broader chipped faces and branching fractures. Marks follow
+saved hits, retain native pixel scale, and never imply a removed collision cell.
+Explosion cores use cream/gold; their lower-damage rim uses darker coral. Surviving placed blocks become movable, with mass-sensitive
 outward/upward impulses and rotation. Every other source of positive block
 damage also breaks its nail before reducing material durability.
 

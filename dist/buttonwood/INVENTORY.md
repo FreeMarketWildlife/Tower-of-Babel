@@ -361,4 +361,4 @@ six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9�
 | --- | --- | --- |
 | Meteor danger | Two native molten fireball sizes, dense sky streaks, grid-matched blast masks, fragments and flying pins. | [Barrage](qa/brimstone/barrage.png) |
 | Death effects | Existing native figures fade into hot fragments; actual Worker/wild/Fey deaths and environmental ghosts. | [QA](qa/brimstone/README.md) |
-| Block state | First-hit nail armor, unpinning, material damage and real debris impulses. | [QA](qa/brimstone/README.md) |
+| Block state | Local fracture, core/rim damage, first-hit nail armor and real debris; five persistent native obsidian/deepslate wear stages. | [QA](qa/brimstone/README.md) |

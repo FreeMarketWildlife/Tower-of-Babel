@@ -48,3 +48,26 @@ on the next strike. Obsidian survives both strikes; rotated deepslate survives;
 fragment shape, wear, nails and material survive save/restore. Existing actor
 deaths, pause, event eligibility and demo save isolation remain covered.
 The updated barrage screenshot shows the less destructive actual survival scene.
+
+## Visible wear and explosion falloff — v85
+
+Bible §§3–5,10; approved native material tiles remain the base artwork. The native
+terrain renderer now paints five saved-durability stages for obsidian/deepslate:
+contrasting connected fissures, exposed edges, branching and chipped faces.
+Sprites retain their grid footprint; the collision shape changes only when a
+real piece is destroyed. [Wear stages](wear-stages.png): obsidian above, deepslate
+below, increasing damage from left to right. Checked at native world pixel scale
+and enlarged for inspection; camera zoom and debris rotation apply uniformly.
+
+All materials take two damage in the inner core and one in the outer rim; nail
+armor applies afterward. A piece intersecting several cells takes the highest
+zone value once. Four-cell blasts have four core/eight rim cells; six-cell blasts
+have twelve core/twenty rim cells. The painted blast uses cream/gold in its core
+and darker coral in its rim, with identical radius tests.
+
+Browser checks verify exact 2/1/0 cell wear on an unarmored 5×5 block, armor
+consumption, surviving rim stone, strong-material survival, rotated intersections,
+saves, live demo, pause and eligibility. Pixel samples from the actual native
+renderer confirm strictly increasing fracture coverage over five wear stages
+and identical pixels when redrawn. Earlier v83/v84 damage descriptions above
+are historical; this revision supersedes their uniform damage rules.

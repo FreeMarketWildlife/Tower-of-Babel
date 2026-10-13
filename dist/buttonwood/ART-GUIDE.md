@@ -794,8 +794,12 @@ wild-sprite segment tests prevent tunneling. Each 4/6-cell rounded blast damages
 a body once, regardless of how many covered cells overlap it. Large placed blocks fracture into saved cell-sized bodies on contact; only
 intersected pieces take damage. Real polygon tests preserve rotated shapes.
 Actual nails, previous wear, material, total area cost and motion transfer.
-Untouched pieces keep nails and durability. Dirt/wood/stone take two points;
-obsidian/deepslate take one. Bedrock retains its existing immunity. Natural terrain
+Untouched pieces keep nails and durability. The inner radius (blast radius minus
+one cell) deals two damage, the outer rim one. Each piece takes only the maximum
+overlapping zone damage, never their sum; nail armor still absorbs the first
+point. Strong materials retain their higher durability. Native terrain rendering
+calls `paintStrongWearV85` for five persistent fracture/chip stages using named
+palette colors and one art pixel per world unit. Bedrock retains its immunity. Natural terrain
 stays anchored until destroyed, with removed-cell/save bookkeeping preserved.
 Dynamic debris uses real existing bodies, bounded velocities and angular impulse.
 No replacement collision envelopes or inventory rewards are introduced.

@@ -111,7 +111,8 @@ treeBaseDrawV41=function(z){
   const {cx,cy,neighbors}=bwTerrainNeighbors(z,x,y,cols,rows);
   ctx.drawImage(bwArt.terrain(material,cx,cy,neighbors),-width/2+x*B,-height/2+y*B);
  }
- if(z.game.hits>0){
+ if(z.game.hits>0&&['obsidian','deepslate'].includes(material)&&typeof paintStrongWearV85==='function'){paintStrongWearV85(z)}
+ else if(z.game.hits>0){
   const count=Math.min(4,Math.ceil(z.game.hits/z.game.max*4));ctx.fillStyle=bwP.ink;
   for(let i=0;i<count;i++){ctx.fillRect(-3+i*2,-11+i*5,1,6);ctx.fillRect(-3+i*2,-6+i*5,4,1)}
  }
