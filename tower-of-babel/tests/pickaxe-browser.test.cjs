@@ -205,9 +205,9 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
  // Real Web Audio clock: sustained mining stays on sixteenth boundaries.
  await load();await page.evaluate(async()=>{await SkyAudio.ensure();window.pickEvents=[];const end=SkyAudio.endPickStroke;SkyAudio.endPickStroke=()=>{pickEvents.push({at:performance.now(),...SkyAudio.rhythm()});end()};pickTest.equip(2);pickTest.reset(8,'stone',100);pickTest.down({x:48,y:48});pickTest.hold();window.pickLiveTimer=setInterval(()=>pickTest.pulse(),4)});await page.waitForTimeout(1250);
  const events=await page.evaluate(()=>{clearInterval(pickLiveTimer);pickTest.cancel();return pickEvents});assert.ok(events.length>=4&&events.length<=7);for(let i=1;i<events.length;i++)assert.ok(Math.abs(events[i].at-events[i-1].at-60000/72/4)<40);for(const e of events)assert.ok((e.phase*4)%1<.25,'Late musical subdivision');
- // Inspect actual created filters, and ensure one square produces one dirt hat.
- const hats=await page.evaluate(()=>{const proto=AudioContext.prototype,original=proto.createBiquadFilter,filters=[];proto.createBiquadFilter=function(){const node=original.call(this);filters.push(node);return node};try{SkyAudio.beginPickStroke();for(let i=0;i<9;i++)SkyAudio.hit('dirt',true);SkyAudio.endPickStroke();return filters.map(f=>({type:f.type,hz:f.frequency.value}))}finally{proto.createBiquadFilter=original}});assert.deepEqual(hats,[{type:'highpass',hz:6500},{type:'lowpass',hz:12500}]);
- console.log('PASS live 72 BPM sixteenth timing and one high-frequency hi-hat per dirt square');
+ // Nine dirt hits in one square still produce one pitch-dropping kick and body tone.
+ const tones=await page.evaluate(()=>{const proto=AudioContext.prototype,original=proto.createOscillator,oscillators=[];proto.createOscillator=function(){const node=original.call(this);oscillators.push(node);return node};try{SkyAudio.beginPickStroke();for(let i=0;i<9;i++)SkyAudio.hit('dirt',true);SkyAudio.endPickStroke();return oscillators.map(o=>o.type)}finally{proto.createOscillator=original}});assert.deepEqual(tones,['sine','triangle']);
+ console.log('PASS live 72 BPM sixteenth timing and one kick per dirt square');
  assert.deepEqual(errors,[]);
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

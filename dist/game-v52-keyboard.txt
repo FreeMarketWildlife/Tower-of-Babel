@@ -7,8 +7,11 @@ function keyboardBlockedV52(){
 }
 function markToolV52(){document.querySelectorAll('#bar .slot[data-tool]').forEach(b=>b.classList.toggle('sel',b.dataset.tool===tool))}
 function stopPointerV52(){
- for(const id of pointers.keys())try{if(c.hasPointerCapture(id))c.releasePointerCapture(id)}catch{}
- gesture=null;pointers.clear();pickPendingV49=null;buildingPressV46=null;cancelStructureDragV46();
+ const captured=new Set([...pointers.keys(),...pinchTouchesV26.keys()]);
+ gesture=null;pointers.clear();pickPendingV49=null;buildingPressV46=null;
+ pinchTouchesV26.clear();pinchConsumedV26.clear();pinchStateV26=null;
+ for(const id of captured)try{if(c.hasPointerCapture(id))c.releasePointerCapture(id)}catch{}
+ cancelStructureDragV46();
  cameraReleaseV24();
 }
 function startGrabV52(){
@@ -39,8 +42,10 @@ document.addEventListener('keyup',e=>{
  panKeysV52.delete(e.code);
  if(e.code==='ShiftLeft'||e.code==='ShiftRight'){shiftKeysV52.delete(e.code);if(!shiftKeysV52.size)endGrabV52()}
 });
-addEventListener('blur',resetKeyboardV52);
-document.addEventListener('visibilitychange',()=>{if(document.hidden)resetKeyboardV52()});
+function interruptInputV52(){resetKeyboardV52();stopPointerV52()}
+addEventListener('blur',interruptInputV52);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)interruptInputV52()});
+c.addEventListener('lostpointercapture',e=>{if(gesture?.id===e.pointerId||pinchTouchesV26.has(e.pointerId))stopPointerV52()});
 // Capture temporary-grab presses before building/worker click handlers.
 document.addEventListener('pointerdown',e=>{
  if(!temporaryGrabV52||e.target!==c)return;

@@ -3,6 +3,7 @@ SKY_BUILD='v87';
 let perfEnabledV87=true,perfRevisionV87=0,perfGeometryV87=0;
 const placedBodiesV87=new Set([...bs].filter(z=>z.game?.placed));
 const perfArrayIndexesV87=new WeakMap();
+const perfDetectorMembersV87=new Set();
 const perfCountersV87={queries:0,candidates:0,skippedDraws:0,indexBuilds:0};
 const perfSetAddV87=bs.add,perfSetDeleteV87=bs.delete,perfSetClearV87=bs.clear;
 bs.add=function(z){if(!this.has(z)){perfRevisionV87++;if(z.game?.placed)placedBodiesV87.add(z)}return perfSetAddV87.call(this,z)};
@@ -13,7 +14,13 @@ for(const name of ['setPosition','setAngle','setVertices','setParts','scale','se
  const original=Body[name];Body[name]=function(z,...args){
   // Re-pinning an already fixed block must not overwrite Matter’s saved finite mass.
   if(name==='setStatic'&&bs.has(z)&&z.isStatic&&args[0]===true)return z;
-  if(bs.has(z)||z.label?.startsWith('structure-')||z.parent?.label?.startsWith('structure-')){perfGeometryV87++;if(z.isStatic||name==='setStatic')perfRevisionV87++}
+  // Workers become static in Homes and dynamic at dawn. Their classification
+  // belongs to the detector cache too, even though they are outside the block set.
+  // Velocity setters do not change bounds; the next physics timestamp does.
+  const indexed=bs.has(z)||miners.has(z)||perfDetectorMembersV87.has(z)||z.label?.startsWith('structure-')||z.parent?.label?.startsWith('structure-');
+  if(indexed&&name!=='setVelocity'&&name!=='setAngularVelocity'){
+   perfGeometryV87++;if(z.isStatic||name==='setStatic')perfRevisionV87++;
+  }
   const result=original.call(this,z,...args);
   if(name==='setStatic'&&args[0]===false&&bs.has(z)&&!Number.isFinite(z.mass)){
    // Older fixed-body saves can lack Matter's original dynamic properties.
@@ -70,7 +77,7 @@ window.skyStackPerf={get enabled(){return perfEnabledV87},set enabled(value){per
 // narrow phase, but give it only awake bodies and their spatial neighbors.
 const detectorSetBeforeV87=Matter.Detector.setBodies,detectorBeforeV87=Matter.Detector.collisions;
 let perfDetectorSourceV87=null,perfDetectorIndexV87=null,perfDetectorRevisionV87=-1;
-Matter.Detector.setBodies=function(detector,bodies){if(detector===eng.detector){perfDetectorSourceV87=bodies.slice();perfDetectorIndexV87=null}return detectorSetBeforeV87(detector,bodies)};
+Matter.Detector.setBodies=function(detector,bodies){if(detector===eng.detector){perfDetectorSourceV87=bodies.slice();perfDetectorMembersV87.clear();for(const z of bodies)perfDetectorMembersV87.add(z);perfDetectorIndexV87=null}return detectorSetBeforeV87(detector,bodies)};
 Matter.Detector.collisions=function(detector){
  if(!perfEnabledV87||detector!==eng.detector)return detectorBeforeV87(detector);
  if(!perfDetectorSourceV87)perfDetectorSourceV87=detector.bodies.slice();

@@ -12,7 +12,7 @@ brimstoneAshV83Add=function(){};
 const animalDeathBeforeV88=brimstoneAnimalDeathV83;
 brimstoneAnimalDeathV83=function(a,p,cage=null){const sprite=ButtonwoodArt.wildlifeSprite(a.species,{state:'idle',frame:0,direction:a.direction||1}),result=animalDeathBeforeV88(a,p,cage);if(result)departureV88(sprite,p.x,p.y,a.feyV75?'fey':'creature');return result};
 const defeatBeforeV88=fairyDefeatV75;
-fairyDefeatV75=function(q,method){const sprite=ButtonwoodArt.worker({state:'idle',frame:0,variant:(q.game.id-1)%3,dir:q.game.dir}),x=q.position.x,y=q.position.y+B*.4,result=defeatBeforeV88(q,method);if(result)departureV88(sprite,x,y,'fairy');return result};
+fairyDefeatV75=function(q,method){if(!miners.has(q))return false;const sprite=ButtonwoodArt.worker({state:'idle',frame:0,variant:(q.game.id-1)%3,dir:q.game.dir}),x=q.position.x,y=q.position.y+B*.4,result=defeatBeforeV88(q,method);if(result)departureV88(sprite,x,y,'fairy');return result};
 // Keep the existing contact and blood art; the musical departure is an extra renderer layer.
 let departureFrameV88=null;const departureReducedV88=matchMedia('(prefers-reduced-motion: reduce)');
 const departureDrawBeforeV88=drawGoldBursts;
