@@ -1,0 +1,247 @@
+[
+  {
+    "test": "automation-audio.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "biome-audio.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "biomes.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "buttonwood-sky.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "buttonwood-terrain.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "dev-panel.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "discoveries-audio.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "extraction-integration.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "extraction-network.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "level-rewards-audio.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "liquid-allocations.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "liquid-reaction-performance.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "liquids.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "loader.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "miners.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "musical-feedback.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "night-audio.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "oil.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "scheduling.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "sky.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "tainted-water.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "terrain-fog.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "wildlife-spawn.test.cjs",
+    "kind": "unit",
+    "exit": 0
+  },
+  {
+    "test": "buttonwood-extraction-art.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "buttonwood-wildlife-art.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "critter-eggs.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "critter-roster-art.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "mouse-silhouettes-art.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "wood-mouse-art.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "pause-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "keyboard-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "pickaxe-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "miners-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "workers-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "trees-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "spirits-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "industry-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "structures-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "player-crafting-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "extraction-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "oil-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "fey-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "moonfire-demo-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "storm-score-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "buttonwood-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "performance-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "overnight-lifecycle-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "viewport-render-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  },
+  {
+    "test": "scheduling-browser.test.cjs",
+    "kind": "browser",
+    "exit": 0
+  }
+]

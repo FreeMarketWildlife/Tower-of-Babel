@@ -1,0 +1,36 @@
+PASS fresh-world miners mine dirt at all three levels
+PASS reachable dirt replaces a distant damaged stone target
+PASS miner actually harvests reachable dirt
+PASS miner waits and finishes a multi-hit stone block
+PASS level 3 completes deepslate on offbeats
+PASS menu upgrade reaches level 2
+PASS upgraded level 2 mines dirt on its next beat while harder work is nearby
+PASS menu upgrade reaches level 3
+PASS upgraded level 3 mines dirt on its next beat while harder work is nearby
+PASS pick cannot hit through solid geometry
+PASS level 1 jumps high enough to clear a one-block ledge
+PASS level 1 gets over an obstacle and resumes digging
+PASS adult level 1 is airborne beside the actual wall
+PASS adult level 1 does not grip a sheer wall
+PASS adult level 2 is airborne beside the actual wall
+PASS adult level 2 does not grip a sheer wall
+PASS adult level 3 is airborne beside the actual wall
+PASS adult level 3 does not grip a sheer wall
+PASS ladder fits clear cell 1
+PASS ladder fits clear cell 0
+PASS ladder fits clear cell -1
+PASS ladder fits clear cell -2
+PASS adult follows installed ladders and walks onto the tall ledge: {"steps":100,"usedLadder":true,"reached":true,"x":68.74505422386765,"y":-44.7480698561722,"velocity":{"x":1.5,"y":0},"route":[{"x":80,"y":-45.3}],"state":"commuting"}
+PASS adult resumes deepslate mining after the ladder ascent
+PASS restored miners stay upright in tight spaces
+PASS miners can pass each other without blocking tunnels
+PASS miners remain upright after moving through the tunnel
+PASS a group of upgraded miners gets through a low tunnel and mines dirt
+PASS overhang ladder fits clear cell 1
+PASS overhang ladder fits clear cell 0
+PASS overhang ladder fits clear cell -1
+PASS adult detours through an installed ladder and mines above the overhang
+PASS unreachable targets are put on cooldown instead of held forever
+PASS unreachable target is not mined through a wall
+PASS mining with live music and after audio suspension
+PASS production loader and Matter.js browser integration

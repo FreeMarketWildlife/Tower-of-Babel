@@ -1,0 +1,8 @@
+page.evaluate: Error: adult follows installed ladders and walks onto the tall ledge: {"usedLadder":true,"reached":false,"x":21.49000146250146,"y":-34.18575718689683,"velocity":{"x":1.5,"y":0},"route":[{"x":48,"y":-45.3},{"x":80,"y":-45.3}],"state":"commuting"}
+    at check (eval at evaluate (:311:30), <anonymous>:2:60)
+    at eval (eval at evaluate (:311:30), <anonymous>:52:3)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /Users/tanoshi/Documents/ChatGPT/Block Stacker/tower-of-babel/tests/miners-browser.test.cjs:23:27 {
+  log: []
+}

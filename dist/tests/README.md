@@ -18,6 +18,9 @@ covers `scheduling.test.cjs` and `scheduling-browser.test.cjs`: 30/60/120/144 Hz
 physics/gameplay parity, legacy 60 Hz traces, capped stalls, background/Pause,
 independent input timers and real save/reload. `scheduling-benchmark.cjs` optionally
 isolates scheduler overhead. Two pre-existing fixture failures are recorded there.
+The [fixture follow-up](../buttonwood/qa/performance/overnight-2026-10-14/fixture-review/README.md)
+resolves both against the authored lunar/adult rules and covers the installed-
+ladder landing regression. The selected aggregate now passes both fixtures.
 
 - Game: http://localhost:8765/tower-of-babel/
 - Isolated liquid playground: http://localhost:8765/tower-of-babel/tests/liquids.html
@@ -145,7 +148,7 @@ button no longer occupies the game HUD. The score in `audio.js` is a 12-bar,
 72-BPM MIDI-note arrangement rendered by Web Audio oscillators. Wind and birds
 are procedurally generated on a separate ambience bus at a much lower gain.
 
-## Miner rhythm
+## Worker rhythm
 
 Run `node tower-of-babel/tests/miners.test.cjs` for cumulative level permissions, target
 selection, material-specific beat windows, and duplicate-frame prevention. Dirt
@@ -153,19 +156,23 @@ hits on 1 and 3, stone on 2 and 4, and deepslate on the eighth-note offbeats aft
 2 and 4. Mining follows the audio clock, with a matching 72 BPM silent fallback.
 
 The AI holds position while digging, prioritizes blocks within pick reach, and
-backs away from targets after two stalled attempts. All levels can jump and grip
-short walls; higher levels can climb taller ledges. Suspended audio uses the
-silent beat clock so miners keep working.
+backs away from targets after two stalled attempts. Adult Workers can jump short
+ledges and use installed ladders for higher routes; sheer-wall grip is reserved
+for kids by the settlement rules. Suspended audio uses the silent beat clock so
+Workers keep working.
 
 With the game served locally and Playwright available, run
 `SKY_TEST_URL=http://127.0.0.1:8765/tower-of-babel/ node tower-of-babel/tests/miners-browser.test.cjs`.
 Optionally set `SKY_TEST_BROWSER` to an existing Chromium executable. This test
 loads the production bundle in an isolated browser context and exercises real
-Matter.js physics, harvesting, obstacle jumps, tall-wall climbing, unreachable
-target recovery, live music, and audio suspension without touching your saves.
+Matter.js physics, harvesting, obstacle jumps, adult wall-grip rejection, installed
+ladder landings, overhang routes, unreachable target recovery, live music, and
+audio suspension without touching your saves.
+`SKY_TEST_SETTLEMENT_SOURCE` optionally supplies a previous settlement source to
+reproduce the ladder-landing regression with the current fixture.
 
-The v38 miner regressions also upgrade workers using the real menu beside mixed
-materials, route around an overhang, and run six workers through a low tunnel.
+The v38 Worker regressions also upgrade Workers using the real menu beside mixed
+materials, route around an overhang, and run six Workers through a low tunnel.
 Workers now select an eligible nearby material on each beat, plan routes between
 clear standing positions, and stay upright while passing one another. Both the
 main AI and the older nearby-mining helper retain lower-level material access.
@@ -291,7 +298,7 @@ assigned workers enter their shelter and return to their previous work position
 at dawn. Unhoused workers stop work at night but cannot sleep. Inventory workers
 also receive beds. Homes can be packed and residents automatically seek another.
 
-Active play uses a 180-second day and 60-second night; hidden tabs pause the clock.
+Active play uses a 360-second day and 120-second night; hidden tabs pause the clock.
 Each pair sharing a Home rolls once at dusk with a 25% pregnancy chance. Birth is
 at the following dawn. A baby becomes a kid after the next full daytime phase;
 a kid becomes an adult after one more full daytime phase. Children do not mine.

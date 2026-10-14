@@ -1,5 +1,10 @@
 # Overnight technical optimization — October 14, 2026
 
+The [fixture follow-up](fixture-review/README.md) resolves both recorded legacy
+failures against authored rules and repairs a reproduced installed-ladder landing
+defect. All 23 unit and 26 selected browser suites now pass, including committed
+production checks; no creative or balance decision remains for those failures.
+
 The [scheduling review](scheduling/README.md) fixes refresh-rate-dependent physics
 while preserving the 60 Hz timestep and input paths. It includes 30/60/120/144 Hz
 production traces, capped stalls, background/Pause, live saves, overhead evidence

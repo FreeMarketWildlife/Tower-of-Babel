@@ -1,0 +1,25 @@
+{
+  "commit": "ca201b1",
+  "tests": [
+    {
+      "test": "loader.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "critter-eggs.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "miners-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "workers-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "scheduling-browser.test.cjs",
+      "exit": 0
+    }
+  ]
+}

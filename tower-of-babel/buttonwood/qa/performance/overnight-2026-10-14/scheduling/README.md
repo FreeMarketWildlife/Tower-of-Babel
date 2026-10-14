@@ -1,5 +1,10 @@
 # Refresh-rate scheduling review
 
+Follow-up: the [fixture review](../fixture-review/README.md) resolves the two
+historical failures below and fixes a supported ladder-landing defect. The current
+aggregate passes all 23 unit and 26 selected browser suites. Baseline logs and
+results below retain their original scope.
+
 Completed locally on `main`, preserving all 37 pending user files byte for byte.
 No push or deployment. Runtime/test commit: `46b1921`. This addresses the
 second-pass review's first priority.

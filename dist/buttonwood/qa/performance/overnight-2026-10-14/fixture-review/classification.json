@@ -1,0 +1,39 @@
+{
+  "moon": {
+    "classification": "stale assertion",
+    "authoredDayMs": 360000,
+    "authoredNightMs": 120000,
+    "authoringCommit": "54b35d5",
+    "fullMoonNights": "5,13,21,...",
+    "runtimeTimingChanged": false
+  },
+  "adultWallGrip": {
+    "classification": "intentionally unsupported adult behavior; stale assertion",
+    "authoringCommit": "992eabc",
+    "routeRiseLimitWorldUnits": 38.4,
+    "adultGripEnabled": false
+  },
+  "ladderLanding": {
+    "classification": "technical defect in supported installed-ladder travel",
+    "before": {
+      "ticks": 360,
+      "reached": false,
+      "x": 21.49000146250146,
+      "y": -34.18575718689683,
+      "landingCentreY": -45.3
+    },
+    "after": {
+      "ticks": 100,
+      "reached": true,
+      "x": 68.74505422386765,
+      "y": -44.7480698561722,
+      "landingCentreY": -45.3
+    },
+    "fixtureTickMs": 16.666666666666668,
+    "climbVelocityYUnchanged": -1.9,
+    "changedCentreStoppingTolerance": {
+      "before": 12.8,
+      "after": 0.5
+    }
+  }
+}
