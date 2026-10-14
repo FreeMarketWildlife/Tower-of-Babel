@@ -105,7 +105,8 @@ function buyLaddersV56(q){
 function climbLadderV56(q,goal){
  const cx=Math.floor(q.position.x/B),cy=Math.floor((q.position.y+B*.35)/B),center=ctr(cx);
  if(!laddersV56.has(key(cx,cy))&&!laddersV56.has(key(cx,cy-1)))return false;
- if(goal.y>=q.position.y-B*.4)return false;
+ // Route heights describe the Worker centre; its feet must clear the landing.
+ if(goal.y>=q.position.y-.5)return false;
  const solids=Query.region(worldSolidsV56(),{min:{x:center-B,y:q.position.y-B*2},max:{x:center+B,y:q.position.y+B}});
  if(!minerClearPoseV38(center,q.position.y-3,solids))return false;
  Body.setVelocity(q,{x:clamp((center-q.position.x)*.2,-1.4,1.4),y:-1.9});q.game.aiState='ladder';return true;
