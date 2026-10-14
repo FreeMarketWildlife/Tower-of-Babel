@@ -1,0 +1,9 @@
+page.evaluate: TypeError: Cannot read properties of undefined (reading 'game')
+    at fairyDefeatV75 (eval at <anonymous> (http://127.0.0.1:18743/tower-of-babel/game-v28.js?v=92:142:13), <anonymous>:7361:102)
+    at Object.kill (eval at <anonymous> (http://127.0.0.1:18743/tower-of-babel/game-v28.js?v=92:142:13), <anonymous>:6707:25)
+    at eval (eval at evaluate (:311:30), <anonymous>:1:24)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /Users/tanoshi/Documents/ChatGPT/Block Stacker/tower-of-babel/tests/fey-browser.test.cjs:38:518 {
+  log: []
+}

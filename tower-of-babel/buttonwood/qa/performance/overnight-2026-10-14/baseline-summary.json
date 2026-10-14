@@ -1,0 +1,296 @@
+{
+  "normal": {
+    "loadMs": 589.520708,
+    "frames": 302,
+    "p50": 16.699999999999818,
+    "p95": 16.700000000000728,
+    "p99": 16.800000000000182,
+    "max": 16.800000000000182,
+    "bodies": {
+      "blocks": 7541,
+      "workers": 0,
+      "structures": 0
+    },
+    "heap": 41708254,
+    "perf": {
+      "queries": 0,
+      "candidates": 0,
+      "skippedDraws": 2791008,
+      "indexBuilds": 4,
+      "revision": 79,
+      "placed": 0,
+      "world": 7541
+    },
+    "errors": [],
+    "top": [
+      [
+        "(idle) :-1",
+        3508111
+      ],
+      [
+        "(program) :-1",
+        446181
+      ],
+      [
+        "liquidStepSubV22 :2936",
+        118053
+      ],
+      [
+        "drawImage :-1",
+        103408
+      ],
+      [
+        "bwTerrainNeighbors :5230",
+        101748
+      ],
+      [
+        "liquidSubOpenV22 :1805",
+        92340
+      ],
+      [
+        "o.update matter.min.js:5",
+        84064
+      ],
+      [
+        "A.terrain :138",
+        47111
+      ],
+      [
+        "draw :7291",
+        46874
+      ],
+      [
+        "treeBaseDrawV41 :5287",
+        45673
+      ],
+      [
+        "liquidReactV22 :2890",
+        33195
+      ],
+      [
+        "loopV24 :2282",
+        32429
+      ],
+      [
+        "save :-1",
+        31725
+      ],
+      [
+        "querySelector :-1",
+        25749
+      ],
+      [
+        "fillRect :-1",
+        22567
+      ],
+      [
+        "o.postSolvePosition matter.min.js:5",
+        21457
+      ],
+      [
+        "updateLiquids :2974",
+        19382
+      ],
+      [
+        "updateBuoyancyV22 :1950",
+        15067
+      ]
+    ]
+  },
+  "workers": {
+    "loadMs": 595.8259170000001,
+    "frames": 302,
+    "p50": 16.699999999999818,
+    "p95": 16.700000000000728,
+    "p99": 16.800000000000182,
+    "max": 16.800000000000182,
+    "bodies": {
+      "blocks": 7485,
+      "workers": 30,
+      "structures": 0
+    },
+    "heap": 36453747,
+    "perf": {
+      "queries": 896,
+      "candidates": 210147,
+      "skippedDraws": 2769864,
+      "indexBuilds": 35,
+      "revision": 224,
+      "placed": 0,
+      "world": 7485
+    },
+    "errors": [],
+    "top": [
+      [
+        "(idle) :-1",
+        2987215
+      ],
+      [
+        "(program) :-1",
+        407248
+      ],
+      [
+        "o._bodiesApplyGravity matter.min.js:5",
+        230576
+      ],
+      [
+        "n.extend matter.min.js:5",
+        145025
+      ],
+      [
+        "o.update matter.min.js:5",
+        134926
+      ],
+      [
+        "drawImage :-1",
+        85461
+      ],
+      [
+        "bwTerrainNeighbors :5230",
+        79363
+      ],
+      [
+        "liquidStepSubV22 :2936",
+        73355
+      ],
+      [
+        "draw :7291",
+        59356
+      ],
+      [
+        " :2622",
+        51516
+      ],
+      [
+        "liquidSubOpenV22 :1805",
+        50997
+      ],
+      [
+        "A.terrain :138",
+        41868
+      ],
+      [
+        "treeBaseDrawV41 :5287",
+        35183
+      ],
+      [
+        "updateBuoyancyV22 :1950",
+        31886
+      ],
+      [
+        "minerCanHitV27 :2614",
+        31383
+      ],
+      [
+        "(garbage collector) :-1",
+        28674
+      ],
+      [
+        "querySelector :-1",
+        22614
+      ],
+      [
+        "liquidReactV22 :2890",
+        21885
+      ]
+    ]
+  },
+  "storm": {
+    "loadMs": 575.9204590000008,
+    "frames": 302,
+    "p50": 16.69999999999891,
+    "p95": 16.700000000000728,
+    "p99": 16.80000000000109,
+    "max": 16.80000000000109,
+    "bodies": {
+      "blocks": 7777,
+      "workers": 0,
+      "structures": 1
+    },
+    "heap": 41582974,
+    "perf": {
+      "queries": 30007,
+      "candidates": 18448,
+      "skippedDraws": 7144914,
+      "indexBuilds": 102,
+      "revision": 952,
+      "placed": 245,
+      "world": 7777
+    },
+    "errors": [],
+    "top": [
+      [
+        "(idle) :-1",
+        3074055
+      ],
+      [
+        "(program) :-1",
+        485323
+      ],
+      [
+        "o._bodiesApplyGravity matter.min.js:5",
+        221574
+      ],
+      [
+        "drawImage :-1",
+        117253
+      ],
+      [
+        "o.update matter.min.js:5",
+        100632
+      ],
+      [
+        "bwTerrainNeighbors :5230",
+        96882
+      ],
+      [
+        "bwIndexTerrain :5212",
+        70977
+      ],
+      [
+        "liquidStepSubV22 :2936",
+        67807
+      ],
+      [
+        "fillRect :-1",
+        47480
+      ],
+      [
+        "liquidSubOpenV22 :1805",
+        46748
+      ],
+      [
+        "draw :7291",
+        38387
+      ],
+      [
+        "A.terrain :138",
+        35273
+      ],
+      [
+        "towerStabilityV77 :6810",
+        30268
+      ],
+      [
+        "SpatialBodiesV87 :7256",
+        29793
+      ],
+      [
+        "rect :28",
+        28441
+      ],
+      [
+        "treeBaseDrawV41 :5287",
+        27390
+      ],
+      [
+        "(garbage collector) :-1",
+        27350
+      ],
+      [
+        "querySelector :-1",
+        26073
+      ]
+    ]
+  }
+}

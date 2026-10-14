@@ -2,6 +2,14 @@
 
 Serve the repository with `python3 -m http.server 8765 --bind 127.0.0.1`.
 
+For the October 14 runtime pass, see the [overnight evidence](../buttonwood/qa/performance/overnight-2026-10-14/README.md).
+`loader.test.cjs` checks full parallel prefetch, production compilation and isolated
+save keys; `liquid-allocations.test.cjs` checks exact solver parity and bounded
+empty-kind work. `overnight-correctness-browser.test.cjs` checks Worker wake
+collisions, repeated departures and interrupted mouse/touch input. Optional
+`runtime-benchmark.cjs` and `runtime-profile.cjs` record paired timings, retained
+heap and live frame/CPU samples using separate browser contexts.
+
 - Game: http://localhost:8765/tower-of-babel/
 - Isolated liquid playground: http://localhost:8765/tower-of-babel/tests/liquids.html
 - Regression checks: `node tower-of-babel/tests/liquids.test.cjs`

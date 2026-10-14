@@ -1,0 +1,83 @@
+PASS actorTeleport
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ [
++   'collisionWake: Expected values to be strictly deep-equal:\n' +
++     '+ actual - expected\n' +
++     '\n' +
++     '+ []\n' +
++     '- [\n' +
++     "-   '3032:7569'\n" +
++     '- ]\n',
++   'blur: Expected values to be strictly deep-equal:\n' +
++     '+ actual - expected\n' +
++     '\n' +
++     '  {\n' +
++     '+   consumed: 2,\n' +
++     '-   consumed: 0,\n' +
++     '    gesture: false,\n' +
++     '    pending: false,\n' +
++     '+   pinch: true,\n' +
++     '-   pinch: false,\n' +
++     '    pointers: 0,\n' +
++     '+   touches: 2\n' +
++     '-   touches: 0\n' +
++     '  }\n',
++   'blur fresh touch: Expected values to be strictly equal:\n\ntrue !== false\n',
++   'hidden: Expected values to be strictly deep-equal:\n' +
++     '+ actual - expected\n' +
++     '\n' +
++     '  {\n' +
++     '+   consumed: 2,\n' +
++     '-   consumed: 0,\n' +
++     '    gesture: false,\n' +
++     '    pending: false,\n' +
++     '+   pinch: true,\n' +
++     '-   pinch: false,\n' +
++     '    pointers: 0,\n' +
++     '+   touches: 2\n' +
++     '-   touches: 0\n' +
++     '  }\n',
++   'hidden fresh touch: Expected values to be strictly equal:\n\ntrue !== false\n',
++   'lostCapture: Expected values to be strictly deep-equal:\n' +
++     '+ actual - expected\n' +
++     '\n' +
++     '  {\n' +
++     '+   consumed: 2,\n' +
++     '-   consumed: 0,\n' +
++     '    gesture: false,\n' +
++     '    pending: false,\n' +
++     '+   pinch: true,\n' +
++     '-   pinch: false,\n' +
++     '    pointers: 0,\n' +
++     '+   touches: 2\n' +
++     '-   touches: 0\n' +
++     '  }\n',
++   'lostCapture fresh touch: Expected values to be strictly equal:\n' +
++     '\n' +
++     'true !== false\n',
++   'Move blur: Expected values to be strictly deep-equal:\n' +
++     '+ actual - expected\n' +
++     '\n' +
++     '  {\n' +
++     '    consumed: 0,\n' +
++     '+   gesture: true,\n' +
++     '-   gesture: false,\n' +
++     '    pending: false,\n' +
++     '    pinch: false,\n' +
++     '+   pointers: 1,\n' +
++     '-   pointers: 0,\n' +
++     '    touches: 0\n' +
++     '  }\n'
++ ]
+- []
+
+    at /Users/tanoshi/Documents/ChatGPT/Block Stacker/tower-of-babel/tests/overnight-correctness-browser.test.cjs:52:38 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}

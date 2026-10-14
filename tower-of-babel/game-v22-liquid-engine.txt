@@ -167,7 +167,7 @@ function liquidReactV22(now){
   if(made){for(const [k,r] of liquidSubV22)if(r.a<.00005)liquidSubV22.delete(k);wake();saveSoon()}
 }
 function updateBuoyancyV22(){
-  for(const z of bs){
+  for(const z of (typeof placedBodiesV87==='undefined'?bs:placedBodiesV87)){
     if(!z.game?.placed||z.isStatic)continue;
     const sb=liquidSBV22(),x0=Math.floor(z.bounds.min.x/sb),x1=Math.floor(z.bounds.max.x/sb),y0=Math.floor(z.bounds.min.y/sb),y1=Math.floor(z.bounds.max.y/sb);
     const count=Math.max(1,(x1-x0+1)*(y1-y0+1)),stride=count>90?2:1;let wet=0,n=0;

@@ -139,10 +139,11 @@
   A.terrain = (material, cx, cy, neighbors = {}) => {
     cx = Math.floor(cx); cy = Math.floor(cy);
     const meadow = neighbors.meadow === true && neighbors.n === null;
-    const names = ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'];
-    const key = [material, mod(cx, 4), mod(cy, 4), meadow ? 1 : 0,
-      ...names.map(name => neighbors[name] || '')].join(':');
-    if (terrain.has(key)) return terrain.get(key);
+    const key = material + ':' + mod(cx, 4) + ':' + mod(cy, 4) + ':' + (meadow ? 1 : 0) + ':' +
+      (neighbors.n || '') + ':' + (neighbors.e || '') + ':' + (neighbors.s || '') + ':' + (neighbors.w || '') + ':' +
+      (neighbors.ne || '') + ':' + (neighbors.se || '') + ':' + (neighbors.sw || '') + ':' + (neighbors.nw || '');
+    const cached = terrain.get(key);
+    if (cached) return cached;
     const c = canvas(), g = c.getContext('2d'), wx = cx * 32, wy = cy * 32;
     if (soilOrRock.has(material)) {
       paintWorldTexture(g, material, wx, wy);

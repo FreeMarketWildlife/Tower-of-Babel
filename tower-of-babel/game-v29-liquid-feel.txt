@@ -20,10 +20,13 @@ function liquidTransferV29(src,x,y,amount,now){
 liquidStepSubV22=function(kind,now){
   liquidV22Init();
   const center=cam.x/liquidSBV22(),range=24*liquidSubScaleV22*3.15;
-  const active=()=>[...liquidSubV22.values()].filter(r=>r.kind===kind&&Math.abs(r.x-center)<=range&&liquidSubOpenV22(r.x,r.y));
+  // Snapshot only eligible records. Each pass still sees transfers from the
+  // preceding pass in the Map's original insertion order.
+  const active=()=>{const records=[];for(const r of liquidSubV22.values())if(r.kind===kind&&Math.abs(r.x-center)<=range&&liquidSubOpenV22(r.x,r.y))records.push(r);return records};
   const lava=kind==='lava',oil=kind==='oil',compress=lava?.012:oil?.016:.025;
   // Bottom first: incoming liquid cannot cascade through many cells in one tick.
-  for(const r of active().sort((a,b)=>b.y-a.y||a.x-b.x)){
+  const falling=active();if(!falling.length)return;
+  for(const r of falling.sort((a,b)=>b.y-a.y||a.x-b.x)){
     const b=liquidSubRecV22(r.x,r.y+1);
     if(b&&b.kind!==kind)continue;
     const mass=b?b.a:0,total=r.a+mass;
@@ -118,7 +121,7 @@ drawMappedLiquids=function(now){
   const g=liquidContextV29;g.clearRect(0,0,width,height);
   const visible=[];
   for(const r of liquidSubV22.values()){
-    if(r.a<.006||!liquidSubOpenV22(r.x,r.y)||r.x*sb>left+width*pixel||r.x*sb+sb<left||r.y*sb>top+height*pixel||r.y*sb+sb<top)continue;
+    if(r.a<.006||r.x*sb>left+width*pixel||r.x*sb+sb<left||r.y*sb>top+height*pixel||r.y*sb+sb<top||!liquidSubOpenV22(r.x,r.y))continue;
     visible.push({r,shape:liquidGeometryV29(r,now)})
   }
   const rect=(x,y,w,h,color)=>{g.fillStyle=color;const px=Math.round((x-left)/pixel),py=Math.round((y-top)/pixel);g.fillRect(px,py,Math.max(1,Math.round((x+w-left)/pixel)-px),Math.max(1,Math.round((y+h-top)/pixel)-py))};

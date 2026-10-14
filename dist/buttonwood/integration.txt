@@ -23,6 +23,7 @@ window.__skyStackBiomeDebug=()=>({seed:skySeedV62,current:window.ButtonwoodBiome
 // This visual index never enters the physics grid or the saved world. Rebuild it
 // once before rendering so excavation and block motion cannot leave stale joins.
 const bwTerrainDirections={n:[0,-1],e:[1,0],s:[0,1],w:[-1,0],ne:[1,-1],se:[1,1],sw:[-1,1],nw:[-1,-1]};
+const bwTerrainDirectionEntries=Object.entries(bwTerrainDirections);
 const bwPlacedCells=new Map();let bwAlignedBodies=new WeakMap();
 function bwIndexTerrain(){
  bwPlacedCells.clear();bwAlignedBodies=new WeakMap();
@@ -43,9 +44,9 @@ function bwIndexTerrain(){
  for(const [k,z]of bwPlacedCells)if(z&&!bwAlignedBodies.has(z))bwPlacedCells.set(k,null);
 }
 function bwTerrainNeighbors(z,x=0,y=0,cols=1,rows=1){
- const origin=z.game.terrain?{cx:z.game.cx,cy:z.game.cy}:bwAlignedBodies.get(z);
+ const origin=z.game.terrain?z.game:bwAlignedBodies.get(z);
  const cx=(origin?.cx??0)+x,cy=(origin?.cy??0)+y,neighbors={meadow:!!z.game.terrain&&cy===0&&z.game.material==='dirt'};
- for(const [side,[dx,dy]]of Object.entries(bwTerrainDirections)){
+ for(const [side,[dx,dy]]of bwTerrainDirectionEntries){
   if(x+dx>=0&&x+dx<cols&&y+dy>=0&&y+dy<rows)neighbors[side]=z.game.material;
   else if(origin){const k=key(cx+dx,cy+dy);neighbors[side]=grid.get(k)?.game.material??bwPlacedCells.get(k)?.game.material??null}
   else neighbors[side]=null;
@@ -130,7 +131,7 @@ drawMappedLiquids=function(now){
  const g=bwLiquidContext;g.clearRect(0,0,width,height);
  const visible=[];
  for(const r of liquidSubV22.values()){
-  if(r.a<.006||!liquidSubOpenV22(r.x,r.y)||r.x*sb>left+width||r.x*sb+sb<left||r.y*sb>top+height||r.y*sb+sb<top)continue;
+  if(r.a<.006||r.x*sb>left+width||r.x*sb+sb<left||r.y*sb>top+height||r.y*sb+sb<top||!liquidSubOpenV22(r.x,r.y))continue;
   visible.push({r,s:liquidGeometryV29(r,now)});
  }
  const shapes=new Map(visible.map(q=>[liquidSubKeyV22(q.r.x,q.r.y),q]));
