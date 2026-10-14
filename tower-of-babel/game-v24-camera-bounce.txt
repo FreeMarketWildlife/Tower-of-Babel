@@ -107,9 +107,46 @@ c.addEventListener('pointerdown',cameraBeginDragV24,{passive:true});
 c.addEventListener('pointerup',cameraReleaseV24,{passive:true});
 c.addEventListener('pointercancel',cameraReleaseV24,{passive:true});
 
+// Fixed-rate simulation keeps the established 16.67 ms Matter step and Worker
+// control cadence. Rendering/camera and independent input timers retain real time.
+const SIM_INTERVAL_V24=1000/60,SIM_MAX_STEPS_V24=6,SIM_EPSILON_V24=1e-7;
+const simulationFrameV24={last:null,accumulator:0,origin:0,tick:0,steps:0,dropped:0};
+function resetSimulationV24(){
+ simulationFrameV24.last=null;simulationFrameV24.accumulator=0;
+ // Visibility and Pause must not age liquids, leaves or Worker exposure on resume.
+ if(typeof liquidClockV29!=='undefined'){liquidClockV29=null;liquidAccumulatorV29=0}
+ if(typeof treeLastTickV41!=='undefined')treeLastTickV41=null;
+ if(typeof spiritLastTickV42!=='undefined')spiritLastTickV42=null;
+ if(typeof industryTickV44!=='undefined')industryTickV44=null;
+ if(typeof structureLastV46!=='undefined')structureLastV46=null;
+ if(typeof lastWorkerTickV55!=='undefined')lastWorkerTickV55=null;
+ if(typeof settlementLastV56!=='undefined')settlementLastV56=null;
+}
+function simulationStepV24(time){
+ const previous=gameClockV76.simulationTime;gameClockV76.simulationTime=time;
+ try{Engine.update(eng,16.67);updateMiners(time);simulationFrameV24.steps++}
+ finally{gameClockV76.simulationTime=previous}
+}
+function runSimulationV24(now){
+ if(!Number.isFinite(now))return 0;
+ const s=simulationFrameV24;
+ if(s.last===null){s.last=s.origin=now;s.tick=0;simulationStepV24(now);return 1}
+ const elapsed=now-s.last;s.last=now;
+ if(elapsed<0){s.accumulator=0;s.origin=now;s.tick=0;return 0}
+ s.accumulator+=elapsed;const budget=SIM_INTERVAL_V24*SIM_MAX_STEPS_V24;
+ if(s.accumulator>budget+SIM_EPSILON_V24){s.dropped+=s.accumulator-budget;s.accumulator=budget;s.origin=now-budget;s.tick=0}
+ let steps=0;
+ while(s.accumulator+SIM_EPSILON_V24>=SIM_INTERVAL_V24&&steps<SIM_MAX_STEPS_V24){
+  s.accumulator=Math.max(0,s.accumulator-SIM_INTERVAL_V24);if(s.accumulator<SIM_EPSILON_V24)s.accumulator=0;
+  simulationStepV24(s.origin+(++s.tick)*1000/60);steps++;
+ }
+ return steps;
+}
+document.addEventListener('visibilitychange',resetSimulationV24);
 function loopV24(now){
-  const t=now||performance.now();
-  Engine.update(eng,16.67);updateMiners(t);cameraTickV24(t);ensureWorld();progress(t);
+  if(document.hidden||gameClockV76.paused){resetSimulationV24();requestAnimationFrame(loop);return}
+  const t=Number.isFinite(now)?now:performance.now();
+  runSimulationV24(t);cameraTickV24(t);ensureWorld();progress(t);
   ctx.setTransform(DPR,0,0,DPR,0,0);bg();for(const z of (typeof visibleBlocksV87==='function'?visibleBlocksV87():bs))draw(z);drawMappedLiquids(t);
   for(const q of miners)drawMiner(q,t);drawGoldBursts(t);preview();requestAnimationFrame(loop)
 }
