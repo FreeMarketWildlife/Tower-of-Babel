@@ -110,7 +110,7 @@ c.addEventListener('pointercancel',cameraReleaseV24,{passive:true});
 function loopV24(now){
   const t=now||performance.now();
   Engine.update(eng,16.67);updateMiners(t);cameraTickV24(t);ensureWorld();progress(t);
-  ctx.setTransform(DPR,0,0,DPR,0,0);bg();for(const z of bs)draw(z);drawMappedLiquids(t);
+  ctx.setTransform(DPR,0,0,DPR,0,0);bg();for(const z of (typeof visibleBlocksV87==='function'?visibleBlocksV87():bs))draw(z);drawMappedLiquids(t);
   for(const q of miners)drawMiner(q,t);drawGoldBursts(t);preview();requestAnimationFrame(loop)
 }
 loop=loopV24;

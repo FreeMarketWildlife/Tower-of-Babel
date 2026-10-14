@@ -1,0 +1,22 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
+const base=process.env.SKY_TEST_URL||'http://127.0.0.1:18743/tower-of-babel/';
+const hook=`window.viewportTest={
+ view(z=1){Object.assign(cam,{x:0,y:-180,z})},
+ inside(z){const b=z.bounds,pad=B*2;return !(b.max.x<cam.x-W/(2*cam.z)-pad||b.min.x>cam.x+W/(2*cam.z)+pad||b.max.y<cam.y-HH/(2*cam.z)-pad||b.min.y>cam.y+HH/(2*cam.z)+pad)},
+ parity(){return [...visibleBlocksV87()].filter(z=>this.inside(z)).map(z=>z.id).join(',')===[...bs].filter(z=>this.inside(z)).map(z=>z.id).join(',')},
+ setup(){for(let ch=-6;ch<=6;ch++)gen(ch);this.fixed=mk(16,-80,'stone',{placed:true,static:true});this.overlap=mk(16,-80,'wood',{placed:true,static:true,w:15,h:15});this.large=mk(800,-200,'stone',{placed:true,static:true,w:700,h:31});this.dynamic=mk(20,-140,'wood',{placed:true});return bs.size},
+ views(){for(let i=0;i<120;i++){Object.assign(cam,{x:(i*131%2200)-1100,y:(i*71%4500)-3600,z:[.72,1,1.75,2.5][i%4]});if(!this.parity())throw new Error('viewport/order '+i)}return 120},
+ mutate(){Object.assign(cam,{x:0,y:-180,z:1});for(const method of [()=>Body.setPosition(this.fixed,{x:-250,y:-100}),()=>Body.setAngle(this.fixed,.6),()=>Body.scale(this.fixed,3,2),()=>Body.setStatic(this.fixed,false),()=>Body.setStatic(this.fixed,true),()=>{bs.delete(this.overlap);World.remove(eng.world,this.overlap)},()=>{bs.add(this.overlap);World.add(eng.world,this.overlap)},()=>{for(let i=0;i<10;i++)Engine.update(eng,16.67)}]){method();if(!this.parity())throw new Error('geometry/membership mutation')}return true},
+ cache(){Body.setStatic(this.dynamic,true);const a=visibleBlocksV87(),b=visibleBlocksV87();if(a!==b)throw new Error('fixed scene cache miss');Body.setPosition(this.fixed,{x:-300,y:-100});if(visibleBlocksV87()===a)throw new Error('stale fixed scene');Body.setStatic(this.dynamic,false);if(visibleBlocksV87()===visibleBlocksV87())throw new Error('moving scene reused');return this.parity()},
+ pixels(){for(const z of bs)z.game.flash=0;const hash=()=>{let n=2166136261;for(const v of ctx.getImageData(0,0,c.width,c.height).data)n=Math.imul(n^v,16777619);return n>>>0};const original=visibleBlocksV87;visibleBlocksV87=()=>bs;__buttonwood.render(12000);const expected=hash();visibleBlocksV87=original;__buttonwood.render(12000);return {expected,actual:hash()}},
+ clear(){const z=this.fixed;bs.clear();grid.clear();bs.add(z);return this.parity()&&renderOtherV87.size+renderCellsV87.size<=1},
+ get counts(){return {world:bs.size,visible:[...visibleBlocksV87()].length,other:renderOtherV87.size,cells:renderCellsV87.size}}
+};`;
+(async()=>{const browser=await chromium.launch({headless:true,executablePath:process.env.SKY_TEST_BROWSER||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});try{
+ const p=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.addInitScript(()=>requestAnimationFrame=()=>0);
+ await p.route('**/game-v87-performance.txt*',async r=>{const response=await r.fetch();await r.fulfill({response,body:await response.text()+'\n'+hook})});await p.goto(base);await p.waitForFunction(()=>window.viewportTest&&window.__buttonwood,null,{polling:100});
+ assert((await p.evaluate(()=>viewportTest.setup()))>19000);assert.equal(await p.evaluate(()=>viewportTest.views()),120);assert(await p.evaluate(()=>viewportTest.mutate()));assert(await p.evaluate(()=>viewportTest.cache()));
+ for(const [width,height,zoom]of [[1280,900,1],[390,844,.72],[844,390,2.5]]){await p.setViewportSize({width,height});await p.waitForFunction(width=>document.querySelector('#game').style.width===width+'px',width,{polling:100});await p.evaluate(zoom=>viewportTest.view(zoom),zoom);const pixels=await p.evaluate(()=>viewportTest.pixels());assert.equal(pixels.actual,pixels.expected);assert(await p.evaluate(()=>viewportTest.parity()))}
+ await p.setViewportSize({width:1280,height:900});await p.waitForFunction(()=>document.querySelector('#game').style.width==='1280px',null,{polling:100});await p.evaluate(()=>viewportTest.view());const counts=await p.evaluate(()=>viewportTest.counts);assert(counts.visible<counts.world*.05);assert(await p.evaluate(()=>viewportTest.clear()));assert.deepEqual(errors,[]);
+ console.log('PASS exact visible membership/order over 120 views, overlaps/large bodies/transforms/static toggles/removal/re-add/physics, identical desktop/phone pixels, bounded visits and clear/re-add:',JSON.stringify(counts));
+}finally{await browser.close()}})().catch(e=>{console.error(e);process.exitCode=1});

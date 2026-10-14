@@ -309,7 +309,7 @@ function buttonwoodBoot(){
  }
  window.__buttonwood={
   save:saveGame,
-  render(now=0){ctx.setTransform(DPR,0,0,DPR,0,0);bg();for(const z of bs)draw(z);drawMappedLiquids(now);for(const q of miners)drawMiner(q,now);drawGoldBursts(now);preview()},
+  render(now=0){ctx.setTransform(DPR,0,0,DPR,0,0);bg();for(const z of (typeof visibleBlocksV87==='function'?visibleBlocksV87():bs))draw(z);drawMappedLiquids(now);for(const q of miners)drawMiner(q,now);drawGoldBursts(now);preview()},
   get state(){return{enabled:bwEnabled,sample:bwSampleMode,saveKey:SAVE_KEY,workers:miners.size,buildings:structuresV46.map(b=>({id:b.id,type:b.type,x:b.x,y:b.y})),industry:bwIndustryStudy,sky:bwSkyState(),clock:{...settlementV55},liquids:window.__skyStackLiquidDebug(),camera:{...cam},collisionsUnchanged:Object.keys(STRUCTURES_V46).every(t=>JSON.stringify(structureShapeV47(t))===bwCollisionBaseline[t])}}
  };
  if(bwSampleMode)Object.assign(window.__buttonwood,{

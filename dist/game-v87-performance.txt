@@ -5,10 +5,25 @@ const placedBodiesV87=new Set([...bs].filter(z=>z.game?.placed));
 const perfArrayIndexesV87=new WeakMap();
 const perfDetectorMembersV87=new Set();
 const perfCountersV87={queries:0,candidates:0,skippedDraws:0,indexBuilds:0};
+// Rendering uses incremental single-cell buckets. Excavation must not rebuild
+// a world-sized spatial index before the next frame can paint.
+const renderCellsV87=new Map(),renderOtherV87=new Set(),renderMoversV87=new Set(),renderSlotsV87=new WeakMap(),renderOrderV87=new WeakMap();
+let renderSerialV87=0,renderCacheV87=null,renderCacheBoundsV87=null;
+function removeRenderBodyV87(z){
+ renderCacheV87=null;
+ const k=renderSlotsV87.get(z);if(k!==undefined){const entry=renderCellsV87.get(k);if(entry===z)renderCellsV87.delete(k);else if(Array.isArray(entry)){const i=entry.indexOf(z);if(i>=0)entry.splice(i,1);if(entry.length===1)renderCellsV87.set(k,entry[0]);else if(!entry.length)renderCellsV87.delete(k)}renderSlotsV87.delete(z)}renderOtherV87.delete(z);renderMoversV87.delete(z);
+}
+function updateRenderBodyV87(z){
+ removeRenderBodyV87(z);const b=z.bounds,x=Math.floor(b.min.x/B),y=Math.floor(b.min.y/B);
+ if(z.isStatic&&[b.min.x,b.min.y,b.max.x,b.max.y].every(Number.isFinite)&&x===Math.floor(b.max.x/B)&&y===Math.floor(b.max.y/B)){
+  const k=key(x,y),entry=renderCellsV87.get(k);if(!entry)renderCellsV87.set(k,z);else if(Array.isArray(entry))entry.push(z);else renderCellsV87.set(k,[entry,z]);renderSlotsV87.set(z,k);
+ }else{renderOtherV87.add(z);if(!z.isStatic)renderMoversV87.add(z)}
+}
+for(const z of bs){renderOrderV87.set(z,++renderSerialV87);updateRenderBodyV87(z)}
 const perfSetAddV87=bs.add,perfSetDeleteV87=bs.delete,perfSetClearV87=bs.clear;
-bs.add=function(z){if(!this.has(z)){perfRevisionV87++;if(z.game?.placed)placedBodiesV87.add(z)}return perfSetAddV87.call(this,z)};
-bs.delete=function(z){if(this.has(z)){perfRevisionV87++;placedBodiesV87.delete(z)}return perfSetDeleteV87.call(this,z)};
-bs.clear=function(){perfRevisionV87++;placedBodiesV87.clear();return perfSetClearV87.call(this)};
+bs.add=function(z){if(!this.has(z)){perfRevisionV87++;if(z.game?.placed)placedBodiesV87.add(z);renderOrderV87.set(z,++renderSerialV87);updateRenderBodyV87(z)}return perfSetAddV87.call(this,z)};
+bs.delete=function(z){if(this.has(z)){perfRevisionV87++;placedBodiesV87.delete(z);removeRenderBodyV87(z)}return perfSetDeleteV87.call(this,z)};
+bs.clear=function(){perfRevisionV87++;placedBodiesV87.clear();renderCellsV87.clear();renderOtherV87.clear();renderMoversV87.clear();renderCacheV87=null;return perfSetClearV87.call(this)};
 for(const name of ['add','remove','clear']){const original=World[name];World[name]=function(...args){if(args[0]===eng.world)perfRevisionV87++;return original.apply(this,args)}}
 for(const name of ['setPosition','setAngle','setVertices','setParts','scale','setStatic','setVelocity','setAngularVelocity']){
  const original=Body[name];Body[name]=function(z,...args){
@@ -22,6 +37,7 @@ for(const name of ['setPosition','setAngle','setVertices','setParts','scale','se
    perfGeometryV87++;if(z.isStatic||name==='setStatic')perfRevisionV87++;
   }
   const result=original.call(this,z,...args);
+  if(bs.has(z)&&name!=='setVelocity'&&name!=='setAngularVelocity'&&(z.isStatic||name==='setStatic'))updateRenderBodyV87(z);
   if(name==='setStatic'&&args[0]===false&&bs.has(z)&&!Number.isFinite(z.mass)){
    // Older fixed-body saves can lack Matter's original dynamic properties.
    const material=M[z.game.material];for(const part of z.parts){const mass=part.area*material.d;Body.setMass(part,mass);Body.setInertia(part,Matter.Body._inertiaScale*Matter.Vertices.inertia(part.vertices.map(v=>({x:v.x-part.position.x,y:v.y-part.position.y})),mass));part.density=material.d;part.friction=material.f;part.restitution=material.r}
@@ -61,6 +77,16 @@ let perfMiningV87=null,perfMiningRevisionV87=-1;
 function blockSolidsV87(){if(!perfEnabledV87)return [...bs].filter(z=>z.game&&!z.isSensor&&!z.game.liquid&&!z.game.reservoir);if(perfMiningRevisionV87!==perfRevisionV87){perfMiningV87=indexArrayV87([...bs].filter(z=>z.game&&!z.isSensor&&!z.game.liquid&&!z.game.reservoir));perfMiningRevisionV87=perfRevisionV87}return perfMiningV87}
 let perfBlocksV87=null,perfBlocksRevisionV87=-1,perfAnchorsV87=null,perfAnchorSourceV87=null;
 function blocksInRegionV87(bounds){if(!perfEnabledV87)return regionBeforeV87([...bs],bounds);if(perfBlocksRevisionV87!==perfRevisionV87){perfBlocksV87=indexArrayV87([...bs]);perfBlocksRevisionV87=perfRevisionV87}return Query.region(perfBlocksV87,bounds)}
+function visibleBlocksV87(){
+ if(!perfEnabledV87)return bs;const pad=B*2,minX=cam.x-W/(2*cam.z)-pad,maxX=cam.x+W/(2*cam.z)+pad,minY=cam.y-HH/(2*cam.z)-pad,maxY=cam.y+HH/(2*cam.z)+pad;
+ const x0=Math.floor(minX/B),x1=Math.floor(maxX/B),y0=Math.floor(minY/B),y1=Math.floor(maxY/B);if(![minX,maxX,minY,maxY].every(Number.isFinite)||(x1-x0+1)*(y1-y0+1)>bs.size)return bs;
+ // Cache body references only when every block is fixed. Animation, damage and
+ // lighting still paint every frame; any geometry/membership change clears it.
+ if(!renderMoversV87.size&&renderCacheV87&&renderCacheBoundsV87[0]===minX&&renderCacheBoundsV87[1]===maxX&&renderCacheBoundsV87[2]===minY&&renderCacheBoundsV87[3]===maxY)return renderCacheV87;
+ const visible=[],add=z=>{const b=z.bounds;if(!(b.max.x<minX||b.min.x>maxX||b.max.y<minY||b.min.y>maxY))visible.push(z)};
+ for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const entry=renderCellsV87.get(key(x,y));if(Array.isArray(entry))for(const z of entry)add(z);else if(entry)add(entry)}
+ for(const z of renderOtherV87)add(z);visible.sort((a,b)=>renderOrderV87.get(a)-renderOrderV87.get(b));if(!renderMoversV87.size){renderCacheV87=visible;renderCacheBoundsV87=[minX,maxX,minY,maxY]}return visible;
+}
 function staticAnchorsV87(){const source=worldSolidsV56();if(!perfEnabledV87)return source.filter(q=>q.isStatic&&!q.game?.placed&&!q.game?.naturalTree);if(perfAnchorSourceV87!==source){perfAnchorSourceV87=source;perfAnchorsV87=indexArrayV87(source.filter(q=>q.isStatic&&!q.game?.placed&&!q.game?.naturalTree))}return perfAnchorsV87}
 const topBeforeV87=topInfo;
 topInfo=function(){if(!perfEnabledV87)return topBeforeV87();let bestBody=null,bestY=Infinity,bestX=0;
