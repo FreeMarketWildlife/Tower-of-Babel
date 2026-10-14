@@ -1390,3 +1390,12 @@ animated masks/fireworks. Leaving cancels incomplete discovery and its scheduled
 sound. Completed knowledge is saved per world by species/material/building or
 named sky object, not individual instances. Familiar subjects show their facts
 on the normal half-note grid without another unlock reward.
+
+## Free building and animal inspection hints — v91
+
+Placement starts off-grid. Height 25 replaces its former building-size reward
+with an optional grid: one native pixel icon in the top-right HUD, absent before
+unlock and off until chosen. The on/off compositions use the shared cream/mint
+and wood palette. Wild-animal taps keep their pet sound but open no animal menu;
+a brief native cream arrow points toward the magnifying glass. Fey helpers retain
+their controls. Review: §§3–5, 9–10 and [placement QA](qa/loose-building/README.md).

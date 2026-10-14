@@ -861,3 +861,14 @@ boundary; cancellation disconnects its dedicated Effects bus. The native mask
 uses 4 × 4 cells and twelve steps. Fireworks use a 96 × 40 native effect canvas
 with 2px clusters, never a scaled UI icon. Reduced motion disables both motions.
 Knowledge lives in `structuresV46.discoveriesV90` in the existing world save.
+
+## Loose placement and grid unlock — v91
+
+`game-v91-loose-building.txt` wraps player placement only. Real polygon contacts
+with a 3px margin propagate momentum through loose piles; all loose placed bodies
+wake. Anchored bodies and restores retain their behavior. Height 25 replaces the
+size upgrade with grid placement. `gridToggle` moves from Options into the
+right HUD and displays a native 32px canvas inside a 44px button. Grid choices
+use `SAVE_KEY + '.grid.v91'`. `hudIcon('grid', active)` and `hudIcon('pointRight')`
+are separately authored shared-palette canvases, also in the native gallery.
+Wild-animal taps show a 2.4-second magnifier arrow; helpers retain their menus.

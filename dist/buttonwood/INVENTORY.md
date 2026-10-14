@@ -381,3 +381,10 @@ text reveal, varied chord-tone reward, quiet local fireworks. Existing named
 stars/planets and all world descriptions share the same sequence. Familiar kinds
 skip the ceremony. Reduced-motion, cancellation and separate world saves covered
 in [discovery review](qa/discoveries/README.md).
+
+## Placement and inspection — v91
+
+| Family | Implemented artwork | Review |
+|---|---|---|
+| Grid control | Separate native 32px on/off grid compositions; 44px HUD toggle unlocked at 25m. | [Placement QA](qa/loose-building/README.md). |
+| Animal inspection hint | Native 32px right-pointing arrow; brief stepped pointing motion with reduced-motion hold. | [Placement QA](qa/loose-building/README.md). |

@@ -170,3 +170,11 @@ name and fact across the next half note, then finish with “New discovery,” a
 musical chime and tiny pixel fireworks. Discoveries persist per world; familiar
 kinds show their facts without another unlock reward. Leaving early cancels the
 reveal. Reduced motion keeps the same timing with a still reveal.
+
+## Free placement and grid unlock
+
+Block placement starts off-grid. At 25m, the former size upgrade is replaced by
+an optional icon-only grid toggle in the top-right HUD. Overlapping loose blocks
+place immediately and push their connected pile with real velocity. Tapping a
+wild animal keeps its pet sound and briefly points a pixel arrow toward the
+magnifying glass; only Fey helpers open an animal control menu.
