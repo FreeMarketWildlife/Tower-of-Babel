@@ -162,3 +162,11 @@ The storm now mixes fire and non-exploding ice hail. Fire throws debris 20% fast
 ice chips only its contacted cell. Incoming whooshes crescendo into chord-tuned
 bass/crashes or ice taps on the MIDI sixteenth grid, with distance attenuation.
 Storm sound stays separate from the death/mining feedback system.
+
+## First discoveries
+
+With the magnifying glass, new kinds first show `???` on a half note, reveal their
+name and fact across the next half note, then finish with “New discovery,” a varied
+musical chime and tiny pixel fireworks. Discoveries persist per world; familiar
+kinds show their facts without another unlock reward. Leaving early cancels the
+reveal. Reduced motion keeps the same timing with a still reveal.

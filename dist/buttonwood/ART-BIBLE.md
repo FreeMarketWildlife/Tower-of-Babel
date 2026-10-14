@@ -1374,3 +1374,19 @@ ice gets a shorter tuned contact. Nearby events have more presence, distant
 ones recede and pan with their position. Voices are bounded, Effects-volume gated
 and frozen with pause. Storm scoring stays separate from creature death and
 mining feedback. [Review](qa/storm-score/README.md).
+
+## First discoveries — v90, October 13, 2026
+
+The magnifying glass begins with no identified kinds in a new world. Its first
+half-note boundary shows `???`; the next half note begins a twelve-step native
+4px mask reveal, and the following half note completes the name/fact with
+`New discovery`. A soft chord-aware reward changes octave, voicing and timbre
+across four variants; three low filtered crackles accompany three tiny pixel
+fireworks. This is an explicit discovery reward, limited to the attached bubble
+rather than ordinary hover confetti (§10). Named gold/mint/coral/cream tokens,
+integer canvas pixels, readable semantic text and no blur preserve §§3–4, 9–10.
+Reduced motion keeps the mystery until completion, then reveals text without
+animated masks/fireworks. Leaving cancels incomplete discovery and its scheduled
+sound. Completed knowledge is saved per world by species/material/building or
+named sky object, not individual instances. Familiar subjects show their facts
+on the normal half-note grid without another unlock reward.

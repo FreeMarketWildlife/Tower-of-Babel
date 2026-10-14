@@ -373,3 +373,11 @@ six-slot toolbar and inventory remain current. Applicable bible §§3–4, 6, 9�
 | --- | --- | --- |
 | Ice hail | Native 16px cold crystal/trail, eight contact shards, one-cell physical damage without AoE. | [Storm score](qa/storm-score/README.md) |
 | Storm motion/audio | 20% stronger launch velocity; MIDI sixteenth whoosh → chord-root bass/crash, attenuated ice taps, bounded independent submix. | `tests/storm-score-browser.test.cjs` |
+
+## v90 first discoveries
+
+Inspector: persistent type/species catalogue; half-note `???`, native pixel-mask
+text reveal, varied chord-tone reward, quiet local fireworks. Existing named
+stars/planets and all world descriptions share the same sequence. Familiar kinds
+skip the ceremony. Reduced-motion, cancellation and separate world saves covered
+in [discovery review](qa/discoveries/README.md).

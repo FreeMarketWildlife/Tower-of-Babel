@@ -851,3 +851,13 @@ Fire's linear impulse/caps increase 20%; ice wears only its contacted cell.
 `paintHail`/`paintHailImpact` use 16px shared-palette ice and eight cold shards;
 the existing renderer supplies the projectile kind without changing scale.
 Review: bible §§3–5, 8,10 and [storm score](qa/storm-score/README.md).
+
+## Discovery timing — v90
+
+`game-v90-discoveries.txt` owns the inspector discovery sequence. In score quarter
+beats, entry is `b` (an even beat), reveal begins `b+2`, and completion/reward is
+`b+4`. `SkyAudio.discoveryCue` schedules all chord tones at that exact completion
+boundary; cancellation disconnects its dedicated Effects bus. The native mask
+uses 4 × 4 cells and twelve steps. Fireworks use a 96 × 40 native effect canvas
+with 2px clusters, never a scaled UI icon. Reduced motion disables both motions.
+Knowledge lives in `structuresV46.discoveriesV90` in the existing world save.

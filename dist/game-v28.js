@@ -135,6 +135,7 @@ function read(url){
     tail=tail.replace(marker,(await read('game-v87-performance.txt?v=87'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v88-musical-feedback.txt'))+'\n'+marker);
     tail=tail.replace(marker,(await read('game-v89-storm-score.txt?v=89'))+'\n'+marker);
+    tail=tail.replace(marker,(await read('game-v90-discoveries.txt?v=90'))+'\n'+marker);
     const src=core+'\n});\n'+liquid+'\n'+tail;
     (0,eval)(src);
   }catch(e){
