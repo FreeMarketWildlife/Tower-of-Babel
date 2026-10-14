@@ -1,0 +1,5 @@
+PASS 30/60/120/144 Hz: identical 481-step Matter/Worker/liquid/crafting/egg traces over eight seconds, fixed 16.67 ms delta
+PASS previous 60 Hz real physics, harvesting, liquids and gameplay clocks (1e-7 ms/position tolerance)
+PASS real capped stalls, duplicate callbacks, short background/resume, pause active-clock alignment and no debt replay
+PASS two real mouse taps survive capped catch-up and strike once each on the independent 8 ms input timer, including a callback with no physics tick
+PASS live real-time 60 Hz gameplay and actual Worker/Bell/settlement save/reload

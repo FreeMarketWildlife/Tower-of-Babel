@@ -1,0 +1,206 @@
+{
+  "unit": [
+    {
+      "test": "automation-audio.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "biome-audio.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "biomes.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "buttonwood-sky.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "buttonwood-terrain.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "dev-panel.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "discoveries-audio.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "extraction-integration.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "extraction-network.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "level-rewards-audio.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "liquid-allocations.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "liquid-reaction-performance.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "liquids.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "loader.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "miners.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "musical-feedback.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "night-audio.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "oil.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "scheduling.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "sky.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "tainted-water.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "terrain-fog.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "wildlife-spawn.test.cjs",
+      "exit": 0
+    }
+  ],
+  "browser": [
+    {
+      "test": "buttonwood-extraction-art.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "buttonwood-wildlife-art.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "critter-eggs.test.cjs",
+      "exit": 1
+    },
+    {
+      "test": "critter-roster-art.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "mouse-silhouettes-art.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "wood-mouse-art.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "pause-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "keyboard-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "pickaxe-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "miners-browser.test.cjs",
+      "exit": 1
+    },
+    {
+      "test": "workers-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "trees-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "spirits-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "industry-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "structures-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "player-crafting-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "extraction-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "oil-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "fey-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "moonfire-demo-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "storm-score-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "buttonwood-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "performance-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "overnight-lifecycle-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "viewport-render-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "scheduling-browser.test.cjs",
+      "exit": 0
+    }
+  ],
+  "baselineFailures": {
+    "critter-eggs.test.cjs": "same full-moon expectation failure with previous source; fixture uses 180/60 seconds rather than current 360/120",
+    "miners-browser.test.cjs": "same adult wall-climbing expectation failure with previous source; current navigation restricts wall grip to isChildV56"
+  }
+}

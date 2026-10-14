@@ -1,0 +1,26 @@
+RATES [{"fps":30,"steps":61,"physicsMs":1016.8699999999991,"body":{"x":66.46153846153847,"y":189.1,"vx":1,"vy":6.099999999999994,"force":0}},{"fps":60,"steps":121,"physicsMs":2017.0700000000033,"body":{"x":126.46153846153847,"y":738.0999999999991,"vx":1,"vy":12.099999999999973,"force":0}},{"fps":120,"steps":241,"physicsMs":4017.470000000012,"body":{"x":246.46153846153845,"y":2916.099999999999,"vx":1,"vy":24.100000000000072,"force":0}},{"fps":144,"steps":289,"physicsMs":4817.630000000016,"body":{"x":294.46153846153845,"y":4190.500000000004,"vx":1,"vy":28.90000000000014,"force":0}}]
+node:assert:152
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: two seconds plus initial step at 30 Hz
+
+61 !== 121
+
+    at Object.<anonymous> (/Users/tanoshi/Documents/ChatGPT/Block Stacker/tower-of-babel/tests/scheduling.test.cjs:15:38)
+    at Module._compile (node:internal/modules/cjs/loader:1929:14)
+    at Object..js (node:internal/modules/cjs/loader:2060:10)
+    at Module.load (node:internal/modules/cjs/loader:1651:32)
+    at Module._load (node:internal/modules/cjs/loader:1443:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 61,
+  expected: 121,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

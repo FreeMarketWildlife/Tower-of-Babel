@@ -1,0 +1,464 @@
+{
+  "rates": [
+    {
+      "fps": 30,
+      "steps": 481,
+      "state": {
+        "physics": 8018.2700000000295,
+        "worker": {
+          "x": -74.02145002439556,
+          "y": 51.26758557499827,
+          "vx": 0,
+          "vy": -7.104006556289744e-15,
+          "state": "digging",
+          "water": 0,
+          "fire": 0,
+          "alive": true
+        },
+        "falling": {
+          "x": 239.71175618693616,
+          "y": 48.89268966886226,
+          "vx": 0,
+          "vy": 0
+        },
+        "clock": {
+          "day": 1,
+          "phase": "day",
+          "elapsed": 8000
+        },
+        "craft": null,
+        "homes": 1,
+        "egg": 21999.999999999844,
+        "inventory": {
+          "dirt": 2,
+          "stone": 0,
+          "bells": 0
+        },
+        "liquids": {
+          "cells": 218,
+          "total": 3.9999999999999982,
+          "sha256": "88d6290014ef6eab72ee48409755bde6704c7d5f24f0522e3f848e1979eee5de"
+        }
+      },
+      "schedule": {
+        "last": 9000,
+        "accumulator": 0,
+        "origin": 1000,
+        "tick": 480,
+        "steps": 481,
+        "dropped": 0
+      }
+    },
+    {
+      "fps": 60,
+      "steps": 481,
+      "state": {
+        "physics": 8018.2700000000295,
+        "worker": {
+          "x": -74.02145002439556,
+          "y": 51.26758557499827,
+          "vx": 0,
+          "vy": -7.104006556289744e-15,
+          "state": "digging",
+          "water": 0,
+          "fire": 0,
+          "alive": true
+        },
+        "falling": {
+          "x": 239.71175618693616,
+          "y": 48.89268966886226,
+          "vx": 0,
+          "vy": 0
+        },
+        "clock": {
+          "day": 1,
+          "phase": "day",
+          "elapsed": 8000
+        },
+        "craft": null,
+        "homes": 1,
+        "egg": 21999.999999999844,
+        "inventory": {
+          "dirt": 2,
+          "stone": 0,
+          "bells": 0
+        },
+        "liquids": {
+          "cells": 218,
+          "total": 3.9999999999999982,
+          "sha256": "88d6290014ef6eab72ee48409755bde6704c7d5f24f0522e3f848e1979eee5de"
+        }
+      },
+      "schedule": {
+        "last": 9000,
+        "accumulator": 0,
+        "origin": 1000,
+        "tick": 480,
+        "steps": 481,
+        "dropped": 0
+      }
+    },
+    {
+      "fps": 120,
+      "steps": 481,
+      "state": {
+        "physics": 8018.2700000000295,
+        "worker": {
+          "x": -74.02145002439556,
+          "y": 51.26758557499827,
+          "vx": 0,
+          "vy": -7.104006556289744e-15,
+          "state": "digging",
+          "water": 0,
+          "fire": 0,
+          "alive": true
+        },
+        "falling": {
+          "x": 239.71175618693616,
+          "y": 48.89268966886226,
+          "vx": 0,
+          "vy": 0
+        },
+        "clock": {
+          "day": 1,
+          "phase": "day",
+          "elapsed": 8000
+        },
+        "craft": null,
+        "homes": 1,
+        "egg": 21999.999999999844,
+        "inventory": {
+          "dirt": 2,
+          "stone": 0,
+          "bells": 0
+        },
+        "liquids": {
+          "cells": 218,
+          "total": 3.9999999999999982,
+          "sha256": "88d6290014ef6eab72ee48409755bde6704c7d5f24f0522e3f848e1979eee5de"
+        }
+      },
+      "schedule": {
+        "last": 9000,
+        "accumulator": 0,
+        "origin": 1000,
+        "tick": 480,
+        "steps": 481,
+        "dropped": 0
+      }
+    },
+    {
+      "fps": 144,
+      "steps": 481,
+      "state": {
+        "physics": 8018.2700000000295,
+        "worker": {
+          "x": -74.02145002439556,
+          "y": 51.26758557499827,
+          "vx": 0,
+          "vy": -7.104006556289744e-15,
+          "state": "digging",
+          "water": 0,
+          "fire": 0,
+          "alive": true
+        },
+        "falling": {
+          "x": 239.71175618693616,
+          "y": 48.89268966886226,
+          "vx": 0,
+          "vy": 0
+        },
+        "clock": {
+          "day": 1,
+          "phase": "day",
+          "elapsed": 8000
+        },
+        "craft": null,
+        "homes": 1,
+        "egg": 21999.999999999844,
+        "inventory": {
+          "dirt": 2,
+          "stone": 0,
+          "bells": 0
+        },
+        "liquids": {
+          "cells": 218,
+          "total": 3.9999999999999982,
+          "sha256": "88d6290014ef6eab72ee48409755bde6704c7d5f24f0522e3f848e1979eee5de"
+        }
+      },
+      "schedule": {
+        "last": 9000,
+        "accumulator": 0,
+        "origin": 1000,
+        "tick": 480,
+        "steps": 481,
+        "dropped": 0
+      }
+    }
+  ],
+  "legacy60": {
+    "steps": 481,
+    "state": {
+      "physics": 8018.2700000000295,
+      "worker": {
+        "x": -74.02145002439556,
+        "y": 51.26758557499827,
+        "vx": 0,
+        "vy": -7.104006556289744e-15,
+        "state": "digging",
+        "water": 0,
+        "fire": 0,
+        "alive": true
+      },
+      "falling": {
+        "x": 239.71175618693616,
+        "y": 48.89268966886226,
+        "vx": 0,
+        "vy": 0
+      },
+      "clock": {
+        "day": 1,
+        "phase": "day",
+        "elapsed": 8000
+      },
+      "craft": null,
+      "homes": 1,
+      "egg": 21999.999999999844,
+      "inventory": {
+        "dirt": 2,
+        "stone": 0,
+        "bells": 0
+      },
+      "liquids": {
+        "cells": 218,
+        "total": 3.9999999999999982,
+        "sha256": "88d6290014ef6eab72ee48409755bde6704c7d5f24f0522e3f848e1979eee5de"
+      }
+    }
+  },
+  "interruptions": {
+    "stallSteps": 6,
+    "hiddenSteps": 1,
+    "pauseSteps": 1,
+    "longStallSteps": 6,
+    "after": {
+      "physics": 116.69000000000001,
+      "worker": {
+        "x": 16.90130023521731,
+        "y": 19.822184099344977,
+        "vx": 0,
+        "vy": -3.552003278144872e-15,
+        "state": "digging",
+        "water": 0,
+        "fire": 0,
+        "alive": true
+      },
+      "falling": {
+        "x": 240,
+        "y": -152.11771697906067,
+        "vx": 0,
+        "vy": 1.9350314376132782
+      },
+      "clock": {
+        "day": 1,
+        "phase": "day",
+        "elapsed": 200
+      },
+      "craft": {
+        "type": "home",
+        "remaining": 1300
+      },
+      "homes": 0,
+      "egg": 29799.999999999993,
+      "inventory": {
+        "dirt": 0,
+        "stone": 0,
+        "bells": 0
+      },
+      "liquids": {
+        "cells": 8,
+        "total": 4.0,
+        "sha256": "a7537ed1de57829896fb4cb484f6822519d8744aef53de34bcf4a49a62608495"
+      }
+    },
+    "resumed": {
+      "physics": 133.36,
+      "worker": {
+        "x": 16.89781826053732,
+        "y": 19.82222565714781,
+        "vx": 0,
+        "vy": 0,
+        "state": "digging",
+        "water": 0,
+        "fire": 0,
+        "alive": true
+      },
+      "falling": {
+        "x": 240,
+        "y": -149.9253596896565,
+        "vx": 0,
+        "vy": 2.191918905623061
+      },
+      "clock": {
+        "day": 1,
+        "phase": "day",
+        "elapsed": 200
+      },
+      "craft": {
+        "type": "home",
+        "remaining": 1300
+      },
+      "homes": 0,
+      "egg": 29799.999999999993,
+      "inventory": {
+        "dirt": 0,
+        "stone": 0,
+        "bells": 0
+      },
+      "liquids": {
+        "cells": 8,
+        "total": 4.0,
+        "sha256": "a7537ed1de57829896fb4cb484f6822519d8744aef53de34bcf4a49a62608495"
+      }
+    },
+    "paused": {
+      "physics": 133.36,
+      "worker": {
+        "x": 16.89781826053732,
+        "y": 19.82222565714781,
+        "vx": 0,
+        "vy": 0,
+        "state": "digging",
+        "water": 0,
+        "fire": 0,
+        "alive": true
+      },
+      "falling": {
+        "x": 240,
+        "y": -149.9253596896565,
+        "vx": 0,
+        "vy": 2.191918905623061
+      },
+      "clock": {
+        "day": 1,
+        "phase": "day",
+        "elapsed": 200
+      },
+      "craft": {
+        "type": "home",
+        "remaining": 1300
+      },
+      "homes": 0,
+      "egg": 29799.999999999993,
+      "inventory": {
+        "dirt": 0,
+        "stone": 0,
+        "bells": 0
+      },
+      "liquids": {
+        "cells": 8,
+        "total": 4.0,
+        "sha256": "a7537ed1de57829896fb4cb484f6822519d8744aef53de34bcf4a49a62608495"
+      }
+    },
+    "unpaused": {
+      "physics": 150.03000000000003,
+      "worker": {
+        "x": 16.89433628585733,
+        "y": 19.822267214950656,
+        "vx": 0,
+        "vy": 3.552003278144872e-15,
+        "state": "digging",
+        "water": 0,
+        "fire": 0,
+        "alive": true
+      },
+      "falling": {
+        "x": 240,
+        "y": -147.48068937894783,
+        "vx": 0,
+        "vy": 2.4441814744137766
+      },
+      "clock": {
+        "day": 1,
+        "phase": "day",
+        "elapsed": 200
+      },
+      "craft": {
+        "type": "home",
+        "remaining": 1300
+      },
+      "homes": 0,
+      "egg": 29799.999999999993,
+      "inventory": {
+        "dirt": 0,
+        "stone": 0,
+        "bells": 0
+      },
+      "liquids": {
+        "cells": 8,
+        "total": 4.0,
+        "sha256": "a7537ed1de57829896fb4cb484f6822519d8744aef53de34bcf4a49a62608495"
+      }
+    },
+    "schedule": {
+      "last": 13300,
+      "accumulator": 0,
+      "origin": 13200,
+      "tick": 6,
+      "steps": 15,
+      "dropped": 11990
+    },
+    "clock": {
+      "active": 13300,
+      "override": null
+    }
+  },
+  "input": {
+    "dirt": 2,
+    "pending": 0,
+    "gesture": false,
+    "pointers": 0
+  },
+  "live": {
+    "elapsedMs": 2503.9000000953674,
+    "steps": 152,
+    "physicsMs": 2533.8400000000056,
+    "droppedMs": 0,
+    "saved": {
+      "wall": 3034.800000190735,
+      "physics": 2583.850000000006,
+      "steps": 155,
+      "dropped": 0,
+      "clock": {
+        "day": 1,
+        "phase": "day",
+        "elapsed": 2566.6666666666665
+      },
+      "worker": {
+        "id": 85001,
+        "level": 2,
+        "bells": 7,
+        "finite": true
+      }
+    },
+    "restored": {
+      "wall": 385.80000019073486,
+      "physics": 16.67,
+      "steps": 1,
+      "dropped": 0,
+      "clock": {
+        "day": 1,
+        "phase": "day",
+        "elapsed": 2566.6666666666665
+      },
+      "worker": {
+        "id": 85001,
+        "level": 2,
+        "bells": 7,
+        "finite": true
+      }
+    }
+  }
+}

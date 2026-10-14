@@ -1,5 +1,10 @@
 # Overnight technical optimization — October 14, 2026
 
+The [scheduling review](scheduling/README.md) fixes refresh-rate-dependent physics
+while preserving the 60 Hz timestep and input paths. It includes 30/60/120/144 Hz
+production traces, capped stalls, background/Pause, live saves, overhead evidence
+and two independently reproduced pre-existing browser fixture failures.
+
 The [second-pass review](second-pass/README.md) adds repeated lifecycle/restart
 stress, independently confirms the first-pass timings, and records two further
 verified optimizations. Relative to the first pass, rendering improves 12–17% in

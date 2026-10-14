@@ -13,6 +13,11 @@ The [second-pass review](../buttonwood/qa/performance/overnight-2026-10-14/secon
 covers `viewport-render-browser.test.cjs`, `overnight-lifecycle-browser.test.cjs`
 and `liquid-reaction-performance.test.cjs`, including real restart/save isolation,
 repeated wake/input stress, exact viewport ordering/pixels and reaction parity.
+The [scheduling review](../buttonwood/qa/performance/overnight-2026-10-14/scheduling/README.md)
+covers `scheduling.test.cjs` and `scheduling-browser.test.cjs`: 30/60/120/144 Hz
+physics/gameplay parity, legacy 60 Hz traces, capped stalls, background/Pause,
+independent input timers and real save/reload. `scheduling-benchmark.cjs` optionally
+isolates scheduler overhead. Two pre-existing fixture failures are recorded there.
 
 - Game: http://localhost:8765/tower-of-babel/
 - Isolated liquid playground: http://localhost:8765/tower-of-babel/tests/liquids.html

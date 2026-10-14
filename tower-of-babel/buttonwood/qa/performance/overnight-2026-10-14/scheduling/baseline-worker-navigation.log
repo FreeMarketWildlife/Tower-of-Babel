@@ -1,0 +1,8 @@
+page.evaluate: Error: level 3 uses wall climbing
+    at check (eval at evaluate (:311:30), <anonymous>:2:60)
+    at eval (eval at evaluate (:311:30), <anonymous>:43:3)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /Users/tanoshi/Documents/ChatGPT/Block Stacker/tower-of-babel/tests/miners-browser.test.cjs:22:27 {
+  log: []
+}

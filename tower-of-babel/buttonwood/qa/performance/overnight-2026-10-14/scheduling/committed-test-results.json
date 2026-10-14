@@ -1,0 +1,26 @@
+{
+  "commit": "46b1921",
+  "url": "http://127.0.0.1:18744/dist/",
+  "tests": [
+    {
+      "test": "loader.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "scheduling.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "scheduling-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "overnight-lifecycle-browser.test.cjs",
+      "exit": 0
+    },
+    {
+      "test": "viewport-render-browser.test.cjs",
+      "exit": 0
+    }
+  ]
+}
