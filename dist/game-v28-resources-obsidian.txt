@@ -135,9 +135,17 @@ function liquidClearWorldCellV28(cx,cy){
 // cool the lava's whole world cell into obsidian, and leave upstream water untouched.
 // Because the new obsidian is in `grid`, all following water naturally pools on top.
 liquidReactV22=function(now){
-  liquidV22Init();let made=0;const sc=liquidSubScaleV22||2,cooled=new Set(),vals=[...liquidSubV22.values()];
+  liquidV22Init();const vals=[...liquidSubV22.values()];
+  // Distant water cannot contact lava. Keep the original snapshot, water order
+  // and exact contact checks; only reject cells outside every lava cell's bounds.
+  let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity,hasLava=false,validBounds=true;
+  for(const r of vals)if(r.kind==='lava'&&!(r.a<.015)){hasLava=true;validBounds&&=Number.isInteger(r.x)&&Number.isInteger(r.y);minX=Math.min(minX,r.x-1);maxX=Math.max(maxX,r.x+1);minY=Math.min(minY,r.y-1);maxY=Math.max(maxY,r.y+1)}
+  if(!hasLava)return;
+  let made=0;const sc=liquidSubScaleV22||2,cooled=new Set();
   for(const w of vals){
-    if(!['water','taintedWater'].includes(w.kind)||w.a<.015||!liquidSubV22.has(liquidSubKeyV22(w.x,w.y)))continue;
+    if(!['water','taintedWater'].includes(w.kind)||w.a<.015)continue;
+    if(validBounds&&Number.isInteger(w.x)&&Number.isInteger(w.y)&&(w.x<minX||w.x>maxX||w.y<minY||w.y>maxY))continue;
+    if(!liquidSubV22.has(liquidSubKeyV22(w.x,w.y)))continue;
     for(const d of [[0,1],[1,0],[-1,0],[0,-1]]){
       const l=liquidSubRecV22(w.x+d[0],w.y+d[1]);if(!l||l.kind!=='lava'||l.a<.015)continue;
       const ocx=Math.floor(l.x/sc),ocy=Math.floor(l.y/sc),ok=key(ocx,ocy);if(cooled.has(ok))continue;
