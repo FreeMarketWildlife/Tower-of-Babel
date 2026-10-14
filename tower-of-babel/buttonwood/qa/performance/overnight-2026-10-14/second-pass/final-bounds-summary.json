@@ -1,0 +1,208 @@
+{
+  "normal": {
+    "loadMs": 558.0100409999999,
+    "frames": 302,
+    "p50": 16.699999999999818,
+    "p95": 16.800000000000182,
+    "p99": 16.800000000000182,
+    "max": 16.800000000000182,
+    "bodies": {
+      "blocks": 7541,
+      "workers": 0,
+      "structures": 0,
+      "liquids": {
+        "water": 296,
+        "lava": 182,
+        "oil": 92
+      }
+    },
+    "heap": 50638004,
+    "perf": {
+      "queries": 0,
+      "candidates": 0,
+      "skippedDraws": 0,
+      "indexBuilds": 4,
+      "revision": 79,
+      "placed": 0,
+      "world": 7541
+    },
+    "errors": [],
+    "top": [
+      [
+        "(idle) :-1",
+        3546960
+      ],
+      [
+        "(program) :-1",
+        471165
+      ],
+      [
+        "o.update matter.min.js:5",
+        134217
+      ],
+      [
+        "liquidStepSubV22 :2944",
+        104994
+      ],
+      [
+        "drawImage :-1",
+        84194
+      ],
+      [
+        "bwTerrainNeighbors :5247",
+        77468
+      ],
+      [
+        "treeBaseDrawV41 :5304",
+        65810
+      ],
+      [
+        "liquidSubOpenV22 :1805",
+        65765
+      ],
+      [
+        "A.terrain :138",
+        33122
+      ],
+      [
+        "fillRect :-1",
+        32695
+      ],
+      [
+        " :3590",
+        25270
+      ],
+      [
+        "o.postSolvePosition matter.min.js:5",
+        24582
+      ],
+      [
+        "querySelector :-1",
+        24244
+      ],
+      [
+        "o._bodiesUpdateVelocities matter.min.js:5",
+        24178
+      ],
+      [
+        "(garbage collector) :-1",
+        22531
+      ],
+      [
+        "save :-1",
+        21890
+      ],
+      [
+        "active :2949",
+        21095
+      ],
+      [
+        "updateLiquids :2985",
+        16431
+      ]
+    ]
+  },
+  "explored": {
+    "loadMs": 526.7895000000008,
+    "frames": 302,
+    "p50": 16.699999999999818,
+    "p95": 16.700000000000728,
+    "p99": 16.800000000000182,
+    "max": 16.800000000000182,
+    "bodies": {
+      "blocks": 37708,
+      "workers": 0,
+      "structures": 0,
+      "liquids": {
+        "water": 1572,
+        "lava": 882,
+        "oil": 814
+      }
+    },
+    "heap": 138565978,
+    "perf": {
+      "queries": 0,
+      "candidates": 0,
+      "skippedDraws": 0,
+      "indexBuilds": 8,
+      "revision": 91490,
+      "placed": 0,
+      "world": 37708
+    },
+    "errors": [],
+    "top": [
+      [
+        "(idle) :-1",
+        2449124
+      ],
+      [
+        "o.update matter.min.js:5",
+        536771
+      ],
+      [
+        "(program) :-1",
+        488741
+      ],
+      [
+        "o.postSolvePosition matter.min.js:5",
+        178854
+      ],
+      [
+        "o._bodiesUpdateVelocities matter.min.js:5",
+        175300
+      ],
+      [
+        "liquidStepSubV22 :2944",
+        127638
+      ],
+      [
+        "towerStabilityV77 :6827",
+        82211
+      ],
+      [
+        "o._bodiesClearForces matter.min.js:5",
+        79545
+      ],
+      [
+        "wildlifeObstaclesV71 :6181",
+        79262
+      ],
+      [
+        " :3590",
+        71741
+      ],
+      [
+        "drawImage :-1",
+        70858
+      ],
+      [
+        "bwTerrainNeighbors :5247",
+        64390
+      ],
+      [
+        " :6181",
+        56726
+      ],
+      [
+        "liquidSubOpenV22 :1805",
+        54366
+      ],
+      [
+        "treeBaseDrawV41 :5304",
+        49452
+      ],
+      [
+        "o._bodiesApplyGravity matter.min.js:5",
+        47435
+      ],
+      [
+        "o.preSolveAll matter.min.js:5",
+        45983
+      ],
+      [
+        "o.postSolveAll matter.min.js:5",
+        44654
+      ]
+    ]
+  }
+}

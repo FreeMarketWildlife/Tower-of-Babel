@@ -1,0 +1,50 @@
+[
+  {
+    "scene": "normal",
+    "beforeRender100Ms": 105.80000019073486,
+    "afterRender100Ms": 89.20000004768372,
+    "improvementPercent": 15.689981203331648,
+    "drawVisitsBefore": 7541,
+    "drawVisitsAfter": 493,
+    "retainedBeforeBytes": 23826380.0,
+    "retainedAfterBytes": 24241842.0,
+    "excavationP95BeforeMs": 2.5999999046325684,
+    "excavationP95AfterMs": 2.3499996662139893
+  },
+  {
+    "scene": "workers",
+    "beforeRender100Ms": 111.19999980926514,
+    "afterRender100Ms": 92.40000009536743,
+    "improvementPercent": 16.906474591856334,
+    "drawVisitsBefore": 7541,
+    "drawVisitsAfter": 493,
+    "retainedBeforeBytes": 24310782.0,
+    "retainedAfterBytes": 24719546.0,
+    "excavationP95BeforeMs": 2.4000000953674316,
+    "excavationP95AfterMs": 2.3500001430511475
+  },
+  {
+    "scene": "storm",
+    "beforeRender100Ms": 131.5,
+    "afterRender100Ms": 115.89999985694885,
+    "improvementPercent": 11.863117979506576,
+    "drawVisitsBefore": 7699,
+    "drawVisitsAfter": 41,
+    "retainedBeforeBytes": 25532788.0,
+    "retainedAfterBytes": 25936062.0,
+    "excavationP95BeforeMs": 1.5,
+    "excavationP95AfterMs": 1.5
+  },
+  {
+    "scene": "explored",
+    "beforeRender100Ms": 230.45000004768372,
+    "afterRender100Ms": 90.75,
+    "improvementPercent": 60.6205250678141,
+    "drawVisitsBefore": 37708,
+    "drawVisitsAfter": 493,
+    "retainedBeforeBytes": 102909642.0,
+    "retainedAfterBytes": 104888212.0,
+    "excavationP95BeforeMs": 3.950000047683716,
+    "excavationP95AfterMs": 2.3499999046325684
+  }
+]

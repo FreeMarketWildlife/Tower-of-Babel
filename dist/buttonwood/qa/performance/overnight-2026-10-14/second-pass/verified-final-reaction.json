@@ -1,0 +1,36 @@
+{
+  "normal": {
+    "beforeInclusiveReactionMs": 36.177,
+    "finalInclusiveReactionMs": 1.514,
+    "p95": 16.800000000000182,
+    "p99": 16.800000000000182,
+    "max": 16.800000000000182,
+    "bodies": {
+      "blocks": 7541,
+      "workers": 0,
+      "structures": 0,
+      "liquids": {
+        "water": 296,
+        "lava": 182,
+        "oil": 92
+      }
+    }
+  },
+  "explored": {
+    "beforeInclusiveReactionMs": 136.695,
+    "finalInclusiveReactionMs": 4.527,
+    "p95": 16.700000000000728,
+    "p99": 16.800000000000182,
+    "max": 16.800000000000182,
+    "bodies": {
+      "blocks": 37708,
+      "workers": 0,
+      "structures": 0,
+      "liquids": {
+        "water": 1572,
+        "lava": 882,
+        "oil": 814
+      }
+    }
+  }
+}

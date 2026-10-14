@@ -1,0 +1,119 @@
+[
+  {
+    "test": "viewport-render-browser.test.cjs",
+    "exit": 0,
+    "seconds": 5.109,
+    "output": "PASS exact visible membership/order over 120 views, overlaps/large bodies/transforms/static toggles/removal/re-add/physics, identical desktop/phone pixels, bounded visits and clear/re-add: {\"world\":19596,\"visible\":497,\"other\":3,\"cells\":19593}\n"
+  },
+  {
+    "test": "overnight-lifecycle-browser.test.cjs",
+    "exit": 0,
+    "seconds": 15.588,
+    "output": "PASS 3,600 Worker sleep/wake pairs with duplicate calls, exact Matter collision parity, finite mass; 300 pinch cancellations and 40 real mouse captures\nPASS twelve sleeping-Worker/crafting/liquid/inventory reloads, finite dawn release and four real restarts with save-slot isolation\n"
+  },
+  {
+    "test": "performance-browser.test.cjs",
+    "exit": 0,
+    "seconds": 1.991,
+    "output": "BENCH {\"before\":48.80000019073486,\"after\":2.1999998092651367,\"queries\":1500,\"candidates\":28500,\"skippedDraws\":0,\"indexBuilds\":0,\"revision\":127,\"placed\":3,\"world\":7544}\nPASS indexed/original query order, mutation/rotation/scale/static toggles/removal/stale lists/wide queries, exact collision pair parity with Workers and storm debris, unchanged native pixels, bounded nearby candidate scans, actual hailstorm\n"
+  },
+  {
+    "test": "workers-browser.test.cjs",
+    "exit": 0,
+    "seconds": 1.923,
+    "output": "PASS exact day/night boundaries, two beds, 25% threshold, pregnancy and sleeping reload, birth, baby/kid growth, packing, home crafting, rendering and Worker copy\n"
+  },
+  {
+    "test": "trees-browser.test.cjs",
+    "exit": 0,
+    "seconds": 2.613,
+    "output": "PASS surface trees generate in the assembled game\nPASS every tree trunk is exactly one block wide\nPASS tree canopies branch out beyond the trunk\nPASS natural trees do not count as player tower height\nPASS wood takes two hits\nPASS chopping collects a wood block\nPASS the stump below a cut stays attached\nPASS every log above a cut becomes a dynamic physics body\nPASS released wood retains valid mass and inertia\nPASS upper logs fall and tip over under actual gravity\nPASS unsupported leaves decay within a few seconds\nPASS decayed leaves do not create free inventory\nPASS the remaining stump survives the fall\nPASS fallen logs remain mineable\nPASS leaf blocks can be collected manually\nPASS falling log state is saved\nPASS leaf decay progress is saved\nPASS wood, leaves, fallen positions, and decay timers restore without duplicates\nPASS trees fall when soil is removed and harvested trees stay removed after reload\nPASS toolbar placement and persistence for wood and leaves; placed leaves do not decay\nPASS mobile toolbar access and no game runtime errors\n"
+  },
+  {
+    "test": "spirits-browser.test.cjs",
+    "exit": 0,
+    "seconds": 1.576,
+    "output": "PASS actual falling-block impact, death count, revival UI and persistence\nPASS wading with a dry head does not drown a miner\nPASS submerged miner uses air before dying\nPASS air recovers after surfacing\nPASS miner survives just under five seconds underwater\nPASS drowning removes the body and creates one accounted ghost\nPASS ghost retains miner identity, level, and pocketed gold\nPASS ghost drifts up with a slow horizontal sway\nPASS visible ghosts activate the haunting music layer\nPASS ghost persistence and miner accounting across reload\nPASS click revival at the exact ghost position with preserved level/gold, grace, and a pixel burst\nPASS lava has a brief warning at 30 FPS\nPASS lava death works at 30 FPS\nPASS lava has a brief warning at 60 FPS\nPASS lava death works at 60 FPS\nPASS lava has a brief warning at 120 FPS\nPASS lava death works at 120 FPS\nPASS revival grace prevents immediate repeat deaths\nPASS revived worker survives after escaping the hazard\nPASS manual knife departure claims Bells without a ghost\nPASS repeated departure cannot duplicate claimed Bells\nPASS partially depleted air is saved\nPASS partially depleted air restores correctly\nPASS tap-to-revive with Move selected, without accidental revival during drag/cancel\nPASS real Web Audio ghost/revival cues and no runtime errors\n",
+    "initialExit": 1,
+    "initialOutput": "PASS actual falling-block impact, death count, revival UI and persistence\nPASS wading with a dry head does not drown a miner\nPASS submerged miner uses air before dying\nPASS air recovers after surfacing\nPASS miner survives just under five seconds underwater\nPASS drowning removes the body and creates one accounted ghost\nPASS ghost retains miner identity, level, and pocketed gold\nPASS ghost drifts up with a slow horizontal sway\nPASS visible ghosts activate the haunting music layer\nPASS ghost persistence and miner accounting across reload\nPASS click revival at the exact ghost position with preserved level/gold, grace, and a pixel burst\npage.evaluate: Error: manual death also creates a ghost and claims gold once\n    at check (eval at evaluate (:311:30), <anonymous>:2:62)\n    at eval (eval at evaluate (:311:30), <anonymous>:13:4)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at /Users/tanoshi/Documents/ChatGPT/Block Stacker/tower-of-babel/tests/spirits-browser.test.cjs:68:25 {\n  log: []\n}\n",
+    "baselineFailure": "Original manual-departure ghost expectation reproduced against pre-optimization source; current knife contract already grants Bells without a ghost."
+  },
+  {
+    "test": "structures-browser.test.cjs",
+    "exit": 0,
+    "seconds": 4.008,
+    "output": "PASS workshop cost, inventory, click does not place, real drag placement\nPASS footprint collision, full support, protected foundations and workshop recipes\nPASS coal smelting, 10 nails per iron, pause, mid-job reload and packing refunds\nPASS fixed nailed blocks, adjacency, protected support chain and static reload\nPASS workshop grid tap crafting, icon costs, insufficient supplies, duplicate-click safety and no repeat UI\nPASS independent machines, 30/60/144 FPS, auto supply waiting and resume\nPASS phone touch dragging and cancelled drag preserves inventory\nPASS all five preserved colliders, falling blocks on every building, collider reload/removal, and leaf support exclusion\nPASS old furnace migration without duplicate structures or ingredients\nPASS distant mining leaves sleeping towers stable without shockwave\nPASS desktop/mobile layout and no runtime errors\n"
+  },
+  {
+    "test": "terrain-fog-browser.test.cjs",
+    "exit": 0,
+    "seconds": 1.852,
+    "output": "PASS real terrain layers, native-color exposure, almost-black floor, animal/ore attenuation and render purity\nPASS immediate excavation, shaft sides, pocket ceiling/diagonal exposure, hidden/revealed pockets, unknown cells and placed blocks\nPASS day/night opacity, same-count obsidian occupancy invalidation and visible pipe placement guides\nINFO fog preparation 1100px / .72\u00d7, 100 warm samples: {\"meanMs\":0.0009999990463256836,\"p95Ms\":0,\"cells\":2520,\"width\":70,\"height\":36,\"reused\":true}\nPASS desktop/phone composition and seam-free native/fractional zoom\n"
+  },
+  {
+    "test": "background-browser.test.cjs",
+    "exit": 0,
+    "seconds": 7.397,
+    "output": "PASS real pinch, touch pan, Top/Down animation, rotation and viewport resizing\nPASS 390\u00d7844 DPR 1: 60 full-frame native-color, coverage and render-purity checks\nPASS 1100\u00d7820 DPR 1: 60 full-frame native-color, coverage and render-purity checks\nPASS 320\u00d7568 DPR 2: 60 full-frame native-color, coverage and render-purity checks\nPASS 844\u00d7390 DPR 1.25: 60 full-frame native-color, coverage and render-purity checks\nPASS 430\u00d7932 DPR 3: 60 full-frame native-color, coverage and render-purity checks\n"
+  },
+  {
+    "test": "buttonwood-browser.test.cjs",
+    "exit": 0,
+    "seconds": 9.737,
+    "output": "PASS Buttonwood save isolation/reset, all five native building sprites/icons/portraits, slowed sunrise/sunset and clock continuity, safe additive migration with blocked-site relocation and packed-building persistence, terrain/ore persistence, collision invariance, read-only rendering, mining/building save roundtrip, default production art without review controls or fixtures, existing production save and Worker preservation, and live simulation\nLive smoke check: 71 frames over 1201 ms\n"
+  },
+  {
+    "test": "extraction-browser.test.cjs",
+    "exit": 0,
+    "seconds": 3.995,
+    "output": "PASS desktop real oil/water/lava solver cells transfer at one block per second without depleting the source\nPASS desktop paused/full/mixed/disconnected/dry/loop/invalid-time networks conserve liquid\nPASS desktop finite tank buckets, mixed/blocked rejection, fractional drain and pack boundaries\nPASS desktop pipe layout, tank fractions/type, paused pump, buckets and real liquid survive save/reload\nPASS desktop exact crafting costs/timers, finite pipe recipe and collision/bedrock placement\nPASS real desktop pipe drag lays a connected route, removal refunds, cancellation spends nothing\nPASS desktop native portraits, attached responsive panels and no runtime exceptions\nPASS touch real oil/water/lava solver cells transfer at one block per second without depleting the source\nPASS touch paused/full/mixed/disconnected/dry/loop/invalid-time networks conserve liquid\nPASS touch finite tank buckets, mixed/blocked rejection, fractional drain and pack boundaries\nPASS touch pipe layout, tank fractions/type, paused pump, buckets and real liquid survive save/reload\nPASS touch exact crafting costs/timers, finite pipe recipe and collision/bedrock placement\nPASS real touch pipe drag lays a connected route, removal refunds, cancellation spends nothing\nPASS touch native portraits, attached responsive panels and no runtime exceptions\n"
+  },
+  {
+    "test": "oil-browser.test.cjs",
+    "exit": 0,
+    "seconds": 1.373,
+    "output": "PASS actual loader: natural oil, bucket extraction, palette rendering, native icon, save/reload and no runtime errors\n"
+  },
+  {
+    "test": "brimstone-browser.test.cjs",
+    "exit": 0,
+    "seconds": 1.547,
+    "output": "PASS whole-hit nail shield/million-damage absorption/player mining/restore/subsequent wear/unpinning, 0xx0 AoE shape/no corner damage, 2-point core/1-point rim/no stacking/local fracture/rotation/native progressive wear/strong-material survival/save/impulses/no rewards, Worker/Fey/wild deaths/no taint, actual lethal barrage, budgets/save/pause\n"
+  },
+  {
+    "test": "moonfire-demo-browser.test.cjs",
+    "exit": 0,
+    "seconds": 2.106,
+    "output": "PASS isolated survival demo, pause-to-start, seven actual Fey builders, finite supplies, guaranteed normal event roll, reload continuity and preserved normal save\n"
+  },
+  {
+    "test": "storm-score-browser.test.cjs",
+    "exit": 0,
+    "seconds": 1.6,
+    "output": "PASS +20% blast velocity, direct ice cell wear/shield/no AoE, mixed hail, spatial attenuation, quantized deferred impacts/pause/serializable pending state, actual storm, MIDI whoosh end/crash alignment and mute/pause guards\n"
+  },
+  {
+    "test": "loose-building-browser.test.cjs",
+    "exit": 0,
+    "seconds": 1.628,
+    "output": "PASS loose pile propagation, momentum, anchored/unrelated bodies, free default, height-25 grid, wildlife taps/Fey menu, native icons and responsive HUD\n"
+  },
+  {
+    "test": "pause-browser.test.cjs",
+    "exit": 0,
+    "seconds": 4.853,
+    "output": "PASS Escape/menu resume, frozen physics/game deadlines/audio, no catch-up, Options tools/restart cancellation, persistent sliders, Quit/save/Play, F2\n"
+  },
+  {
+    "test": "fey-browser.test.cjs",
+    "exit": 0,
+    "seconds": 3.427,
+    "output": "PASS fairy wings, exclusive player-death taint, distinct Stab/Slice falls, sprays and lingering pools/no ghost/gold, dry blood, conversion, tainted bucket/liquid save, Fey bucket identity/gold, Collect excludes Workers, 3x slower mining, Work production, tallest tower/widening/nails/no-nails/task saves\n"
+  },
+  {
+    "test": "pickaxe-browser.test.cjs",
+    "exit": 0,
+    "seconds": 4.801,
+    "output": "PASS toolbar pick inventory, sequential purchases, free swapping and independent saved ownership\nPASS 1x1/2x2/3x3/4x4 exact squares, clock boundaries and no fast-drag widening\nPASS all nine stone cells damage together, material hardness and buried/bedrock protection\nPASS stationary hold delay and first strike on the following subdivision\nPASS fast mouse swipes pan without mining at every pickaxe tier\nPASS empty-space holds and drags remain camera gestures when crossing blocks\nPASS upgraded picks pan from empty brush centers beside resource blocks\nPASS pickaxe drag starting over wildlife pans without mining or animal tap sound\nPASS terrain seam taps use occupied grid cells\nPASS secondary and middle mouse buttons do not mine\nPASS short taps mine once on the music clock and tolerate small pointer jitter\nPASS rapid taps retain one queued strike per tap\nPASS stationary auto-mining tolerates jitter and keeps mining after dragging\nPASS gesture movement threshold stays consistent at different camera zooms\nPASS pointer cancellation, lost capture and blur safely end pickaxe gestures\nPASS mining resumes after audio restarts and visibility changes\nPASS phone taps, panning, auto-mining, touch cancellation, pinch safety and mobile inventory\nPASS live 72 BPM sixteenth timing and one kick per dirt square\n"
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "wake": {
+    "cycles": 300,
+    "workers": 12,
+    "contacts": 500,
+    "worldBodies": 7560
+  },
+  "input": {
+    "cycles": 300,
+    "state": {
+      "gesture": false,
+      "pointers": 0,
+      "touches": 0,
+      "consumed": 0,
+      "pinch": false,
+      "pending": false
+    }
+  },
+  "saves": [
+    {
+      "query": "",
+      "key": "skyStack.save.v1",
+      "reloads": 3,
+      "restart": true
+    },
+    {
+      "query": "?sample=buttonwood",
+      "key": "tower.buttonwood.sample.v1",
+      "reloads": 3,
+      "restart": true
+    },
+    {
+      "query": "?demo=sound",
+      "key": "tower.sound.demo.v1",
+      "reloads": 3,
+      "restart": true
+    },
+    {
+      "query": "?demo=moonfire",
+      "key": "tower.moonfire.survival-demo.v2",
+      "reloads": 3,
+      "restart": true
+    }
+  ],
+  "errors": []
+}

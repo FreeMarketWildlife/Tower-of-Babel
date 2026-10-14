@@ -1,5 +1,11 @@
 # Overnight technical optimization — October 14, 2026
 
+The [second-pass review](second-pass/README.md) adds repeated lifecycle/restart
+stress, independently confirms the first-pass timings, and records two further
+verified optimizations. Relative to the first pass, rendering improves 12–17% in
+the ordinary fixtures and 61% in the explored-world fixture, with identical pixels.
+It includes exact benchmark scope, memory costs and a prioritized technical backlog.
+
 Three reproduced correctness failures are repaired, rendering and liquid work
 allocate less, and the loader starts all independent modules together. No physics
 parameters, balance, progression, artwork, saves, or animation cadences changed.

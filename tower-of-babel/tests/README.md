@@ -9,6 +9,10 @@ empty-kind work. `overnight-correctness-browser.test.cjs` checks Worker wake
 collisions, repeated departures and interrupted mouse/touch input. Optional
 `runtime-benchmark.cjs` and `runtime-profile.cjs` record paired timings, retained
 heap and live frame/CPU samples using separate browser contexts.
+The [second-pass review](../buttonwood/qa/performance/overnight-2026-10-14/second-pass/README.md)
+covers `viewport-render-browser.test.cjs`, `overnight-lifecycle-browser.test.cjs`
+and `liquid-reaction-performance.test.cjs`, including real restart/save isolation,
+repeated wake/input stress, exact viewport ordering/pixels and reaction parity.
 
 - Game: http://localhost:8765/tower-of-babel/
 - Isolated liquid playground: http://localhost:8765/tower-of-babel/tests/liquids.html

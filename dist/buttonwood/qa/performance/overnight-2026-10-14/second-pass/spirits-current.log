@@ -1,0 +1,25 @@
+PASS actual falling-block impact, death count, revival UI and persistence
+PASS wading with a dry head does not drown a miner
+PASS submerged miner uses air before dying
+PASS air recovers after surfacing
+PASS miner survives just under five seconds underwater
+PASS drowning removes the body and creates one accounted ghost
+PASS ghost retains miner identity, level, and pocketed gold
+PASS ghost drifts up with a slow horizontal sway
+PASS visible ghosts activate the haunting music layer
+PASS ghost persistence and miner accounting across reload
+PASS click revival at the exact ghost position with preserved level/gold, grace, and a pixel burst
+PASS lava has a brief warning at 30 FPS
+PASS lava death works at 30 FPS
+PASS lava has a brief warning at 60 FPS
+PASS lava death works at 60 FPS
+PASS lava has a brief warning at 120 FPS
+PASS lava death works at 120 FPS
+PASS revival grace prevents immediate repeat deaths
+PASS revived worker survives after escaping the hazard
+PASS manual knife departure claims Bells without a ghost
+PASS repeated departure cannot duplicate claimed Bells
+PASS partially depleted air is saved
+PASS partially depleted air restores correctly
+PASS tap-to-revive with Move selected, without accidental revival during drag/cancel
+PASS real Web Audio ghost/revival cues and no runtime errors

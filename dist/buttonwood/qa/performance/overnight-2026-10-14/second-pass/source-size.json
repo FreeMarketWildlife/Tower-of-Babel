@@ -1,0 +1,8 @@
+{
+  "scope": "four changed runtime files versus first-pass commit 0330f2b",
+  "beforeBytes": 47844,
+  "afterBytes": 51516,
+  "deltaBytes": 3672,
+  "beforeGzipBytes": 16411,
+  "afterGzipBytes": 17391
+}

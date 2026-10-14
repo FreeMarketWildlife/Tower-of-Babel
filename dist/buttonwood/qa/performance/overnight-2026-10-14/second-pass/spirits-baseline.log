@@ -1,0 +1,19 @@
+PASS actual falling-block impact, death count, revival UI and persistence
+PASS wading with a dry head does not drown a miner
+PASS submerged miner uses air before dying
+PASS air recovers after surfacing
+PASS miner survives just under five seconds underwater
+PASS drowning removes the body and creates one accounted ghost
+PASS ghost retains miner identity, level, and pocketed gold
+PASS ghost drifts up with a slow horizontal sway
+PASS visible ghosts activate the haunting music layer
+PASS ghost persistence and miner accounting across reload
+PASS click revival at the exact ghost position with preserved level/gold, grace, and a pixel burst
+page.evaluate: Error: manual death also creates a ghost and claims gold once
+    at check (eval at evaluate (:311:30), <anonymous>:2:62)
+    at eval (eval at evaluate (:311:30), <anonymous>:13:4)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /private/tmp/block-stacker-second-pass/spirits-before.test.cjs:68:25 {
+  log: []
+}

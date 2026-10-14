@@ -1,0 +1,48 @@
+{
+  "scope": "independent loader source modules, excludes HTML/CSS/audio.js/Matter CDN and generated canvases",
+  "modules": 91,
+  "bytes": 997181,
+  "gzipBytes": 330222,
+  "largest": [
+    {
+      "url": "buttonwood/winter-sky-data.js",
+      "bytes": 148423,
+      "gzipBytes": 23364
+    },
+    {
+      "url": "buttonwood/buildings.js",
+      "bytes": 43144,
+      "gzipBytes": 11351
+    },
+    {
+      "url": "game-v71-wildlife.txt?v=71",
+      "bytes": 29882,
+      "gzipBytes": 9657
+    },
+    {
+      "url": "game-v46-structures.txt?v=46",
+      "bytes": 26676,
+      "gzipBytes": 9091
+    },
+    {
+      "url": "game-v79-inspector-crew.txt?v=79",
+      "bytes": 26354,
+      "gzipBytes": 8464
+    },
+    {
+      "url": "game-v75-fey.txt?v=75",
+      "bytes": 25835,
+      "gzipBytes": 8785
+    },
+    {
+      "url": "buttonwood/integration.txt",
+      "bytes": 24006,
+      "gzipBytes": 8749
+    },
+    {
+      "url": "game-v22-liquid-engine.txt?v=28",
+      "bytes": 22013,
+      "gzipBytes": 7150
+    }
+  ]
+}

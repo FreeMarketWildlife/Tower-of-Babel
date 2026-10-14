@@ -1,0 +1,134 @@
+[
+  {
+    "test": "automation-audio.test.cjs",
+    "exit": 0,
+    "seconds": 0.074,
+    "output": "PASS five-minute shared clock, song harmony and bounded 100-machine mix\nPASS hidden/suspended audio stays quiet and resumes without replaying missed events\nPASS idle and distant facilities are silent\nPASS crowd miner percussion is capped within the shared beat\n"
+  },
+  {
+    "test": "biome-audio.test.cjs",
+    "exit": 0,
+    "seconds": 0.039,
+    "output": "PASS four biome arrangements, smooth normalized blending, night mix and 72 BPM clock unchanged; six bounded animal sounds and SFX mute.\n"
+  },
+  {
+    "test": "biomes.test.cjs",
+    "exit": 0,
+    "seconds": 0.454,
+    "output": "PASS biomes: deterministic seeded regions, mountain spawn, diverse large regions, continuous borders, native scenery, all phases, phone/desktop/underground clipping\n"
+  },
+  {
+    "test": "buttonwood-sky.test.cjs",
+    "exit": 0,
+    "seconds": 0.053,
+    "output": "PASS Buttonwood: 30-second dawn/dusk, continuous palettes/light/day wrap, saved-clock purity, native pixels and underground clipping\n"
+  },
+  {
+    "test": "buttonwood-terrain.test.cjs",
+    "exit": 0,
+    "seconds": 0.041,
+    "output": "PASS all eight neighbors use world coordinates across negative cells\nPASS excavation and removed placements lose their joins on the next render\nPASS aligned settled 2\u00d72 placements join internally and with adjacent world cells\nPASS moving, rotated, unsnapped, malformed, and freshly awake pieces do not join the world\nPASS a moving multi-block piece keeps its own internal texture joins\nPASS overlapping placements suppress joins in both directions until the overlap is removed\nPASS a partly overlapped piece retains its interior but cannot lend any external joins\nPASS meadow decoration belongs only to natural surface dirt\nPASS indexing and repeated neighbor reads leave physics bodies and world grid untouched\n"
+  },
+  {
+    "test": "dev-panel.test.cjs",
+    "exit": 0,
+    "seconds": 0.031,
+    "output": "PASS dev input validation, height unlocks, one-hit bypass, saved bedrock removal, unlimited miners, and restoring normal rules\n"
+  },
+  {
+    "test": "discoveries-audio.test.cjs",
+    "exit": 0,
+    "seconds": 0.043,
+    "output": "PASS reward half-note onsets, four chord voicings, cancellation, debounce, Effects mute and pause\n"
+  },
+  {
+    "test": "extraction-integration.test.cjs",
+    "exit": 0,
+    "seconds": 0.047,
+    "output": "PASS production oil direct ports, repeated unlimited pumping, full storage, save/reload and destroyed source\nPASS production water direct ports, repeated unlimited pumping, full storage, save/reload and destroyed source\nPASS production lava direct ports, repeated unlimited pumping, full storage, save/reload and destroyed source\nPASS production gap needs a pipe; misaligned ports do not connect\nPASS actual water/lava reaction still consumes water and stops the pump\n"
+  },
+  {
+    "test": "extraction-network.test.cjs",
+    "exit": 0,
+    "seconds": 0.049,
+    "output": "loop\nPASS an intake cycle with a real branch terminal can still pump\nPASS inlet and outlet joined externally are a loop, never a working pump\nPASS missing intake, outlet, or reachable tank cannot destroy world liquid\nPASS full tanks stop extraction; partial headroom caps removal exactly\nPASS mixed intake sources, pipe types, or connected tank types prevent extraction\nPASS multiple pumps share one real source without duplication and order by id\nPASS two intake networks cannot overwrite a shared tank with different liquids\nPASS tank ports do not bridge topology, but contents constrain every connected port\nPASS diagonal cells are disconnected and negative coordinates work\nPASS disconnecting or editing coordinates rebuilds a bounded topology cache\nPASS invalid dt, disabled pumps, zero rates and overflowed budgets never extract\nPASS adapter partial removal is credited exactly, including depleted shared pools\nPASS repeated frame updates conserve fluid and respect rate across changing headroom\nPASS invalid occupied tanks remain intact and cannot accept extraction\nPASS adapter exceptions retain already completed transfers in returned tanks\nPASS renewable pumping fills storage without extracting or limiting rate to shallow cells\nPASS only coincident, opposite cardinal faces form a direct connection\nPASS direct tanks honor full, pause, mixing and external pipe constraints\nPASS multiple renewable pumps share a source and never overfill shared tanks\nPASS all 24 extraction network checks\n"
+  },
+  {
+    "test": "level-rewards-audio.test.cjs",
+    "exit": 0,
+    "seconds": 0.039,
+    "output": "PASS downbeat level motif, ascending rhythmic identity, larger voice count, score grid, muted visuals and pause\n"
+  },
+  {
+    "test": "liquid-allocations.test.cjs",
+    "exit": 0,
+    "seconds": 0.445,
+    "output": "PASS identical per-tick mixed-liquid records, pressure, transfers and activity range\nPASS empty-kind passes examine one snapshot instead of four: 8000 -> 2000\n"
+  },
+  {
+    "test": "liquid-reaction-performance.test.cjs",
+    "exit": 0,
+    "seconds": 0.058,
+    "output": "PASS exact mixed water/taint/lava threshold, third-liquid protection, new-contact and reaction-order parity\nPASS water-only reaction neighbor probes: 4000 -> 0\nPASS separated buried-lava/water reaction neighbor probes: 4000 -> 0\nPASS fractional and invalid-coordinate fallback preserves original contact behavior\n"
+  },
+  {
+    "test": "liquids.test.cjs",
+    "exit": 0,
+    "seconds": 0.761,
+    "output": "PASS water conservation, solid walls, pool leveling\nPASS coherent falling column\nPASS identical 30/60/144 Hz simulation and hidden-tab pause\nPASS lava viscosity and conservation\nPASS different liquids cannot overwrite each other\nPASS production bundle compiles\nPASS v22 save format round trip and inventory preservation\nPASS obsidian reaction creates a solid floor and preserves upstream water\n"
+  },
+  {
+    "test": "loader.test.cjs",
+    "exit": 0,
+    "seconds": 0.103,
+    "output": "PASS complete parallel module prefetch, one read per module, production compilation and four isolated save keys\n"
+  },
+  {
+    "test": "miners.test.cjs",
+    "exit": 0,
+    "seconds": 0.041,
+    "output": "PASS cumulative miner levels, target eligibility, material rhythms, duplicate-frame prevention, upgrades, and silent fallback tempo\nPASS 120 workers stagger expensive decisions: 248 thoughts across 7,200 worker frames\nPASS mixed-material work uses dirt, stone, and deepslate beats independently\n"
+  },
+  {
+    "test": "musical-feedback.test.cjs",
+    "exit": 0,
+    "seconds": 0.039,
+    "output": "PASS next-bar death attacks, musical durations, muted visual clock, mining debounce and pause\n"
+  },
+  {
+    "test": "night-audio.test.cjs",
+    "exit": 0,
+    "seconds": 0.039,
+    "output": "PASS sparse softer nocturne, sustained melody, twilight blend, unchanged 72 BPM clock, night birds and music toggle\n"
+  },
+  {
+    "test": "oil.test.cjs",
+    "exit": 0,
+    "seconds": 1.071,
+    "output": "PASS oil conservation, walls, leveling and viscosity\nPASS oil fixed-step behavior at 30/60/144 Hz and hidden-tab pause\nPASS all-liquid precision across repeated saves, legacy integer rows, type whitelist and inventory\nPASS legacy liquid-cell and particle migration preserves recognized types only\nPASS oil has no water/lava reaction or overwrites, normal obsidian still works\nPASS deterministic natural generation, saved cavities and depletion across reload\nPASS safe old-save migration preserves excavations, damage, bodies, liquids and boundaries\nPASS Worker oil immersion uses air and never fire; bucket type registered\nPASS captured startup timer, pagehide and hidden-tab callbacks retain full liquid saves\nPASS real oil bucket fill/pour conservation, atomic failure, slot updates and native icon dispatch\n"
+  },
+  {
+    "test": "sky.test.cjs",
+    "exit": 0,
+    "seconds": 0.294,
+    "output": "PASS continuous dawn/dusk palettes and music, 1/12 nightly weather, saved outcome, paused time, clustered meteors, native pixel scale and underground clipping\n"
+  },
+  {
+    "test": "tainted-water.test.cjs",
+    "exit": 0,
+    "seconds": 0.263,
+    "output": "PASS tainted water flows, conserves volume and retains its kind; identical 30/60/144Hz results\n"
+  },
+  {
+    "test": "terrain-fog.test.cjs",
+    "exit": 0,
+    "seconds": 0.032,
+    "output": "PASS terrain fog: ten bounded opacity levels, cardinal exposure distance, negative coordinates, multiple openings and enclosed darkness\n"
+  },
+  {
+    "test": "wildlife-spawn.test.cjs",
+    "exit": 0,
+    "seconds": 0.16,
+    "output": "PASS seed 7: all 31 species naturally, 1039/3991 former spawns, stable empty habitats\nPASS seed 42: all 31 species naturally, 1053/4045 former spawns, stable empty habitats\nPASS seed 123456: all 31 species naturally, 981/4073 former spawns, stable empty habitats\n"
+  }
+]
