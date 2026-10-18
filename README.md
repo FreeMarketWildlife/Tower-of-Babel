@@ -178,3 +178,8 @@ an optional icon-only grid toggle in the top-right HUD. Overlapping loose blocks
 place immediately and push their connected pile with real velocity. Tapping a
 wild animal keeps its pet sound and briefly points a pixel arrow toward the
 magnifying glass; only Fey helpers open an animal control menu.
+
+Height unlocks now have a distinct ascending musical reward on the next downbeat,
+with small, medium or major pixel fireworks. Height announcements stay offscreen;
+the quest log records what unlocks. The isolated sound demo can preview 5m, stone
+and 100m rewards without granting progression.

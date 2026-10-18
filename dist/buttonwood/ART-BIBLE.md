@@ -1399,3 +1399,17 @@ unlock and off until chosen. The on/off compositions use the shared cream/mint
 and wood palette. Wild-animal taps keep their pet sound but open no animal menu;
 a brief native cream arrow points toward the magnifying glass. Fey helpers retain
 their controls. Review: §§3–5, 9–10 and [placement QA](qa/loose-building/README.md).
+
+## Height-unlock rewards — v92
+
+Height unlocks use text-free musical celebrations; the old height/build-size and
+Worker banners are suppressed while actual grants and the optional quest log
+remain. A small unlock (5m) has one compact firework and a three-note ascending
+plucked motif. Stone, Worker, grid and later size unlocks receive medium rewards;
+100m multiples receive five bursts and the fuller motif. All begin on the next
+score downbeat, with three chord-matched timbral variations. Multiple unlocks in
+one jump coalesce into one reward of the highest tier. This explicit achievement
+ceremony is separate from ordinary hover feedback (§10) and from the half-note
+discovery shimmer. Native HUD-pixel clusters use the named cream/gold/mint/coral
+palette (§§3–4, 9–10); no text, flash, camera shake or resampled sprites. Reduced
+motion suppresses fireworks. Reloads do not replay earned height rewards.

@@ -872,3 +872,15 @@ right HUD and displays a native 32px canvas inside a 44px button. Grid choices
 use `SAVE_KEY + '.grid.v91'`. `hudIcon('grid', active)` and `hudIcon('pointRight')`
 are separately authored shared-palette canvases, also in the native gallery.
 Wild-animal taps show a 2.4-second magnifier arrow; helpers retain their menus.
+
+## Height reward timing — v92
+
+`game-v92-level-rewards.txt` wraps `awardHigh`, preserves its progression, and
+replaces only its legacy unlock pings and banners. `SkyAudio.levelReward` returns
+a downbeat plan even with Effects muted, and schedules an ascending triangle/sine
+phrase on the same audio clock. A dedicated bus replaces pending phrases on
+coalesced awards. Fireworks use native HUD pixels anchored near the visible tower
+crown or clamped inside the viewport: one/three/five bursts for the three tiers.
+The quest log remains the persistent reward reference. Sound-demo buttons audition
+5m, stone and 100m rewards without changing progression. Hidden tabs cancel audio
+and rearm pending rewards on return; completed rewards never replay on restore.
