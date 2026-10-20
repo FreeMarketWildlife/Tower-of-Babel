@@ -884,3 +884,27 @@ crown or clamped inside the viewport: one/three/five bursts for the three tiers.
 The quest log remains the persistent reward reference. Sound-demo buttons audition
 5m, stone and 100m rewards without changing progression. Hidden tabs cancel audio
 and rearm pending rewards on return; completed rewards never replay on restore.
+
+## Fortress defense — v93
+
+`defense-core.js` supplies native footprints and shared mechanics.
+`defense-art.js` authors sprites at `w × 32` by `h × 32`, with bottom foundations.
+Armory is 128 × 128; ballista 96 × 64; catapult 96 × 96; trebuchet 160 × 128;
+oil dropper, rock chute, repeating crossbow, bramble launcher and ward lantern
+64 × 64; hanging ram 96 × 96; storm crystal 64 × 96. UI miniatures are separately
+composed 32 × 32 drawings at native display size. Existing buildings retain their
+cached envelopes. New machinery uses fixed base/post envelopes excluding moving
+arms; Armory uses its opaque native silhouette. Weapon facing mirrors the entire
+new mechanism; rendering applies only the shared camera scale.
+
+Equipment overlays preserve every existing Fey sprite and anchor, use each form's
+native width to locate the grip, and keep shields outside faces. Fire/ice/lightning/
+healing staffs have separate head silhouettes. Enemy canvases are 32 × 40, a
+separately authored 48 × 64 giant and 72 × 48 siege engine. Raster source uses
+binary alpha and the named palette. Shared buried-light opacity applies to combat.
+
+`game-v93-defense.txt` integrates through the production loader before restore.
+It adds no new timer or animation loop: the fixed simulation drives combat;
+Pause, hidden tabs, rendering and the four existing save origins remain intact.
+The [fortress gallery](combat.html) contains native assets; all-species equipment
+review and browser screenshots live in [the QA folder](qa/defense/README.md).

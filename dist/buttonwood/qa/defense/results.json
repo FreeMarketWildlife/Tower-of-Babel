@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-19",
+  "runtime": "v93",
+  "browser": "Chromium / Google Chrome on macOS",
+  "suites": [
+    {
+      "name": "loader",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/loader.test.cjs"
+    },
+    {
+      "name": "scheduling",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/scheduling.test.cjs"
+    },
+    {
+      "name": "liquids",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/liquids.test.cjs"
+    },
+    {
+      "name": "defense",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/defense.test.cjs"
+    },
+    {
+      "name": "defense-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/defense-browser.test.cjs"
+    },
+    {
+      "name": "defense-battle-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/defense-battle-browser.test.cjs"
+    },
+    {
+      "name": "fey-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/fey-browser.test.cjs"
+    },
+    {
+      "name": "workers-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/workers-browser.test.cjs"
+    },
+    {
+      "name": "structures-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/structures-browser.test.cjs"
+    },
+    {
+      "name": "crafting-inventory-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/crafting-inventory-browser.test.cjs"
+    },
+    {
+      "name": "storehouses-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/storehouses-browser.test.cjs"
+    },
+    {
+      "name": "player-crafting-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/player-crafting-browser.test.cjs"
+    },
+    {
+      "name": "hotbar-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/hotbar-browser.test.cjs"
+    },
+    {
+      "name": "inventory-nails-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/inventory-nails-browser.test.cjs"
+    },
+    {
+      "name": "extraction-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/extraction-browser.test.cjs"
+    },
+    {
+      "name": "oil-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/oil-browser.test.cjs"
+    },
+    {
+      "name": "brimstone-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/brimstone-browser.test.cjs"
+    },
+    {
+      "name": "moonfire-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/moonfire-browser.test.cjs"
+    },
+    {
+      "name": "inspector-crew-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/inspector-crew-browser.test.cjs"
+    },
+    {
+      "name": "mobile-ui-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/mobile-ui-browser.test.cjs"
+    },
+    {
+      "name": "buttonwood-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/buttonwood-browser.test.cjs"
+    },
+    {
+      "name": "scheduling-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/scheduling-browser.test.cjs"
+    },
+    {
+      "name": "performance-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/performance-browser.test.cjs"
+    }
+  ]
+}

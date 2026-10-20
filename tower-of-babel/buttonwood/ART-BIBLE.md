@@ -339,8 +339,8 @@ snouts, tails, toe pads, and quills must distinguish species before accessories.
 
 The [critter roster](concepts/critz-workers/README.md) is **exploration**, not
 approved production sprites. Adult human Workers remain the current playable
-art until native replacements are authored and reviewed. Tower-defense combat
-is future gameplay direction, not a shipped feature. The original six wildlife
+art until native replacements are authored and reviewed. Tower-defense combat is implemented in v93; see the fortress defense section
+for the current mechanics and visual family. The original six wildlife
 designs are preserved in the [archive](archive/wildlife-2026-10-10/README.md).
 
 ### Clothing decision and first animation reference
@@ -1413,3 +1413,30 @@ ceremony is separate from ordinary hover feedback (§10) and from the half-note
 discovery shimmer. Native HUD-pixel clusters use the named cream/gold/mint/coral
 palette (§§3–4, 9–10); no text, flash, camera shake or resampled sprites. Reduced
 motion suppresses fireworks. Reloads do not replay earned height rewards.
+
+## Fortress defense — v93, October 19, 2026
+
+The approved gameplay expansion now includes an Armory, ten mounted defenses,
+six portable equipment roles and hostile ground, climbing, flying, armored,
+giant and siege units. The earlier character-transition description of combat
+as future work is historical; see [the defense guide](../DEFENSE.md) for current rules.
+
+Apply §§3–4, 5–7, 9–10 and 12. Machinery uses warm timber masses, cream cords,
+stone foundations and hard metal highlights. Its arm, bow, cauldron, swinging log
+or crystal identifies function. The Armory has a coral roof, quiet cream plaster,
+a dark open equipment rack and a small mint sign. Native dimensions come from
+the structure definitions; no existing building envelope is changed. Moving arms
+and effects are not structural support. Miniatures are separately drawn at 32px.
+
+Fey keep their approved animal forms. Weapons and shields sit outside their face
+and body silhouette, including the smallest worms and flyers. A small impact pose
+moves equipment without stretching the animal. Staff heads have distinct flame,
+faceted ice, lightning and leafy healing silhouettes in addition to palette ramps.
+Enemies use restrained deep cloth, timber, cream and metal ramps. Equipment and
+hostile size are authored at world scale; the giant is a separate larger drawing.
+
+Defense and inventory controls stay attached to their triggers, use semantic
+labels and 44px targets, and keep the world usable. Health, firing, charge and
+waiting states must correspond to real simulation. Combat sound uses the existing
+Effects bus and chord/sixteenth-note transport; mute and Pause remain authoritative.
+[Native gallery](combat.html), [review and evidence](qa/defense/README.md).

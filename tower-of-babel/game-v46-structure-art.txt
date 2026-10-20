@@ -1,6 +1,7 @@
 // Pixel-native architecture. One art pixel is one world pixel; doors fit 26px miners.
 const structureSpritesV46=new Map();
 function structureSpriteV46(type){
+ if(TowerDefense.structures[type])return ButtonwoodArt.defenseSprite(type);
  if(type==='pumpjack'||type==='tank')return window.ButtonwoodArt.extractionSprite(type);
  if(structureSpritesV46.has(type))return structureSpritesV46.get(type);
  const d=STRUCTURES_V46[type],canvas=document.createElement('canvas');canvas.width=d.w*B;canvas.height=d.h*B;

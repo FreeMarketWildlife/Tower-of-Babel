@@ -396,3 +396,17 @@ motif replace height-unlock banners. One, three or five native-pixel bursts;
 shared palette, downbeat synchronization, pause/mute and reduced-motion support.
 [Reward review](qa/level-rewards/README.md) includes actual height-grant tests,
 small/major screenshots and sound-demo preview controls.
+
+## Fortress defense — October 19, 2026, v93
+
+| Family | Implemented coverage | Evidence |
+| --- | --- | --- |
+| Defensive architecture | Native Armory and ten separately recognizable physical/magical weapons; fixed machinery envelopes; native portraits and separate 32px miniatures | [Gallery](combat.html), [world](qa/defense/battle.png) |
+| Portable equipment | Sword/shield, bow, fire/frost/lightning/healing staffs, arrows/bolts, seeds and oil/sap/water loads | [Gallery](qa/defense/gallery.png) |
+| Fey combat | Existing 31 forms retain sprites/anchors; exterior equipment overlays and contact/recovery cues | [All forms and roles](qa/defense/fey-equipment.png) |
+| Hostiles | Ground/climbing/armored attackers, flyer, separately drawn giant and siege engine | [Gallery](combat.html) |
+| Defense controls | Attached orders, posts, crew/helper, target/facing/load selection and real state feedback | [Desktop](qa/defense/orders-desktop.png), [320px phone](qa/defense/orders-phone.png) |
+| Combat effects | Native projectiles, chain sparks, slowing tangles, oil fires, healing and ward indicators; Effects-bus cues | [QA](qa/defense/README.md) |
+
+Direction references: ART-BIBLE §§3–7, 9–10, 12 and the v93 fortress section.
+Technical and visual review does not replace future player preference feedback.

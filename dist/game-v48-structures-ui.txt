@@ -1,5 +1,6 @@
 // Toolbar-attached Structures inventory. UI art is authored at 32px and shown 1:1.
 function uiPixelV48(kind,colors={}){
+ if(TowerDefense.structures[kind]||TowerDefense.items[kind])return ButtonwoodArt.defenseIcon(kind).toDataURL();
  if(kind==='flowers')return window.ButtonwoodArt.flowerIcon().toDataURL();
  if(kind==='pumpjack'||kind==='tank'||kind==='pipe')return window.ButtonwoodArt.extractionIcon(kind).toDataURL();
  const canvas=document.createElement('canvas');canvas.width=canvas.height=32;const g=canvas.getContext('2d');

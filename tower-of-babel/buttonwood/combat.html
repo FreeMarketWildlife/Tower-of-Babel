@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  /><title>Buttonwood · Fortress gallery</title
+  ><style>
+    body {
+      margin: 24px;
+      background: #f7e8c4;
+      color: #49313f;
+      font: 15px/1.5 monospace;
+    }
+    a {
+      color: inherit;
+    }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    article {
+      border: 2px solid #67434a;
+      border-radius: 8px;
+      padding: 16px;
+      min-width: 180px;
+      background: #fff3d6;
+    }
+    canvas {
+      image-rendering: pixelated;
+      display: block;
+      margin: 8px 0;
+    }
+    h1 {
+      font-size: 24px;
+    }
+    h2 {
+      font-size: 17px;
+      margin: 0;
+    }
+    p {
+      max-width: 720px;
+    }
+    button {
+      min-height: 44px;
+    }
+  </style>
+  <h1>Fortress equipment</h1>
+  <p>
+    Native machinery at one art pixel per world unit. Each 32px miniature is a
+    separate drawing. Warm timber, metal fittings, clear firing mechanisms.
+    <a href="index.html">Main gallery</a> · <a href="../">Play</a>
+  </p>
+  <main id="gallery"></main>
+  <script src="../defense-core.js"></script>
+  <script src="palette.js"></script>
+  <script src="defense-art.js"></script>
+  <script>
+    for (const [id, d] of Object.entries(TowerDefense.structures)) {
+      const card = document.createElement("article"),
+        h = document.createElement("h2");
+      h.textContent = d.name;
+      card.append(
+        h,
+        ButtonwoodArt.defenseSprite(id),
+        ButtonwoodArt.defenseIcon(id),
+      );
+      document.querySelector("main").append(card);
+    }
+    for (const [id, d] of Object.entries(TowerDefense.items)) {
+      const card = document.createElement("article"),
+        h = document.createElement("h2");
+      h.textContent = d.name;
+      card.append(h, ButtonwoodArt.defenseIcon(id));
+      document.querySelector("main").append(card);
+    }
+    for (const id of Object.keys(TowerDefense.enemyTypes)) {
+      const card = document.createElement("article"),
+        h = document.createElement("h2");
+      h.textContent = id;
+      card.append(h, ButtonwoodArt.enemySprite(id));
+      document.querySelector("main").append(card);
+    }
+  </script>
+</html>

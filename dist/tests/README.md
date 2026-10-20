@@ -524,3 +524,23 @@ Chromium configured as above. It compares indexed queries and exact collision
 pairs with their originals, exercises transforms/mutations/stale lists, verifies
 unchanged native pixels, benchmarks bounded candidate work and runs real storm
 physics. See the [profile review](../buttonwood/qa/performance/README.md).
+
+## Tower defense — v93
+
+```sh
+node tower-of-babel/tests/defense.test.cjs
+SKY_TEST_URL=http://127.0.0.1:8788/tower-of-babel/ node tower-of-babel/tests/defense-browser.test.cjs
+SKY_TEST_URL=http://127.0.0.1:8788/tower-of-babel/ node tower-of-babel/tests/defense-battle-browser.test.cjs
+```
+
+The rule suite verifies all ten operated weapons, finite ammunition, exclusive
+reserved equipment, cooldown persistence, blocked/wrong-facing shots, measured
+cargo, repairs, wards, status effects, chain/piercing/splash behavior, six Fey
+roles, raid recovery, malformed saves and 30/60/120/144 Hz timing parity.
+Production checks cover real crafting and crew travel, every weapon firing,
+31 species × six roles, native palette/alpha/32px icons, cauldron and Tank volume,
+equipment return on capture, active shot/save/pause/reload, four attached UI
+viewports, actual ground/climber/flyer physics, a complete finite-ammunition raid
+and bounded stress with 120 assigned defenders and 64 spawned enemies.
+Test hooks seed isolated browser contexts; no test fixtures are shipped in
+ordinary gameplay. Screenshots and review notes: `buttonwood/qa/defense/`.

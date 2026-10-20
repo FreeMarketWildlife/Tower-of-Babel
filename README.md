@@ -183,3 +183,17 @@ Height unlocks now have a distinct ascending musical reward on the next downbeat
 with small, medium or major pixel fireworks. Height announcements stay offscreen;
 the quest log records what unlocks. The isolated sound demo can preview 5m, stone
 and 100m rewards without granting progression.
+
+## Tower defenses — v93
+
+Craft an Armory and ten medieval/magical defenses from Structures. Craft swords,
+shields, bows, four kinds of staff and ammunition at a Blacksmith; STORE equipment
+in the Armory, then use the shield button beside the Worker roster to assign Fey.
+Every Fey species can fight, operate a weapon or help reload. Workers and Fey can
+carry ammunition and repair with real supplies; cauldrons can use oil, sap or water.
+
+Raids begin only when you choose **Sound the alarm**, with twelve seconds to take
+positions. Ground attackers, climbers, flyers, armor, giants and siege engines
+arrive across successive waves. Combat, equipment and cargo save with your world.
+Read the [defense guide](tower-of-babel/DEFENSE.md), [native fortress gallery](tower-of-babel/buttonwood/combat.html),
+and [implementation checklist](TOWER-DEFENSE-TODO.md).
