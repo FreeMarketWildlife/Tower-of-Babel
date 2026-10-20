@@ -1,0 +1,24 @@
+{
+  "url": "https://tower-of-babel.freemarketwildlife.chatgpt.site/",
+  "structures": [
+    "armory",
+    "ballista",
+    "catapult",
+    "trebuchet",
+    "oilDropper",
+    "rockChute",
+    "repeatingCrossbow",
+    "hangingRam",
+    "brambleLauncher",
+    "stormCrystal",
+    "wardLantern"
+  ],
+  "phase": "peace",
+  "orders": 0,
+  "loader": "game-v28.js?v=93",
+  "ready": true,
+  "status": 200,
+  "errors": [],
+  "version": 12,
+  "access": "Fresh unauthenticated browser context"
+}

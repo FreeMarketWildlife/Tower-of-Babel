@@ -4,7 +4,7 @@ const assert = require("node:assert/strict"),
 const base =
   process.env.SKY_TEST_URL || "http://127.0.0.1:8788/tower-of-babel/";
 const hook = `window.defenseTest={
- fresh(){for(const q of defenseEnemyBodiesV93.values())World.remove(eng.world,q);defenseEnemyBodiesV93.clear();defenseV93.restore({version:1});for(const q of feyBodiesV75.values())World.remove(eng.world,q);feyBodiesV75.clear();for(const q of miners)World.remove(eng.world,q);miners.clear();for(const b of structureBodiesV47.values())World.remove(eng.world,b);structureBodiesV47.clear();structuresV46=[];wildlifeV71=[];liquidSubV22.clear();for(const z of bs)World.remove(eng.world,z);bs.clear();grid.clear();for(let x=-60;x<=60;x++)mk(ctr(x),ctr(0),'stone',{terrain:true,static:true,cx:x,cy:0});for(const k of Object.keys(inv))inv[k]=0;for(const k of Object.keys(structureBagV46))structureBagV46[k]=0;solidCacheV57=null;feyTowerCacheV75=null;feyTowerStampV75=-Infinity;Object.assign(cam,{x:0,y:-110,z:1.4,anim:false});settlementV55.phase='day';defenseFiresV93.length=0;playerCraftV61=null;ui()},
+ get picking(){return defensePostPickV93},fresh(){for(const q of defenseEnemyBodiesV93.values())World.remove(eng.world,q);defenseEnemyBodiesV93.clear();defenseV93.restore({version:1});for(const q of feyBodiesV75.values())World.remove(eng.world,q);feyBodiesV75.clear();for(const q of miners)World.remove(eng.world,q);miners.clear();for(const b of structureBodiesV47.values())World.remove(eng.world,b);structureBodiesV47.clear();structuresV46=[];wildlifeV71=[];liquidSubV22.clear();for(const z of bs)World.remove(eng.world,z);bs.clear();grid.clear();for(let x=-60;x<=60;x++)mk(ctr(x),ctr(0),'stone',{terrain:true,static:true,cx:x,cy:0});for(const k of Object.keys(inv))inv[k]=0;for(const k of Object.keys(structureBagV46))structureBagV46[k]=0;solidCacheV57=null;feyTowerCacheV75=null;feyTowerStampV75=-Infinity;Object.assign(cam,{x:0,y:-110,z:1.4,anim:false});settlementV55.phase='day';defenseFiresV93.length=0;playerCraftV61=null;ui()},
  floor(x,y){mk(ctr(x),ctr(y),'stone',{terrain:true,static:true,cx:x,cy:y});solidCacheV57=null},grant(k,n){inv[k]=n;ui()},building(type,x,y){structureBagV46[type]++;if(!placeStructureV46({type,x,y}))throw new Error('Cannot place '+type);return structuresV46.at(-1).id},
  fey(species='wood-mouse',x=-16,y=0){const a=wildlifeNewV71(species,{x,y});a.x=a.homeX=x;a.y=a.homeY=y;wildlifeV71.push(a);becomeFeyV75(a);return 'f'+a.id},
  position(id,x,y){const a=defenseActorsV93().find(a=>a.id===id);Body.setPosition(a.body,{x,y});if(a.animal)wildlifePositionV71(a.animal)},
@@ -121,7 +121,8 @@ if (require.main === module)
         ),
         "Defend",
       );
-      // Physical travel to a station on the same open approach, with no teleport.
+      await p.locator('#defensePostV93').click();assert.equal(await p.evaluate(()=>defenseTest.picking),fey);await p.keyboard.press('Escape');assert.equal(await p.evaluate(()=>defenseTest.picking),null);await p.evaluate(()=>skyStackPause.resume());
+    // Physical travel to a station on the same open approach, with no teleport.
       await p.evaluate(
         ({ fey, id }) => {
           skyStackDefense.assign(fey, { station: id });

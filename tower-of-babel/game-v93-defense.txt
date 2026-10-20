@@ -1195,3 +1195,7 @@ document.addEventListener(
   },
   { capture: true, passive: false },
 );
+// Pause's earlier capture listener owns Escape; cancel a pending post pick there.
+const defensePauseBeforeV93=pauseGameV76;
+pauseGameV76=function(...args){defensePostPickV93=null;defensePickStartV93=null;defensePanelV93.close();return defensePauseBeforeV93(...args)};
+skyStackPause.pause=pauseGameV76;

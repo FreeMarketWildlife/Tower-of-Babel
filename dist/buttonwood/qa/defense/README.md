@@ -61,3 +61,5 @@ Raids time out after three active minutes; no offline damage or unattended waves
 A defense still needs a reachable post, fixed support, an unobstructed firing/drop
 lane, crew and supplies. Arbitrary player-built mazes can require ladders or a
 changed position. Automated Chromium checks are not physical iPhone/Android QA.
+
+The public v93 page was also verified in a fresh unauthenticated browser: HTTP 200, the v93 loader, all ten weapons plus Armory, no seeded assignments, and peaceful startup. A final Escape regression now clears pending post picks through Pause. The additional Pause suite passed.

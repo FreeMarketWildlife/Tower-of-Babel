@@ -117,6 +117,11 @@
       "name": "performance-browser",
       "exit": 0,
       "command": "node tower-of-babel/tests/performance-browser.test.cjs"
+    },
+    {
+      "name": "pause-browser",
+      "exit": 0,
+      "command": "node tower-of-babel/tests/pause-browser.test.cjs"
     }
   ]
 }

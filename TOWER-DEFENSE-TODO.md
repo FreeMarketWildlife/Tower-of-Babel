@@ -5,7 +5,7 @@ Approved scope: all tower weapons, Fey equipment roles, armory logistics, placem
 Audit date: October 19, 2026. Source baseline: `98b60ee` on `main`.
 This file records implementation work; unchecked items are not shipped features.
 
-Current status: all gameplay passes implemented and tested. Public release is being verified.
+Current status: all gameplay passes implemented and tested; public v93 verified without sign-in.
 
 ## Original audit before implementation
 
@@ -114,7 +114,7 @@ Depends on Pass 1's combat, inventory, projectile and assignment contracts.
 - [x] **6.5 Relevant regression checks.** Run loader, scheduling, Fey, Workers, structures, player crafting, crafting inventory, storehouses, hotbar, inventory/nails, extraction/oil, brimstone/moonfire, inspection, mobile UI, Buttonwood and performance checks appropriate to changed code. Investigate failures before claiming integration is complete.
 - [x] **6.6 Visual/audio review.** Inspect actual desktop/phone battles, individual equipment poses for every Fey species, native gallery and reduced-motion/mute behavior. Keep silhouettes readable; record exact art-bible sections and evidence in the combat QA notes.
 - [x] **6.7 Documentation.** Update README, tests guide, art bible, native art guide and migration inventory to describe what actually ships. Include controls, supply rules and save behavior.
-- [ ] **6.8 Release.** Synchronize runtime source/assets into `dist/`, verify parity, commit only intended files and reconcile remote `main` before pushing. Use the existing Sites publishing workflow for a hosting release. Verify the public URL/version and ordinary no-sign-in gameplay before calling it live.
+- [x] **6.8 Release.** Synchronize runtime source/assets into `dist/`, verify parity, commit only intended files and reconcile remote `main` before pushing. Use the existing Sites publishing workflow for a hosting release. Verify the public URL/version and ordinary no-sign-in gameplay before calling it live.
 
 ## Autonomous execution assessment
 
@@ -132,4 +132,6 @@ Eutychus can optionally use this file to track progress and review evidence. No 
 | --- | --- | --- | --- |
 | 2026-10-19 | Audited production modules and created the complete implementation checklist. Gameplay implementation has not started. | Existing loader compilation/prefetch/save-isolation check passed. | See Git history for this file. |
 
-| 2026-10-19 | Implemented all ten weapons, Armory/equipment, all Fey roles, enemy roster, raid loop, logistics, repair, magic, native art and attached controls. | 23 relevant rule/browser/regression suites passed; see `tower-of-babel/buttonwood/qa/defense/results.json`. | See implementation commit in Git history. |
+| 2026-10-19 | Implemented all ten weapons, Armory/equipment, all Fey roles, enemy roster, raid loop, logistics, repair, magic, native art and attached controls. | 24 relevant rule/browser/regression suites passed; see `tower-of-babel/buttonwood/qa/defense/results.json`. | See implementation commit in Git history. |
+
+| 2026-10-19 | Published v93, verified fresh public startup, and fixed Escape cancellation of guard-position picking. | All 24 selected suites passed; source/dist parity checked; public HTTP 200 and v93 confirmed. | See final release commit in Git history. |
